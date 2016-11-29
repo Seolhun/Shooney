@@ -1,0 +1,23 @@
+package com.shun.blog.dao.board;
+
+import java.util.List;
+
+import org.springframework.transaction.annotation.Transactional;
+
+import com.shun.blog.model.board.Board;
+import com.shun.blog.model.common.Paging;
+
+public interface BoardDao {
+
+	List<Board> findAllBoards(Paging paging);
+
+	@Transactional
+	int getCount(Paging paging);
+
+	Board findById(int id);
+
+	void saveBoard(Board Board);
+
+	void deleteUserById(int id);
+
+}
