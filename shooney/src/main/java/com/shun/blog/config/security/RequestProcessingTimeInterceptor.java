@@ -1,4 +1,4 @@
-package com.shun.blog.security;
+package com.shun.blog.config.security;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

@@ -1,8 +1,6 @@
 package com.shun.blog.service.user;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -13,8 +11,6 @@ import com.shun.blog.dao.user.UserDao;
 import com.shun.blog.model.common.Paging;
 import com.shun.blog.model.user.State;
 import com.shun.blog.model.user.User;
-import com.shun.blog.model.user.UserProfile;
-import com.shun.blog.model.user.UserProfileType;
 
 @Service("userService")
 @Transactional

@@ -1,4 +1,4 @@
-package com.shun.blog.converter;
+package com.shun.blog.config.security.converter;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

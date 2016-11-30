@@ -1,4 +1,4 @@
-package com.shun.blog.security;
+package com.shun.blog.config.security.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -18,6 +18,9 @@ import org.springframework.security.web.authentication.rememberme.PersistentToke
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.web.filter.CharacterEncodingFilter;
+
+import com.shun.blog.config.security.custom.CustomSuccessHandler;
+
 
 @Configuration
 @EnableWebSecurity

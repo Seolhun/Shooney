@@ -1,4 +1,4 @@
-package com.shun.blog.configuration;
+package com.shun.blog.config;
 
 import java.util.Locale;
 
@@ -23,7 +23,7 @@ import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 
-import com.shun.blog.converter.RoleToUserProfileConverter;
+import com.shun.blog.config.security.converter.RoleToUserProfileConverter;
 
 @Configuration
 @EnableWebMvc
@@ -73,15 +73,6 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 		registry.addInterceptor(localeChangeInterceptor());
 	}
 
-	// File upload part
-	@Bean
-	public CommonsMultipartResolver MultipartResolver() {
-		CommonsMultipartResolver resolver = new CommonsMultipartResolver();
-		resolver.setDefaultEncoding("UTF-8");
-		resolver.setMaxUploadSizePerFile(10000000);// 10,000,000(1000만) 바이트 == 10MB
-		return resolver;
-	}
-
 	// Dispatcher Servlet Part
 	@Bean
 	public ViewResolver viewResolver() {
@@ -91,7 +82,16 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 		viewResolver.setSuffix(".jsp");
 		return viewResolver;
 	}
-
+	
+	// File upload part
+	@Bean
+	public CommonsMultipartResolver MultipartResolver() {
+		CommonsMultipartResolver resolver = new CommonsMultipartResolver();
+		resolver.setDefaultEncoding("UTF-8");
+		resolver.setMaxUploadSizePerFile(10000000);// 10,000,000(1000만) 바이트 == 10MB
+		return resolver;
+	}
+	
 	@Override
 	public void addFormatters(FormatterRegistry registry) {
 		registry.addConverter(roleToUserProfileConverter);

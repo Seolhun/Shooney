@@ -37,7 +37,7 @@ import com.shun.blog.service.user.UserService;
 @Controller
 @RequestMapping("/")
 @SessionAttributes("roles")
-public class AppController {
+public class UserController {
 
 	@Autowired
 	UserService userService;

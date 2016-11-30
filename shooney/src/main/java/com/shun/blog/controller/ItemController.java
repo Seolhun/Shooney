@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.shun.blog.controller.common.CommonFn;
-import com.shun.blog.model.json.ItemData;
-import com.shun.blog.model.json.Monster;
+import com.shun.blog.model.item.ItemData;
+import com.shun.blog.model.item.Monster;
 import com.shun.blog.service.item.ItemService;
 
 @Controller

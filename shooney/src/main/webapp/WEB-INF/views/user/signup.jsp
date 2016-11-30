@@ -59,10 +59,10 @@
 							<span class="input-group-addon rounded-left"><i class="icon-envelope color-green"></i></span>
 							<c:choose>
 								<c:when test="${edit}">
-									<form:input type="email" class="form-control rounded-right" path="email" placeholder="Your email" disabled="true"/>
+									<form:input path="email" type="email" class="form-control rounded-right" placeholder="Your email" disabled="true"/>
 								</c:when>
 								<c:otherwise>
-									<form:input type="email" class="form-control rounded-right" path="email" placeholder="Your email"/>
+									<form:input path="email" type="email" class="form-control rounded-right" placeholder="Your email"/>
 								</c:otherwise>
 							</c:choose>
 						</div>
@@ -74,7 +74,7 @@
 						</div>
 						<div class="input-group margin-bottom-20">
 							<span class="input-group-addon rounded-left"><i class="icon-user color-green"></i></span>
-							<form:input type="text" class="form-control rounded-right" path="name" placeholder="Username"/>
+							<form:input path="name" name="name" type="text" class="form-control rounded-right" placeholder="Username"/>
 						</div>
 						
 						<div>Nickname<br>
@@ -87,10 +87,10 @@
 							<span class="input-group-addon rounded-left"><i class="icon-user color-green"></i></span>
 							<c:choose>
 								<c:when test="${edit}">
-									<form:input type="text" class="form-control rounded-right" path="nickname" placeholder="NickName" disabled="true"/>
+									<form:input path="nickname" type="text" class="form-control rounded-right" placeholder="NickName" disabled="true"/>
 								</c:when>
 								<c:otherwise>
-									<form:input type="text" class="form-control rounded-right" path="nickname" placeholder="NickName"/>
+									<form:input path="nickname" name="nickname" type="text" class="form-control rounded-right" placeholder="NickName"/>
 								</c:otherwise>
 							</c:choose>
 						</div>
@@ -102,7 +102,7 @@
 						</div>
 						<div class="input-group margin-bottom-30">
 							<span class="input-group-addon rounded-left"><i class="icon-lock color-green"></i></span>
-							<form:input type="password" class="form-control rounded-right" path="password" placeholder="Password"/>
+							<form:password path="password" showPassword="true" class="form-control rounded-right" placeholder="Password"/>
 						</div>
 						<%-- 	
 						<div>User Roles<br>

@@ -1,4 +1,4 @@
-package com.shun.blog.security;
+package com.shun.blog.config.security.custom;
 
 import java.io.IOException;
 import java.util.ArrayList;

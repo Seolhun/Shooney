@@ -18,13 +18,11 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.shun.blog.controller.common.CommonFn;
 import com.shun.blog.model.board.Board;
 import com.shun.blog.model.board.EntityName;
 import com.shun.blog.model.board.PortfolioName;
-import com.shun.blog.model.common.Language;
 import com.shun.blog.model.common.Paging;
 import com.shun.blog.service.board.BoardService;
 
@@ -67,7 +65,7 @@ public class BoardController {
 	}
 
 	@RequestMapping(value = { "/bo/{kind}/add" }, method = RequestMethod.GET)
-	public String newUser(ModelMap model, @PathVariable String kind) {
+	public String addBoard(ModelMap model, @PathVariable String kind) {
 		Board board = new Board();
 		model.addAttribute("board", board);
 		model.addAttribute("edit", false);
@@ -78,7 +76,7 @@ public class BoardController {
 	}
 
 	@RequestMapping(value = { "/bo/{kind}/add" }, method = RequestMethod.POST)
-	public String saveUser(@Valid Board board, BindingResult result, ModelMap model, @PathVariable String kind) {
+	public String addBoardDo(@Valid Board board, BindingResult result, ModelMap model, @PathVariable String kind, HttpServletRequest req) {
 		if (result.hasErrors()) {
 			model.addAttribute("board", board);
 			model.addAttribute("edit", false);
@@ -87,6 +85,8 @@ public class BoardController {
 			model.addAttribute("kind", kind);
 			return "board/add";
 		}
+		
+		
 		
 		board.setWriter(commonFn.getPrincipal());
 		boardService.saveBoard(board);
@@ -133,10 +133,11 @@ public class BoardController {
 	}
 
 	@RequestMapping(value = { "/bo/{kind}/delete-{id}" }, method = RequestMethod.GET)
-	public String deleteUser(@PathVariable int id, @PathVariable String kind) {
+	public String deleteBoard(@PathVariable int id, @PathVariable String kind) {
 		boardService.deleteUserById(id);
 		return "redirect:/bo_{kind}list";
 	}
+	
 	
 //	@RequestMapping(value = { "/board/{tableName}/detail" }, method = RequestMethod.GET)
 //	public String getBoardDetail(ModelMap model, HttpServletRequest request, HttpServletResponse response, @PathVariable String tableName, @RequestParam int id) throws Exception {

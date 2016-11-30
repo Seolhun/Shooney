@@ -2,7 +2,7 @@ package com.shun.blog.service.item;
 
 import java.util.List;
 
-import com.shun.blog.model.json.Monster;
+import com.shun.blog.model.item.Monster;
 
 
 public interface ItemService {

@@ -1,4 +1,4 @@
-package com.shun.blog.configuration;
+package com.shun.blog.config;
 
 import java.util.Properties;
 
@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
 @EnableTransactionManagement
-@ComponentScan({ "com.shun.blog.configuration" })
+@ComponentScan({ "com.shun.blog.config" })
 @PropertySource(value = { "classpath:application.properties" })
 public class HibernateConfiguration {
 

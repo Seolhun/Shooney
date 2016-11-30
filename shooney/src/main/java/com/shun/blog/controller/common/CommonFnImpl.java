@@ -171,6 +171,7 @@ public class CommonFnImpl implements CommonFn {
 		model.addAttribute("targetName", targetName);
 	}
 	
+//	
 	@Override
 	public String getUserIP() {
 		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes())
@@ -233,7 +234,6 @@ public class CommonFnImpl implements CommonFn {
 					messageHelper.setFrom("Shooney");
 					messageHelper.setTo("shun10114@gmail.com");
 					messageHelper.setSubject("이력서 접수 알림");
-					
 					
 					int authentication = (int) (Math.random() * 1000000);
 					session.setAttribute("authentication", authentication);

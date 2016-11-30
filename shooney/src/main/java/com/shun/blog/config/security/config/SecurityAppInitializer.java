@@ -1,4 +1,4 @@
-package com.shun.blog.security;
+package com.shun.blog.config.security.config;
 
 import org.springframework.security.web.context.AbstractSecurityWebApplicationInitializer;
 

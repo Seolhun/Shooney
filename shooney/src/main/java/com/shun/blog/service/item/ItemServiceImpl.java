@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.shun.blog.dao.item.ItemDao;
-import com.shun.blog.model.json.Monster;
+import com.shun.blog.model.item.Monster;
 
 @Service("itemService")
 @Transactional

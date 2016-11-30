@@ -1,4 +1,4 @@
-package com.shun.blog.model.json;
+package com.shun.blog.model.item;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

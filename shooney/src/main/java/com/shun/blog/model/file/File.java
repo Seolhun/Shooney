@@ -1,4 +1,4 @@
-package com.shun.blog.model.board;
+package com.shun.blog.model.file;
 
 import java.util.Date;
 
@@ -38,10 +38,13 @@ public class File {
 	@Column(name = "LATESTDATE", nullable = false)
 	@DateTimeFormat(pattern = "yyyy-mm-dd")
 	private Date latestDate;
-	
-	@Column(name = "BOARDNAME", nullable = false)
-	@NotEmpty
-	private String boardName;
+
+	@Column(name = "ENTITYNAME")
+	private String entityName;
+
+	@Column(name = "PFNAME")
+	private String pfName;
+
 
 	public int getId() {
 		return id;
@@ -91,11 +94,19 @@ public class File {
 		this.latestDate = latestDate;
 	}
 
-	public String getBoardName() {
-		return boardName;
+	public String getEntityName() {
+		return entityName;
 	}
 
-	public void setBoardName(String boardName) {
-		this.boardName = boardName;
+	public void setEntityName(String entityName) {
+		this.entityName = entityName;
+	}
+
+	public String getPfName() {
+		return pfName;
+	}
+
+	public void setPfName(String pfName) {
+		this.pfName = pfName;
 	}
 }

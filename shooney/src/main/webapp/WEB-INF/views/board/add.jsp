@@ -57,18 +57,18 @@
 					</div>
 					<div class="input-group margin-bottom-20">
 						<span class="input-group-addon rounded-left"><i class="icon-envelope color-green"></i></span>
-						<form:textarea type="text" class="form-control rounded-right" path="content" placeholder="Board content" id="summernote"/>
 					</div>
+					<form:textarea type="text" class="form-control rounded-right" path="content" placeholder="Board content" id="summernote"/>
 					
-<%-- 					<div>File Upload<br>
+					<div>File Upload<br>
 						<div style="color: blue;">
-							<form:errors path="fileId" class="help-inline"/>
+							<form:errors path="files" class="help-inline"/>
 						</div>
 					</div>
 					<div class="input-group margin-bottom-20">
-						<span class="input-group-addon rounded-left"><i class="icon-envelope color-green"></i></span>
-						<form:input type="file" class="form-control rounded-right" path="fileId" placeholder="Board content"/>
-					</div> --%>
+						<span class="input-group-addon rounded-left"><i class="icon-picture color-green"></i></span>
+						<input name="files" type="file" class="form-control rounded-right" multiple="multiple" />
+					</div>
 					
 					<div class="row margin-bottom-30">
 						<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
