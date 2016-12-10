@@ -53,20 +53,17 @@ public class UserController {
 
 	@Autowired
 	AuthenticationTrustResolver authenticationTrustResolver;
-	
+
 	@Autowired
 	CommonFn cFn;
-	
-//	final private String emailPattern = "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,3})$";
-//	final private String idPattern = "^[A-Za-z0-9].{1,9}";
-//	final private String pwdPattern = "((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+=-~`]).{8,20})";
-//	final private String namePattern = ".[가-힣]{1,14}";
-//	final private String phonePattern = "\\d{10,11}";
 
-	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String main(ModelMap model) {
-		return "main";
-	}
+	// final private String emailPattern =
+	// "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,3})$";
+	// final private String idPattern = "^[A-Za-z0-9].{1,9}";
+	// final private String pwdPattern =
+	// "((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+=-~`]).{8,20})";
+	// final private String namePattern = ".[가-힣]{1,14}";
+	// final private String phonePattern = "\\d{10,11}";
 
 	@RequestMapping(value = "/admin/list", method = RequestMethod.GET)
 	public String listUsers(ModelMap model, HttpServletRequest request) {
@@ -77,13 +74,13 @@ public class UserController {
 		int limit = cFn.checkVDInt(request.getParameter("li"), 20);
 		String pfName = cFn.checkVDQuestion(request.getParameter("pf"));
 		Paging paging = new Paging(cPage, sType, question, limit, pfName);
-		
+
 		// 전체 게시판 갯수 확인
 		int totalCount = userService.getCount(paging);
 		paging.setTotalCount(totalCount);
 		cFn.setPaging(paging);
 		List<User> users = userService.findAllUsers(paging);
-				
+
 		model.addAttribute("users", users);
 		model.addAttribute("paging", paging);
 		model.addAttribute("loggedinuser", getPrincipal());
@@ -102,11 +99,11 @@ public class UserController {
 
 	@RequestMapping(value = { "/signup" }, method = RequestMethod.POST)
 	public String signupDo(@Valid User user, BindingResult result, ModelMap model) {
-		String mapping="user/signup";
+		String mapping = "user/signup";
 		if (result.hasErrors()) {
 			return mapping;
 		}
-		
+
 		// 이메일, 닉네임 유니크 비교 메소드
 		if (!userService.isUserEmailUnique(user.getEmail())) {
 			FieldError emailError = new FieldError("user", "email", messageSource.getMessage("non.unique.email",
@@ -121,20 +118,20 @@ public class UserController {
 			result.addError(nicknameError);
 			return mapping;
 		}
-		
-		//유저 권한 넣기(프론트에서 값을 받지 않기때문에 백엔드에서 넣어준다.)
-		Set<UserProfile> upSet=new HashSet<>();
-		UserProfile up=new UserProfile();
+
+		// 유저 권한 넣기(프론트에서 값을 받지 않기때문에 백엔드에서 넣어준다.)
+		Set<UserProfile> upSet = new HashSet<>();
+		UserProfile up = new UserProfile();
 		up.setId(2);
 		up.setType(UserProfileType.PLAYER.getType());
 		upSet.add(up);
 		user.setUserProfiles(upSet);
-		
+
 		userService.saveUser(user);
-		
+
 		model.addAttribute("success", "User " + user.getEmail() + " registered successfully");
 		model.addAttribute("loggedinuser", getPrincipal());
-		return "success";
+		return "result/success";
 	}
 
 	@RequestMapping(value = { "/admin/edit-{email}" }, method = RequestMethod.GET)
@@ -154,7 +151,7 @@ public class UserController {
 		userService.updateUser(user);
 		model.addAttribute("success", "User " + user.getName() + " updated successfully");
 		model.addAttribute("loggedinuser", getPrincipal());
-		return "success";
+		return "result/success";
 	}
 
 	@RequestMapping(value = { "/admin/delete-{email}" }, method = RequestMethod.GET)
@@ -179,7 +176,7 @@ public class UserController {
 		if (isCurrentAuthenticationAnonymous()) {
 			return "user/login";
 		} else {
-			return "redirect:/admin/list";
+			return "redirect:/";
 		}
 	}
 
@@ -187,8 +184,7 @@ public class UserController {
 	public String logoutPage(HttpServletRequest request, HttpServletResponse response) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (auth != null) {
-			// new SecurityContextLogoutHandler().logout(request, response,
-			// auth);
+//			new SecurityContextLogoutHandler().logout(request, response, auth);
 			persistentTokenBasedRememberMeServices.logout(request, response, auth);
 			SecurityContextHolder.getContext().setAuthentication(null);
 		}

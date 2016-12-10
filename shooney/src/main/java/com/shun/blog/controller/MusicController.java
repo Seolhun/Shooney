@@ -53,7 +53,7 @@ public class MusicController {
 	public String listMusics(ModelMap model) {
 		ArrayList<Music> musics = (ArrayList<Music>) musicService.findAllMusics();
 		model.addAttribute("musics", musics);
-		return "music/musiclist";
+		return "portfolio/music/musiclist";
 	}
 
 	@RequestMapping(value = { "/po/music/get" }, method = RequestMethod.GET)
@@ -144,18 +144,18 @@ public class MusicController {
 		Music music = musicService.findById(id);
 		model.addAttribute("music", music);
 		model.addAttribute("edit", true);
-		return "music/newmusic";
+		return "portfolio/music/newmusic";
 	}
 
 	@RequestMapping(value = { "/po/music/edit-{id}" }, method = RequestMethod.POST)
 	public String updateUser(@Valid Music music, BindingResult result, ModelMap model, @PathVariable int id) {
 		if (result.hasErrors()) {
-			return "music/newmusic";
+			return "portfolio/music/newmusic";
 		}
 		musicService.updateMusic(music);
 
 		model.addAttribute("success", "Music " + music.getSinger() + "의 " + music.getTitle() + "성공적으로 수정되었습니다.");
-		return "success";
+		return "result/result/success";
 	}
 
 	@RequestMapping(value = { "/po/music/delete-{id}" }, method = RequestMethod.GET)

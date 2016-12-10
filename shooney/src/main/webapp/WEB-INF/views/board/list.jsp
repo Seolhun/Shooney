@@ -10,7 +10,7 @@
 <div class="call-action-v1 bg-color-light">
 	<div class="container">
 		<div class="call-action-v1-box">
-				<div class="call-action-v1-in">
+				<div class="call-action-v1-in main-head">
 					<p>Unify creative technology company providing key digital services and focused on helping our clients to build a successful business on web and mobile.</p>
 				</div>
 			<sec:authorize access="hasRole('SUPERADMIN')">

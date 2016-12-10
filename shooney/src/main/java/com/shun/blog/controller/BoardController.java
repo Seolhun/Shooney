@@ -93,7 +93,7 @@ public class BoardController {
 
 		model.addAttribute("success", "Board " + board.getWriter() + "의 " + board.getTitle() + "성공적으로 등록되었습니다.");
 		model.addAttribute("kind", kind);
-		return "success";
+		return "result/success";
 	}
 	
 	@RequestMapping(value = { "/bo/{kind}/detail-{id}" }, method = RequestMethod.GET)
@@ -129,7 +129,7 @@ public class BoardController {
 
 		model.addAttribute("success", "Board " + board.getWriter() + "의 " + board.getTitle() + "성공적으로 수정되었습니다.");
 		model.addAttribute("entity", kind);
-		return "success";
+		return "result/success";
 	}
 
 	@RequestMapping(value = { "/bo/{kind}/delete-{id}" }, method = RequestMethod.GET)

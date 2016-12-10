@@ -52,7 +52,7 @@ public class ItemController {
 //		model.addAttribute("dtoAsString", dtoAsString);
 		
 		model.addAttribute("items", items);
-		return "item/itemlist";
+		return "portfolio/item/itemlist";
 	}
 
 	@RequestMapping(value = "/po/item/newitem", method = RequestMethod.GET)
@@ -60,6 +60,6 @@ public class ItemController {
 		Monster item= new Monster();
 		model.addAttribute("item", item);
 		model.addAttribute("edit", false);
-		return "item/newitem";
+		return "portfolio/item/newitem";
 	}
 }
