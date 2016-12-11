@@ -147,12 +147,12 @@
 								<li class="dropdown">
 									<a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">Portfolio</a>
 									<ul class="dropdown-menu">
-										<li><a href="${po}/project/list"><i class="fa fa-columns"></i> Project(Restful)</a></li>
+										<li><a href="${po}/project/list"><i class="fa fa-columns"></i> Project(File)</a></li>
+										<li><a href="${po}/item/list"><i class="fa fa-magic"></i> Items(Json, RestFul)</a></li>
 										<li><a href="${po}/music/list"><i class="fa fa-volume-down"></i> Musics(Crawl, Youtube API)</a></li>
-										<li><a href="${po}/item/list"><i class="fa fa-magic"></i> Items(Json, MongoDB)</a></li>
+										<li><a href="shortcode_typo_tagline_boxes.html"><i class="fa fa-tasks"></i> Thread Game(Java)</a></li>
 										<li><a href="${po}/stomp/list"><i class="fa fa-comments"></i> Stomp(Spring AMQP)</a></li>
 										<li><a href="${po}/toon/list"><i class="fa fa-tasks"></i> Toon(Phantom JS)</a></li>
-										<li><a href="shortcode_typo_tagline_boxes.html"><i class="fa fa-tasks"></i> Thread Game(Java)</a></li>
 										<li><a href="shortcode_typo_grid.html"><i class="fa fa-align-justify"></i> Big Data(Spark)</a></li>
 										<%-- 
 										<li>

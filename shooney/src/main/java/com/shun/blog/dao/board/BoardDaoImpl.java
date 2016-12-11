@@ -55,7 +55,7 @@ public class BoardDaoImpl extends AbstractDao<Integer, Board> implements BoardDa
 			criteria.add(Restrictions.like("content", "%"+sText+"%"));
 		}
 		
-		System.out.println(criteria.toString());
+		logger.info(criteria.toString());
 		List<Board> boards = (List<Board>) criteria.list();
 		return boards;
 	}

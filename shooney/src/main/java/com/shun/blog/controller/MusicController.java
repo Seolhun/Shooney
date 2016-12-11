@@ -20,6 +20,8 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
@@ -47,7 +49,9 @@ public class MusicController {
 	@Autowired
 	CommonFn commonFn;
 	
-	private final String path="/Users/hunseol/Desktop/FileSaver/";
+	private static final Logger logger = LoggerFactory.getLogger(MusicController.class);
+	
+	private static final String UPLOAD_LOCATION = "/Users/HunSeol/Desktop/shooney/file/";
 
 	@RequestMapping(value = "/po/music/list", method = RequestMethod.GET)
 	public String listMusics(ModelMap model) {
@@ -93,7 +97,7 @@ public class MusicController {
 				SimpleDateFormat formatter =new SimpleDateFormat("yyyy.MM.dd HH:mm",Locale.KOREA);
 				Date currentTime =new Date();
 				//FileWriter file = new FileWriter("/Users/hunseol/Desktop/test.txt");
-				FileWriter file = new FileWriter(path+domain+(currentTime)+".txt");
+				FileWriter file = new FileWriter(UPLOAD_LOCATION+domain+(currentTime)+".txt");
 				file.write(obj.toJSONString());
 				file.flush();
 				file.close();

@@ -1,5 +1,8 @@
 package com.shun.blog.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,11 +12,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.security.authentication.AuthenticationTrustResolver;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,6 +30,8 @@ import com.shun.blog.model.board.Board;
 import com.shun.blog.model.board.EntityName;
 import com.shun.blog.model.board.PortfolioName;
 import com.shun.blog.model.common.Paging;
+import com.shun.blog.model.file.FileBucket;
+import com.shun.blog.model.file.MultiFileBucket;
 import com.shun.blog.service.board.BoardService;
 
 @Controller
@@ -41,6 +49,10 @@ public class BoardController {
 
 	@Autowired
 	AuthenticationTrustResolver authenticationTrustResolver;
+	
+	private static final Logger logger = LoggerFactory.getLogger(BoardController.class);
+	
+	private static final String UPLOAD_LOCATION = "/Users/HunSeol/Desktop/shooney/file/";
 
 	@RequestMapping(value = "/bo/{kind}/list", method = RequestMethod.GET)
 	public String allBoardList(ModelMap model, @PathVariable String kind, HttpServletRequest request) {
@@ -51,13 +63,13 @@ public class BoardController {
 		int limit = commonFn.checkVDInt(request.getParameter("li"), 20);
 		String pfName = commonFn.checkVDQuestion(request.getParameter("pf"));
 		Paging paging = new Paging(cPage, sType, question, limit, kind, pfName);
-		
+
 		// 전체 게시판 갯수 확인
 		int totalCount = boardService.getCount(paging);
 		paging.setTotalCount(totalCount);
 		commonFn.setPaging(paging);
 		List<Board> boards = boardService.findAllBoards(paging);
-		
+
 		model.addAttribute("boards", boards);
 		model.addAttribute("paging", paging);
 		model.addAttribute("kind", kind);
@@ -68,6 +80,10 @@ public class BoardController {
 	public String addBoard(ModelMap model, @PathVariable String kind) {
 		Board board = new Board();
 		model.addAttribute("board", board);
+		
+		FileBucket fileBucket = new FileBucket();
+        model.addAttribute("fileBucket", fileBucket);
+		
 		model.addAttribute("edit", false);
 		model.addAttribute("enNames", EntityName.values());
 		model.addAttribute("pfNames", PortfolioName.values());
@@ -76,7 +92,9 @@ public class BoardController {
 	}
 
 	@RequestMapping(value = { "/bo/{kind}/add" }, method = RequestMethod.POST)
-	public String addBoardDo(@Valid Board board, BindingResult result, ModelMap model, @PathVariable String kind, HttpServletRequest req) {
+	public String addBoardDo(@Valid Board board, @Valid MultiFileBucket multiFileBucket, BindingResult result,
+			ModelMap model, @PathVariable String kind, HttpServletRequest req) throws IOException {
+		//Board 부분
 		if (result.hasErrors()) {
 			model.addAttribute("board", board);
 			model.addAttribute("edit", false);
@@ -85,17 +103,26 @@ public class BoardController {
 			model.addAttribute("kind", kind);
 			return "board/add";
 		}
-		
-		
-		
+
 		board.setWriter(commonFn.getPrincipal());
 		boardService.saveBoard(board);
-
+		
 		model.addAttribute("success", "Board " + board.getWriter() + "의 " + board.getTitle() + "성공적으로 등록되었습니다.");
 		model.addAttribute("kind", kind);
+		
+		//File Upload 부분		
+		logger.info("Fetching files");
+		List<String> fileNames = new ArrayList<String>();
+		// Now do something with file...
+		for (FileBucket bucket : multiFileBucket.getFiles()) {
+			FileCopyUtils.copy(bucket.getFile().getBytes(), new File(UPLOAD_LOCATION + bucket.getFile().getOriginalFilename()));
+			fileNames.add(bucket.getFile().getOriginalFilename());
+		}
+		
+		model.addAttribute("fileNames", fileNames);
 		return "result/success";
 	}
-	
+
 	@RequestMapping(value = { "/bo/{kind}/detail-{id}" }, method = RequestMethod.GET)
 	public String detailBoard(@PathVariable int id, ModelMap model, @PathVariable String kind) {
 		Board board = boardService.findById(id);
@@ -119,7 +146,8 @@ public class BoardController {
 	}
 
 	@RequestMapping(value = { "/bo/{kind}/edit-{id}" }, method = RequestMethod.POST)
-	public String editBoardDo(@Valid Board board, BindingResult result, ModelMap model, @PathVariable int id, @PathVariable String kind) {
+	public String editBoardDo(@Valid Board board, BindingResult result, ModelMap model, @PathVariable int id,
+			@PathVariable String kind) {
 		if (result.hasErrors()) {
 			model.addAttribute("edit", true);
 			model.addAttribute("kind", kind);
@@ -137,8 +165,7 @@ public class BoardController {
 		boardService.deleteUserById(id);
 		return "redirect:/bo_{kind}list";
 	}
-	
-	
+
 //	@RequestMapping(value = { "/board/{tableName}/detail" }, method = RequestMethod.GET)
 //	public String getBoardDetail(ModelMap model, HttpServletRequest request, HttpServletResponse response, @PathVariable String tableName, @RequestParam int id) throws Exception {
 //		// RequestMethod.GET일 때의 기본언어 설정

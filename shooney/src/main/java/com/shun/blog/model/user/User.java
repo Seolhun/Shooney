@@ -46,8 +46,9 @@ public class User implements Serializable {
 	private String state = State.ACTIVE.getState();
 
 	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = "USER_PROFILE_REFER", joinColumns = { @JoinColumn(name = "USER_ID") }, inverseJoinColumns = {
-			@JoinColumn(name = "USER_PROFILE_ID") })
+	@JoinTable(name = "USER_PROFILE_REFER", 
+		joinColumns = { @JoinColumn(name = "USER_ID") }, 
+		inverseJoinColumns = { @JoinColumn(name = "USER_PROFILE_ID") })
 	private Set<UserProfile> userProfiles = new HashSet<UserProfile>();
 
 	public Integer getId() {

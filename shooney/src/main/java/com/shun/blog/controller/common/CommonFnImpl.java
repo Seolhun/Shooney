@@ -29,7 +29,7 @@ import com.shun.blog.model.common.Paging;
 
 @Repository
 public class CommonFnImpl implements CommonFn {
-	
+
 	@Autowired
 	private JavaMailSender mailSender;
 
@@ -54,7 +54,7 @@ public class CommonFnImpl implements CommonFn {
 		}
 		return int_value;
 	}
-	
+
 	@Override
 	public String checkVDQuestion(String question) {
 		String question_text = "";
@@ -70,25 +70,26 @@ public class CommonFnImpl implements CommonFn {
 		}
 		return question_text;
 	}
-	
+
 	@Override
 	public Paging setPaging(Paging paging) {
-		int cPage=paging.getcPage();
-		int limit=paging.getLimit();
-		int totalCount=paging.getTotalCount();
-		int totalPage=(int)(Math.ceil(totalCount/(double)limit));
-		//전체 페이지보다 많으면 안되기 때문에 미리 처리한다.
-		cPage=cPage>totalPage?totalPage:cPage;
-		int blockLimit=10;
-		int totalPageBlock=(int)(Math.ceil(totalPage/(double)blockLimit));
+		int cPage = paging.getcPage();
+		int limit = paging.getLimit();
+		int totalCount = paging.getTotalCount();
+		int totalPage = (int) (Math.ceil(totalCount / (double) limit));
 
-		//전체 페이지 블록보다 많으면 안되기 때문에 미리 처리한다.
-		int currentBlock=(int)(Math.ceil(cPage/(double)blockLimit));
-		currentBlock=currentBlock>totalPageBlock?totalPageBlock:currentBlock;
-		
-		int blockStartNo=(currentBlock*10)-9;
-		int blockEndNo=currentBlock*10>totalPage?totalPage:currentBlock*10;
-		
+		// 전체 페이지보다 많으면 안되기 때문에 미리 처리한다.
+		cPage = cPage > totalPage ? totalPage : cPage;
+		int blockLimit = 10;
+		int totalPageBlock = (int) (Math.ceil(totalPage / (double) blockLimit));
+
+		// 전체 페이지 블록보다 많으면 안되기 때문에 미리 처리한다.
+		int currentBlock = (int) (Math.ceil(cPage / (double) blockLimit));
+		currentBlock = currentBlock > totalPageBlock ? totalPageBlock : currentBlock;
+
+		int blockStartNo = (currentBlock * 10) - 9 < 0 ? 1 : (currentBlock * 10) - 9;
+		int blockEndNo = currentBlock * 10 > totalPage ? totalPage : currentBlock * 10;
+
 		paging.setcPage(cPage);
 		paging.setLimit(limit);
 		paging.setTotalCount(totalCount);
@@ -98,7 +99,7 @@ public class CommonFnImpl implements CommonFn {
 		paging.setCurrentBlock(currentBlock);
 		paging.setBlockEndNo(blockEndNo);
 		paging.setBlockStartNo(blockStartNo);
-		
+
 		System.out.println("limit : " + limit);
 		System.out.println("totalCount : " + totalCount);
 		System.out.println("totalPage : " + totalPage);
@@ -106,10 +107,10 @@ public class CommonFnImpl implements CommonFn {
 		System.out.println("currentBlock : " + currentBlock);
 		System.out.println("blockEndNo : " + blockEndNo);
 		System.out.println("blockStartNo : " + blockStartNo);
-		
+
 		return paging;
 	}
-	
+
 	@Override
 	public ObjectMapper setJSONMapper() throws JsonProcessingException {
 		ObjectMapper mapper = new ObjectMapper(); // create once, reuse. Thank
@@ -131,10 +132,8 @@ public class CommonFnImpl implements CommonFn {
 		return dtoAsString;
 	}
 
-
 	@Override
-	public Language setLanguageData(Properties text_ko, Properties text_en,
-			HttpServletRequest request) {
+	public Language setLanguageData(Properties text_ko, Properties text_en, HttpServletRequest request) {
 		String serverName = request.getContextPath();
 		Language Language = new Language();
 		// setDefault Values
@@ -170,8 +169,8 @@ public class CommonFnImpl implements CommonFn {
 		model.addAttribute("title", title);
 		model.addAttribute("targetName", targetName);
 	}
-	
-//	
+
+	//
 	@Override
 	public String getUserIP() {
 		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes())
@@ -223,10 +222,10 @@ public class CommonFnImpl implements CommonFn {
 		}
 		return userName;
 	}
-	
+
 	public void applicationSendMail(ServletResponse res, HttpSession session, String type, String job, String name) {
-		new Thread(){
-			public void run(){
+		new Thread() {
+			public void run() {
 				try {
 					MimeMessage message = mailSender.createMimeMessage();
 					// true로서 멀티파트 메세지라는 의미
@@ -234,48 +233,51 @@ public class CommonFnImpl implements CommonFn {
 					messageHelper.setFrom("Shooney");
 					messageHelper.setTo("shun10114@gmail.com");
 					messageHelper.setSubject("이력서 접수 알림");
-					
+
 					int authentication = (int) (Math.random() * 1000000);
 					session.setAttribute("authentication", authentication);
-					
+
 					String tp = "";
 					String jb = "";
-					if(type.equals("exp")){
+					if (type.equals("exp")) {
 						tp = "경력";
-					}else{
+					} else {
 						tp = "신입";
 					}
-					
-					if(job.equals("d")){
+
+					if (job.equals("d")) {
 						jb = "디자이너";
-					}else if(job.equals("pg")){
+					} else if (job.equals("pg")) {
 						jb = "개발자";
-					}else if(job.equals("pb")){
+					} else if (job.equals("pb")) {
 						jb = "퍼블리셔";
-					}else if(job.equals("m")){
+					} else if (job.equals("m")) {
 						jb = "기술영업";
-					}else{
+					} else {
 						jb = "기타";
 					}
-					
-					messageHelper.setText("" + "<html><body><div><h3>새로운 이력서가 <span style='color:#74b45f;'>접수</span>되었습니다.</h3><br>"+
-					"지원 정보<br><table style='font-size:13px;width:380px;border-top: 2px solid #74b45f;border-bottom: 1px solid #ccc;margin-top: 10px;text-indent: 1.2em;'>"+
-					"<tr><td style='width: 40%;'>지원분야</td><td>"+jb+"</td></tr><tr><td>분류</td><td>"+tp+"</td></tr><tr><td>지원자명</td><td>"+name+"</td></tr>"+
-					"</table><br><br><button style='background:#74b45f;color:white; border-style: none;width:150px;height:40px;font-size:12px;margin-left: 114px;'>"+
-					"아이메디신 홈페이지로 이동</button><br><br><div style='border: 1px solid #ccc;padding:10px;font-size:11px;color: #8C8C8C;width: 380px;'>"+
-					"본 메일은 발신 전용 메일입니다. 문의는 imedisyndev@gmail.com에 접수바랍니다.<br>TEL. 02-742-7422 | FAX. 02-745-7422 | E-mail. imedisyndev@gmail.com	"+
-					"</div></div></body></html>", true);
-		
+
+					messageHelper.setText(
+							"" + "<html><body><div><h3>새로운 이력서가 <span style='color:#74b45f;'>접수</span>되었습니다.</h3><br>"
+									+ "지원 정보<br><table style='font-size:13px;width:380px;border-top: 2px solid #74b45f;border-bottom: 1px solid #ccc;margin-top: 10px;text-indent: 1.2em;'>"
+									+ "<tr><td style='width: 40%;'>지원분야</td><td>" + jb + "</td></tr><tr><td>분류</td><td>"
+									+ tp + "</td></tr><tr><td>지원자명</td><td>" + name + "</td></tr>"
+									+ "</table><br><br><button style='background:#74b45f;color:white; border-style: none;width:150px;height:40px;font-size:12px;margin-left: 114px;'>"
+									+ "아이메디신 홈페이지로 이동</button><br><br><div style='border: 1px solid #ccc;padding:10px;font-size:11px;color: #8C8C8C;width: 380px;'>"
+									+ "본 메일은 발신 전용 메일입니다. 문의는 imedisyndev@gmail.com에 접수바랍니다.<br>TEL. 02-742-7422 | FAX. 02-745-7422 | E-mail. imedisyndev@gmail.com	"
+									+ "</div></div></body></html>",
+							true);
+
 					mailSender.send(message);
-					
+
 					System.out.println("메일 전송 완료");
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
 		}.start();
-	}	
-	
+	}
+
 	@Override
 	public String buildSHA256(String str) {
 		try {

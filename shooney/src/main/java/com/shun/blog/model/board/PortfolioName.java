@@ -2,11 +2,11 @@ package com.shun.blog.model.board;
 
 public enum PortfolioName {
 	//향후 더 추가예정 /PathVariable에 쓸 수 있는 객체들을 사용한다.
+	WEB("web"),
+	JAVA("java"),
 	MUSIC("music"),
 	SPORTS("sports"),
-	IT("it"),
-	TOON("toon"),
-	GAME("game");
+	IT("it");
 	
 	private String pfName;
 	
