@@ -1,4 +1,4 @@
-package com.shun.blog.model.portfolio;
+package com.shun.blog.model.portfolio.music;
 
 import java.util.Date;
 

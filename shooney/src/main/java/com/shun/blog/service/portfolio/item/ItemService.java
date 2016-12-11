@@ -1,8 +1,8 @@
-package com.shun.blog.service.item;
+package com.shun.blog.service.portfolio.item;
 
 import java.util.List;
 
-import com.shun.blog.model.item.Monster;
+import com.shun.blog.model.portfolio.item.Monster;
 
 
 public interface ItemService {

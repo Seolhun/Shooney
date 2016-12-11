@@ -1,8 +1,8 @@
-package com.shun.blog.service.music;
+package com.shun.blog.service.portfolio.music;
 
 import java.util.List;
 
-import com.shun.blog.model.portfolio.Music;
+import com.shun.blog.model.portfolio.music.Music;
 
 public interface MusicService {
 	

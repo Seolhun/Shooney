@@ -1,4 +1,4 @@
-package com.shun.blog.service.item;
+package com.shun.blog.service.portfolio.item;
 
 import java.util.List;
 
@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.shun.blog.dao.item.ItemDao;
-import com.shun.blog.model.item.Monster;
+import com.shun.blog.dao.portfolio.item.ItemDao;
+import com.shun.blog.model.portfolio.item.Monster;
 
 @Service("itemService")
 @Transactional

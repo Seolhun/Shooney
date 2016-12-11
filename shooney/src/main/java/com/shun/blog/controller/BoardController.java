@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.security.authentication.AuthenticationTrustResolver;
@@ -41,9 +43,13 @@ public class BoardController {
 
 	@Autowired
 	AuthenticationTrustResolver authenticationTrustResolver;
+	
+	private static final Logger logger = LoggerFactory.getLogger(BoardController.class);
 
 	@RequestMapping(value = "/bo/{kind}/list", method = RequestMethod.GET)
 	public String allBoardList(ModelMap model, @PathVariable String kind, HttpServletRequest request) {
+		logger.info("TEST : Get Board List of "+kind);
+		
 		// 파라미터 호출 및 유효성 검사
 		int cPage = commonFn.checkVDInt(request.getParameter("cp"), 1);
 		int sType = commonFn.checkVDInt(request.getParameter("sty"), 0);
@@ -85,8 +91,6 @@ public class BoardController {
 			model.addAttribute("kind", kind);
 			return "board/add";
 		}
-		
-		
 		
 		board.setWriter(commonFn.getPrincipal());
 		boardService.saveBoard(board);

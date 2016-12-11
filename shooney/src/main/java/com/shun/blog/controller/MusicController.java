@@ -30,9 +30,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.shun.blog.controller.common.CommonFn;
-import com.shun.blog.model.portfolio.Music;
-import com.shun.blog.model.portfolio.MusicType;
-import com.shun.blog.service.music.MusicService;
+import com.shun.blog.model.portfolio.music.Music;
+import com.shun.blog.model.portfolio.music.MusicType;
+import com.shun.blog.service.portfolio.music.MusicService;
 
 @Controller
 @RequestMapping("/")

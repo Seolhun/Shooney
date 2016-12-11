@@ -1,4 +1,4 @@
-package com.shun.blog.model.item;
+package com.shun.blog.model.portfolio.item;
 
 import java.util.List;
 

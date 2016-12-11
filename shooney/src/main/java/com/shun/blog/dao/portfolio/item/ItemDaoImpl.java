@@ -1,4 +1,4 @@
-package com.shun.blog.dao.item;
+package com.shun.blog.dao.portfolio.item;
 
 import java.util.List;
 
@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import com.shun.blog.dao.AbstractDao;
-import com.shun.blog.model.item.Monster;
+import com.shun.blog.model.portfolio.item.Monster;
 
 @Repository("itemDao")
 public class ItemDaoImpl extends AbstractDao<Integer, Monster> implements ItemDao {

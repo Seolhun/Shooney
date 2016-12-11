@@ -15,7 +15,7 @@ import org.jsoup.select.Elements;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import com.shun.blog.model.portfolio.MusicType;
+import com.shun.blog.model.portfolio.music.MusicType;
 
 @Component
 public class MusicScheduler {

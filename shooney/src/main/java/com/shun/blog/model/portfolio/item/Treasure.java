@@ -1,11 +1,11 @@
-package com.shun.blog.model.item;
+package com.shun.blog.model.portfolio.item;
 
 import java.io.Serializable;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class Map implements Serializable {
+public class Treasure implements Serializable {
 	private List<Integer> currency;
 	private List<Integer> item;
 	private int weekRestrictionIndex;

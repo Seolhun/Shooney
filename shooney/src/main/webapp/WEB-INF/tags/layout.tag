@@ -22,8 +22,8 @@
 <meta name="keywords" content="SHooney">
 <meta name="description" content="SHooney">
 <title>SomeThing New | Hooney Blog</title>
+
 <link rel="shortcut icon" href="${resources}/img/logo.jpeg" />
-<!-- <link rel="alternate" type="application/rss+xml" title="아이메디신 favicon" href="http://imedisyn.com/"> -->
 <!-- Web Fonts -->
 <link rel='stylesheet' type='text/css' href='//fonts.googleapis.com/css?family=Open+Sans:400,300,600&amp;subset=cyrillic,latin'>
 <!-- CSS Global Compulsory -->
@@ -49,6 +49,7 @@
 <link rel="stylesheet" href="${template}/css/theme-skins/dark.css">
 <!-- CSS Customization -->
 <link rel="stylesheet" href="${template}/css/custom.css">
+
 </head>
 <body class="header-fixed header-fixed-space">
 	<div class="wrapper">
@@ -120,9 +121,27 @@
 									</ul>
 								</li>
 								<!-- End Pages -->
+								
+								<li class="dropdown">
+									<a href="${bo }/notice/list" class="dropdown-toggle" >Portfolio</a>
+									<ul class="dropdown-menu">
+										<!-- Typography -->
+										<li><a href="${admin}/list"><i class="fa fa-asterisk"></i>  Admin</a></li>
+										<li><a href="${po}/music/list"><i class="fa fa-volume-down"></i>  Musics</a></li>
+										<li><a href="${po}/item/list"><i class="fa fa-magic"></i>  Items(Json)</a></li>
+										<li><a href="${po}/stomp/list"><i class="fa fa-comments"></i>  Stomp</a></li>
+										<li><a href="${po}/toon/list"><i class="fa fa-columns"></i>  Toon(Phantom)</a></li>
+										<li><a href="${po}/crawl/list"><i class="fa fa-tasks"></i> Web Crawling</a></li>
+										
+										<li><a href="shortcode_typo_grid.html"><i class="fa fa-align-justify"></i> Grid Layouts</a></li>
+										<li><a href="shortcode_compo_messages.html"><i class="fa fa-comment"></i> Alerts &amp; Messages</a></li>
+										<li><a href="shortcode_compo_labels.html"><i class="fa fa-tags"></i> Labels &amp; Badges</a></li>
+										<li><a href="shortcode_compo_pagination.html"><i class="fa fa-arrows-h"></i> Paginations</a></li>
+									</ul>
+								</li>
 
 								<!-- Shortcodes -->
-								<li class="dropdown mega-menu-fullwidth">
+								<%-- <li class="dropdown mega-menu-fullwidth">
 									<a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">Portfolio</a>
 									<ul class="dropdown-menu">
 										<li>
@@ -138,15 +157,12 @@
 																<li><a href="${po}/item/list"><i class="fa fa-magic"></i>  Items(Json)</a></li>
 																<li><a href="${po}/stomp/list"><i class="fa fa-comments"></i>  Stomp</a></li>
 																<li><a href="${po}/toon/list"><i class="fa fa-columns"></i>  Toon(Phantom)</a></li>
-																<li><a href="shortcode_typo_tagline_boxes.html"><i class="fa fa-tasks"></i> Tagline Boxes</a></li>
+																<li><a href="${po}/it/list"><i class="fa fa-tasks"></i> Web Crawling</a></li>
+																
 																<li><a href="shortcode_typo_grid.html"><i class="fa fa-align-justify"></i> Grid Layouts</a></li>
-																<!-- End Typography -->
-
-																<!-- Components -->
 																<li><a href="shortcode_compo_messages.html"><i class="fa fa-comment"></i> Alerts &amp; Messages</a></li>
 																<li><a href="shortcode_compo_labels.html"><i class="fa fa-tags"></i> Labels &amp; Badges</a></li>
 																<li><a href="shortcode_compo_pagination.html"><i class="fa fa-arrows-h"></i> Paginations</a></li>
-																<!-- End Components -->
 															</ul>
 														</div>
 														<div class="col-md-3 equal-height-in">
@@ -210,7 +226,7 @@
 											</div>
 										</li>
 									</ul>
-								</li>
+								</li> --%>
 								<!-- End Shortcodes -->
 								
 								<!-- Blog -->

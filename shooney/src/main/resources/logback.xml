@@ -1,14 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <configuration>
 
-  <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-    <!-- encoders are assigned the type
-         ch.qos.logback.classic.encoder.PatternLayoutEncoder by default -->
-    <encoder>
-      <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
-    </encoder>
-  </appender>
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+	    <layout class="ch.qos.logback.classic.PatternLayout">
+		<Pattern>
+			%d{yyyy-MM-dd HH:mm:ss} %-5level %logger{36} - %msg%n
+		</Pattern>
+	    </layout>
+	</appender>
 
-  <root level="info">
-    <appender-ref ref="STDOUT" />
-  </root>
+	<logger name="com.shun.blog" level="DEBUG" additivity="false">
+		<appender-ref ref="STDOUT" />
+	</logger>
+	
+	<root name="com.shun.blog" level="INFO">
+		<appender-ref ref="STDOUT" />
+	</root>
+	
+	<root name="com.shun.blog" level="WARN">
+		<appender-ref ref="STDOUT" />
+	</root>
+
+	<root name="com.shun.blog" level="ERROR">
+		<appender-ref ref="STDOUT" />
+	</root>
+	
+	<root name="com.shun.blog" level="TRACE">
+		<appender-ref ref="STDOUT" />
+	</root>
+
 </configuration>

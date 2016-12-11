@@ -22,11 +22,9 @@
 		<mysql.version>5.1.31</mysql.version>
 		<java.version>1.8</java.version>
 		<hibernate.version>4.3.6.Final</hibernate.version>
-		<h2.version>1.4.187</h2.version>
 		<dbunit.version>2.2</dbunit.version>
 		<mockito.version>1.10.19</mockito.version>
 		<testng.version>6.9.4</testng.version>
-		<joda-time.version>2.3</joda-time.version>
 	</properties>
 
 	<dependencies>
@@ -53,7 +51,7 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-jdbc</artifactId>
 		</dependency>
-		
+
 		<!-- Spring -->
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -192,7 +190,7 @@
 			<artifactId>jsoup</artifactId>
 			<version>1.9.2</version>
 		</dependency>
-		
+
 		<!-- 자바 메일 보내기 -->
 		<dependency>
 			<groupId>javax.mail</groupId>
@@ -209,6 +207,32 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-mail</artifactId>
 		</dependency>
+
+		<!-- Logging Lib -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-logging</artifactId>
+		</dependency>
+
+		<!-- slf4j Logging -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+		</dependency>
+
+		<!-- 3. logback -->
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-api</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+
 	</dependencies>
 
 	<build>

@@ -1,4 +1,4 @@
-package com.shun.blog.service.music;
+package com.shun.blog.service.portfolio.music;
 
 import java.util.List;
 
@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.shun.blog.dao.music.MusicDao;
-import com.shun.blog.model.portfolio.Music;
+import com.shun.blog.dao.portfolio.music.MusicDao;
+import com.shun.blog.model.portfolio.music.Music;
 
 
 @Service("musicService")

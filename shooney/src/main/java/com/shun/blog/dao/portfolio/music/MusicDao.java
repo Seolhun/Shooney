@@ -1,8 +1,8 @@
-package com.shun.blog.dao.music;
+package com.shun.blog.dao.portfolio.music;
 
 import java.util.List;
 
-import com.shun.blog.model.portfolio.Music;
+import com.shun.blog.model.portfolio.music.Music;
 
 public interface MusicDao {
 
