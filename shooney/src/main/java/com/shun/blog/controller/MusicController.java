@@ -20,6 +20,8 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
@@ -47,13 +49,15 @@ public class MusicController {
 	@Autowired
 	CommonFn commonFn;
 	
-	private final String path="/Users/hunseol/Desktop/FileSaver/";
+	private static final Logger logger = LoggerFactory.getLogger(MusicController.class);
+	
+	private static final String UPLOAD_LOCATION = "/Users/HunSeol/Desktop/shooney/file/";
 
 	@RequestMapping(value = "/po/music/list", method = RequestMethod.GET)
 	public String listMusics(ModelMap model) {
 		ArrayList<Music> musics = (ArrayList<Music>) musicService.findAllMusics();
 		model.addAttribute("musics", musics);
-		return "music/musiclist";
+		return "portfolio/music/musiclist";
 	}
 
 	@RequestMapping(value = { "/po/music/get" }, method = RequestMethod.GET)
@@ -93,7 +97,7 @@ public class MusicController {
 				SimpleDateFormat formatter =new SimpleDateFormat("yyyy.MM.dd HH:mm",Locale.KOREA);
 				Date currentTime =new Date();
 				//FileWriter file = new FileWriter("/Users/hunseol/Desktop/test.txt");
-				FileWriter file = new FileWriter(path+domain+(currentTime)+".txt");
+				FileWriter file = new FileWriter(UPLOAD_LOCATION+domain+(currentTime)+".txt");
 				file.write(obj.toJSONString());
 				file.flush();
 				file.close();
@@ -144,18 +148,18 @@ public class MusicController {
 		Music music = musicService.findById(id);
 		model.addAttribute("music", music);
 		model.addAttribute("edit", true);
-		return "music/newmusic";
+		return "portfolio/music/newmusic";
 	}
 
 	@RequestMapping(value = { "/po/music/edit-{id}" }, method = RequestMethod.POST)
 	public String updateUser(@Valid Music music, BindingResult result, ModelMap model, @PathVariable int id) {
 		if (result.hasErrors()) {
-			return "music/newmusic";
+			return "portfolio/music/newmusic";
 		}
 		musicService.updateMusic(music);
 
 		model.addAttribute("success", "Music " + music.getSinger() + "의 " + music.getTitle() + "성공적으로 수정되었습니다.");
-		return "success";
+		return "result/result/success";
 	}
 
 	@RequestMapping(value = { "/po/music/delete-{id}" }, method = RequestMethod.GET)

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
+	<property name="DEV_HOME" value="/Users/HunSeol/Desktop/shooney/log/"/>
 
 	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
 	    <layout class="ch.qos.logback.classic.PatternLayout">
@@ -8,6 +9,30 @@
 		</Pattern>
 	    </layout>
 	</appender>
+	
+		<!-- 
+	<property name="DEV_HOME" value="c:/logs" />
+
+	<appender name="FILE-AUDIT"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${DEV_HOME}/debug.log</file>
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<Pattern>
+				%d{yyyy-MM-dd HH:mm:ss} - %msg%n
+			</Pattern>
+		</encoder>
+
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			rollover daily
+			<fileNamePattern>${DEV_HOME}/archived/debug.%d{yyyy-MM-dd}.%i.log
+                        </fileNamePattern>
+			<timeBasedFileNamingAndTriggeringPolicy
+				class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>10MB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+		</rollingPolicy>
+	</appender>
+	 -->
 
 	<logger name="com.shun.blog" level="DEBUG" additivity="false">
 		<appender-ref ref="STDOUT" />
@@ -28,5 +53,4 @@
 	<root name="com.shun.blog" level="TRACE">
 		<appender-ref ref="STDOUT" />
 	</root>
-
 </configuration>

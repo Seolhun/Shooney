@@ -6,14 +6,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.shun.blog.model.common.Paging;
-import com.shun.blog.model.file.File;
+import com.shun.blog.model.file.FileData;
 
 @Service("fileService")
 @Transactional
 public class FileServiceImpl implements FileService {
 
 	@Override
-	public File findById(int id) {
+	public FileData findById(int id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -25,19 +25,19 @@ public class FileServiceImpl implements FileService {
 	}
 
 	@Override
-	public List<File> findAllFile(Paging paging) {
+	public List<FileData> findAllFile(Paging paging) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void setFile(File file) {
+	public void setFile(FileData file) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void getFile(File file) {
+	public void getFile(FileData file) {
 		// TODO Auto-generated method stub
 		
 	}

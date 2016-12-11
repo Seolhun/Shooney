@@ -46,22 +46,24 @@ public class SecurityAppConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
-				.antMatchers("/admin/**").permitAll()
-				.antMatchers("/music/**").permitAll()
-				.antMatchers("/item/**").permitAll()
+				.antMatchers("/admin/**").hasRole("SUPERADMIN")
 				.antMatchers("/**").permitAll()
 			.and()
-				.formLogin().loginPage("/login").permitAll()
+				.formLogin().loginPage("/login")
 				.loginProcessingUrl("/login").usernameParameter("email").passwordParameter("password")
 				.successHandler(customSuccessHandler)
 				.failureUrl("/login?error")
 			.and()
-				.rememberMe().rememberMeParameter("remember-me").tokenRepository(tokenRepository)
-				.tokenValiditySeconds(86400)
+				.logout()
+				.deleteCookies("JSESSIONID")
+				.invalidateHttpSession(true)
+				.logoutUrl("/logout")
+			.and()
+				.rememberMe().rememberMeParameter("remember-me").tokenRepository(tokenRepository).tokenValiditySeconds(86400)
 			.and()
 				.csrf()
 			.and()
-				.exceptionHandling().accessDeniedPage("/error");
+				.exceptionHandling().accessDeniedPage("/");
 		
 		//한글 인코딩 필터		
 		CharacterEncodingFilter filter = new CharacterEncodingFilter();

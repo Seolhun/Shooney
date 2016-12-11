@@ -3,19 +3,19 @@ package com.shun.blog.service.file;
 import java.util.List;
 
 import com.shun.blog.model.common.Paging;
-import com.shun.blog.model.file.File;
+import com.shun.blog.model.file.FileData;
 
 public interface FileService {
 
-	File findById(int id);
+	FileData findById(int id);
 	
 	int getCount(Paging paging);
 	
-	List<File> findAllFile(Paging paging);
+	List<FileData> findAllFile(Paging paging);
 
-	void setFile(File file);
+	void setFile(FileData file);
 
-	void getFile(File file);
+	void getFile(FileData file);
 
 	void deleteFileById(int id);
 }

@@ -48,12 +48,38 @@
 <link rel="stylesheet" href="${template}/css/theme-colors/dark-blue.css" id="style_color">
 <link rel="stylesheet" href="${template}/css/theme-skins/dark.css">
 <!-- CSS Customization -->
-<link rel="stylesheet" href="${template}/css/custom.css">
-
+<link rel="stylesheet" href="${resources}/css/hooney.css">
 </head>
 <body class="header-fixed header-fixed-space">
 	<div class="wrapper">
 		<div class="header-v6 header-classic-white header-sticky">
+			<div id="abovenav">
+				<div class="container">
+					<div class="row" id="aboverow">
+						<div class="col-sm-6 col-xs-6" style="text-align : left">	
+							다국어 설정
+						</div>
+						<div class="col-sm-3 col-xs-3">	
+							<sec:authorize access="isAuthenticated()">
+								<sec:authentication property="principal.username"/>
+							</sec:authorize>
+						</div>
+						<div class="col-sm-3 col-xs-3" style="text-align : right">	
+							<sec:authorize access="isAuthenticated()">
+								<a href="${logout }" id="head-a">LOGOUT</a>
+							</sec:authorize>
+							<sec:authorize access="isAnonymous()">
+								<a href="${login }" id="head-a">LOGIN</a>
+								&nbsp;&nbsp;|&nbsp;&nbsp;
+							</sec:authorize>
+							<!-- Demo Pages -->
+							<sec:authorize access="isAnonymous()">
+								<a href="${signup }" id="head-a">SIGN UP</a>
+							</sec:authorize>
+						</div>
+					</div>
+				</div>
+			</div>
 			<!-- Navbar -->
 			<div class="navbar mega-menu" role="navigation">
 				<div class="container">
@@ -69,9 +95,6 @@
 						<!-- Navbar Brand -->
 						<div class="navbar-brand">
 							<a href="${shooney}" style="font-size: 16px;">
-							<sec:authorize access="isAuthenticated()" >
-								<sec:authentication property="principal.username"/>
-							</sec:authorize>
 								<%-- <img class="shrink-logo" src="${resources}/img/logo.jpeg" alt="Logo"> --%>
 							</a>
 						</div>
@@ -94,9 +117,6 @@
 										<span class="shc-total">Total: <strong>$0.00</strong></span>
 									</div>
 								</li>
-								<li class="menu-icons">
-									<div>&nbsp;&nbsp;<a href="?language=en_US">English</a></div>
-								</li>
 							</ul>
 							
 						</div>
@@ -113,7 +133,7 @@
 
 								<!-- Pages -->
 								<li class="dropdown">
-									<a href="${bo }/notice/list" class="dropdown-toggle" >Board</a>
+									<a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">Board</a>
 									<ul class="dropdown-menu">
 										<li><a href="${bo }/notice/list">Notice</a></li>
 										<li><a href="${bo }/freeboard/list">Free Board</a></li>
@@ -122,28 +142,19 @@
 								</li>
 								<!-- End Pages -->
 								
-								<li class="dropdown">
-									<a href="${bo }/notice/list" class="dropdown-toggle" >Portfolio</a>
-									<ul class="dropdown-menu">
-										<!-- Typography -->
-										<li><a href="${admin}/list"><i class="fa fa-asterisk"></i>  Admin</a></li>
-										<li><a href="${po}/music/list"><i class="fa fa-volume-down"></i>  Musics</a></li>
-										<li><a href="${po}/item/list"><i class="fa fa-magic"></i>  Items(Json)</a></li>
-										<li><a href="${po}/stomp/list"><i class="fa fa-comments"></i>  Stomp</a></li>
-										<li><a href="${po}/toon/list"><i class="fa fa-columns"></i>  Toon(Phantom)</a></li>
-										<li><a href="${po}/crawl/list"><i class="fa fa-tasks"></i> Web Crawling</a></li>
-										
-										<li><a href="shortcode_typo_grid.html"><i class="fa fa-align-justify"></i> Grid Layouts</a></li>
-										<li><a href="shortcode_compo_messages.html"><i class="fa fa-comment"></i> Alerts &amp; Messages</a></li>
-										<li><a href="shortcode_compo_labels.html"><i class="fa fa-tags"></i> Labels &amp; Badges</a></li>
-										<li><a href="shortcode_compo_pagination.html"><i class="fa fa-arrows-h"></i> Paginations</a></li>
-									</ul>
-								</li>
-
 								<!-- Shortcodes -->
-								<%-- <li class="dropdown mega-menu-fullwidth">
+								<!-- <li class="dropdown mega-menu-fullwidth"> -->
+								<li class="dropdown">
 									<a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">Portfolio</a>
 									<ul class="dropdown-menu">
+										<li><a href="${po}/project/list"><i class="fa fa-columns"></i> Project(File)</a></li>
+										<li><a href="${po}/item/list"><i class="fa fa-magic"></i> Items(Json, RestFul)</a></li>
+										<li><a href="${po}/music/list"><i class="fa fa-volume-down"></i> Musics(Crawl, Youtube API)</a></li>
+										<li><a href="shortcode_typo_tagline_boxes.html"><i class="fa fa-tasks"></i> Thread Game(Java)</a></li>
+										<li><a href="${po}/stomp/list"><i class="fa fa-comments"></i> Stomp(Spring AMQP)</a></li>
+										<li><a href="${po}/toon/list"><i class="fa fa-tasks"></i> Toon(Phantom JS)</a></li>
+										<li><a href="shortcode_typo_grid.html"><i class="fa fa-align-justify"></i> Big Data(Spark)</a></li>
+										<%-- 
 										<li>
 											<div class="mega-menu-content disable-icons">
 												<div class="container">
@@ -225,53 +236,26 @@
 												</div>
 											</div>
 										</li>
+										 --%>
 									</ul>
-								</li> --%>
+								</li>
 								<!-- End Shortcodes -->
 								
 								<!-- Blog -->
 								<li class="dropdown">
-									<a href="${myinfo }" class="dropdown-toggle" data-toggle="dropdown">My Info</a>
+									<a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">My Info</a>
 									<ul class="dropdown-menu">
-										<li class="dropdown-submenu">
-											<a href="javascript:void(0);">Who Am I</a>
-											<ul class="dropdown-menu">
-												<li><a href="blog_large_right_sidebar1.html">Profile</a></li>
-												<li><a href="blog_large_left_sidebar1.html">Imagination</a></li>
-												<li><a href="blog_large_left_sidebar1.html">Just History</a></li>
-											</ul>
-										</li>
-										<li class="dropdown-submenu">
-											<a href="blog_masonry_3col.html">Plan To Change</a>
-											<ul class="dropdown-menu">
-												<li><a href="blog_medium_right_sidebar1.html">Attitude</a></li>
-												<li><a href="blog_medium_left_sidebar1.html">Education</a></li>
-												<li><a href="blog_medium_full_width1.html">Wellness</a></li>
-											</ul>
-										</li>
+										<li><a href="${myinfo}/pro"><i class="fa fa-asterisk"></i> Profile</a></li>
+										<li><a href="${myinfo}/ati"><i class="fa fa-asterisk"></i> Attitude</a></li>
+										<li><a href="${myinfo}/goal"><i class="fa fa-asterisk"></i> Goal</a></li>
 									</ul>
 								</li>
-								<!-- End Blog -->
-								
-								<!-- Demo Pages -->
-								<sec:authorize access="isAnonymous()">
-									<li class="">
-										<a href="${login }">Login</a>
-									</li>
-								</sec:authorize>
-								<sec:authorize access="isAuthenticated()">
-									<li class="">
-										<a href="${logout }">Logout</a>
-									</li>
-								</sec:authorize>
-								
-								<!-- Demo Pages -->
-								<sec:authorize access="isAnonymous()">
+								<sec:authorize access="hasRole('SUPERADMIN')">
 									<li class="dropdown">
-										<a href="${signup }">signup</a>
+										<a href="${admin}/list">Admin</a>
 									</li>
-								</sec:authorize>
-								<!-- End Demo Pages -->
+								</sec:authorize>	
+								<!-- End Blog -->
 							</ul>
 						</div>
 					</div><!--/navbar-collapse-->
@@ -292,14 +276,14 @@
 					<div class="container">
 						<div class="row">
 							<!-- About Us -->
-							<div class="col-md-3 sm-margin-bottom-40">
+							<div class="col-md-3 col-sm-3 col-xs-6">
 								<div class="heading-footer"><h2>About Hi-Cord</h2></div>
 								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis blandit ut metus a commodo. Pellentesque congue tellus sed enim sollicitudin, id blandit mauris eleifend.</p>
 							</div>
 							<!-- End About Us -->
 
 							<!-- Recent News -->
-							<div class="col-md-3 sm-margin-bottom-40">
+							<div class="col-md-3 col-sm-3 col-xs-6">
 								<div class="heading-footer"><h2>Recent News</h2></div>
 								<ul class="list-unstyled link-news">
 									<li>
@@ -319,7 +303,7 @@
 							<!-- End Recent News -->
 
 							<!-- Useful Links -->
-							<div class="col-md-3 sm-margin-bottom-40">
+							<div class="col-md-3 col-sm-3 col-xs-6">
 								<div class="heading-footer"><h2>Useful Links</h2></div>
 								<ul class="list-unstyled footer-link-list">
 									<li><a href="${about }">About Me</a></li>
@@ -331,7 +315,7 @@
 							<!-- End Useful Links -->
 
 							<!-- Contacts -->
-							<div class="col-md-3">
+							<div class="col-md-3 col-sm-3 col-xs-6">
 								<div class="heading-footer"><h2>Contacts</h2></div>
 								<ul class="list-unstyled contacts">
 									<li>
@@ -368,7 +352,7 @@
 									<li><a href="#">Support</a></li>
 								</ul>
 							</div>
-							<div class="col-md-4">
+							<div class="col-md-4 ">
 								<ul class="list-inline dark-social pull-right space-bottom-0">
 									<li>
 										<a data-placement="top" data-toggle="tooltip" class="tooltips" data-original-title="Facebook" href="#">

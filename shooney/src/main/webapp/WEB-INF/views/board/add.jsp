@@ -10,16 +10,18 @@
 <tag:layout>
 <div class="generic-container">
 	<div class="panel panel-default row">
-		<form:form method="POST" modelAttribute="board" class="form-horizontal" style="margin: 5%;" action="${bo}/${kind}/add">
+		<form:form method="POST" modelAttribute="board" enctype="multipart/form-data" class="form-horizontal" style="margin: 5%;" action="${bo}/${kind}/add">
 			<form:input type="hidden" path="writer"/>
 			<form:input type="hidden" path="hits"/>
 			<form:input type="hidden" path="likes"/>
 			<form:input type="hidden" path="delCheck"/>
 			<form:input type="hidden" path="depth"/>
+			
 			<a href="${shooney}">
-					<img src="${template}/img/themes/logo1-dark-blue.png" alt="">
-				</a>
+				<img src="${template}/img/themes/logo1-dark-blue.png" alt="">
+			</a>
 			<h2>Create new board</h2>
+
 			<div class="reg-block">
 				<div class="margin-bottom-20"></div>
 				<div class="col-sm-4">
@@ -38,6 +40,7 @@
 						</div>
 					</div>
 				</div>
+				
 				<div class="col-sm-8">
 					<div class="input-group margin-bottom-20">
 						<span class="input-group-addon rounded-left"><i class="icon-envelope color-green"></i></span>
@@ -49,6 +52,7 @@
 						</div>
 					</div>
 				</div>
+				
 				<div class="col-sm-12">
 					<div>Content<br>
 						<div style="color: blue;">

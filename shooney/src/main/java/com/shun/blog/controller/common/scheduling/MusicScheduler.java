@@ -19,13 +19,13 @@ import com.shun.blog.model.portfolio.music.MusicType;
 
 @Component
 public class MusicScheduler {
-	private final String path="/Users/hunseol/Desktop/FileSaver/";
+	private static final String UPLOAD_LOCATION = "/Users/HunSeol/Desktop/shooney/file/";
 	
-//	//Second Minute - hour - day(month) - month - day(week)
-//	@Scheduled(cron="0/2 * * * * ?")
-//	public void cronJob() {
-//		System.out.println("2초마다 인사한다. 정기적인 시간에.");
-//	}
+	//Second Minute - hour - day(month) - month - day(week)
+	@Scheduled(cron="0/2 * * * * ?")
+	public void cronJob() {
+		System.out.println("2초마다 인사한다. 정기적인 시간에.");
+	}
 	
 	@Scheduled(cron="0 0 8 * * ?")
 	public void getNaverMusics() throws IOException {
@@ -66,7 +66,7 @@ public class MusicScheduler {
 	
 			try {
 				//FileWriter file = new FileWriter("/Users/hunseol/Desktop/test.txt");
-				FileWriter file = new FileWriter(path+domain+(currentTime)+".txt");
+				FileWriter file = new FileWriter(UPLOAD_LOCATION+domain+(currentTime)+".txt");
 				file.write(obj.toJSONString());
 				file.flush();
 				file.close();

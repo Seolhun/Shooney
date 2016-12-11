@@ -5,6 +5,8 @@ import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
@@ -30,6 +32,8 @@ public class ItemController {
 	
 	@Autowired
 	CommonFn commonFn;
+	
+	private static final Logger logger = LoggerFactory.getLogger(ItemController.class);
 
 	@RequestMapping(value = "/po/item/list", method = RequestMethod.GET, produces = "application/json; charset=utf8")
 	public String listItems(ModelMap model) throws IOException {
@@ -52,7 +56,7 @@ public class ItemController {
 //		model.addAttribute("dtoAsString", dtoAsString);
 		
 		model.addAttribute("items", items);
-		return "item/itemlist";
+		return "portfolio/item/itemlist";
 	}
 
 	@RequestMapping(value = "/po/item/newitem", method = RequestMethod.GET)
@@ -60,6 +64,6 @@ public class ItemController {
 		Monster item= new Monster();
 		model.addAttribute("item", item);
 		model.addAttribute("edit", false);
-		return "item/newitem";
+		return "portfolio/item/newitem";
 	}
 }

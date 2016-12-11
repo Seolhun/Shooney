@@ -4,21 +4,25 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="tag" tagdir="/WEB-INF/tags"%>
-<spring:url value="/resources/" var="RESOURCES" />
-<spring:url value="/" var="shooney"/>
-<spring:url value="/login" var="login"/>
-<spring:url value="/signup" var="signup"/>
+<spring:url value="/resources" var="resources" />
 <spring:url value="/resources/template" var="template"/>
+<spring:url value="/" var="shooney"/>
+<spring:url value="/bo" var="bo"/>
+<spring:url value="/po" var="po"/>
+<spring:url value="/myinfo" var="myinfo"/>
+<spring:url value="/admin" var="admin"/>
+<spring:url value="/signup" var="signup"/>
+<spring:url value="/login" var="login"/>
+<spring:url value="/logout" var="logout"/>
 <html lang="en"> 
 <head>
 	<title>SomeThing New | Hooney Blog</title>
 	<!-- Meta -->
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="description" content="">
-	<meta name="author" content="">
+	<meta name="description" content="Shooney Blog Login">
 	<!-- Favicon -->
-	<link rel="shortcut icon" href="favicon.ico">
+	<link rel="shortcut icon" href="${resources}/img/logo.jpeg" />
 	<!-- Web Fonts -->
 	<link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans:400,300,700&amp;subset=cyrillic,latin">
 	<!-- CSS Global Compulsory -->
@@ -70,7 +74,7 @@
 							<ul class="list-inline">
 								<li>
 									<label>
-										<input type="checkbox"> Remember me
+										<input type="checkbox" name="remember-me"> Remember me
 									</label>
 								</li>
 

@@ -2,19 +2,22 @@ package com.shun.blog.model.board;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.web.multipart.MultipartFile;
+
+import com.shun.blog.model.file.FileData;
 
 @Entity
 @Table(name = "BOARD")
@@ -56,9 +59,9 @@ public class Board implements Serializable {
 	@Column(name = "PFNAME")
 	private String pfName;
 	
-	@Transient
-	List<MultipartFile> files;
-
+	@OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
+	private Set<FileData> files=new HashSet<FileData>();
+	
 	public Board() {
 	}
 
@@ -150,11 +153,11 @@ public class Board implements Serializable {
 		this.pfName = pfName;
 	}
 
-	public List<MultipartFile> getFiles() {
+	public Set<FileData> getFiles() {
 		return files;
 	}
 
-	public void setFiles(List<MultipartFile> files) {
+	public void setFiles(Set<FileData> files) {
 		this.files = files;
 	}
 }
