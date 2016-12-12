@@ -56,8 +56,9 @@
 			<div id="abovenav">
 				<div class="container">
 					<div class="row" id="aboverow">
-						<div class="col-sm-6 col-xs-6" style="text-align : left">	
-							다국어 설정
+						<div class="col-sm-6 col-xs-6" style="text-align: left">
+							<a href="#" class="link-txt" id="head-a"><img src="${resources}/img/lang_ko.png" class="language"> Korean&nbsp;</a>| 
+							<a href="#" class="link-txt" id="head-a"><img src="${resources}/img/lang_en.png" class="language"> English</a>
 						</div>
 						<div class="col-sm-3 col-xs-3">	
 							<sec:authorize access="isAuthenticated()">

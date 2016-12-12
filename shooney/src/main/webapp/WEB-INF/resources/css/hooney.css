@@ -1,4 +1,8 @@
 @CHARSET "UTF-8";
+.language {
+	height: 20px;
+	width: 20px;
+}
 
 .btn-u-dark-orange {
 	background-color: orange;

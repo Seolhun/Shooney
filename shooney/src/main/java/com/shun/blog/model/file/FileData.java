@@ -52,7 +52,7 @@ public class FileData {
 	@ManyToOne(optional = false)
     @JoinColumn(name = "BOARDID")
     private Board board;
-
+	
 	public int getId() {
 		return id;
 	}

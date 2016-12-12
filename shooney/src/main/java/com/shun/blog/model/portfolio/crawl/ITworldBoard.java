@@ -17,8 +17,8 @@ public class ITworldBoard {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 
-	@Column(name = "SUBJECT", nullable = false)
-	private String subject;
+	@Column(name = "TITLE", nullable = false)
+	private String title;
 
 	@Transient
 	@Column(name = "IMAGE", nullable = false)
@@ -26,18 +26,24 @@ public class ITworldBoard {
 
 	@Column(name = "CONTENT", nullable = false)
 	private String content;
-
-	@Column(name = "WRITER", nullable = false)
-	private String writer;
-
+	
 	@Column(name = "TAGS", nullable = false)
 	private String tags;
 
-	@Column(name = "LATESTDATE", nullable = false)
-	private Date latestdate;
-
+	@Column(name = "WRITER", nullable = false)
+	private String writer;	
+	
 	@Column(name = "REGDATE", nullable = false)
 	private Date regdate;
+	
+	@Column(name = "LATESTDATE", nullable = false)
+	private Date latestdate;
+	
+	@Column(name = "HIT", nullable = false)
+	private int hit;
+	
+	@Column(name = "LIKES", nullable = false)
+	private int likes;
 
 	@Column(name = "DELCHECK", nullable = false)
 	private int delcheck;
@@ -45,12 +51,20 @@ public class ITworldBoard {
 	@Column(name = "DEPTH", nullable = false)
 	private int depth;
 
-	public String getSubject() {
-		return subject;
+	public int getId() {
+		return id;
 	}
 
-	public void setSubject(String subject) {
-		this.subject = subject;
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
 	public String getImage() {
@@ -69,14 +83,6 @@ public class ITworldBoard {
 		this.content = content;
 	}
 
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-	
 	public String getTags() {
 		return tags;
 	}
@@ -93,6 +99,14 @@ public class ITworldBoard {
 		this.writer = writer;
 	}
 
+	public Date getRegdate() {
+		return regdate;
+	}
+
+	public void setRegdate(Date regdate) {
+		this.regdate = regdate;
+	}
+
 	public Date getLatestdate() {
 		return latestdate;
 	}
@@ -101,12 +115,20 @@ public class ITworldBoard {
 		this.latestdate = latestdate;
 	}
 
-	public Date getRegdate() {
-		return regdate;
+	public int getHit() {
+		return hit;
 	}
 
-	public void setRegdate(Date regdate) {
-		this.regdate = regdate;
+	public void setHit(int hit) {
+		this.hit = hit;
+	}
+
+	public int getLikes() {
+		return likes;
+	}
+
+	public void setLikes(int likes) {
+		this.likes = likes;
 	}
 
 	public int getDelcheck() {
@@ -124,5 +146,4 @@ public class ITworldBoard {
 	public void setDepth(int depth) {
 		this.depth = depth;
 	}
-
 }
