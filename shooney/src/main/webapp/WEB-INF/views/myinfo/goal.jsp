@@ -23,6 +23,16 @@
 		</div>
 	</div>
 </div>
+<!--=== Parallax Quote ===-->
+<div class="parallax-quote parallaxBg">
+	<div class="container">
+		<div class="parallax-quote-in">
+			<p>If you can design one thing <span class="color-green">you can design</span> everything. <br> Just Believe It.</p>
+			<small>- HtmlStream -</small>
+		</div>
+	</div>
+</div>
+<!--=== End Parallax Quote ===-->
 <!--=== End Call To Action ===-->
 <div class="container content-xs">
 		<div class="row">

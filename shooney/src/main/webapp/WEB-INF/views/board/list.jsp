@@ -40,7 +40,7 @@
 				<c:forEach items="${boards}" var="i">
 					<tr>
 						<td style="width: 10%; text-align: center;">${i.id}</td>
-						<td style="width: 40%"><a href="${bo}/${kind}/detail-${i.id}">${i.title}<c:if test="${i.depth>0}">&nbsp;&nbsp;<i class="fa fa-comments">&nbsp;${i.depth}</i></c:if></a></td>
+						<td style="width: 40%"><a href="${bo}/${kind}/r${i.id}">${i.title}<c:if test="${i.depth>0}">&nbsp;&nbsp;<i class="fa fa-comments">&nbsp;${i.depth}</i></c:if></a></td>
 						<td style="width: 15%; text-align: center;">${i.writer}</td>
 						<td style="width: 15%; text-align: center;"><fmt:formatDate value="${i.latestDate}" pattern="yy-MM-dd, HH:mm"/></td>
 						<td style="width: 5%; text-align: center;">${i.hits}</td>
