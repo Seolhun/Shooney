@@ -8,22 +8,31 @@ public enum PortfolioName {
 	SPORTS("sports"),
 	IT("it");
 	
-	private String pfName;
+	private String type;
 	
-	private PortfolioName(String pfName){
-		this.pfName=pfName;
+	private PortfolioName(String type){
+		this.type=type;
 	}
 	
 	public String getPortfolioName(){
-		return pfName;
+		return type;
 	}
 	
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
 	@Override
 	public String toString(){
-		return this.pfName;
+		return this.type;
 	}
 
 	public String getName(){
 		return this.name();
 	}
+
 }

@@ -8,28 +8,31 @@
 <c:url value="/resources/" var="resources" />
 <c:url value="/resources/template" var="template"/>
 <tag:layout>
-<div class="generic-container">
-	<div class="panel panel-default row">
-		<form:form method="POST" modelAttribute="board" enctype="multipart/form-data" class="form-horizontal" style="margin: 5%;" action="${bo}/${kind}/add">
-			<form:input type="hidden" path="writer"/>
-			<form:input type="hidden" path="hits"/>
-			<form:input type="hidden" path="likes"/>
-			<form:input type="hidden" path="delCheck"/>
-			<form:input type="hidden" path="depth"/>
-			
-			<a href="${shooney}">
-				<img src="${template}/img/themes/logo1-dark-blue.png" alt="">
-			</a>
-			<h2>Create new board</h2>
-
-			<div class="reg-block">
-				<div class="margin-bottom-20"></div>
+<div class="call-action-v1 bg-color-light">
+	<div class="container">
+		<div class="call-action-v1-box">
+			<c:choose>
+				<c:when test="${edit }">
+					<h2>Modify board</h2>			
+				</c:when>
+				<c:otherwise>
+					<h2>Create new board</h2>
+				</c:otherwise>
+			</c:choose>
+		</div>
+	</div>
+</div>
+<div class="container">
+	<div class="row">
+		<div class="col-sm-12">
+			<form:form method="POST" modelAttribute="board" enctype="multipart/form-data" class="form-horizontal" style="margin: 5%;" action="${bo}/${kind}/add">
 				<div class="col-sm-4">
 					<div class="input-group margin-bottom-20">
 						<span class="input-group-addon rounded-left"><i class="icon-user color-green"></i></span>
-						<form:select class="form-control rounded-right" path="entityName" items="${enNames}"/>
+						<form:select path="entityName" class="form-control rounded-right" items="${enNames}"/>
+						
 						<span class="input-group-addon rounded-left"><i class="icon-user color-green"></i></span>
-						<form:select class="form-control rounded-right" path="pfName" items="${pfNames}"/>
+						<form:select path="pfName" class="form-control rounded-right" items="${pfNames }"/>
 					</div>
 					<div>
 						<div style="color: blue;">
@@ -40,11 +43,11 @@
 						</div>
 					</div>
 				</div>
-				
+					
 				<div class="col-sm-8">
 					<div class="input-group margin-bottom-20">
 						<span class="input-group-addon rounded-left"><i class="icon-envelope color-green"></i></span>
-						<form:input type="text" class="form-control rounded-right" path="title" placeholder="Board title"/>
+						<form:input path="title" type="text" class="form-control rounded-right" placeholder="Board title"/>
 					</div>
 					<div>
 						<div style="color: blue;">
@@ -62,7 +65,7 @@
 					<div class="input-group margin-bottom-20">
 						<span class="input-group-addon rounded-left"><i class="icon-envelope color-green"></i></span>
 					</div>
-					<form:textarea type="text" class="form-control rounded-right" path="content" placeholder="Board content" id="summernote"/>
+					<form:textarea path="content" type="text" class="form-control rounded-right" placeholder="Board content" id="summernote"/>
 					
 					<div>File Upload<br>
 						<div style="color: blue;">
@@ -73,25 +76,23 @@
 						<span class="input-group-addon rounded-left"><i class="icon-picture color-green"></i></span>
 						<input name="files" type="file" class="form-control rounded-right" multiple="multiple" />
 					</div>
-					
-					<div class="row margin-bottom-30">
-						<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-							<c:choose>
-								<c:when test="${edit }">
-									<button type="submit" value="Update" class="btn-u btn-u-dark-blue btn-block rounded">Edit</button>
-								</c:when>
-								<c:otherwise>
-									<button type="submit" value="Registration" class="btn-u btn-u-dark-blue btn-block rounded">Submit</button>
-								</c:otherwise>
-							</c:choose>	
-						</div>
-						<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" >
-							<a href="${bo}/${kind}/list"><button type="button" class="btn-u btn-u-dark-orange btn-block rounded">Cancel</button></a>
-						</div>
-					</div>
 				</div>
-			</div>
-		</form:form>
+				
+				<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+					<c:choose>
+						<c:when test="${edit }">
+							<button type="submit" value="Update" class="btn-u btn-u-dark-blue btn-block rounded">Edit</button>
+						</c:when>
+						<c:otherwise>
+							<button type="submit" value="Registration" class="btn-u btn-u-dark-blue btn-block rounded">Submit</button>
+						</c:otherwise>
+					</c:choose>	
+				</div>
+				<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" >
+					<button type="button" class="btn-u btn-u-dark-orange btn-block rounded" onclick="javascript:history.back();">Cancel</button>
+				</div>
+			</form:form>
+		</div>
 	</div>
  </div>
 </tag:layout>

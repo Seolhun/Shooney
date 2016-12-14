@@ -16,7 +16,7 @@
 			</div>
 			<sec:authorize access="hasRole('SUPERADMIN')">
 				<div class="call-action-v1-in inner-btn page-scroll">
-			 		<a href="${signup}" class="btn-u btn-brd btn-brd-hover btn-u-dark btn-u-block margin-bottom-5">Add New User</a>
+					
 		 		</div>
 		 	</sec:authorize>
 		</div>
@@ -27,22 +27,28 @@
 	<div class="panel panel-default row">
 		<div class="col-sm-12">
 			<div class="margin-bottom-20"></div>
-			<div class="col-sm-6">
-				<div class="input-group margin-bottom-20">
-					<span class="input-group-addon rounded-left"><i class="icon-user color-green"></i></span>
-					<div class="form-control rounded-right">${board.title }</div>
-				</div>
-			</div>
-			<div class="col-sm-6">
-				<div class="input-group margin-bottom-20">
-					<span class="input-group-addon rounded-left"><i class="icon-user color-green"></i></span>
-					<div class="form-control rounded-right">${board.title }</div>
-				</div>
-			</div>
-			<div class="col-sm-12">
+			<div class="col-sm-2">
 				<div class="input-group margin-bottom-20">
 					<span class="input-group-addon rounded-left"><i class="icon-envelope color-green"></i></span>
+					<div class="form-control rounded-right">${board.id }</div>
+				</div>
+			</div>
+			<div class="col-sm-6">
+				<div class="input-group margin-bottom-20">
+					<span class="input-group-addon rounded-left"><i class="icon-user color-green"></i></span>
 					<div class="form-control rounded-right">${board.title }</div>
+				</div>
+			</div>
+			<div class="col-sm-2">
+				<div class="input-group margin-bottom-20">
+					<span class="input-group-addon rounded-left"><i class="icon-user color-green"></i></span>
+					<div class="form-control rounded-right">${board.entityName }</div>
+				</div>
+			</div>
+			<div class="col-sm-2">
+				<div class="input-group margin-bottom-20">
+					<span class="input-group-addon rounded-left"><i class="icon-envelope color-green"></i></span>
+					<div class="form-control rounded-right">${board.pfName }</div>
 				</div>
 			</div>
 			<div class="col-sm-12">
@@ -60,7 +66,7 @@
 						<a href="${bo}/${kind}/m${board.id}"><button type="button" value="modify" class="btn-u btn-u-dark-blue btn-block rounded">Modify</button></a>
 					</div>
 					<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-						<a href="${bo}/${kind}/d${board.id}"><button type="button" class="btn-u btn-u-default btn-block rounded">Delete</button></a>
+						<a href="${bo}/${kind}/d${board.id}" id="confirm"><button type="button" class="btn-u btn-u-default btn-block rounded">Delete</button></a>
 					</div>
 				</div>
 			</div>

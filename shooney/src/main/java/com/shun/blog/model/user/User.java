@@ -34,10 +34,6 @@ public class User implements Serializable {
 	@NotEmpty
 	private String nickname;
 
-	@Column(name = "NAME", nullable = false)
-	@NotEmpty
-	private String name;
-
 	@Column(name = "PASSWORD", nullable = false)
 	@NotEmpty
 	private String password;
@@ -46,9 +42,8 @@ public class User implements Serializable {
 	private String state = State.ACTIVE.getState();
 
 	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = "USER_PROFILE_REFER", 
-		joinColumns = { @JoinColumn(name = "USER_ID") }, 
-		inverseJoinColumns = { @JoinColumn(name = "USER_PROFILE_ID") })
+	@JoinTable(name = "USER_PROFILE_REFER", joinColumns = { @JoinColumn(name = "USER_ID") }, inverseJoinColumns = {
+			@JoinColumn(name = "USER_PROFILE_ID") })
 	private Set<UserProfile> userProfiles = new HashSet<UserProfile>();
 
 	public Integer getId() {
@@ -81,14 +76,6 @@ public class User implements Serializable {
 
 	public void setPassword(String password) {
 		this.password = password;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
 	}
 
 	public String getState() {
@@ -142,7 +129,7 @@ public class User implements Serializable {
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", password=" + password + ", NickName=" + nickname + ", Name=" + name + ", email="
-				+ email + ", state=" + state + ", userProfiles=" + userProfiles + "]";
+		return "User [id=" + id + ", password=" + password + ", NickName =" + nickname + ", email =" + email + ", state="
+				+ state + ", userProfiles =" + userProfiles + "]";
 	}
 }

@@ -42,7 +42,15 @@
 				<a href="${shooney}">
 					<img src="${template}/img/themes/logo1-dark-blue.png" alt="">
 				</a>
-				<h2 class="margin-bottom-30">Create new account</h2>
+				<c:choose>
+					<c:when test="${edit}">
+						<h2 class="margin-bottom-30">Modify account</h2>
+					</c:when>
+					<c:otherwise>
+						<h2 class="margin-bottom-30">Create new account</h2>
+					</c:otherwise>
+				</c:choose>
+				
 				<form:form method="POST" modelAttribute="user" class="form-horizontal" >
 					<form:input type="hidden" path="id" id="id"/>
 					<form:input type="hidden" path="state" id="state"/>
@@ -64,16 +72,6 @@
 							</c:choose>
 						</div>
 						
-						<div>Name<br>
-							<div style="color: blue;">
-								<form:errors path="name" cssClass="error" class="help-inline"/>
-							</div>
-						</div>
-						<div class="input-group margin-bottom-20">
-							<span class="input-group-addon rounded-left"><i class="icon-user color-green"></i></span>
-							<form:input path="name" name="name" type="text" class="form-control rounded-right" placeholder="Username"/>
-						</div>
-						
 						<div>Nickname<br>
 							<div style="color: blue;">
 								<form:errors path="nickname" cssClass="error" class="help-inline"/>
@@ -84,7 +82,7 @@
 							<span class="input-group-addon rounded-left"><i class="icon-user color-green"></i></span>
 							<c:choose>
 								<c:when test="${edit}">
-									<form:input path="nickname" type="text" class="form-control rounded-right" placeholder="NickName" disabled="true"/>
+									<form:input path="nickname" name="nickname" type="text" class="form-control rounded-right" placeholder="NickName" readonly="true"/>
 								</c:when>
 								<c:otherwise>
 									<form:input path="nickname" name="nickname" type="text" class="form-control rounded-right" placeholder="NickName"/>
@@ -99,22 +97,24 @@
 						</div>
 						<div class="input-group margin-bottom-30">
 							<span class="input-group-addon rounded-left"><i class="icon-lock color-green"></i></span>
-							<form:password path="password" showPassword="true" class="form-control rounded-right" placeholder="Password"/>
+							<form:input path="" name="password" showPassword="true" class="form-control rounded-right" placeholder="Password"/>
 						</div>
-						<%-- 	
-						<div>User Roles<br>
-							<div style="color: blue;">
-								<form:errors path="userProfiles" class="help-inline"/>
+						
+						<c:if test="${edit }">
+							<div>User Roles<br>
+								<div style="color: blue;">
+									<form:errors path="userProfiles" class="help-inline"/>
+								</div>
 							</div>
-						</div>
-						<div class="input-group margin-bottom-30">
-							<span class="input-group-addon rounded-left"><i class="icon-lock color-green"></i></span>
-							<form:select path="userProfiles" items="${roles}" multiple="true" itemValue="id" itemLabel="type" class="form-control input-sm" />
-							<div class="has-error">
-								<form:errors path="userProfiles" class="help-inline"/>
+							<div class="input-group margin-bottom-30">
+								<span class="input-group-addon rounded-left"><i class="icon-lock color-green"></i></span>
+								<form:select path="userProfiles" items="${roles}" multiple="true" itemValue="id" itemLabel="type" class="form-control input-sm" />
+								<div class="has-error">
+									<form:errors path="userProfiles" class="help-inline"/>
+								</div>
 							</div>
-						</div>
-						 --%>
+						</c:if>
+						
 						<div class="checkbox">
 							<ul class="list-inline">
 								<li class="pull-right">
@@ -135,7 +135,7 @@
 								</c:choose>	
 							</div>
 							<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" >
-								<a href="${shooney }"><button type="button" class="btn-u btn-u-dark-orange btn-block rounded">Cancel</button></a>
+								<button type="button" class="btn-u btn-u-dark-orange btn-block rounded" onclick="javascript:history.back()">Cancel</button>
 							</div>
 						</div>
 						

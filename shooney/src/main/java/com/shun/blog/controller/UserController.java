@@ -74,10 +74,10 @@ public class UserController {
 		// 파라미터 호출 및 유효성 검사
 		int cPage = cFn.checkVDInt(request.getParameter("cp"), 1);
 		int sType = cFn.checkVDInt(request.getParameter("sty"), 0);
-		String question = cFn.checkVDQuestion(request.getParameter("ste"));
+		String question = cFn.checkVDQuestion(request.getParameter("sty"));
+		String sDate = cFn.checkVDQuestion(request.getParameter("sda"));
 		int limit = cFn.checkVDInt(request.getParameter("li"), 20);
-		String pfName = cFn.checkVDQuestion(request.getParameter("pf"));
-		Paging paging = new Paging(cPage, sType, question, limit, pfName);
+		Paging paging = new Paging(cPage, sType, question, sDate, limit);
 
 		// 전체 게시판 갯수 확인
 		int totalCount = userService.getCount(paging);
@@ -103,6 +103,7 @@ public class UserController {
 
 	@RequestMapping(value = { "/signup" }, method = RequestMethod.POST)
 	public String signupDo(@Valid User user, BindingResult result, ModelMap model) {
+		logger.info("Request POST : Parameter = "+user);
 		String mapping = "user/signup";
 		if (result.hasErrors()) {
 			return mapping;
@@ -148,12 +149,15 @@ public class UserController {
 
 	@RequestMapping(value = { "/admin/edit-{email}" }, method = RequestMethod.POST)
 	public String updateUser(@Valid User user, BindingResult result, ModelMap model, @PathVariable String email) {
+		logger.info("Request POST : Parameter = "+user);
 		if (result.hasErrors()) {
+			model.addAttribute("edit", true);
 			return "user/signup";
 		}
 
 		userService.updateUser(user);
-		model.addAttribute("success", "User " + user.getName() + " updated successfully");
+		
+		model.addAttribute("success", "User " + user.getNickname() + " updated successfully");
 		model.addAttribute("loggedinuser", getPrincipal());
 		return "result/success";
 	}
@@ -161,6 +165,7 @@ public class UserController {
 	@RequestMapping(value = { "/admin/delete-{email}" }, method = RequestMethod.GET)
 	public String deleteUser(@PathVariable String email) {
 		userService.deleteUserByEmail(email);
+		//userService.deleteUserByEmail(email);
 		return "redirect:/admin/list";
 	}
 

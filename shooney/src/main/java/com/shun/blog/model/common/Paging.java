@@ -9,15 +9,17 @@ public class Paging {
 	private int sType;
 	// 검색어
 	private String sText;
+	// 게시판 날짜 검색용
+	private String sDate;
 	// 총 게시물 갯수
 	private int totalCount;
-	//총 페이지 갯수 
+	// 총 페이지 갯수
 	private int totalPage;
-	//페이지 블록 제한 수 
+	// 페이지 블록 제한 수
 	private int blockLimit;
-	//총 페이지 블록 수
+	// 총 페이지 블록 수
 	private int totalPageBlock;
-	//현재 블록 위치
+	// 현재 블록 위치
 	private int currentBlock;
 	// 게시물 시작 블록번호
 	private int blockStartNo;
@@ -27,23 +29,24 @@ public class Paging {
 	private String entityName;
 	// 게시판 별 해당 게시판 제목
 	private String pfName;
-	
-	public Paging(){
-		
-	}
-	
-	public Paging(int currentPage, int sType, String searchContent, int limit, String pfName) {
-		this.cPage = currentPage;
-		this.sType = sType;
-		this.sText = searchContent;
-		this.limit = limit;
-		this.pfName = pfName;
+
+	public Paging() {
+
 	}
 
-	public Paging(int currentPage, int sType, String searchContent, int limit, String entityName, String pfName) {
+	public Paging(int currentPage, int sType, String sText, String sDate, int limit) {
 		this.cPage = currentPage;
 		this.sType = sType;
-		this.sText = searchContent;
+		this.sText = sText;
+		this.limit = limit;
+		this.sDate = sDate;
+	}
+
+	public Paging(int currentPage, int sType, String sText, String sDate, int limit, String entityName, String pfName) {
+		this.cPage = currentPage;
+		this.sType = sType;
+		this.sText = sText;
+		this.sDate = sDate;
 		this.limit = limit;
 		this.entityName = entityName;
 		this.pfName = pfName;
@@ -151,7 +154,13 @@ public class Paging {
 
 	public void setCurrentBlock(int currentBlock) {
 		this.currentBlock = currentBlock;
+	}
+
+	public String getsDate() {
+		return sDate;
+	}
+
+	public void setsDate(String sDate) {
+		this.sDate = sDate;
 	};
-	
-	
 }

@@ -61,10 +61,11 @@ public class BoardController {
 		// 파라미터 호출 및 유효성 검사
 		int cPage = commonFn.checkVDInt(request.getParameter("cp"), 1);
 		int sType = commonFn.checkVDInt(request.getParameter("sty"), 0);
-		String question = commonFn.checkVDQuestion(request.getParameter("ste"));
+		String question = commonFn.checkVDQuestion(request.getParameter("sty"));
+		String sDate = commonFn.checkVDQuestion(request.getParameter("sda"));
 		int limit = commonFn.checkVDInt(request.getParameter("li"), 20);
 		String pfName = commonFn.checkVDQuestion(request.getParameter("pf"));
-		Paging paging = new Paging(cPage, sType, question, limit, kind, pfName);
+		Paging paging = new Paging(cPage, sType, question, sDate, limit, kind, pfName);
 
 		// 전체 게시판 갯수 확인
 		int totalCount = boardService.getCount(paging);
@@ -75,6 +76,8 @@ public class BoardController {
 		model.addAttribute("boards", boards);
 		model.addAttribute("paging", paging);
 		model.addAttribute("kind", kind);
+		model.addAttribute("pfNames", PortfolioName.values());
+		
 		return "board/list";
 	}
 
@@ -142,8 +145,8 @@ public class BoardController {
 		model.addAttribute("board", board);
 		model.addAttribute("edit", true);
 		model.addAttribute("kind", kind);
-		model.addAttribute("enNames", board.getEntityName());
-		model.addAttribute("pfNames", board.getPfName());
+		model.addAttribute("enNames", EntityName.values());
+		model.addAttribute("pfNames", PortfolioName.values());
 		return "board/add";
 	}
 
@@ -164,8 +167,11 @@ public class BoardController {
 
 	@RequestMapping(value = { "/bo/{kind}/d{id}" }, method = RequestMethod.GET)
 	public String deleteBoard(@PathVariable int id, @PathVariable String kind) {
-		boardService.deleteUserById(id);
-		return "redirect:/bo_{kind}list";
+		
+		Board board = boardService.findById(id);
+		board.setDelCheck(1);
+		boardService.updateBoard(board);
+		return "redirect:/bo/"+kind+"/list";
 	}
 
 //	@RequestMapping(value = { "/board/{tableName}/detail" }, method = RequestMethod.GET)

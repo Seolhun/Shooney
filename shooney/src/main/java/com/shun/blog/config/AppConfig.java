@@ -86,16 +86,6 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 		return viewResolver;
 	}
 
-	// // File upload part
-	// @Bean
-	// public CommonsMultipartResolver MultipartResolver() {
-	// CommonsMultipartResolver resolver = new CommonsMultipartResolver();
-	// resolver.setDefaultEncoding("UTF-8");
-	// resolver.setMaxUploadSizePerFile(10000000);// 10,000,000(1000만) 바이트 ==
-	// 10MB
-	// return resolver;
-	// }
-
 	@Override
 	public void addFormatters(FormatterRegistry registry) {
 		registry.addConverter(roleToUserProfileConverter);

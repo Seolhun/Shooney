@@ -38,7 +38,7 @@ public class UserDaoImpl extends AbstractDao<Integer, User> implements UserDao {
 		}
 		return user;
 	}
-	
+
 	public User findByNickname(String nickname) {
 		logger.info("nickname : {}", nickname);
 		Criteria crit = createEntityCriteria();
@@ -50,7 +50,7 @@ public class UserDaoImpl extends AbstractDao<Integer, User> implements UserDao {
 		return user;
 	}
 
-	//Criteria는 무엇인가?
+	// Criteria는 무엇인가?
 	@SuppressWarnings("unchecked")
 	public List<User> findAllUsers(Paging paging) {
 		int cPage = paging.getcPage();
@@ -59,39 +59,35 @@ public class UserDaoImpl extends AbstractDao<Integer, User> implements UserDao {
 		int limit = paging.getLimit();
 		String entityName = paging.getEntityName();
 		String pfName = paging.getPfName();
-		
+
 		// 검색 로직
-		Criteria criteria = createEntityCriteria().addOrder(Order.desc("id"));
-		criteria.setFirstResult((cPage - 1) * limit);
-		criteria.setMaxResults(limit);
-		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);// To avoid duplicates.
+		Criteria criteria = createEntityCriteria().addOrder(Order.desc("id")).setFirstResult((cPage - 1) * limit)
+				.setMaxResults(limit).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 		List<User> users = (List<User>) criteria.list();
-		
-		//클래스에 객체 명을 따라간다. 
-		if (entityName!= null) {
+
+		// 클래스에 객체 명을 따라간다.
+		if (entityName != null) {
 			criteria.add(Restrictions.eq("entityName", entityName));
 		}
-		
+
 		if (pfName != null) {
 			criteria.add(Restrictions.eq("pfName", pfName));
 		}
-		
+
 		if (paging.getsType() != 0 && sType == 1) {
-			criteria.add(Restrictions.eq("email", sText));
+			criteria.add(Restrictions.like("email", "%" + sText + "%"));
 		} else if (paging.getsType() != 0 && sType == 2) {
-			criteria.add(Restrictions.eq("nickname", sText));
-		} else if (paging.getsType() != 0 && sType == 3) {
-			criteria.add(Restrictions.eq("name", sText));
+			criteria.add(Restrictions.like("nickname", "%" + sText + "%"));
 		} 
 
 		return users;
 	}
-	
+
 	@Override
 	public int getCount(Paging paging) {
 		String condition = "";
 		if (paging.getEntityName() != null) {
-			condition = "WHERE state='" + paging.getEntityName()+ "'";
+			condition = "WHERE state='" + paging.getEntityName() + "'";
 		}
 		Query query = rawQuery("SELECT COUNT(*) FROM USER " + condition);
 		return ((Number) query.uniqueResult()).intValue();
@@ -101,13 +97,12 @@ public class UserDaoImpl extends AbstractDao<Integer, User> implements UserDao {
 		persist(user);
 	}
 
-	//Criteria는 무엇인가?
+	// Criteria는 무엇인가?
 	public void deleteByEmail(String email) {
 		Criteria crit = createEntityCriteria();
-		crit.add(Restrictions.eq("Email", email));
+		crit.add(Restrictions.eq("email", email));
 		User user = (User) crit.uniqueResult();
 		delete(user);
 	}
-
 
 }

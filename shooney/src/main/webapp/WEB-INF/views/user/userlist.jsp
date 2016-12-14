@@ -12,14 +12,14 @@
 <div class="call-action-v1 bg-color-light">
 	<div class="container">
 		<div class="call-action-v1-box">
-				<div class="call-action-v1-in">
-					<p>Unify creative technology company providing key digital services and focused on helping our clients to build a successful business on web and mobile.</p>
-				</div>
-				<sec:authorize access="hasRole('SUPERADMIN')">
-					<div class="call-action-v1-in inner-btn page-scroll">
-				 		<a href="${signup}" class="btn-u btn-brd btn-brd-hover btn-u-dark btn-u-block margin-bottom-5">Add New User</a>
-			 		</div>
-			 	</sec:authorize>
+			<div class="call-action-v1-in">
+				<p>Unify creative technology company providing key digital services and focused on helping our clients to build a successful business on web and mobile.</p>
+			</div>
+			<sec:authorize access="hasRole('SUPERADMIN')">
+				<div class="call-action-v1-in inner-btn page-scroll">
+			 		<a href="${signup}" class="btn-u btn-brd btn-brd-hover btn-u-dark btn-u-block margin-bottom-5">Add New User</a>
+		 		</div>
+		 	</sec:authorize>
 		</div>
 	</div>
 </div>
@@ -32,7 +32,6 @@
 				        <th>No.</th>
 				        <th>Email.</th>
 				        <th>Nickname.</th>
-				        <th>Name.</th>
 				        <th>State.</th>
 				        <th>Role.</th>
 				        <sec:authorize access="hasRole('ADMIN') or hasRole('SUPERADMIN')">
@@ -50,14 +49,13 @@
 						<td>${user.id}</td>
 						<td>${user.email}</td>
 						<td>${user.nickname}</td>
-						<td>${user.name}</td>
 						<td>${user.state}</td>
 						<td><c:forEach items="${user.userProfiles}" var="i">${i.type }<br></c:forEach></td>
-					    <sec:authorize access="hasRole('ADMIN') or hasRole('SUPERADMIN')">
+					    <sec:authorize access="hasRole('SUPERADMIN')">
 							<td><a href="${admin }/edit-${user.email}" class="btn btn-success custom-width">Edit</a></td>
 				        </sec:authorize>
-				        <sec:authorize access="hasRole('ADMIN') or hasRole('SUPERADMIN')">
-							<td><a href="${admin }/delete-${user.email}" class="btn btn-danger custom-width">Delete</a></td>
+				        <sec:authorize access="hasRole('SUPERADMIN')">
+							<td><a href="${admin }/delete-${user.email}" class="btn btn-danger custom-width" id="confirm">Delete</a></td>
         				</sec:authorize>
 					</tr>
 				</c:forEach>
@@ -79,5 +77,4 @@
 		</div>
    	</div>
 </div>
-
 </tag:layout>

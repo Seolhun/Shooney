@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.shun.blog.dao.user.UserDao;
@@ -13,7 +14,7 @@ import com.shun.blog.model.user.State;
 import com.shun.blog.model.user.User;
 
 @Service("userService")
-@Transactional
+@Transactional(propagation=Propagation.REQUIRED, transactionManager="txManager", noRollbackFor={NullPointerException.class})
 public class UserServiceImpl implements UserService {
 
 	@Autowired
@@ -47,19 +48,19 @@ public class UserServiceImpl implements UserService {
 	
 	@Override
 	public void updateUser(User user) {
-		User entity = dao.findById(user.getId());
+		User entity = dao.findByEmail(user.getEmail());
 		if (entity != null) {
 			entity.setEmail(user.getEmail());
 			if (!user.getPassword().equals(entity.getPassword())) {
 				entity.setPassword(passwordEncoder.encode(user.getPassword()));
 			}
-			entity.setName(user.getName());
 			entity.setEmail(user.getEmail());
 			entity.setNickname(user.getNickname());
 			entity.setState(user.getState());
 			entity.setUserProfiles(user.getUserProfiles());
 		}
 	}
+	
 	@Override
 	public void deleteUserByEmail(String email) {
 		dao.deleteByEmail(email);
@@ -87,5 +88,4 @@ public class UserServiceImpl implements UserService {
 		User user = findByNickname(nickname);
 		return (user == null || ((nickname == null && user.getNickname() != nickname )));
 	}
-	
 }

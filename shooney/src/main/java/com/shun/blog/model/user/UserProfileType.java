@@ -6,7 +6,7 @@ public enum UserProfileType implements Serializable{
 	GUEST("GUEST"),
 	PLAYER("PLAYER"),
 	CAPTAIN("CAPTAIN"),
-	ADMIN("ADMIN"),
+	DIRECTOR("DIRECTOR"),
 	SUPERADMIN("SUPERADMIN");
 	
 	String type;

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.shun.blog.dao.board.BoardDao;
@@ -11,7 +12,7 @@ import com.shun.blog.model.board.Board;
 import com.shun.blog.model.common.Paging;
 
 @Service("boardService")
-@Transactional
+@Transactional(propagation=Propagation.REQUIRED, transactionManager="txManager", noRollbackFor={NullPointerException.class})
 public class BoardServiceImpl implements BoardService {
 
 	@Autowired
@@ -37,6 +38,9 @@ public class BoardServiceImpl implements BoardService {
 
 	public void updateBoard(Board board) {
 		Board entity = boardDao.findById(board.getId());
+		if(board.getDelCheck()==1){
+			entity.setDelCheck(1);
+		}
 		if (entity != null) {
 			entity.setTitle(board.getTitle());
 			entity.setContent(board.getContent());
@@ -50,6 +54,8 @@ public class BoardServiceImpl implements BoardService {
 			entity.setPfName(board.getPfName());
 		}
 	}
+	
+	
 
 	@Override
 	public void deleteUserById(int id) {

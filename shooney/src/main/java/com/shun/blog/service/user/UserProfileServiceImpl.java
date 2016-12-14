@@ -4,13 +4,14 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.shun.blog.dao.user.UserProfileDao;
 import com.shun.blog.model.user.UserProfile;
 
 @Service("userProfileService")
-@Transactional
+@Transactional(propagation=Propagation.REQUIRED, transactionManager="txManager", noRollbackFor={NullPointerException.class})
 public class UserProfileServiceImpl implements UserProfileService {
 
 	@Autowired
