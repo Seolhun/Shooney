@@ -15,12 +15,14 @@ var App = function () {
 		jQuery(window).scroll(function() {
 		  if (jQuery(window).scrollTop() > 100) {
 			jQuery('.header-fixed .header-sticky').addClass('header-fixed-shrink');
+			jQuery('#abovenav').hide();
 		  } else {
 			jQuery('.header-fixed .header-sticky').removeClass('header-fixed-shrink');
+			jQuery('#abovenav').show();
 		  }
 		});
 	}
-
+	
 	// Header Mega Menu
 	function handleMegaMenu() {
 		jQuery(document).on('click', '.mega-menu .dropdown-menu', function(e) {

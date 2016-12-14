@@ -277,34 +277,14 @@
 					<div class="container">
 						<div class="row">
 							<!-- About Us -->
-							<div class="col-md-3 col-sm-3 col-xs-6">
+							<div class="col-md-4 col-sm-4 col-xs-4">
 								<div class="heading-footer"><h2>About Hi-Cord</h2></div>
 								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis blandit ut metus a commodo. Pellentesque congue tellus sed enim sollicitudin, id blandit mauris eleifend.</p>
 							</div>
 							<!-- End About Us -->
 
-							<!-- Recent News -->
-							<div class="col-md-3 col-sm-3 col-xs-6">
-								<div class="heading-footer"><h2>Recent News</h2></div>
-								<ul class="list-unstyled link-news">
-									<li>
-										<a href="#">Latest News</a>
-										<small>22 November, 2016</small>
-									</li>
-									<li>
-										<a href="#">Latest Information</a>
-										<small>22 November, 2016</small>
-									</li>
-									<li>
-										<a href="#">Latest Update</a>
-										<small>22 November, 2016</small>
-									</li>
-								</ul>
-							</div>
-							<!-- End Recent News -->
-
 							<!-- Useful Links -->
-							<div class="col-md-3 col-sm-3 col-xs-6">
+							<div class="col-md-4 col-sm-4 col-xs-4">
 								<div class="heading-footer"><h2>Useful Links</h2></div>
 								<ul class="list-unstyled footer-link-list">
 									<li><a href="${about }">About Me</a></li>
@@ -316,7 +296,7 @@
 							<!-- End Useful Links -->
 
 							<!-- Contacts -->
-							<div class="col-md-3 col-sm-3 col-xs-6">
+							<div class="col-md-4 col-sm-4 col-xs-4">
 								<div class="heading-footer"><h2>Contacts</h2></div>
 								<ul class="list-unstyled contacts">
 									<li>

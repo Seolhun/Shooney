@@ -1,8 +1,6 @@
 package com.shun.blog.config;
 
 import java.util.Locale;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -11,9 +9,6 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.format.FormatterRegistry;
-import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.annotation.SchedulingConfigurer;
-import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.ViewResolver;
@@ -30,10 +25,9 @@ import org.springframework.web.servlet.view.JstlView;
 import com.shun.blog.config.security.converter.RoleToUserProfileConverter;
 
 @Configuration
-@EnableScheduling
 @EnableWebMvc
 @ComponentScan(basePackages = "com.shun.blog")
-public class AppConfig extends WebMvcConfigurerAdapter implements SchedulingConfigurer {
+public class AppConfig extends WebMvcConfigurerAdapter {
 
 	@Autowired
 	RoleToUserProfileConverter roleToUserProfileConverter;
@@ -111,16 +105,4 @@ public class AppConfig extends WebMvcConfigurerAdapter implements SchedulingConf
 	public void configurePathMatch(PathMatchConfigurer matcher) {
 		matcher.setUseRegisteredSuffixPatternMatch(true);
 	}
-
-	//Scheduler Config Part
-    @Override
-    public void configureTasks(ScheduledTaskRegistrar taskRegistrar) {
-        taskRegistrar.setScheduler(taskExecutor());
-    }
-
-    @Bean(destroyMethod="shutdown")
-    public Executor taskExecutor() {
-        return Executors.newScheduledThreadPool(100);
-    }
-
 }
