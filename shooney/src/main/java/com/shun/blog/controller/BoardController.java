@@ -125,7 +125,7 @@ public class BoardController {
 		return "result/success";
 	}
 
-	@RequestMapping(value = { "/bo/{kind}/detail-{id}" }, method = RequestMethod.GET)
+	@RequestMapping(value = { "/bo/{kind}/r{id}" }, method = RequestMethod.GET)
 	public String detailBoard(@PathVariable int id, ModelMap model, @PathVariable String kind) {
 		Board board = boardService.findById(id);
 		model.addAttribute("board", board);
@@ -136,7 +136,7 @@ public class BoardController {
 		return "board/detail";
 	}
 
-	@RequestMapping(value = { "/bo/{kind}/edit-{id}" }, method = RequestMethod.GET)
+	@RequestMapping(value = { "/bo/{kind}/m{id}" }, method = RequestMethod.GET)
 	public String editBoard(@PathVariable int id, ModelMap model, @PathVariable String kind) {
 		Board board = boardService.findById(id);
 		model.addAttribute("board", board);
@@ -147,7 +147,7 @@ public class BoardController {
 		return "board/add";
 	}
 
-	@RequestMapping(value = { "/bo/{kind}/edit-{id}" }, method = RequestMethod.POST)
+	@RequestMapping(value = { "/bo/{kind}/m{id}" }, method = RequestMethod.POST)
 	public String editBoardDo(@Valid Board board, BindingResult result, ModelMap model, @PathVariable int id,
 			@PathVariable String kind) {
 		if (result.hasErrors()) {
@@ -162,7 +162,7 @@ public class BoardController {
 		return "result/success";
 	}
 
-	@RequestMapping(value = { "/bo/{kind}/delete-{id}" }, method = RequestMethod.GET)
+	@RequestMapping(value = { "/bo/{kind}/d{id}" }, method = RequestMethod.GET)
 	public String deleteBoard(@PathVariable int id, @PathVariable String kind) {
 		boardService.deleteUserById(id);
 		return "redirect:/bo_{kind}list";
