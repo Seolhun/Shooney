@@ -27,30 +27,49 @@
 	<div class="panel panel-default row">
 		<div class="col-sm-12">
 			<div class="margin-bottom-20"></div>
+			
 			<div class="col-sm-2">
 				<div class="input-group margin-bottom-20">
 					<span class="input-group-addon rounded-left"><i class="icon-envelope color-green"></i></span>
 					<div class="form-control rounded-right">${board.id }</div>
 				</div>
 			</div>
-			<div class="col-sm-6">
-				<div class="input-group margin-bottom-20">
-					<span class="input-group-addon rounded-left"><i class="icon-user color-green"></i></span>
-					<div class="form-control rounded-right">${board.title }</div>
-				</div>
-			</div>
+			
 			<div class="col-sm-2">
 				<div class="input-group margin-bottom-20">
 					<span class="input-group-addon rounded-left"><i class="icon-user color-green"></i></span>
 					<div class="form-control rounded-right">${board.entityName }</div>
 				</div>
 			</div>
-			<div class="col-sm-2">
+			
+			<div class="col-sm-3">
 				<div class="input-group margin-bottom-20">
 					<span class="input-group-addon rounded-left"><i class="icon-envelope color-green"></i></span>
 					<div class="form-control rounded-right">${board.pfName }</div>
 				</div>
 			</div>
+			
+			<div class="col-sm-3">
+				<div class="input-group margin-bottom-20">
+					<span class="input-group-addon rounded-left"><i class="icon-envelope color-green"></i></span>
+					<div class="form-control rounded-right">${board.hits }</div>
+				</div>
+			</div>
+			
+			<div class="col-sm-2">
+				<div class="input-group margin-bottom-20">
+					<span class="input-group-addon rounded-left"><i class="icon-envelope color-green"></i></span>
+					<div class="form-control rounded-right">${board.likes }</div>
+				</div>
+			</div>
+			
+			<div class="col-sm-12">
+				<div class="input-group margin-bottom-20">
+					<span class="input-group-addon rounded-left"><i class="icon-user color-green"></i></span>
+					<div class="form-control rounded-right">${board.title }</div>
+				</div>
+			</div>
+			
 			<div class="col-sm-12">
 				<div>Content<br>
 					<div class="input-group margin-bottom-20">
@@ -62,12 +81,14 @@
 					<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
 						<a href="${bo}/${kind}/list"><button type="button" value="list" class="btn-u btn-u-blue btn-block rounded">List</button></a>
 					</div>
-					<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-						<a href="${bo}/${kind}/m${board.id}"><button type="button" value="modify" class="btn-u btn-u-dark-blue btn-block rounded">Modify</button></a>
-					</div>
-					<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-						<a href="${bo}/${kind}/d${board.id}" id="confirm"><button type="button" class="btn-u btn-u-default btn-block rounded">Delete</button></a>
-					</div>
+					<c:if test="${accessUser.nickname.equals(board.writer)}">
+						<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+							<a href="${bo}/${kind}/m${board.id}"><button type="button" value="modify" class="btn-u btn-u-dark-blue btn-block rounded">Modify</button></a>
+						</div>
+						<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+							<a href="${bo}/${kind}/d${board.id}" id="confirm"><button type="button" class="btn-u btn-u-default btn-block rounded">Delete</button></a>
+						</div>
+					</c:if>
 				</div>
 			</div>
 		</div>

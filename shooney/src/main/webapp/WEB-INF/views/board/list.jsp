@@ -24,6 +24,7 @@
 <div class="container content-xs">
 	<div class="row">
 		<div class="col-sm-12">
+			<a href="${bo }/${kind}/list" class="btn-u btn-brd btn-brd-hover btn-u-dark btn-u-block margin-bottom-5">All</a>
 			<c:forEach items="${pfNames }" var="i">
 				<a href="list?pf=${i.type}" class="btn-u btn-brd btn-brd-hover btn-u-dark btn-u-block margin-bottom-5">${i}</a>
 			</c:forEach>
@@ -39,19 +40,17 @@
 			        <th style="width: 15%; text-align: center;">LatestDate</th>
 			        <th style="width: 5%; text-align: center;">Hits</th>
 			        <th style="width: 5%; text-align: center;">Likes</th>
-			        <th style="width: 10%; text-align: center;">Kind</th>
 				</tr>
 	    	</thead>
 	   		<tbody>
 				<c:forEach items="${boards}" var="i">
 					<tr>
 						<td style="width: 10%; text-align: center;">${i.id}</td>
-						<td style="width: 40%"><a href="${bo}/${kind}/r${i.id}">${i.title}<c:if test="${i.depth>0}">&nbsp;&nbsp;<i class="fa fa-comments">&nbsp;${i.depth}</i></c:if></a></td>
+						<td style="width: 40%"><a href="${bo}/${kind}/r${i.id}">[ ${i.pfName} ] ${i.title}<c:if test="${i.depth>0}">&nbsp;&nbsp;<i class="fa fa-comments">&nbsp;${i.depth}</i></c:if></a></td>
 						<td style="width: 15%; text-align: center;">${i.writer}</td>
 						<td style="width: 15%; text-align: center;"><fmt:formatDate value="${i.latestDate}" pattern="yy-MM-dd, HH:mm"/></td>
 						<td style="width: 5%; text-align: center;">${i.hits}</td>
 						<td style="width: 5%; text-align: center;">${i.likes}</td>
-						<td style="width: 10%; text-align: center;">${i.pfName}</td>
 					</tr>
 				</c:forEach>
 	   		</tbody>
@@ -85,7 +84,7 @@
 	   			<a href="list?cp=${paging.cPage -1 < 1 ? 1 : paging.cPage -1}" class="btn-u btn-brd btn-brd-hover btn-u-dark btn-u-block margin-bottom-5">&larr;</a>
 	   			&nbsp;
 	   			<c:forEach begin="${paging.blockStartNo }" end="${paging.blockEndNo}" varStatus="status">
-					<a href="list?cp=${status.index }" class="btn-u btn-brd btn-brd-hover btn-u-dark btn-u-block margin-bottom-5" <c:if test="${status.index==paging.cPage }">style="color : Blue"</c:if>>${status.index}</a>
+					<a href="list?cp=${status.index }" class="btn-u btn-brd btn-brd-hover btn-u-dark btn-u-block margin-bottom-5" <c:if test="${status.index==paging.cPage }">style="color : #4765a0"</c:if>>${status.index}</a>
 	   			</c:forEach>
 	   			&nbsp;
 	   			<a href="list?cp=${paging.cPage +1 > paging.totalPage ? paging.totalPage : paging.cPage +1}" class="btn-u btn-brd btn-brd-hover btn-u-dark btn-u-block margin-bottom-5">&rarr;</a>

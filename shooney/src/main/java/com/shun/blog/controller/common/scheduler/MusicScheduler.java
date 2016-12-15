@@ -12,6 +12,9 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -20,6 +23,9 @@ import com.shun.blog.model.portfolio.music.MusicType;
 @Component
 public class MusicScheduler {
 	private static final String UPLOAD_LOCATION = "/Users/HunSeol/Desktop/shooney/file/";
+	
+	@Autowired
+	private static final Logger logger = LoggerFactory.getLogger(MusicScheduler.class);
 	
 ////	Second Minute - hour - day(month) - month - day(week)
 //	@Scheduled(cron="0/2 * * * * ?")
@@ -32,8 +38,7 @@ public class MusicScheduler {
 		SimpleDateFormat formatter =new SimpleDateFormat("yyyy.MM.dd HH:mm",Locale.KOREA);
 		Date currentTime =new Date();
 		String dTime = formatter.format(currentTime);
-		System.out.println("시간 출력하기 : "+dTime);
-		System.out.println("음악파일을 가져옵니다.");
+		logger.info("TEST : Get Naver Music Crawler : "+dTime);
 		JSONObject obj = new JSONObject();
 		String domain="";
 		for(MusicType m : MusicType.values()){

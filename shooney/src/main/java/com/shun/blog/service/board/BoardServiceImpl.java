@@ -4,15 +4,12 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.shun.blog.dao.board.BoardDao;
 import com.shun.blog.model.board.Board;
 import com.shun.blog.model.common.Paging;
 
 @Service("boardService")
-@Transactional(propagation=Propagation.REQUIRED, transactionManager="txManager", noRollbackFor={NullPointerException.class})
 public class BoardServiceImpl implements BoardService {
 
 	@Autowired

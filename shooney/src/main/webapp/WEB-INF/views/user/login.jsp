@@ -37,8 +37,6 @@
 	<link rel="stylesheet" href="${template}/css/pages/page_log_reg_v4.css">
 	<!-- CSS Theme -->
 	<link rel="stylesheet" href="${template}/css/theme-colors/dark-blue.css" id="style_color">
-	<!-- CSS Customization -->
-	<link rel="stylesheet" href="${template}/css/custom.css">
 </head>
 <body>
 	<!--=== Content Part ===-->
@@ -124,7 +122,7 @@
 			<li><a href="#"><i class="icon-custom icon rounded-x icon-bg-dark-blue fa fa-google-plus"></i></a></li>
 		</ul>
 		<p class="copyright-space">
-			2016 &copy; All Rights Reserved. Unify Template by <a href="#">Htmlstream</a>
+			2016 &copy; All Rights Reserved. <a href="https://github.com/Seolhun/">https://github.com/Seolhun/</a>
 		</p>
 	</div>
 	<!--=== End Sticky Footer ===-->
@@ -138,24 +136,10 @@
 	<script src="${template}/plugins/back-to-top.js"></script>
 	<script src="${template}/plugins/backstretch/jquery.backstretch.min.js"></script>
 
-	<!-- JS Customization -->
-	<script src="${template}/js/custom.js"></script>
-
 	<!-- JS Page Level -->
 	<script src="${template}/js/app.js"></script>
-	<script>
-		jQuery(document).ready(function() {
-			App.init();
-		});
-	</script>
-	<script>
-		$(".image-block").backstretch([
-			"resources/template/img/bg/11.jpg",
-			"resources/template/img/bg/5.jpg",
-			], {
-				fade: 1000,
-				duration: 7000
-			});
-	</script>
+	
+	<!-- JS Customization -->
+	<script src="${resources}/js/user.js"></script>
 </body>
 </html>

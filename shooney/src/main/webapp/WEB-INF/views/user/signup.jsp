@@ -30,9 +30,6 @@
 	<link rel="stylesheet" href="${template}/css/pages/page_log_reg_v4.css">
 	<!-- CSS Theme -->
 	<link rel="stylesheet" href="${template}/css/theme-colors/dark-blue.css" id="style_color">
-	
-	<!-- CSS Customization -->
-	<link rel="stylesheet" href="${template}/css/custom.css">
 </head>
 <body>
 	<!--=== Content Part ===-->
@@ -183,27 +180,10 @@
 	<script src="${template}/plugins/back-to-top.js"></script>
 	<script src="${template}/plugins/backstretch/jquery.backstretch.min.js"></script>
 	
-	<!-- JS Customization -->
-	<script src="${template}/js/custom.js"></script>
-
 	<!-- JS Page Level -->
 	<script src="${template}/js/app.js"></script>
 	
+	<!-- JS Customization -->
 	<script src="${resources}/js/user.js"></script>
-	
-	<script>
-		jQuery(document).ready(function() {
-			App.init();
-		});
-	</script>
-	<script>
-		$(".image-block").backstretch([
-			"resources/template/img/bg/11.jpg",
-			"resources/template/img/bg/5.jpg",
-			], {
-				fade: 1000,
-				duration: 7000
-			});
-	</script>
 </body>
 </html>

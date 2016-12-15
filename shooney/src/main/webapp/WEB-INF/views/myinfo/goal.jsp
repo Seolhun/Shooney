@@ -16,8 +16,7 @@
 			<div class="call-action-v1-in main-head">
 				<h1>목표</h1>
 				<p>
-					여기서는, 제 지난 짧은 날의 경험들과 기록을 여러분들에게 공유하고<br>
-					앞으로의 가능성 있는 기회를 여러분들과 함께 나누고자 합니다.
+					We Can do it
 				</p>
 			</div>
 		</div>
@@ -27,7 +26,7 @@
 <div class="parallax-quote parallaxBg">
 	<div class="container">
 		<div class="parallax-quote-in">
-			<p>If you can design one thing <span class="color-green">you can design</span> everything. <br> Just Believe It.</p>
+			<p>Just Try to be better than me <span class="color-green">you can design</span> everything. <br> Just Believe It.</p>
 			<small>- HtmlStream -</small>
 		</div>
 	</div>

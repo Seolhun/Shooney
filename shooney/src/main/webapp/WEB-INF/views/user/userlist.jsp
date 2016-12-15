@@ -29,6 +29,7 @@
 			<table class="table table-hover">
 	    		<thead>
 		      		<tr>
+		      			<th><input type="checkbox" id="allCheck"></th>
 				        <th>No.</th>
 				        <th>Email.</th>
 				        <th>Nickname.</th>
@@ -46,17 +47,21 @@
 	    		<tbody>
 				<c:forEach items="${users}" var="user">
 					<tr>
+						<td><input type="checkbox" name="check" value="${user.id}"></td>
 						<td>${user.id}</td>
 						<td>${user.email}</td>
 						<td>${user.nickname}</td>
 						<td>${user.state}</td>
 						<td><c:forEach items="${user.userProfiles}" var="i">${i.type }<br></c:forEach></td>
-					    <sec:authorize access="hasRole('SUPERADMIN')">
-							<td><a href="${admin }/edit-${user.email}" class="btn btn-success custom-width">Edit</a></td>
-				        </sec:authorize>
-				        <sec:authorize access="hasRole('SUPERADMIN')">
-							<td><a href="${admin }/delete-${user.email}" class="btn btn-danger custom-width" id="confirm">Delete</a></td>
-        				</sec:authorize>
+						<td><a href="${admin }/edit-${user.email}" class="btn btn-default custom-width">Edit</a></td>
+				        <c:choose>
+				        	<c:when test="${user.state.equals('Active')}">
+				        		<td><a href="${admin }/up-${user.email}?s=d" class="btn btn-danger custom-width" id="confirm">Delete</a></td>
+				        	</c:when>
+				        	<c:otherwise>
+				        		<td><a href="${admin }/up-${user.email}?s=a" class="btn btn-primary custom-width" id="confirm">Active</a></td>
+				        	</c:otherwise>
+				        </c:choose>
 					</tr>
 				</c:forEach>
 	    		</tbody>

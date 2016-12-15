@@ -46,6 +46,7 @@
 <link rel="stylesheet" href="${template}/css/theme-colors/dark-blue.css" id="style_color">
 <link rel="stylesheet" href="${template}/css/theme-skins/dark.css">
 <!-- CSS Customization -->
+<link href="${resources }/summer/summernote.css" rel="stylesheet">
 <link rel="stylesheet" href="${resources}/css/hooney.css">
 </head>
 <body class="header-fixed header-fixed-space">
@@ -266,7 +267,7 @@
 		</div>
 		<!--=== End Header v6 ===-->
 <!-- ---------------------------------------------------------------------------------------------------------------------------------  -->
-		<div class="doBody" style="min-height: 650px; margin: 40px 0px;" >
+		<div class="doBody" style="min-height: 500px; margin: 40px 0px 0px;" >
 		<!-- real Body input place  -->
 			<jsp:doBody/>
 		</div>
@@ -406,15 +407,11 @@
 			jQuery(document).ready(function() {
 				App.init();
 				App.initCounter();
-				App.initParallaxBg();
 				FancyBox.initFancybox();
 				MSfullWidth.initMSfullWidth();
-				OwlCarousel.initOwlCarousel();
-				StyleSwitcher.initStyleSwitcher();
 			});
 		</script>
+		<script src="${resources }/summer/summernote.js"></script>
+  		<script type="text/javascript" src="${resources}/js/custom.js"></script>
 </body>
-	<link href="${resources }/summer/summernote.css" rel="stylesheet">
-  	<script src="${resources }/summer/summernote.js"></script>
-  	<script type="text/javascript" src="${template}/js/custom.js"></script>
 </html>

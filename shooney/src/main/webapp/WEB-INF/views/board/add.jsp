@@ -22,7 +22,7 @@
 		</div>
 	</div>
 </div>
-<div class="container">
+<div class="container margin-bottom-20">
 	<div class="row">
 		<div class="col-sm-12">
 			<form:form method="POST" modelAttribute="board" enctype="multipart/form-data" class="form-horizontal" style="margin: 5%;" action="${bo}/${kind}/add">
@@ -30,7 +30,6 @@
 					<div class="input-group margin-bottom-20">
 						<span class="input-group-addon rounded-left"><i class="icon-user color-green"></i></span>
 						<form:select path="entityName" class="form-control rounded-right" items="${enNames}"/>
-						
 						<span class="input-group-addon rounded-left"><i class="icon-user color-green"></i></span>
 						<form:select path="pfName" class="form-control rounded-right" items="${pfNames }"/>
 					</div>

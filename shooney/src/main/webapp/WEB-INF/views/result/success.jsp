@@ -13,12 +13,12 @@
 		<div class="container">
 			<div class="call-action-v1-box">
 				<div class="error-v5">
-					<h1>That's an error!</h1>
+					<h1>Your Request's Success</h1>
 					<span class="sorry">The requested URL was not found on this server. 
 						<br> That's all we know. 
 						<br><span><a href="${shooney}">Back home</a></span>
 					</span> 
-					<img class="error-img" src="${template}/img/error/error-404-v5.png" alt="error">
+					<img class="error-img" src="${resources}/img/success.png" alt="success">
 					<form>
 						<div class="input-group col-md-12">
 							<input type="text" class="form-control" placeholder="Try to find something"> 

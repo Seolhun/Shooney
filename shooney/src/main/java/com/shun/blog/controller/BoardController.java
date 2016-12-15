@@ -21,9 +21,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.shun.blog.controller.common.CommonFn;
 import com.shun.blog.model.board.Board;
@@ -32,20 +34,26 @@ import com.shun.blog.model.board.PortfolioName;
 import com.shun.blog.model.common.Paging;
 import com.shun.blog.model.file.FileBucket;
 import com.shun.blog.model.file.MultiFileBucket;
+import com.shun.blog.model.user.User;
 import com.shun.blog.service.board.BoardService;
+import com.shun.blog.service.user.UserService;
 
 @Controller
 @RequestMapping("/")
+@SessionAttributes("accessUser")
 public class BoardController {
 
 	@Autowired
-	BoardService boardService;
+	BoardService bService;
+	
+	@Autowired
+	UserService uService;
 
 	@Autowired
 	MessageSource messageSource;
 
 	@Autowired
-	CommonFn commonFn;
+	CommonFn cFn;
 
 	@Autowired
 	AuthenticationTrustResolver authenticationTrustResolver;
@@ -59,19 +67,19 @@ public class BoardController {
 		logger.info("TEST : Get Board List of "+kind);
 		
 		// 파라미터 호출 및 유효성 검사
-		int cPage = commonFn.checkVDInt(request.getParameter("cp"), 1);
-		int sType = commonFn.checkVDInt(request.getParameter("sty"), 0);
-		String question = commonFn.checkVDQuestion(request.getParameter("sty"));
-		String sDate = commonFn.checkVDQuestion(request.getParameter("sda"));
-		int limit = commonFn.checkVDInt(request.getParameter("li"), 20);
-		String pfName = commonFn.checkVDQuestion(request.getParameter("pf"));
+		int cPage = cFn.checkVDInt(request.getParameter("cp"), 1);
+		int sType = cFn.checkVDInt(request.getParameter("sty"), 0);
+		String question = cFn.checkVDQuestion(request.getParameter("sty"));
+		String sDate = cFn.checkVDQuestion(request.getParameter("sda"));
+		int limit = cFn.checkVDInt(request.getParameter("li"), 20);
+		String pfName = cFn.checkVDQuestion(request.getParameter("pf"));
 		Paging paging = new Paging(cPage, sType, question, sDate, limit, kind, pfName);
 
 		// 전체 게시판 갯수 확인
-		int totalCount = boardService.getCount(paging);
+		int totalCount = bService.getCount(paging);
 		paging.setTotalCount(totalCount);
-		commonFn.setPaging(paging);
-		List<Board> boards = boardService.findAllBoards(paging);
+		cFn.setPaging(paging);
+		List<Board> boards = bService.findAllBoards(paging);
 
 		model.addAttribute("boards", boards);
 		model.addAttribute("paging", paging);
@@ -109,8 +117,8 @@ public class BoardController {
 			return "board/add";
 		}
 		
-		board.setWriter(commonFn.getPrincipal());
-		boardService.saveBoard(board);
+		board.setWriter(initializeUser().getNickname());
+		bService.saveBoard(board);
 		
 		model.addAttribute("success", "Board " + board.getWriter() + "의 " + board.getTitle() + "성공적으로 등록되었습니다.");
 		model.addAttribute("kind", kind);
@@ -130,7 +138,7 @@ public class BoardController {
 
 	@RequestMapping(value = { "/bo/{kind}/r{id}" }, method = RequestMethod.GET)
 	public String detailBoard(@PathVariable int id, ModelMap model, @PathVariable String kind) {
-		Board board = boardService.findById(id);
+		Board board = bService.findById(id);
 		model.addAttribute("board", board);
 		model.addAttribute("edit", false);
 		model.addAttribute("kind", kind);
@@ -141,7 +149,13 @@ public class BoardController {
 
 	@RequestMapping(value = { "/bo/{kind}/m{id}" }, method = RequestMethod.GET)
 	public String editBoard(@PathVariable int id, ModelMap model, @PathVariable String kind) {
-		Board board = boardService.findById(id);
+		Board board = bService.findById(id);
+		
+		String accessUser=cFn.getPrincipal();
+		if(!(board.getWriter().equals(accessUser))){
+			return "redirect:/bo/"+kind+"/r"+id;
+		}
+		
 		model.addAttribute("board", board);
 		model.addAttribute("edit", true);
 		model.addAttribute("kind", kind);
@@ -158,7 +172,13 @@ public class BoardController {
 			model.addAttribute("kind", kind);
 			return "board/add";
 		}
-		boardService.updateBoard(board);
+		
+		String accessUser=cFn.getPrincipal();
+		if(!(board.getWriter().equals(accessUser))){
+			return "redirect:/bo/"+kind+"/r"+id;
+		}
+		
+		bService.updateBoard(board);
 
 		model.addAttribute("success", "Board " + board.getWriter() + "의 " + board.getTitle() + "성공적으로 수정되었습니다.");
 		model.addAttribute("entity", kind);
@@ -167,11 +187,21 @@ public class BoardController {
 
 	@RequestMapping(value = { "/bo/{kind}/d{id}" }, method = RequestMethod.GET)
 	public String deleteBoard(@PathVariable int id, @PathVariable String kind) {
-		
-		Board board = boardService.findById(id);
+		Board board = bService.findById(id);
+		String accessUser=cFn.getPrincipal();
+		if(!(board.getWriter().equals(accessUser))){
+			return "redirect:/bo/"+kind+"/r"+id;
+		}
 		board.setDelCheck(1);
-		boardService.updateBoard(board);
+		bService.updateBoard(board);
 		return "redirect:/bo/"+kind+"/list";
+	}
+	
+	// 선언하면 모델값으로 쉽게 넘길 수 있음
+	@ModelAttribute("accessUser")
+	public User initializeUser() {
+		String accessEmail=cFn.getPrincipal();
+		return uService.findByEmail(accessEmail);
 	}
 
 //	@RequestMapping(value = { "/board/{tableName}/detail" }, method = RequestMethod.GET)
@@ -248,7 +278,7 @@ public class BoardController {
 		String tableName = tableNames[3];
 
 		// 쿠키 이름값 보안처리하기
-		tableName = commonFn.buildSHA256(tableName).substring(0, 5);
+		tableName = cFn.buildSHA256(tableName).substring(0, 5);
 
 		// 쿠키 가져오기(체크 하는것)
 		Map<String, String> cookieMap = new HashMap<>();

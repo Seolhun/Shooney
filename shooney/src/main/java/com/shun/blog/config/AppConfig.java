@@ -56,6 +56,11 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 		return localeChangeInterceptor;
 	}
 
+	@Override
+	public void addInterceptors(InterceptorRegistry registry) {
+		registry.addInterceptor(localeChangeInterceptor());
+	}
+	
 	@Bean(name = "localeResolver")
 	public LocaleResolver sessionLocaleResolver() {
 		// 세션 기준으로 로케일을 설정한다.
@@ -63,11 +68,6 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 		// CookieLocaleResolver localeResolver2=new CookieLocaleResolver();
 		localeResolver.setDefaultLocale(new Locale("ko_KR"));
 		return localeResolver;
-	}
-
-	@Override
-	public void addInterceptors(InterceptorRegistry registry) {
-		registry.addInterceptor(localeChangeInterceptor());
 	}
 
 	//Multipart Config Part

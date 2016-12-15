@@ -26,10 +26,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.shun.blog.controller.common.CommonFn;
 import com.shun.blog.model.common.Paging;
+import com.shun.blog.model.user.State;
 import com.shun.blog.model.user.User;
 import com.shun.blog.model.user.UserProfile;
 import com.shun.blog.model.user.UserProfileType;
@@ -38,7 +40,7 @@ import com.shun.blog.service.user.UserService;
 
 @Controller
 @RequestMapping("/")
-@SessionAttributes("roles")
+@SessionAttributes({"roles"})
 public class UserController {
 
 	@Autowired
@@ -58,7 +60,7 @@ public class UserController {
 
 	@Autowired
 	CommonFn cFn;
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
 	// final private String emailPattern =
@@ -103,7 +105,7 @@ public class UserController {
 
 	@RequestMapping(value = { "/signup" }, method = RequestMethod.POST)
 	public String signupDo(@Valid User user, BindingResult result, ModelMap model) {
-		logger.info("Request POST : Parameter = "+user);
+		logger.info("Request POST : Parameter = " + user);
 		String mapping = "user/signup";
 		if (result.hasErrors()) {
 			return mapping;
@@ -127,7 +129,7 @@ public class UserController {
 		// 유저 권한 넣기(프론트에서 값을 받지 않기때문에 백엔드에서 넣어준다.)
 		Set<UserProfile> upSet = new HashSet<>();
 		UserProfile up = new UserProfile();
-		up.setId(2);
+		up.setId(UserProfileType.PLAYER.ordinal()+1);
 		up.setType(UserProfileType.PLAYER.getType());
 		upSet.add(up);
 		user.setUserProfiles(upSet);
@@ -149,30 +151,61 @@ public class UserController {
 
 	@RequestMapping(value = { "/admin/edit-{email}" }, method = RequestMethod.POST)
 	public String updateUser(@Valid User user, BindingResult result, ModelMap model, @PathVariable String email) {
-		logger.info("Request POST : Parameter = "+user);
+		logger.info("Request POST : Parameter = " + user);
 		if (result.hasErrors()) {
 			model.addAttribute("edit", true);
 			return "user/signup";
 		}
 
 		userService.updateUser(user);
-		
+
 		model.addAttribute("success", "User " + user.getNickname() + " updated successfully");
 		model.addAttribute("loggedinuser", getPrincipal());
 		return "result/success";
 	}
 
-	@RequestMapping(value = { "/admin/delete-{email}" }, method = RequestMethod.GET)
-	public String deleteUser(@PathVariable String email) {
-		userService.deleteUserByEmail(email);
-		//userService.deleteUserByEmail(email);
+	@RequestMapping(value = { "/admin/up-{email}" }, method = RequestMethod.GET)
+	public String updateUser(@PathVariable String email, @RequestParam String s) {
+		// userService.deleteUserByEmail(email);
+		User user=userService.findByEmail(email);
+		for(State e : State.values()){
+			if(s.equals(e.getState().substring(0, 1).toLowerCase())){
+				user.setState(e.getState());
+			}
+		}
+		userService.updateUser(user);
+		
+		// userService.deleteUserByEmail(email);
+		return "redirect:/admin/list";
+	}
+	
+	@RequestMapping(value = { "/admin/allup/{type}" }, method = RequestMethod.GET)
+	public String allWork(@PathVariable String type, @RequestParam String key) {
+		// userService.deleteUserByEmail(email);
+		String[] keys=key.split(",");
+		for(int i=0;i<keys.length;i++){
+			try {
+				int id=cFn.checkVDInt(keys[i], 0);
+				User user=userService.findById(id);
+				for(State e : State.values()){
+					if(type.equals(e.getState().substring(0, 1).toLowerCase())){
+						user.setState(e.getState());
+						userService.updateUser(user);
+					}	
+				}
+			} catch (Exception e) {
+				logger.error("ERROR : Admin user Error");
+			}
+		}
+		
+		// userService.deleteUserByEmail(email);
 		return "redirect:/admin/list";
 	}
 
 	// 선언하면 모델값으로 쉽게 넘길 수 있음
 	@ModelAttribute("roles")
-	public List<UserProfile> initializeProfiles() {
-		return userProfileService.findAll();
+	public UserProfileType[] initializeProfiles() {
+		return UserProfileType.values();
 	}
 
 	@RequestMapping(value = "/error", method = RequestMethod.GET)
@@ -193,7 +226,8 @@ public class UserController {
 	public String logoutPage(HttpServletRequest request, HttpServletResponse response) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (auth != null) {
-//			new SecurityContextLogoutHandler().logout(request, response, auth);
+			// new SecurityContextLogoutHandler().logout(request, response,
+			// auth);
 			persistentTokenBasedRememberMeServices.logout(request, response, auth);
 			SecurityContextHolder.getContext().setAuthentication(null);
 		}

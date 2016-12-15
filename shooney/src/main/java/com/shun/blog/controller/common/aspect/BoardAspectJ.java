@@ -18,21 +18,21 @@ public class BoardAspectJ {
 	
 	private static final Logger logger = LoggerFactory.getLogger(BoardAspectJ.class);
 
-	@Pointcut("execution (** com.shun.blog.controller.BoardController.*(..))")
-	public void getPrincipal() {
+	@Pointcut("execution (** com.shun.blog.controller.*.*(..))")
+	public void ControllerCheck() {
 
 	}
 	
-	@Before("getPrincipal()")
+	@Before("ControllerCheck()")
 	public void injectLogger() throws Throwable {
 		HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.currentRequestAttributes()).getRequest();
-		logger.info("TEST : @Before = "+request.getRequestURL());
+		logger.info("TEST : @Before = "+request.getRequestURI());
 	}
 	
-	@AfterThrowing("getPrincipal()")
+	@AfterThrowing("ControllerCheck()")
 	public void ExceptionLogger() throws Throwable {
 		HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.currentRequestAttributes()).getRequest();
-		logger.info("ERROR : @AfterThrowing = "+request.getRequestURL());
+		logger.info("ERROR : @AfterThrowing = "+request.getRequestURI());
 		logger.info("ERROR : @AfterThrowing = "+request.getMethod());
 	}
 }
