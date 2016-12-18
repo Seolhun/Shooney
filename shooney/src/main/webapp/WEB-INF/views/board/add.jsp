@@ -26,7 +26,7 @@
 	<div class="row">
 		<div class="col-sm-12">
 			<form:form method="POST" modelAttribute="board" enctype="multipart/form-data" class="form-horizontal" style="margin: 5%;" action="${bo}/${kind}/add">
-				<div class="col-sm-4">
+				<div class="col-sm-4 col-xs-12">
 					<div class="input-group margin-bottom-20">
 						<span class="input-group-addon rounded-left"><i class="icon-user color-green"></i></span>
 						<form:select path="entityName" class="form-control rounded-right" items="${enNames}"/>
@@ -43,7 +43,7 @@
 					</div>
 				</div>
 					
-				<div class="col-sm-8">
+				<div class="col-sm-8 col-xs-12">
 					<div class="input-group margin-bottom-20">
 						<span class="input-group-addon rounded-left"><i class="icon-envelope color-green"></i></span>
 						<form:input path="title" type="text" class="form-control rounded-right" placeholder="Board title"/>
@@ -55,7 +55,7 @@
 					</div>
 				</div>
 				
-				<div class="col-sm-12">
+				<div class="col-sm-12 col-xs-12">
 					<div>Content<br>
 						<div style="color: blue;">
 							<form:errors path="content" class="help-inline"/>

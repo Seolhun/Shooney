@@ -45,7 +45,7 @@ public class BoardController {
 
 	@Autowired
 	BoardService bService;
-	
+
 	@Autowired
 	UserService uService;
 
@@ -57,15 +57,15 @@ public class BoardController {
 
 	@Autowired
 	AuthenticationTrustResolver authenticationTrustResolver;
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(BoardController.class);
-	
+
 	private static final String UPLOAD_LOCATION = "/Users/HunSeol/Desktop/shooney/file/";
 
 	@RequestMapping(value = "/bo/{kind}/list", method = RequestMethod.GET)
 	public String allBoardList(ModelMap model, @PathVariable String kind, HttpServletRequest request) {
-		logger.info("TEST : Get Board List of "+kind);
-		
+		logger.info("TEST : Get Board List of " + kind);
+
 		// 파라미터 호출 및 유효성 검사
 		int cPage = cFn.checkVDInt(request.getParameter("cp"), 1);
 		int sType = cFn.checkVDInt(request.getParameter("sty"), 0);
@@ -85,7 +85,7 @@ public class BoardController {
 		model.addAttribute("paging", paging);
 		model.addAttribute("kind", kind);
 		model.addAttribute("pfNames", PortfolioName.values());
-		
+
 		return "board/list";
 	}
 
@@ -93,10 +93,7 @@ public class BoardController {
 	public String addBoard(ModelMap model, @PathVariable String kind) {
 		Board board = new Board();
 		model.addAttribute("board", board);
-		
-		FileBucket fileBucket = new FileBucket();
-        model.addAttribute("fileBucket", fileBucket);
-		
+
 		model.addAttribute("edit", false);
 		model.addAttribute("enNames", EntityName.values());
 		model.addAttribute("pfNames", PortfolioName.values());
@@ -107,7 +104,7 @@ public class BoardController {
 	@RequestMapping(value = { "/bo/{kind}/add" }, method = RequestMethod.POST)
 	public String addBoardDo(@Valid Board board, @Valid MultiFileBucket multiFileBucket, BindingResult result,
 			ModelMap model, @PathVariable String kind, HttpServletRequest req) throws IOException {
-		//Board 부분
+		// Board 부분
 		if (result.hasErrors()) {
 			model.addAttribute("board", board);
 			model.addAttribute("edit", false);
@@ -116,28 +113,38 @@ public class BoardController {
 			model.addAttribute("kind", kind);
 			return "board/add";
 		}
-		
+
 		board.setWriter(initializeUser().getNickname());
 		bService.saveBoard(board);
-		
+
 		model.addAttribute("success", "Board " + board.getWriter() + "의 " + board.getTitle() + "성공적으로 등록되었습니다.");
 		model.addAttribute("kind", kind);
-		
-		//File Upload 부분		
+
+		// File Upload 부분
 		logger.info("Fetching files");
 		List<String> fileNames = new ArrayList<String>();
 		// Now do something with file...
 		for (FileBucket bucket : multiFileBucket.getFiles()) {
-			FileCopyUtils.copy(bucket.getFile().getBytes(), new File(UPLOAD_LOCATION + bucket.getFile().getOriginalFilename()));
+			FileCopyUtils.copy(bucket.getFile().getBytes(),
+					new File(UPLOAD_LOCATION + bucket.getFile().getOriginalFilename()));
 			fileNames.add(bucket.getFile().getOriginalFilename());
 		}
-		
+
 		model.addAttribute("fileNames", fileNames);
 		return "result/success";
 	}
 
 	@RequestMapping(value = { "/bo/{kind}/r{id}" }, method = RequestMethod.GET)
-	public String detailBoard(@PathVariable int id, ModelMap model, @PathVariable String kind) {
+	public String detailBoard(@PathVariable int id, ModelMap model, @PathVariable String kind, HttpServletRequest request, HttpServletResponse response) {
+		String strId=String.valueOf(id);
+		
+		if(checkHitCookie(request, response, strId)){
+			Board board=new Board();
+			board.setId(id);
+			board.setHits(1);
+			bService.updateBoard(board);
+		}
+		
 		Board board = bService.findById(id);
 		model.addAttribute("board", board);
 		model.addAttribute("edit", false);
@@ -150,12 +157,12 @@ public class BoardController {
 	@RequestMapping(value = { "/bo/{kind}/m{id}" }, method = RequestMethod.GET)
 	public String editBoard(@PathVariable int id, ModelMap model, @PathVariable String kind) {
 		Board board = bService.findById(id);
-		
-		String accessUser=cFn.getPrincipal();
-		if(!(board.getWriter().equals(accessUser))){
-			return "redirect:/bo/"+kind+"/r"+id;
+
+		String accessUser = cFn.getPrincipal();
+		if (!(board.getWriter().equals(accessUser))) {
+			return "redirect:/bo/" + kind + "/r" + id;
 		}
-		
+
 		model.addAttribute("board", board);
 		model.addAttribute("edit", true);
 		model.addAttribute("kind", kind);
@@ -172,12 +179,12 @@ public class BoardController {
 			model.addAttribute("kind", kind);
 			return "board/add";
 		}
-		
-		String accessUser=cFn.getPrincipal();
-		if(!(board.getWriter().equals(accessUser))){
-			return "redirect:/bo/"+kind+"/r"+id;
+
+		String accessUser = cFn.getPrincipal();
+		if (!(board.getWriter().equals(accessUser))) {
+			return "redirect:/bo/" + kind + "/r" + id;
 		}
-		
+
 		bService.updateBoard(board);
 
 		model.addAttribute("success", "Board " + board.getWriter() + "의 " + board.getTitle() + "성공적으로 수정되었습니다.");
@@ -188,97 +195,97 @@ public class BoardController {
 	@RequestMapping(value = { "/bo/{kind}/d{id}" }, method = RequestMethod.GET)
 	public String deleteBoard(@PathVariable int id, @PathVariable String kind) {
 		Board board = bService.findById(id);
-		String accessUser=cFn.getPrincipal();
-		if(!(board.getWriter().equals(accessUser))){
-			return "redirect:/bo/"+kind+"/r"+id;
+		String accessUser = cFn.getPrincipal();
+		if (!(board.getWriter().equals(accessUser))) {
+			return "redirect:/bo/" + kind + "/r" + id;
 		}
 		board.setDelCheck(1);
 		bService.updateBoard(board);
-		return "redirect:/bo/"+kind+"/list";
+		return "redirect:/bo/" + kind + "/list";
 	}
-	
+
 	// 선언하면 모델값으로 쉽게 넘길 수 있음
 	@ModelAttribute("accessUser")
 	public User initializeUser() {
-		String accessEmail=cFn.getPrincipal();
+		String accessEmail = cFn.getPrincipal();
 		return uService.findByEmail(accessEmail);
 	}
 
-//	@RequestMapping(value = { "/board/{tableName}/detail" }, method = RequestMethod.GET)
-//	public String getBoardDetail(ModelMap model, HttpServletRequest request, HttpServletResponse response, @PathVariable String tableName, @RequestParam int id) throws Exception {
-//		// RequestMethod.GET일 때의 기본언어 설정
-//		Language language = commonFn.setLanguageData(text_ko, text_en, request);
-//		String target = "Board";
-//		String targetName = "common.main.information";
-//		commonFn.setDefaultSetting(model, language, target, targetName);
-//		
-//		Board board = new Board();
-//		board.setId(id);
-//		// 조회수 증가
-//		if (checkHitCookie(board, request, response)) {
-//			board.setTableName(tableName);
-//			bDao.updateData(board, 2);
-//		}
-//
-//		// 불러올 게시물 설정
-//		board.setTableName(tableName);
-//		board = bDao.getDetailbyKey(board);
-//
-//		// 불러올 댓글 페이징 설정
-//		Paging paging = new Paging();
-//		paging.setTableName(tableName);
-//		paging.setLimit(commonFn.checkVDInt(request.getParameter("limit"), 5));
-//		paging.setcPage(commonFn.checkVDInt(request.getParameter("cPage"), 1));
-//		String rawQuestion = request.getParameter("sText");
-//		paging.setQuestion(rawQuestion);
-//
-//		// 총 페이지 가져오기.
-//		int totalCount = bDao.getTotalReplyCount(board, paging);
-//		paging.setTotalPage(totalCount);
-//		setPaging(paging);
-//		board.setReplyList(bDao.getAllReply(board, paging));
-//
-//		int reno = commonFn.checkVDInt(request.getParameter("reno"), 0);
-//		if (reno > 0) {
-//			Reply reply=new Reply();
-//			reply.setId(reno);
-//			reply=bDao.getReply(reply);
-//			model.addAttribute("modifyReply", reply);
-//		}
-//		
-//		// 리다이렉트를 통해 온 에러메시지를 확인하는 곳.
-//		try {
-//			String error = request.getParameter("error");
-//			if (error != null ) {
-//				model.addAttribute("error", error);
-//			}
-//			
-//			String replyError = request.getParameter("replyError");
-//			if (replyError != null) {
-//				model.addAttribute("replyError", replyError);
-//			}
-//		} catch (NullPointerException e) {
-//			//e.printStackTrace();
-//		}
-//		String logUser=commonFn.getPrincipal();
-//		Reply reply=new Reply();
-//		model.addAttribute("reply", reply);
-//		model.addAttribute("logUser", logUser);
-//		model.addAttribute("paging", paging);
-//		model.addAttribute("tableName", tableName);
-//		model.addAttribute("board", board);
-//		return "board/detail";
-//	}
-	
-	private boolean checkHitCookie(Board board, HttpServletRequest request, HttpServletResponse response) {
+	// @RequestMapping(value = { "/board/{tableName}/detail" }, method =
+	// RequestMethod.GET)
+	// public String getBoardDetail(ModelMap model, HttpServletRequest request,
+	// HttpServletResponse response, @PathVariable String tableName,
+	// @RequestParam int id) throws Exception {
+	// // RequestMethod.GET일 때의 기본언어 설정
+	// Language language = commonFn.setLanguageData(text_ko, text_en, request);
+	// String target = "Board";
+	// String targetName = "common.main.information";
+	// commonFn.setDefaultSetting(model, language, target, targetName);
+	//
+	// Board board = new Board();
+	// board.setId(id);
+	// // 조회수 증가
+	// if (checkHitCookie(board, request, response)) {
+	// board.setTableName(tableName);
+	// bDao.updateData(board, 2);
+	// }
+	//
+	// // 불러올 게시물 설정
+	// board.setTableName(tableName);
+	// board = bDao.getDetailbyKey(board);
+	//
+	// // 불러올 댓글 페이징 설정
+	// Paging paging = new Paging();
+	// paging.setTableName(tableName);
+	// paging.setLimit(commonFn.checkVDInt(request.getParameter("limit"), 5));
+	// paging.setcPage(commonFn.checkVDInt(request.getParameter("cPage"), 1));
+	// String rawQuestion = request.getParameter("sText");
+	// paging.setQuestion(rawQuestion);
+	//
+	// // 총 페이지 가져오기.
+	// int totalCount = bDao.getTotalReplyCount(board, paging);
+	// paging.setTotalPage(totalCount);
+	// setPaging(paging);
+	// board.setReplyList(bDao.getAllReply(board, paging));
+	//
+	// int reno = commonFn.checkVDInt(request.getParameter("reno"), 0);
+	// if (reno > 0) {
+	// Reply reply=new Reply();
+	// reply.setId(reno);
+	// reply=bDao.getReply(reply);
+	// model.addAttribute("modifyReply", reply);
+	// }
+	//
+	// // 리다이렉트를 통해 온 에러메시지를 확인하는 곳.
+	// try {
+	// String error = request.getParameter("error");
+	// if (error != null ) {
+	// model.addAttribute("error", error);
+	// }
+	//
+	// String replyError = request.getParameter("replyError");
+	// if (replyError != null) {
+	// model.addAttribute("replyError", replyError);
+	// }
+	// } catch (NullPointerException e) {
+	// //e.printStackTrace();
+	// }
+	// String logUser=commonFn.getPrincipal();
+	// Reply reply=new Reply();
+	// model.addAttribute("reply", reply);
+	// model.addAttribute("logUser", logUser);
+	// model.addAttribute("paging", paging);
+	// model.addAttribute("tableName", tableName);
+	// model.addAttribute("board", board);
+	// return "board/detail";
+	// }
+
+	private boolean checkHitCookie(HttpServletRequest request, HttpServletResponse response,
+			String id) {
 		// 쿠키에 담을 값을 가져오기 위함.(uri는 테이블 값을 가져오기 위함 - 3번)
 		boolean validHit = false;
-		String id = request.getParameter("id");
-		String[] tableNames = request.getRequestURI().split("/");
-		String tableName = tableNames[3];
-
-		// 쿠키 이름값 보안처리하기
-		tableName = cFn.buildSHA256(tableName).substring(0, 5);
+		String tableName="bh";
+		String split="A4G9";
 
 		// 쿠키 가져오기(체크 하는것)
 		Map<String, String> cookieMap = new HashMap<>();
@@ -295,17 +302,16 @@ public class BoardController {
 		if (originalNo == null) {
 			cookie = new Cookie(tableName, id);
 		} else {
-			String[] upHitByNo = originalNo.split("T3Y1");
+			String[] upHitByNo = originalNo.split(split);
 			for (int i = 0; i < upHitByNo.length; i++) {
 				if (upHitByNo[i].equals(id)) {
 					return validHit;
 				}
 			}
-			originalNo = originalNo + "T3Y1" + id;
+			originalNo = originalNo + split + id;
 			cookie = new Cookie(tableName, originalNo);
 		}
 
-		cookie.setPath("/iMediSynHome");
 		cookie.setMaxAge(24 * 60 * 60); // 365*24*60*60 365일
 		response.addCookie(cookie);
 		validHit = true;

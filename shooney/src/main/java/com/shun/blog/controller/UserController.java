@@ -133,7 +133,7 @@ public class UserController {
 		up.setType(UserProfileType.PLAYER.getType());
 		upSet.add(up);
 		user.setUserProfiles(upSet);
-
+		
 		userService.saveUser(user);
 
 		model.addAttribute("success", "User " + user.getEmail() + " registered successfully");
@@ -150,13 +150,8 @@ public class UserController {
 	}
 
 	@RequestMapping(value = { "/admin/edit-{email}" }, method = RequestMethod.POST)
-	public String updateUser(@Valid User user, BindingResult result, ModelMap model, @PathVariable String email) {
+	public String updateUser(User user, ModelMap model, @PathVariable String email) {
 		logger.info("Request POST : Parameter = " + user);
-		if (result.hasErrors()) {
-			model.addAttribute("edit", true);
-			return "user/signup";
-		}
-
 		userService.updateUser(user);
 
 		model.addAttribute("success", "User " + user.getNickname() + " updated successfully");
@@ -204,8 +199,8 @@ public class UserController {
 
 	// 선언하면 모델값으로 쉽게 넘길 수 있음
 	@ModelAttribute("roles")
-	public UserProfileType[] initializeProfiles() {
-		return UserProfileType.values();
+	public List<UserProfile> initializeProfiles() {
+		return userProfileService.findAll();
 	}
 
 	@RequestMapping(value = "/error", method = RequestMethod.GET)

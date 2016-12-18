@@ -59,6 +59,7 @@ public class Board implements Serializable {
 	@Column(name = "PFNAME")
 	private String pfName;
 	
+//	@Transient
 	@OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
 	private Set<FileData> files=new HashSet<FileData>();
 	

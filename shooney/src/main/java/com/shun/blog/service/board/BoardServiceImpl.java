@@ -35,16 +35,13 @@ public class BoardServiceImpl implements BoardService {
 
 	public void updateBoard(Board board) {
 		Board entity = boardDao.findById(board.getId());
-		if(board.getDelCheck()==1){
-			entity.setDelCheck(1);
-		}
-		if (entity != null) {
+		//읽을시 쿠키 읽기
+		if(board.getHits()==1){
+			entity.setHits(entity.getHits()+1);
+		} else if(entity != null){
 			entity.setTitle(board.getTitle());
 			entity.setContent(board.getContent());
 			entity.setWriter(board.getWriter());
-			entity.setLatestDate(board.getLatestDate());
-			entity.setHits(board.getHits());			
-			entity.setLikes(board.getLikes());
 			entity.setDelCheck(board.getDelCheck());
 			entity.setDepth(board.getDepth());
 			entity.setEntityName(board.getEntityName());

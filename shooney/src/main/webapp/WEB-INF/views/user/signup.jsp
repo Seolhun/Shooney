@@ -49,8 +49,6 @@
 				</c:choose>
 				
 				<form:form method="POST" modelAttribute="user" class="form-horizontal" >
-					<form:input type="hidden" path="id" id="id"/>
-					<form:input type="hidden" path="state" id="state"/>
 					<div class="reg-block">
 						<div>Email<br>
 							<div style="color: blue;">
@@ -87,16 +85,6 @@
 							</c:choose>
 						</div>
 	
-						<div>Password<br>
-							<div style="color: blue;">
-								<form:errors path="password" cssClass="error" class="help-inline"/>
-							</div>
-						</div>
-						<div class="input-group margin-bottom-30">
-							<span class="input-group-addon rounded-left"><i class="icon-lock color-green"></i></span>
-							<form:input path="" name="password" showPassword="true" class="form-control rounded-right" placeholder="Password"/>
-						</div>
-						
 						<c:if test="${edit }">
 							<div>User Roles<br>
 								<div style="color: blue;">
@@ -106,11 +94,24 @@
 							<div class="input-group margin-bottom-30">
 								<span class="input-group-addon rounded-left"><i class="icon-lock color-green"></i></span>
 								<form:select path="userProfiles" items="${roles}" multiple="true" itemValue="id" itemLabel="type" class="form-control input-sm" />
-								<div class="has-error">
-									<form:errors path="userProfiles" class="help-inline"/>
-								</div>
 							</div>
 						</c:if>
+						<c:if test="${edit }">
+							<hr>
+							<h2>Option</h2>
+						</c:if>
+						<div>Password<br>
+							<div style="color: blue;">
+								<form:errors path="password" cssClass="error" class="help-inline"/>
+							</div>
+						</div>
+						
+						<div class="input-group margin-bottom-30">
+							<span class="input-group-addon rounded-left"><i class="icon-lock color-green"></i></span>
+							<input type="password" name="password" class="form-control rounded-right" placeholder="Password"/>	
+						</div>
+						
+						<hr>
 						
 						<div class="checkbox">
 							<ul class="list-inline">
@@ -119,7 +120,6 @@
 								</li>
 							</ul>
 						</div>
-						<hr>
 						<div class="row margin-bottom-70">
 							<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 								<c:choose>
