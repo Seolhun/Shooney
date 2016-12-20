@@ -25,7 +25,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.shun.blog.controller.common.CommonFn;
 import com.shun.blog.model.board.Board;
@@ -40,7 +39,6 @@ import com.shun.blog.service.user.UserService;
 
 @Controller
 @RequestMapping("/")
-@SessionAttributes("accessUser")
 public class BoardController {
 
 	@Autowired

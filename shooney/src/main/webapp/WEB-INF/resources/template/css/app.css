@@ -661,6 +661,12 @@ a.btn-u-xs {
 .btn-u.btn-u-blue {
 	background: #3498db;
 }
+.btn-u.btn-u-orange {
+	background: #e2730b;
+}
+.btn-u.btn-u-green {
+	background: #3ca559;
+}
 .btn-u.btn-u-blue:hover,
 .btn-u.btn-u-blue:focus,
 .btn-u.btn-u-blue:active,

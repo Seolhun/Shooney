@@ -33,7 +33,7 @@
 </head>
 <body>
 	<!--=== Content Part ===-->
-	<div class="container-fluid">
+	<div class="container content-xs">
 		<div class="row equal-height-columns">
 			<div class="col-md-12 col-sm-12 form-block equal-height-column">
 				<a href="${shooney}">
@@ -127,7 +127,7 @@
 										<button type="submit" value="Update" class="btn-u btn-u-dark-blue btn-block rounded">Edit</button>
 									</c:when>
 									<c:otherwise>
-										<button type="submit" value="Registration" class="btn-u btn-u-dark-blue btn-block rounded">Sign Up</button>
+										<button type="submit" value="Registration" class="btn-u btn-u-blue btn-block rounded">Sign Up</button>
 									</c:otherwise>
 								</c:choose>	
 							</div>
