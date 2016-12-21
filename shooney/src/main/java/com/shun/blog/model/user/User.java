@@ -46,6 +46,17 @@ public class User implements Serializable {
 			@JoinColumn(name = "USER_PROFILE_ID") })
 	private Set<UserProfile> userProfiles = new HashSet<UserProfile>();
 
+	@Column(name = "CHECKEMAIL")
+	private int checkemail;
+
+	public int getCheckemail() {
+		return checkemail;
+	}
+
+	public void setCheckemail(int checkemail) {
+		this.checkemail = checkemail;
+	}
+
 	public Integer getId() {
 		return id;
 	}
@@ -129,7 +140,7 @@ public class User implements Serializable {
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", password=" + password + ", NickName =" + nickname + ", email =" + email + ", state="
-				+ state + ", userProfiles =" + userProfiles + "]";
+		return "User [id=" + id + ", password=" + password + ", NickName =" + nickname + ", email =" + email
+				+ ", state=" + state + ", userProfiles =" + userProfiles + "]";
 	}
 }

@@ -83,7 +83,7 @@ public class BoardDaoImpl extends AbstractDao<Integer, Board> implements BoardDa
 	}
 
 	@Override
-	public void deleteUserById(int id) {
+	public void deleteBoardById(int id) {
 		Criteria crit = createEntityCriteria();
 		crit.add(Restrictions.eq("id", id));
 		Board board = (Board) crit.uniqueResult();

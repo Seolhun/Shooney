@@ -24,9 +24,9 @@
 <div class="container content-xs">
 	<div class="row">
 		<div class="col-sm-12">
-			<a href="${bo }/${kind}/list" class="btn-u btn-brd btn-brd-hover btn-u-dark btn-u-block margin-bottom-5">All</a>
+			<a href="${bo }/${kind}/list" class="btn-u btn-brd btn-brd-hover btn-u-dark rounded">All</a>
 			<c:forEach items="${pfNames }" var="i">
-				<a href="list?pf=${i.type}" class="btn-u btn-brd btn-brd-hover btn-u-dark btn-u-block margin-bottom-5">${i}</a>
+				<a href="list?pf=${i.type}" class="btn-u btn-brd btn-brd-hover btn-u-dark rounded">${i}</a>
 			</c:forEach>
 		</div>
 		<hr>
@@ -59,7 +59,7 @@
    				<div class="text-center row">
    					<div class="col-sm-12">
 						<form:form method="GET" acceptCharset="UTF-8">
-							<select name="sDate">
+							<select name="sDate" class="select">
 								<option value="0" <c:if test="${paging.sDate==0}">selected='selected'</c:if>>All Day</option>
 								<option value="1" <c:if test="${paging.sDate==1}">selected='selected'</c:if>>One Day</option>
 								<option value="7" <c:if test="${paging.sDate==7}">selected='selected'</c:if>>One Week</option>
@@ -67,13 +67,13 @@
 								<option value="180" <c:if test="${paging.sDate==180}">selected='selected'</c:if>>Six Months</option>
 								<option value="365" <c:if test="${paging.sDate==365}">selected='selected'</c:if>>One Year</option>
 							</select>
-							<select name="sType">
+							<select name="sType" class="select">
 								<option value="0" <c:if test="${paging.sType==0}">selected='selected'</c:if>>Subject</option>
 								<option value="1" <c:if test="${paging.sType==1}">selected='selected'</c:if>>Writer</option>
 								<option value="2" <c:if test="${paging.sType==2}">selected='selected'</c:if>>Subject &amp; Reply</option>
 							</select>
-							<input type="text" name="sText" class="form" placeholder="Searching" style="width: 30%;" value="${paging.sText}">
-			       			<button type="submit" class="btn btn-default">Search</button>
+							<input type="text" name="sText" class="input" placeholder="Searching" style="width: 30%;" value="${paging.sText}">
+			       			<button type="submit" class="btn-u btn-u-block rounded">Search</button>
 						</form:form>
 					</div>
 				</div>
@@ -84,7 +84,7 @@
 	   			<a href="list?cp=${paging.cPage -1 < 1 ? 1 : paging.cPage -1}" class="btn-u btn-brd btn-brd-hover btn-u-dark btn-u-block margin-bottom-5">&larr;</a>
 	   			&nbsp;
 	   			<c:forEach begin="${paging.blockStartNo }" end="${paging.blockEndNo}" varStatus="status">
-					<a href="list?cp=${status.index }" class="btn-u btn-brd btn-brd-hover btn-u-dark btn-u-block margin-bottom-5" <c:if test="${status.index==paging.cPage }">style="color : #4765a0"</c:if>>${status.index}</a>
+					<a href="${bo}/${kind}/list?cp=${status.index }" class="btn-u btn-brd btn-brd-hover btn-u-dark btn-u-block margin-bottom-5" <c:if test="${status.index==paging.cPage }">style="color : #4765a0"</c:if>>${status.index}</a>
 	   			</c:forEach>
 	   			&nbsp;
 	   			<a href="list?cp=${paging.cPage +1 > paging.totalPage ? paging.totalPage : paging.cPage +1}" class="btn-u btn-brd btn-brd-hover btn-u-dark btn-u-block margin-bottom-5">&rarr;</a>

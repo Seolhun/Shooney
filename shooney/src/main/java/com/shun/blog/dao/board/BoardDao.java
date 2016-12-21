@@ -15,6 +15,6 @@ public interface BoardDao {
 
 	void saveBoard(Board Board);
 
-	void deleteUserById(int id);
+	void deleteBoardById(int id);
 
 }

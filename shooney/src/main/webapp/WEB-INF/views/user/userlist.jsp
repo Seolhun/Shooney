@@ -4,8 +4,7 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="tag" tagdir="/WEB-INF/tags"%>
-<spring:url value="/resources/" var="RESOURCES" />
-<spring:url value="/resources/template" var="template"/>
+<spring:url value="/resources/" var="resources" />
 <spring:url value="/admin" var="admin"/>
 <spring:url value="/signup" var="signup"/>
 <tag:layout tab="${target}">
@@ -26,6 +25,21 @@
 <div class="container content-xs">
 	<div class="row">
 		<div class="col-sm-12">
+			<div>
+				<select class="select" name="roleType">
+					<option label="-- Role --">
+					<c:forEach items="${userProfile}" var="i">
+						<option value="${i}" onclick="allWork(${i});">${i}</option>
+					</c:forEach>
+				</select>
+				<select class="select" name="stateType">
+					<option label="-- State --">
+					<c:forEach items="${state}" var="i">
+						<option value="${i}">${i}</option>
+					</c:forEach>
+				</select>
+				<button type="button" class="btn-u btn-u-block rounded" id="allSubmit">Submit</button>
+			</div>
 			<table class="table table-hover">
 	    		<thead>
 		      		<tr>
@@ -35,6 +49,7 @@
 				        <th>Nickname.</th>
 				        <th>State.</th>
 				        <th>Role.</th>
+				        <th>Email Check</th>
 				        <sec:authorize access="hasRole('ADMIN') or hasRole('SUPERADMIN')">
 				        	<th>Edit.</th>
 				        </sec:authorize>
@@ -53,13 +68,14 @@
 						<td>${user.nickname}</td>
 						<td>${user.state}</td>
 						<td><c:forEach items="${user.userProfiles}" var="i">${i.type }<br></c:forEach></td>
-						<td><a href="${admin }/edit-${user.email}" class="btn btn-default custom-width">Edit</a></td>
+						<td>${user.checkemail}</td>
+						<td><a href="${admin }/edit-${user.email}" class="btn btn-default custom-width rounded">Edit</a></td>
 				        <c:choose>
 				        	<c:when test="${user.state.equals('Active')}">
-				        		<td><a href="${admin }/up-${user.email}?s=d" class="btn btn-danger custom-width" id="confirm">Delete</a></td>
+				        		<td><a href="${admin }/up-${user.email}?s=d" class="btn-u btn-u-red custom-width rounded" id="confirm">Delete</a></td>
 				        	</c:when>
 				        	<c:otherwise>
-				        		<td><a href="${admin }/up-${user.email}?s=a" class="btn btn-primary custom-width" id="confirm">Active</a></td>
+				        		<td><a href="${admin }/up-${user.email}?s=a" class="btn-u btn-u-dark-blue custom-width rounded" id="confirm">Active</a></td>
 				        	</c:otherwise>
 				        </c:choose>
 					</tr>
@@ -83,3 +99,5 @@
    	</div>
 </div>
 </tag:layout>
+<!-- Custom & Functional JS -->
+<script type="text/javascript" src="${resources}/js/user.js"></script>

@@ -17,7 +17,7 @@ public interface BoardService {
 
 	void updateBoard(Board board);
 
-	void deleteUserById(int id);
+	void deleteBoardById(int id);
 
 	List<Board> findAllBoards(Paging paging);
 	

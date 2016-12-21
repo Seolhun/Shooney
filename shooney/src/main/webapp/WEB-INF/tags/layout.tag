@@ -151,12 +151,13 @@
 									<ul class="dropdown-menu">
 										<li><a href="${po}/project/list"><i class="fa fa-columns"></i> Project(File)</a></li>
 										<li><a href="${po}/item/list"><i class="fa fa-magic"></i> Items(Json, RestFul)</a></li>
-										<li><a href="${po}/music/list"><i class="fa fa-volume-down"></i> Musics(Crawl, Youtube API)</a></li>
-										<li><a href="shortcode_typo_tagline_boxes.html"><i class="fa fa-tasks"></i> Thread Game(Java)</a></li>
+										<li><a href="${po}/music/list"><i class="fa fa-volume-down"></i> Musics(MongoDB, Json, Crawl, Youtube API)</a></li>
+										
+										<%--										
 										<li><a href="${po}/stomp/list"><i class="fa fa-comments"></i> Stomp(Spring AMQP)</a></li>
-										<li><a href="${po}/toon/list"><i class="fa fa-tasks"></i> Toon(Phantom JS)</a></li>
 										<li><a href="shortcode_typo_grid.html"><i class="fa fa-align-justify"></i> Big Data(Spark)</a></li>
-										<%-- 
+										<li><a href="shortcode_typo_tagline_boxes.html"><i class="fa fa-tasks"></i> Thread Game(Java)</a></li>
+										<li><a href="${po}/toon/list"><i class="fa fa-tasks"></i> Toon(Phantom JS)</a></li>
 										<li>
 											<div class="mega-menu-content disable-icons">
 												<div class="container">
@@ -389,17 +390,20 @@
 		<script type="text/javascript" src="${template}/plugins/jquery/jquery-migrate.min.js"></script>
 		<script type="text/javascript" src="${template}/plugins/bootstrap/js/bootstrap.min.js"></script>
 		
+		<!-- Custom & Functional JS -->
+		<script type="text/javascript" src="${resources }/summer/summernote.js"></script>
+		<script type="text/javascript" src="${resources}/js/custom.js"></script>
+		
 		<!-- JS Implementing Plugins -->
 		<script type="text/javascript" src="${template}/plugins/counter/jquery.counterup.min.js"></script>
 		
 		<!-- For Slide Js -->
-		<script src="${template}/plugins/master-slider/masterslider/jquery.easing.min.js"></script>
-		<script src="${template}/plugins/master-slider/masterslider/masterslider.min.js"></script>
+		<script type="text/javascript" src="${template}/plugins/master-slider/masterslider/jquery.easing.min.js"></script>
+		<script type="text/javascript" src="${template}/plugins/master-slider/masterslider/masterslider.min.js"></script>
 		<script type="text/javascript" src="${template}/js/plugins/master-slider-fw.js"></script>
 		<script type="text/javascript" src="${template}/plugins/counter/waypoints.min.js"></script>
 		<script type="text/javascript" src="${template}/js/plugins/fancy-box.js"></script>
 		<script type="text/javascript" src="${template}/plugins/fancybox/source/jquery.fancybox.pack.js"></script>
-		<!-- For Slide Js End-->
 		
 		<!-- JS Page Level -->
 		<script type="text/javascript" src="${template}/js/app.js"></script>
@@ -411,7 +415,5 @@
 				MSfullWidth.initMSfullWidth();
 			});
 		</script>
-		<script src="${resources }/summer/summernote.js"></script>
-  		<script type="text/javascript" src="${resources}/js/custom.js"></script>
 </body>
 </html>

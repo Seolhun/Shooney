@@ -15,15 +15,6 @@ public class BoardServiceImpl implements BoardService {
 	@Autowired
 	private BoardDao boardDao;
 	
-	@Override
-	public List<Board> findAllBoards(Paging paging) {
-		return boardDao.findAllBoards(paging);
-	}
-
-	@Override
-	public int getCount(Paging paging) {
-		return boardDao.getCount(paging);
-	}
 	
 	public Board findById(int id) {
 		return boardDao.findById(id);
@@ -32,7 +23,7 @@ public class BoardServiceImpl implements BoardService {
 	public void saveBoard(Board board) {
 		boardDao.saveBoard(board);
 	}
-
+	
 	public void updateBoard(Board board) {
 		Board entity = boardDao.findById(board.getId());
 		//읽을시 쿠키 읽기
@@ -48,11 +39,19 @@ public class BoardServiceImpl implements BoardService {
 			entity.setPfName(board.getPfName());
 		}
 	}
-	
-	
 
 	@Override
-	public void deleteUserById(int id) {
-		boardDao.deleteUserById(id);
+	public void deleteBoardById(int id) {
+		boardDao.deleteBoardById(id);
+	}
+	
+	@Override
+	public List<Board> findAllBoards(Paging paging) {
+		return boardDao.findAllBoards(paging);
+	}
+
+	@Override
+	public int getCount(Paging paging) {
+		return boardDao.getCount(paging);
 	}
 }

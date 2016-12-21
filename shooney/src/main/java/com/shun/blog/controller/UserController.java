@@ -1,5 +1,6 @@
 package com.shun.blog.controller;
 
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
@@ -19,6 +20,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenBasedRememberMeServices;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -27,6 +29,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.shun.blog.controller.common.CommonFn;
@@ -89,6 +92,8 @@ public class UserController {
 
 		model.addAttribute("users", users);
 		model.addAttribute("paging", paging);
+		model.addAttribute("userProfile", UserProfileType.values());
+		model.addAttribute("state", State.values());
 		model.addAttribute("loggedinuser", getPrincipal());
 		return "user/userlist";
 	}
@@ -153,7 +158,6 @@ public class UserController {
 	public String updateUser(User user, ModelMap model, @PathVariable String email) {
 		logger.info("Request POST : Parameter = " + user);
 		userService.updateUser(user);
-
 		model.addAttribute("success", "User " + user.getNickname() + " updated successfully");
 		model.addAttribute("loggedinuser", getPrincipal());
 		return "result/success";
@@ -174,33 +178,56 @@ public class UserController {
 		return "redirect:/admin/list";
 	}
 	
-	@RequestMapping(value = { "/admin/allup/{type}" }, method = RequestMethod.GET)
-	public String allWork(@PathVariable String type, @RequestParam String key) {
+	@RequestMapping(value = { "/admin/allup" }, method = RequestMethod.GET)
+	@Transactional(rollbackFor = { NullPointerException.class, Exception.class })
+	public @ResponseBody String allWork(HttpServletRequest request, HttpServletResponse response) {
 		// userService.deleteUserByEmail(email);
-		String[] keys=key.split(",");
-		for(int i=0;i<keys.length;i++){
-			try {
-				int id=cFn.checkVDInt(keys[i], 0);
-				User user=userService.findById(id);
-				for(State e : State.values()){
-					if(type.equals(e.getState().substring(0, 1).toLowerCase())){
-						user.setState(e.getState());
-						userService.updateUser(user);
-					}	
-				}
-			} catch (Exception e) {
-				logger.error("ERROR : Admin user Error");
-			}
+		String key = "";
+		String roleType = "";
+		String stateType = "";
+		try {
+			key = request.getParameter("key");
+			stateType = request.getParameter("stateType");
+			roleType = request.getParameter("roleType");
+		} catch (NullPointerException e) {
+			logger.info("NullPoint Error : Ajax Function");
 		}
 		
-		// userService.deleteUserByEmail(email);
-		return "redirect:/admin/list";
-	}
-
-	// 선언하면 모델값으로 쉽게 넘길 수 있음
-	@ModelAttribute("roles")
-	public List<UserProfile> initializeProfiles() {
-		return userProfileService.findAll();
+		String[] keys = key.split(",");
+		for (int i = 0; i < keys.length; i++) {
+			try {
+				int id = cFn.checkVDInt(keys[i], 0);
+				User user = userService.findById(id);
+				//유저 상태 부여				
+				if (stateType != null || stateType != "") {
+					for (State e : State.values()) {
+						if (stateType.equals(e.getName())) {
+							user.setState(e.getState());
+						}
+					}
+				}
+				//유저 권한 부여
+				if (roleType != null || roleType != "") {
+					for (UserProfileType e : UserProfileType.values()) {
+						if (roleType.equals(e.getName())) {
+							Set<UserProfile> upSet = new HashSet<>();
+							UserProfile up = new UserProfile();
+							up.setId(e.ordinal() + 1);
+							up.setType(e.getName());
+							upSet.add(up);
+							user.setUserProfiles(upSet);
+						}
+					}
+				}
+				
+				userService.updateUser(user);
+				
+			} catch (Exception e) {
+				logger.error("ERROR : Admin user Error");
+				return "false";
+			}
+		}
+		return "true";
 	}
 
 	@RequestMapping(value = "/error", method = RequestMethod.GET)
@@ -227,6 +254,12 @@ public class UserController {
 			SecurityContextHolder.getContext().setAuthentication(null);
 		}
 		return "redirect:/login?logout";
+	}
+	
+	// 선언하면 모델값으로 쉽게 넘길 수 있음
+	@ModelAttribute("roles")
+	public List<UserProfile> initializeProfiles() {
+		return userProfileService.findAll();
 	}
 
 	private String getPrincipal() {

@@ -59,13 +59,14 @@ public class Board implements Serializable {
 	@Column(name = "PFNAME")
 	private String pfName;
 	
-//	@Transient
+//	@OneToMany
+//	@JoinTable(name = "COMMENT", joinColumns = { @JoinColumn(name = "BOARD_ID") })
+//	private List<Comment> comments;
+	
+//	@Transient	
 	@OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
 	private Set<FileData> files=new HashSet<FileData>();
 	
-	public Board() {
-	}
-
 	public int getId() {
 		return id;
 	}

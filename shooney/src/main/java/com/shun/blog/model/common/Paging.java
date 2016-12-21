@@ -29,6 +29,8 @@ public class Paging {
 	private String entityName;
 	// 게시판 별 해당 게시판 제목
 	private String pfName;
+	
+	private int id;
 
 	public Paging() {
 
@@ -162,5 +164,13 @@ public class Paging {
 
 	public void setsDate(String sDate) {
 		this.sDate = sDate;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	};
 }

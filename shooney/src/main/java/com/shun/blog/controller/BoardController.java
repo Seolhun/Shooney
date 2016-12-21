@@ -16,7 +16,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
-import org.springframework.security.authentication.AuthenticationTrustResolver;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.FileCopyUtils;
@@ -30,11 +29,13 @@ import com.shun.blog.controller.common.CommonFn;
 import com.shun.blog.model.board.Board;
 import com.shun.blog.model.board.EntityName;
 import com.shun.blog.model.board.PortfolioName;
+import com.shun.blog.model.comment.Comment;
 import com.shun.blog.model.common.Paging;
 import com.shun.blog.model.file.FileBucket;
 import com.shun.blog.model.file.MultiFileBucket;
 import com.shun.blog.model.user.User;
 import com.shun.blog.service.board.BoardService;
+import com.shun.blog.service.comment.CommentService;
 import com.shun.blog.service.user.UserService;
 
 @Controller
@@ -46,16 +47,16 @@ public class BoardController {
 
 	@Autowired
 	UserService uService;
-
+	
 	@Autowired
-	MessageSource messageSource;
+	CommentService cService;
 
 	@Autowired
 	CommonFn cFn;
 
 	@Autowired
-	AuthenticationTrustResolver authenticationTrustResolver;
-
+	MessageSource messageSource;
+	
 	private static final Logger logger = LoggerFactory.getLogger(BoardController.class);
 
 	private static final String UPLOAD_LOCATION = "/Users/HunSeol/Desktop/shooney/file/";
@@ -142,11 +143,33 @@ public class BoardController {
 			board.setHits(1);
 			bService.updateBoard(board);
 		}
-		
+
 		Board board = bService.findById(id);
+		
+		//댓글 가져오기
+		int cPage = cFn.checkVDInt(request.getParameter("cp"), 1);
+		int sType = cFn.checkVDInt(request.getParameter("sty"), 0);
+		String question = cFn.checkVDQuestion(request.getParameter("sty"));
+		String sDate = cFn.checkVDQuestion(request.getParameter("sda"));
+		int limit = cFn.checkVDInt(request.getParameter("li"), 20);
+		String pfName = cFn.checkVDQuestion(request.getParameter("pf"));
+		Paging paging = new Paging(cPage, sType, question, sDate, limit, kind, pfName);
+		paging.setId(id);
+
+		// 전체 게시판 갯수 확인
+		int totalCount = cService.getCount(paging);
+		
+		paging.setTotalCount(totalCount);
+		cFn.setPaging(paging);
+		
+		List<Comment> comments=cService.findAllComments(paging);
+		
 		model.addAttribute("board", board);
+		model.addAttribute("comments", comments);
+		model.addAttribute("paging", paging);
 		model.addAttribute("edit", false);
 		model.addAttribute("kind", kind);
+		model.addAttribute("accessUser", initializeUser());
 		model.addAttribute("enNames", board.getEntityName());
 		model.addAttribute("pfNames", board.getPfName());
 		return "board/detail";
@@ -156,8 +179,7 @@ public class BoardController {
 	public String editBoard(@PathVariable int id, ModelMap model, @PathVariable String kind) {
 		Board board = bService.findById(id);
 
-		String accessUser = cFn.getPrincipal();
-		if (!(board.getWriter().equals(accessUser))) {
+		if (!(board.getWriter().equals(initializeUser().getNickname()))) {
 			return "redirect:/bo/" + kind + "/r" + id;
 		}
 
@@ -178,8 +200,7 @@ public class BoardController {
 			return "board/add";
 		}
 
-		String accessUser = cFn.getPrincipal();
-		if (!(board.getWriter().equals(accessUser))) {
+		if (!(board.getWriter().equals(initializeUser().getNickname()))) {
 			return "redirect:/bo/" + kind + "/r" + id;
 		}
 
@@ -193,8 +214,7 @@ public class BoardController {
 	@RequestMapping(value = { "/bo/{kind}/d{id}" }, method = RequestMethod.GET)
 	public String deleteBoard(@PathVariable int id, @PathVariable String kind) {
 		Board board = bService.findById(id);
-		String accessUser = cFn.getPrincipal();
-		if (!(board.getWriter().equals(accessUser))) {
+		if (!(board.getWriter().equals(initializeUser().getNickname()))) {
 			return "redirect:/bo/" + kind + "/r" + id;
 		}
 		board.setDelCheck(1);

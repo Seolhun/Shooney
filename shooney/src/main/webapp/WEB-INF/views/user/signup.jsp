@@ -124,15 +124,15 @@
 							<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 								<c:choose>
 									<c:when test="${edit }">
-										<button type="submit" value="Update" class="btn-u btn-u-dark-blue btn-block rounded">Edit</button>
+										<button type="submit" value="Update" class="btn-u btn-block rounded">Edit</button>
 									</c:when>
 									<c:otherwise>
-										<button type="submit" value="Registration" class="btn-u btn-u-blue btn-block rounded">Sign Up</button>
+										<button type="submit" value="Registration" class="btn-u btn-block rounded">Sign Up</button>
 									</c:otherwise>
 								</c:choose>	
 							</div>
 							<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" >
-								<button type="button" class="btn-u btn-u-dark-orange btn-block rounded" onclick="javascript:history.back()">Cancel</button>
+								<button type="button" class="btn-u btn-u-default btn-block rounded" onclick="javascript:history.back()">Cancel</button>
 							</div>
 						</div>
 						

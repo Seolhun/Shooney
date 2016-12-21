@@ -204,7 +204,6 @@ public class CommonFnImpl implements CommonFn {
 		} else {
 			userName = principal.toString();
 		}
-
 		if (email.equals(userName)) {
 			return true;
 		}
