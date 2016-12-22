@@ -114,7 +114,6 @@ public class CommonFnImpl implements CommonFn {
 	@Override
 	public ObjectMapper setJSONMapper() throws JsonProcessingException {
 		ObjectMapper mapper = new ObjectMapper(); // create once, reuse. Thank
-													// You
 		// Mapping에 실패했을 때도 그냥 실행할 수 있게 하기.
 		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 		return mapper;

@@ -53,6 +53,15 @@ public class Paging {
 		this.entityName = entityName;
 		this.pfName = pfName;
 	}
+	
+	public Paging(int currentPage, int sType, String sText, String sDate, int limit, String pfName) {
+		this.cPage = currentPage;
+		this.sType = sType;
+		this.sText = sText;
+		this.sDate = sDate;
+		this.limit = limit;
+		this.pfName = pfName;
+	}
 
 	public int getcPage() {
 		return cPage;

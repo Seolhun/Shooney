@@ -23,14 +23,14 @@
 			<div class="col-sm-2">
 				<div class="input-group margin-bottom-20">
 					<span class="input-group-addon rounded-left"><i class="icon-envelope color-green"></i></span>
-					<div class="form-control rounded-right">${board.id }</div>
+					<div class="form-control rounded-right" id="board_id">${board.id }</div>
 				</div>
 			</div>
 			
 			<div class="col-sm-2">
 				<div class="input-group margin-bottom-20">
 					<span class="input-group-addon rounded-left"><i class="icon-user color-green"></i></span>
-					<div class="form-control rounded-right">${board.entityName }</div>
+					<div class="form-control rounded-right" id="board_entityname">${board.entityName }</div>
 				</div>
 			</div>
 			
@@ -87,69 +87,76 @@
 		<!-- 댓글 구현 -->
 		<div class="container">
 			<div class="row">
-				<div class="col-sm-12"><hr></div>
+				<div class="col-sm-12">
+					<hr>
+					<div class="text-left"><h3>Reply</h3></div>
+				</div>
 				<div class="col-sm-12 text-center margin-bottom-20">
 					<textarea name="content" rows="5" cols="auto" id="commentTextarea"></textarea>
 					<div class="text-right" id="commentBtn" hidden="true">
-						<button class="btn-u btn-u-dark-blue rounded" id="commentSubmit">Submit</button>
 						<button class="btn-u btn-u-default rounded" onclick="cancelHidden();">Cancel</button>
+						<button class="btn-u btn-u-dark-blue rounded" id="commentSubmit">Submit</button>
 					</div>
 				</div>
-				<c:if test="${!empty comments}">
-					<div class="col-sm-12"><hr></div>
+				<%-- <c:if test="${!empty comments}"> --%>
 					<div class="col-sm-12">
-						<c:forEach items="${comments}" var="i">
-							<div class="col-sm-4 col-xs-4">
-								<div class="input-group margin-bottom-20">
-									<span class="input-group-addon rounded-left"><i class="icon-user color-green"></i></span>
-									<div class="form-control rounded-right">${i.writer}</div>
+					<hr>
+						<div class="col-sm-12" id="commentDiv">
+							<%-- 
+							<c:forEach items="${comments}" var="i">
+								<div class="col-sm-4 col-xs-4">
+									<div class="input-group margin-bottom-20">
+										<span class="input-group-addon rounded-left"><i class="icon-user color-green"></i></span>
+										<div class="form-control rounded-right">${i.writer}</div>
+									</div>
 								</div>
-							</div>
-														
-							<div class="col-sm-4 col-xs-4">
-								<div class="input-group margin-bottom-20">
-									<span class="input-group-addon rounded-left"><i class="icon-envelope color-green"></i></span>
-									<div class="form-control rounded-right">${i.likes}</div>
+															
+								<div class="col-sm-4 col-xs-4">
+									<div class="input-group margin-bottom-20">
+										<span class="input-group-addon rounded-left"><i class="icon-envelope color-green"></i></span>
+										<div class="form-control rounded-right">${i.likes}</div>
+									</div>
 								</div>
-							</div>
-							
-							<div class="col-sm-4 col-xs-4">
-								<div class="input-group margin-bottom-20">
-									<span class="input-group-addon rounded-left"><i class="icon-envelope color-green"></i></span>
-									<div class="form-control rounded-right"><fmt:formatDate value="${i.latestDate}" pattern="yy-MM-dd, HH:mm"/></div>
+								
+								<div class="col-sm-4 col-xs-4">
+									<div class="input-group margin-bottom-20">
+										<span class="input-group-addon rounded-left"><i class="icon-envelope color-green"></i></span>
+										<div class="form-control rounded-right"><fmt:formatDate value="${i.latestDate}" pattern="yy-MM-dd, HH:mm"/></div>
+									</div>
 								</div>
-							</div>
-	
-							<div class="col-sm-12">
-								<div class="input-group margin-bottom-20">
-									<span class="input-group-addon rounded-left"><i class="icon-envelope color-green"></i></span>
-									<div class="form-control rounded-right" id="comment-content">${i.content}</div>
+		
+								<div class="col-sm-12">
+									<div class="input-group margin-bottom-20">
+										<span class="input-group-addon rounded-left"><i class="icon-envelope color-green"></i></span>
+										<div class="form-control rounded-right" id="comment-content">${i.content}</div>
+									</div>
+									<hr>
 								</div>
-							</div>
-						</c:forEach>
+							</c:forEach> 
+							--%>
+						</div>
 					</div>
 				
 					<div class="col-sm-12">
 						<div class="text-center">
-				   			<a href="list?cp=${paging.cPage -10 < 1 ? 1 : paging.cPage -10}" class="btn-u btn-brd btn-brd-hover btn-u-dark btn-u-block margin-bottom-5">&larr;&larr;</a>
-				   			<a href="list?cp=${paging.cPage -1 < 1 ? 1 : paging.cPage -1}" class="btn-u btn-brd btn-brd-hover btn-u-dark btn-u-block margin-bottom-5">&larr;</a>
-				   			&nbsp;
-				   			<c:forEach begin="${paging.blockStartNo }" end="${paging.blockEndNo}" varStatus="status">
-								<a href="list?cp=${status.index }" class="btn-u btn-brd btn-brd-hover btn-u-dark btn-u-block margin-bottom-5" <c:if test="${status.index==paging.cPage }">style="color : #4765a0"</c:if>>${status.index}</a>
-				   			</c:forEach>
-				   			&nbsp;
-				   			<a href="list?cp=${paging.cPage +1 > paging.totalPage ? paging.totalPage : paging.cPage +1}" class="btn-u btn-brd btn-brd-hover btn-u-dark btn-u-block margin-bottom-5">&rarr;</a>
-				   			<a href="list?cp=${paging.cPage +10 > paging.totalPage ? paging.totalPage : paging.cPage +10 }" class="btn-u btn-brd btn-brd-hover btn-u-dark btn-u-block margin-bottom-5">&rarr;&rarr;</a>
+				   			<a href="${kind }/r${board.id}?cp=${paging.cPage +10 > paging.totalPage ? paging.totalPage : paging.cPage +10 }" class="btn-u btn-brd btn-brd-hover btn-u-dark btn-u-block margin-bottom-5">More Comments</a>
 				   		</div>
 				   		<div style="text-align: center">
 				   			${paging.cPage } / ${paging.totalPage}
 				   		</div>
 				   	</div>
-				</c:if>
+				<%-- </c:if> --%>
 			</div>
 		</div>
 	</div>
  </div>
 </tag:layout>
+<script>
+	var csrfParameter = '${_csrf.parameterName}';
+	var csrfToken = '${_csrf.token}';
+	var csrfHeader = '${_csrf.headerName}';
+	var kind="${board.entityName}";
+	var board_id="${board.id }";
+</script>
 <!-- Custom & Functional JS -->
 <script type="text/javascript" src="${resources}/js/board.js"></script>
