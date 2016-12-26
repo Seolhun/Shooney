@@ -7,8 +7,8 @@
 <spring:url value="/resources" var="resources" />
 <spring:url value="/resources/template" var="template"/>
 <spring:url value="/" var="shooney"/>
-<spring:url value="/bo" var="bo"/>
-<spring:url value="/po" var="po"/>
+<spring:url value="/board" var="board"/>
+<spring:url value="/portfolio" var="portfolio"/>
 <spring:url value="/myinfo" var="myinfo"/>
 <spring:url value="/admin" var="admin"/>
 <spring:url value="/signup" var="signup"/>
@@ -137,9 +137,9 @@
 								<li class="dropdown">
 									<a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">Board</a>
 									<ul class="dropdown-menu">
-										<li><a href="${bo }/notice/list">Notice</a></li>
-										<li><a href="${bo }/freeboard/list">Free Board</a></li>
-										<li><a href="${bo }/qna/list">QNA</a></li>
+										<li><a href="${board }/notice/list">Notice</a></li>
+										<li><a href="${board }/freeboard/list">Free Board</a></li>
+										<li><a href="${board }/qna/list">QNA</a></li>
 									</ul>
 								</li>
 								<!-- End Pages -->
@@ -149,15 +149,15 @@
 								<li class="dropdown">
 									<a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">Portfolio</a>
 									<ul class="dropdown-menu">
-										<li><a href="${po}/project/list"><i class="fa fa-columns"></i> Project(File)</a></li>
-										<li><a href="${po}/item/list"><i class="fa fa-magic"></i> Items(Json, RestFul)</a></li>
-										<li><a href="${po}/music/list"><i class="fa fa-volume-down"></i> Musics(MongoDB, Json, Crawl, Youtube API)</a></li>
+										<li><a href="${portfolio}/project/list"><i class="fa fa-columns"></i> Project(File)</a></li>
+										<li><a href="${portfolio}/item/list"><i class="fa fa-magic"></i> Items(Json, RestFul)</a></li>
+										<li><a href="${portfolio}/music/list"><i class="fa fa-volume-down"></i> Musics(MongoDB, Json, Crawl, Youtube API)</a></li>
 										
 										<%--										
-										<li><a href="${po}/stomp/list"><i class="fa fa-comments"></i> Stomp(Spring AMQP)</a></li>
+										<li><a href="${portfolio}/stomp/list"><i class="fa fa-comments"></i> Stomp(Spring AMQP)</a></li>
 										<li><a href="shortcode_typo_grid.html"><i class="fa fa-align-justify"></i> Big Data(Spark)</a></li>
 										<li><a href="shortcode_typo_tagline_boxes.html"><i class="fa fa-tasks"></i> Thread Game(Java)</a></li>
-										<li><a href="${po}/toon/list"><i class="fa fa-tasks"></i> Toon(Phantom JS)</a></li>
+										<li><a href="${portfolio}/toon/list"><i class="fa fa-tasks"></i> Toon(Phantom JS)</a></li>
 										<li>
 											<div class="mega-menu-content disable-icons">
 												<div class="container">
@@ -167,11 +167,11 @@
 																<li><h3>Function Portfolio</h3></li>
 																<!-- Typography -->
 																<li><a href="${admin}/list"><i class="fa fa-asterisk"></i>  Admin</a></li>
-																<li><a href="${po}/music/list"><i class="fa fa-volume-down"></i>  Musics</a></li>
-																<li><a href="${po}/item/list"><i class="fa fa-magic"></i>  Items(Json)</a></li>
-																<li><a href="${po}/stomp/list"><i class="fa fa-comments"></i>  Stomp</a></li>
-																<li><a href="${po}/toon/list"><i class="fa fa-columns"></i>  Toon(Phantom)</a></li>
-																<li><a href="${po}/it/list"><i class="fa fa-tasks"></i> Web Crawling</a></li>
+																<li><a href="${portfolio}/music/list"><i class="fa fa-volume-down"></i>  Musics</a></li>
+																<li><a href="${portfolio}/item/list"><i class="fa fa-magic"></i>  Items(Json)</a></li>
+																<li><a href="${portfolio}/stomp/list"><i class="fa fa-comments"></i>  Stomp</a></li>
+																<li><a href="${portfolio}/toon/list"><i class="fa fa-columns"></i>  Toon(Phantom)</a></li>
+																<li><a href="${portfolio}/it/list"><i class="fa fa-tasks"></i> Web Crawling</a></li>
 																
 																<li><a href="shortcode_typo_grid.html"><i class="fa fa-align-justify"></i> Grid Layouts</a></li>
 																<li><a href="shortcode_compo_messages.html"><i class="fa fa-comment"></i> Alerts &amp; Messages</a></li>
@@ -290,8 +290,8 @@
 							<div class="heading-footer"><h2>Useful Links</h2></div>
 							<ul class="list-unstyled footer-link-list">
 								<li><a href="${about }">About Me</a></li>
-								<li><a href="${po}/music/list">Portfolio</a></li>
-								<li><a href="${bo}/freeboard/list">Community</a></li>
+								<li><a href="${portfolio}/music/list">Portfolio</a></li>
+								<li><a href="${board}/freeboard/list">Community</a></li>
 								<li><a href="${contact}">Contact Us</a></li>
 							</ul>
 						</div>

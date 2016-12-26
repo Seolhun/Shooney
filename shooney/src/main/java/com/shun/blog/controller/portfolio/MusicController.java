@@ -53,14 +53,14 @@ public class MusicController {
 	
 	private static final String UPLOAD_LOCATION = "/Users/HunSeol/Desktop/shooney/file/";
 
-	@RequestMapping(value = "/po/music/list", method = RequestMethod.GET)
+	@RequestMapping(value = "/portfolio/music/list", method = RequestMethod.GET)
 	public String listMusics(ModelMap model) {
 		ArrayList<Music> musics = (ArrayList<Music>) musicService.findAllMusics();
 		model.addAttribute("musics", musics);
 		return "portfolio/music/musiclist";
 	}
 
-	@RequestMapping(value = { "/po/music/get" }, method = RequestMethod.GET)
+	@RequestMapping(value = { "/portfolio/music/get" }, method = RequestMethod.GET)
 	public String getMusic(ModelMap model) throws IOException {
 		System.out.println("음악파일을 가져옵니다.");
 		JSONObject obj = new JSONObject();
@@ -109,7 +109,7 @@ public class MusicController {
 		return "redirect:/music/list";
 	}
 
-	@RequestMapping(value = { "/po/music/add" }, method = RequestMethod.GET)
+	@RequestMapping(value = { "/portfolio/music/add" }, method = RequestMethod.GET)
 	public String newMusics(ModelMap model) {
 		Music music = new Music();
 		JSONParser parser = new JSONParser();
@@ -143,7 +143,7 @@ public class MusicController {
 		return "redirect:/music/list";
 	}
 
-	@RequestMapping(value = { "/po/music/edit-{id}" }, method = RequestMethod.GET)
+	@RequestMapping(value = { "/portfolio/music/edit-{id}" }, method = RequestMethod.GET)
 	public String editUser(@PathVariable int id, ModelMap model) {
 		Music music = musicService.findById(id);
 		model.addAttribute("music", music);
@@ -151,7 +151,7 @@ public class MusicController {
 		return "portfolio/music/newmusic";
 	}
 
-	@RequestMapping(value = { "/po/music/edit-{id}" }, method = RequestMethod.POST)
+	@RequestMapping(value = { "/portfolio/music/edit-{id}" }, method = RequestMethod.POST)
 	public String updateUser(@Valid Music music, BindingResult result, ModelMap model, @PathVariable int id) {
 		if (result.hasErrors()) {
 			return "portfolio/music/newmusic";
@@ -162,7 +162,7 @@ public class MusicController {
 		return "result/result/success";
 	}
 
-	@RequestMapping(value = { "/po/music/delete-{id}" }, method = RequestMethod.GET)
+	@RequestMapping(value = { "/portfolio/music/delete-{id}" }, method = RequestMethod.GET)
 	public String deleteUser(@PathVariable int id) {
 		musicService.deleteUserById(id);
 		return "redirect:/musiclist";

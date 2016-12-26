@@ -35,7 +35,7 @@ public class ItemController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(ItemController.class);
 
-	@RequestMapping(value = "/po/item/list", method = RequestMethod.GET, produces = "application/json; charset=utf8")
+	@RequestMapping(value = "/portfolio/item/list", method = RequestMethod.GET, produces = "application/json; charset=utf8")
 	public String listItems(ModelMap model) throws IOException {
 		ArrayList<Monster> items = (ArrayList<Monster>) itemService.findAllItems();
 		//Json형식의 데이터 파싱하기.
@@ -59,7 +59,7 @@ public class ItemController {
 		return "portfolio/item/itemlist";
 	}
 
-	@RequestMapping(value = "/po/item/newitem", method = RequestMethod.GET)
+	@RequestMapping(value = "/portfolio/item/newitem", method = RequestMethod.GET)
 	public String newItem(ModelMap model, HttpServletResponse res) {
 		Monster item= new Monster();
 		model.addAttribute("item", item);

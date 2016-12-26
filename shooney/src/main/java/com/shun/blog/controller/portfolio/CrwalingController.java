@@ -23,7 +23,7 @@ public class CrwalingController {
 	@Autowired
 	CommonFn commonFn;
 	
-	@RequestMapping(value = "/po//crawl/list", method = RequestMethod.GET)
+	@RequestMapping(value = "/portfolio//crawl/list", method = RequestMethod.GET)
 	public String getITworldInfoList(ModelMap model) throws IOException {
 		int page=52000;
 		//리스트 가져오기
@@ -46,7 +46,7 @@ public class CrwalingController {
 		return "crawl/list";
 	}
 	
-	@RequestMapping(value = "/po//crawl/get", method = RequestMethod.GET)
+	@RequestMapping(value = "/portfolio//crawl/get", method = RequestMethod.GET)
 	public String getITworldInfo(ModelMap model){
 
 		

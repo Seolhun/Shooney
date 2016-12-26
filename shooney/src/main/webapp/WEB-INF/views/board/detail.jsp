@@ -5,7 +5,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="tag" tagdir="/WEB-INF/tags"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<spring:url value="/bo" var="bo"/>
+<spring:url value="/board" var="bo"/>
 <c:url value="/resources/" var="resources" />
 <c:url value="/resources/template" var="template"/>
 <tag:layout>
@@ -146,7 +146,7 @@
 
 					<div class="col-sm-12">
 						<div class="text-center">
-				   			<button class="btn-u btn-brd btn-brd-hover btn-u-dark btn-u-block margin-bottom-30">More Comments</button>
+				   			<button class="btn-u btn-brd btn-brd-hover btn-u-dark-blue btn-u-block margin-bottom-30">More Comments</button>
 				   		</div>
 				   	</div>
 				<%-- </c:if> --%>

@@ -5,7 +5,7 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<c:url value="/bo" var="bo"/>
+<c:url value="/board" var="bo"/>
 <tag:layout tab="${target}">
 <div class="call-action-v1 bg-color-light">
 	<div class="container">
@@ -15,7 +15,7 @@
 			</div>
 			<sec:authorize access="hasRole('SUPERADMIN')">
 				<div class="call-action-v1-in inner-btn page-scroll">
-			 		<a href="add" class="btn-u btn-brd btn-brd-hover btn-u-dark btn-u-block margin-bottom-5">Write</a>
+			 		<a href="add" class="btn-u btn-brd btn-brd-hover btn-u-dark-blue btn-u-block margin-bottom-5">Write</a>
 		 		</div>
 		 	</sec:authorize>
 		</div>

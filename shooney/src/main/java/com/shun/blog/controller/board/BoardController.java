@@ -60,7 +60,7 @@ public class BoardController {
 
 	private static final String UPLOAD_LOCATION = "/Users/HunSeol/Desktop/shooney/file/";
 
-	@RequestMapping(value = "/bo/{kind}/list", method = RequestMethod.GET)
+	@RequestMapping(value = "/board/{kind}/list", method = RequestMethod.GET)
 	public String allBoardList(ModelMap model, @PathVariable String kind, HttpServletRequest request) {
 		logger.info("TEST : Get Board List of " + kind);
 
@@ -87,7 +87,7 @@ public class BoardController {
 		return "board/list";
 	}
 
-	@RequestMapping(value = { "/bo/{kind}/add" }, method = RequestMethod.GET)
+	@RequestMapping(value = { "/board/{kind}/add" }, method = RequestMethod.GET)
 	public String addBoard(ModelMap model, @PathVariable String kind) {
 		Board board = new Board();
 		model.addAttribute("board", board);
@@ -99,7 +99,7 @@ public class BoardController {
 		return "board/add";
 	}
 
-	@RequestMapping(value = { "/bo/{kind}/add" }, method = RequestMethod.POST)
+	@RequestMapping(value = { "/board/{kind}/add" }, method = RequestMethod.POST)
 	public String addBoardDo(@Valid Board board, @Valid MultiFileBucket multiFileBucket, BindingResult result,
 			ModelMap model, @PathVariable String kind, HttpServletRequest req) throws IOException {
 		// Board 부분
@@ -132,7 +132,7 @@ public class BoardController {
 		return "result/success";
 	}
 
-	@RequestMapping(value = { "/bo/{kind}/r{id}" }, method = RequestMethod.GET)
+	@RequestMapping(value = { "/board/{kind}/r{id}" }, method = RequestMethod.GET)
 	public String detailBoard(@PathVariable int id, ModelMap model, @PathVariable String kind, HttpServletRequest request, HttpServletResponse response) {
 		String strId=String.valueOf(id);
 		
@@ -155,12 +155,12 @@ public class BoardController {
 		return "board/detail";
 	}
 
-	@RequestMapping(value = { "/bo/{kind}/m{id}" }, method = RequestMethod.GET)
+	@RequestMapping(value = { "/board/{kind}/m{id}" }, method = RequestMethod.GET)
 	public String editBoard(@PathVariable int id, ModelMap model, @PathVariable String kind) {
 		Board board = bService.findById(id);
 
 		if (!(board.getWriter().equals(initializeUser().getNickname()))) {
-			return "redirect:/bo/" + kind + "/r" + id;
+			return "redirect:/board/" + kind + "/r" + id;
 		}
 
 		model.addAttribute("board", board);
@@ -171,7 +171,7 @@ public class BoardController {
 		return "board/add";
 	}
 
-	@RequestMapping(value = { "/bo/{kind}/m{id}" }, method = RequestMethod.POST)
+	@RequestMapping(value = { "/board/{kind}/m{id}" }, method = RequestMethod.POST)
 	public String editBoardDo(@Valid Board board, BindingResult result, ModelMap model, @PathVariable int id,
 			@PathVariable String kind) {
 		if (result.hasErrors()) {
@@ -181,7 +181,7 @@ public class BoardController {
 		}
 
 		if (!(board.getWriter().equals(initializeUser().getNickname()))) {
-			return "redirect:/bo/" + kind + "/r" + id;
+			return "redirect:/board/" + kind + "/r" + id;
 		}
 
 		bService.updateBoard(board);
@@ -191,15 +191,15 @@ public class BoardController {
 		return "result/success";
 	}
 
-	@RequestMapping(value = { "/bo/{kind}/d{id}" }, method = RequestMethod.GET)
+	@RequestMapping(value = { "/board/{kind}/d{id}" }, method = RequestMethod.GET)
 	public String deleteBoard(@PathVariable int id, @PathVariable String kind) {
 		Board board = bService.findById(id);
 		if (!(board.getWriter().equals(initializeUser().getNickname()))) {
-			return "redirect:/bo/" + kind + "/r" + id;
+			return "redirect:/board/" + kind + "/r" + id;
 		}
 		board.setDelCheck(1);
 		bService.updateBoard(board);
-		return "redirect:/bo/" + kind + "/list";
+		return "redirect:/board/" + kind + "/list";
 	}
 
 	// 선언하면 모델값으로 쉽게 넘길 수 있음
