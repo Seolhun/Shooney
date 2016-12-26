@@ -1,5 +1,5 @@
-$('#confirm').on('click', function() {
-	return confirm("정말 삭제하시겠습니까?");
+$('.confirm').on('click', function() {
+	return confirm("Really");
 });
 
 $('#summernoteReply').summernote({

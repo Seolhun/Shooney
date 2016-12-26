@@ -72,7 +72,7 @@
 						<td><a href="${admin }/edit-${user.email}" class="btn btn-default custom-width rounded">Edit</a></td>
 				        <c:choose>
 				        	<c:when test="${user.state.equals('Active')}">
-				        		<td><a href="${admin }/up-${user.email}?s=d" class="btn-u btn-u-red custom-width rounded" id="confirm">Delete</a></td>
+				        		<td><a href="${admin }/up-${user.email}?s=d" class="btn-u btn-u-red custom-width rounded confirm">Delete</a></td>
 				        	</c:when>
 				        	<c:otherwise>
 				        		<td><a href="${admin }/up-${user.email}?s=a" class="btn-u btn-u-dark-blue custom-width rounded" id="confirm">Active</a></td>

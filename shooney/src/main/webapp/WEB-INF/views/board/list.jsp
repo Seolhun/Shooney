@@ -24,9 +24,9 @@
 <div class="container content-xs">
 	<div class="row">
 		<div class="col-sm-12">
-			<a href="${bo }/${kind}/list" class="btn-u btn-brd btn-brd-hover btn-u-dark rounded">All</a>
+			<a href="${bo }/${kind}/list" class="btn-u btn-brd btn-brd-hover btn-u-dark-blue rounded">All</a>
 			<c:forEach items="${pfNames }" var="i">
-				<a href="list?pf=${i.type}" class="btn-u btn-brd btn-brd-hover btn-u-dark rounded">${i}</a>
+				<a href="list?pf=${i.type}" class="btn-u btn-brd btn-brd-hover btn-u-dark-blue rounded">${i}</a>
 			</c:forEach>
 		</div>
 		<hr>
@@ -80,15 +80,15 @@
    			</div>
    			<hr>
 	   		<div style="text-align: center">
-	   			<a href="list?cp=${paging.cPage -10 < 1 ? 1 : paging.cPage -10}" class="btn-u btn-brd btn-brd-hover btn-u-dark btn-u-block margin-bottom-5">&larr;&larr;</a>
-	   			<a href="list?cp=${paging.cPage -1 < 1 ? 1 : paging.cPage -1}" class="btn-u btn-brd btn-brd-hover btn-u-dark btn-u-block margin-bottom-5">&larr;</a>
+	   			<a href="list?cp=${paging.cPage -10 < 1 ? 1 : paging.cPage -10}" class="btn-u btn-brd btn-brd-hover btn-u-dark-blue btn-u-block margin-bottom-5">&larr;&larr;</a>
+	   			<a href="list?cp=${paging.cPage -1 < 1 ? 1 : paging.cPage -1}" class="btn-u btn-brd btn-brd-hover btn-u-dark-blue btn-u-block margin-bottom-5">&larr;</a>
 	   			&nbsp;
 	   			<c:forEach begin="${paging.blockStartNo }" end="${paging.blockEndNo}" varStatus="status">
-					<a href="${bo}/${kind}/list?cp=${status.index }" class="btn-u btn-brd btn-brd-hover btn-u-dark btn-u-block margin-bottom-5" <c:if test="${status.index==paging.cPage }">style="color : #4765a0"</c:if>>${status.index}</a>
+					<a href="${bo}/${kind}/list?cp=${status.index }" class="btn-u btn-brd btn-brd-hover btn-u-dark-blue btn-u-block margin-bottom-5" <c:if test="${status.index==paging.cPage }">style="color : #4765a0"</c:if>>${status.index}</a>
 	   			</c:forEach>
 	   			&nbsp;
-	   			<a href="list?cp=${paging.cPage +1 > paging.totalPage ? paging.totalPage : paging.cPage +1}" class="btn-u btn-brd btn-brd-hover btn-u-dark btn-u-block margin-bottom-5">&rarr;</a>
-	   			<a href="list?cp=${paging.cPage +10 > paging.totalPage ? paging.totalPage : paging.cPage +10 }" class="btn-u btn-brd btn-brd-hover btn-u-dark btn-u-block margin-bottom-5">&rarr;&rarr;</a>
+	   			<a href="list?cp=${paging.cPage +1 > paging.totalPage ? paging.totalPage : paging.cPage +1}" class="btn-u btn-brd btn-brd-hover btn-u-dark-blue btn-u-block margin-bottom-5">&rarr;</a>
+	   			<a href="list?cp=${paging.cPage +10 > paging.totalPage ? paging.totalPage : paging.cPage +10 }" class="btn-u btn-brd btn-brd-hover btn-u-dark-blue btn-u-block margin-bottom-5">&rarr;&rarr;</a>
 	   		</div>
 	   		<div style="text-align: center">
 	   			${paging.cPage } / ${paging.totalPage}

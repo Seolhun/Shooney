@@ -6,10 +6,13 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -35,10 +38,48 @@ public class CommentController {
 	@Autowired
 	CommonFn cFn;
 
+	private static final Logger logger = LoggerFactory.getLogger(CommentController.class);
+	
 	@RequestMapping(value = "/reply/board/add", method = {RequestMethod.POST}, produces = "application/json; charset=utf8")
 	public @ResponseBody String addBoardComment(@RequestBody Comment comment) {
-		comment.setWriter(initializeUser().getNickname());
+		try {
+			comment.setWriter(initializeUser().getNickname());
+			String content=comment.getContent();
+			if(content==null || content.length()<1){
+				return "false";
+			}
+		} catch (NullPointerException e) {
+			logger.error("Fail to get login user information ");
+		}
+		comment.setContent(comment.getContent().replaceAll("\n", "<br/>"));
 		cService.saveComment(comment);
+		return "true";
+	}
+	
+	@RequestMapping(value = "/reply/board/delete/{id}", method = {RequestMethod.GET})
+	public @ResponseBody String deleteBoardComment(HttpServletRequest reqeust, Comment comment, @PathVariable int id) {
+		String writer=reqeust.getParameter("writer");
+		String accessUser=initializeUser().getNickname();
+		if(!accessUser.equals(writer)){
+			return "false";
+		}
+		
+		comment.setDelCheck(1);
+		comment.setId(id);
+		cService.updateComment(comment);
+		return "true";
+	}
+	
+	@RequestMapping(value = "/reply/board/modify/{id}", method = {RequestMethod.GET})
+	public @ResponseBody String modifyBoardComment(HttpServletRequest reqeust, Comment comment, @PathVariable int id) {
+		String writer=reqeust.getParameter("writer");
+		String accessUser=initializeUser().getNickname();
+		if(!accessUser.equals(writer)){
+			return "false";
+		}
+		comment.setContent(comment.getContent().replaceAll("\n", "<br/>"));
+		comment.setId(id);
+		cService.updateComment(comment);
 		return "true";
 	}
 	

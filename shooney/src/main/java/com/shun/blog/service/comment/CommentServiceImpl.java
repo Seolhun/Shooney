@@ -28,10 +28,12 @@ public class CommentServiceImpl implements CommentService {
 		Comment entity = commentDao.findById(comment.getId());
 		//읽을시 쿠키 읽기
 		if(entity != null){
-			entity.setContent(comment.getContent());
-			entity.setWriter(comment.getWriter());
-			entity.setDelCheck(comment.getDelCheck());
-			entity.setBoard_id(comment.getBoard_id());
+			if(comment.getDelCheck()==1){
+				entity.setDelCheck(comment.getDelCheck());	
+			} else if(comment.getDelCheck()==0){
+				entity.setContent(comment.getContent());
+				entity.setWriter(comment.getWriter());
+			}
 		}
 	}
 

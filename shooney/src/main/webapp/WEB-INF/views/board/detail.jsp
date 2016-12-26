@@ -107,7 +107,7 @@
 								<div class="col-sm-4 col-xs-4">
 									<div class="input-group margin-bottom-20">
 										<span class="input-group-addon rounded-left"><i class="icon-user color-green"></i></span>
-										<div class="form-control rounded-right">${i.writer}</div>
+										<div class="form-control rounded-right" >${i.writer}</div>
 									</div>
 								</div>
 															
@@ -132,17 +132,21 @@
 									</div>
 									<hr>
 								</div>
-							</c:forEach> 
+								
+								<c:if test="${accessUser.nickname.equals(i.writer)}">
+									<div class="col-sm-12 text-right">
+										<button class="btn-u btn-u-default rounded" onclick="commentModify();">Modify</button>
+										<button class="btn-u btn-u-dark-blue rounded" onclick="commentDelete();">Delete</button>
+									</div>
+								</c:if>
+							</c:forEach>  
 							--%>
 						</div>
 					</div>
-				
+
 					<div class="col-sm-12">
 						<div class="text-center">
-				   			<a href="${kind }/r${board.id}?cp=${paging.cPage +10 > paging.totalPage ? paging.totalPage : paging.cPage +10 }" class="btn-u btn-brd btn-brd-hover btn-u-dark btn-u-block margin-bottom-5">More Comments</a>
-				   		</div>
-				   		<div style="text-align: center">
-				   			${paging.cPage } / ${paging.totalPage}
+				   			<button class="btn-u btn-brd btn-brd-hover btn-u-dark btn-u-block margin-bottom-30">More Comments</button>
 				   		</div>
 				   	</div>
 				<%-- </c:if> --%>
@@ -157,6 +161,7 @@
 	var csrfHeader = '${_csrf.headerName}';
 	var kind="${board.entityName}";
 	var board_id="${board.id }";
+	var accessUser="${accessUser.nickname}";
 </script>
 <!-- Custom & Functional JS -->
 <script type="text/javascript" src="${resources}/js/board.js"></script>

@@ -1,6 +1,6 @@
 /* Write here your custom javascript codes */
 var project="/shooney"
-
+	
 //댓글달기 버튼 이벤트 
 $('#commentTextarea').click(function(){
 	$("#commentBtn").prop("hidden", false);
@@ -12,7 +12,6 @@ function cancelHidden() {
 
 //게시판 불러올 시 댓글 볼러오기
 window.onload = function() {
-	$("#commentDiv").text('');
 	getCommentsList();
 }
 
@@ -36,6 +35,7 @@ $('#commentSubmit').click(function(){
 		success: function(data) {
 			if(data){
 				console.log('Success');
+				document.getElementById("commentTextarea").value='';
 				getCommentsList();
 			} else {
 				console.log('Fail');
@@ -60,13 +60,90 @@ function getCommentsList() {
     		$("#commentDiv").empty();
     		var commentList=response.comments;
     		var pagingObject=response.paging;
-    		commentList.forEach(function(data, Status, index) {
-    			row+= "<div class='col-sm-4 col-xs-4'><div class='input-group margin-bottom-20'><span class='input-group-addon rounded-left'><i class='icon-user color-green'></i></span><div class='form-control rounded-right'>"+data.writer+"</div></div></div>";
-    			row+="<div class='col-sm-4 col-xs-4'><div class='input-group margin-bottom-20'><span class='input-group-addon rounded-left'><i class='icon-envelope color-green'></i></span><div class='form-control rounded-right'>"+data.likes+"</div></div></div>";
-    			row+="<div class='col-sm-4 col-xs-4'><div class='input-group margin-bottom-20'><span class='input-group-addon rounded-left'><i class='icon-envelope color-green'></i></span><div class='form-control rounded-right'>"+data.latestDate+"</div></div></div>";
-				row+="<div class='col-sm-12'><div class='input-group margin-bottom-20'><span class='input-group-addon rounded-left'><i class='icon-envelope color-green'></i></span><div class='form-control rounded-right' id='comment-content'>"+data.content+"</div></div><hr></div>";	
+    		commentList.forEach(function(data, status, index) {
+				row+= "<div class='col-sm-3 col-xs-3'><div class='input-group margin-bottom-20'><span class='input-group-addon rounded-left'><i class='icon-user color-green'></i></span><div class='form-control rounded-right' id='commentWriter'>"+data.writer+"</div></div></div>";
+    			row+="<div class='col-sm-3 col-xs-3'><div class='input-group margin-bottom-20'><span class='input-group-addon rounded-left'><i class='icon-envelope color-green'></i></span><div class='form-control rounded-right'>"+data.likes+"</div></div></div>";
+    			row+="<div class='col-sm-6 col-xs-6'><div class='input-group margin-bottom-20'><span class='input-group-addon rounded-left'><i class='icon-envelope color-green'></i></span><div class='form-control rounded-right'>"+data.latestDate+"</div></div></div>";
+				row+="<div class='col-sm-12 commentContent-"+data.id+"'><div class='input-group margin-bottom-20'><span class='input-group-addon rounded-left'><i class='icon-envelope color-green'></i></span><div class='form-control rounded-right' id='commentContent' style='height : auto;'>"+data.content+"</div></div></div>";	
+				if(accessUser==data.writer){
+					row+="<div class='col-sm-12 text-right commentContent-"+data.id+"'><button class='btn-u btn-u-dark-blue rounded margin-right-5' onclick='javascript:commentModify("+data.id+");'>Modify</button><button class='btn-u btn-u-red rounded' onclick='javascript:commentDelete("+data.id+");'>Delete</button></div>";
+				}
+				//This part for Modify				
+				row+="<div class='col-sm-12 text-center margin-bottom-20' id='commentModify-"+data.id+"' hidden='true'><textarea name='content' rows='5' cols='auto' style='resize:none;' id='commentModifyTextarea'>"+data.content.replace(/<br\s*\/?>/mg,"\n")+"</textarea><div class='text-right'><button class='btn-u btn-u-default rounded margin-right-5' onclick='modifyCancel("+data.id+");'>Cancel</button><button class='btn-u btn-u-dark-blue rounded' onclick='commentModifySubmit("+data.id+");'>Modify</button></div></div>"
+				row+="<div class='col-sm-12'><hr></div>";					
 				$("#commentDiv").append(row);
+				row = "";
     		});
-    	}//end success
+    	}, error : function(e){
+			console.log('Error');
+		}//end success
 	});//end ajax
 }//end function()
+
+function commentDelete(commentId){
+	var check=confirm("Really?");
+	if(check){
+		var id= commentId;
+		var writer= document.getElementById("commentWriter").innerHTML;
+		var content= document.getElementById("commentContent").innerHTML;
+		$.ajax({
+			url : project +"/reply/board/delete/"+id,
+			type : 'GET',
+			timeout : 60000,
+			data : {
+				'writer' : writer,
+				'content' : content,
+			},
+			dataType : "json",
+			success: function(data) {
+				if(data){
+					console.log('Success');
+					getCommentsList();
+				} else {
+					console.log('Fail');
+				}
+			},
+			error : function(e){
+				console.log('Error');
+			}
+		});	
+	}
+}
+
+function commentModify(commentId) {
+	$(".commentContent-"+commentId).prop("hidden",true);
+	$("#commentModify-"+commentId).prop("hidden",false);
+}
+
+function modifyCancel(commentId) {
+	$(".commentContent-"+commentId).prop("hidden",false);
+	$("#commentModify-"+commentId).prop("hidden",true);
+}
+
+function commentModifySubmit(commentId){
+	var id= commentId;
+	var writer= document.getElementById("commentWriter").innerHTML;
+	var content= document.getElementById("commentModifyTextarea").value;
+//	var content= inputContent.replace(/\n/g, '<br/>');
+	$.ajax({
+		url : project +"/reply/board/modify/"+id,
+		type : 'GET',
+		timeout : 60000,
+		data : {
+			'writer' : writer,
+			'content' : content,
+		},
+		dataType : "json",
+		success: function(data) {
+			if(data){
+				console.log('Success');
+				getCommentsList();
+			} else {
+				console.log('Fail');
+			}
+		},
+		error : function(e){
+			console.log('Error');
+		}
+	});	
+}
