@@ -7,6 +7,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
@@ -23,10 +24,12 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 
 import com.shun.blog.config.security.converter.RoleToUserProfileConverter;
+import com.shun.mongodb.config.MongoConfig;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = "com.shun.blog")
+@ComponentScan(basePackages = "com.shun")
+@Import({MongoConfig.class})
 public class AppConfig extends WebMvcConfigurerAdapter {
 
 	@Autowired

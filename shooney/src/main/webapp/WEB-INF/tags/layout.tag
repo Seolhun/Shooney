@@ -8,6 +8,7 @@
 <spring:url value="/resources/template" var="template"/>
 <spring:url value="/" var="shooney"/>
 <spring:url value="/board" var="board"/>
+<spring:url value="/project" var="project"/>
 <spring:url value="/portfolio" var="portfolio"/>
 <spring:url value="/myinfo" var="myinfo"/>
 <spring:url value="/admin" var="admin"/>
@@ -149,8 +150,8 @@
 								<li class="dropdown">
 									<a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">Portfolio</a>
 									<ul class="dropdown-menu">
-										<li><a href="${portfolio}/project/list"><i class="fa fa-columns"></i> Project(File)</a></li>
-										<li><a href="${portfolio}/item/list"><i class="fa fa-magic"></i> Items(Json, RestFul)</a></li>
+										<li><a href="${project}"><i class="fa fa-columns"></i> Projects</a></li>
+										<li><a href="${portfolio}/item/list"><i class="fa fa-magic"></i> Items</a></li>
 										<li><a href="${portfolio}/music/list"><i class="fa fa-volume-down"></i> Musics(MongoDB, Json, Crawl, Youtube API)</a></li>
 										
 										<%--										
