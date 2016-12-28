@@ -1,4 +1,4 @@
-package com.shun.mongodb.modelandview.project;
+package com.shun.mongodb.model.project;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 

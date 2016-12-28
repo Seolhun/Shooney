@@ -2,7 +2,7 @@ package com.shun.mongodb.service;
 
 import java.util.List;
 
-import com.shun.mongodb.modelandview.project.Project;
+import com.shun.mongodb.model.project.Project;
 
 public interface ProjectService {
 

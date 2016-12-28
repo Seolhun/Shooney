@@ -7,8 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.shun.mongodb.modelandview.project.Project;
-import com.shun.mongodb.modelandview.project.ProjectDao;
+import com.shun.mongodb.model.project.Project;
+import com.shun.mongodb.model.project.ProjectDao;
 
 @Service("ProjectService")
 @Transactional(noRollbackFor = { Exception.class, NullPointerException.class })

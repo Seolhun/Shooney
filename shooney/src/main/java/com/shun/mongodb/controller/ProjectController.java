@@ -1,17 +1,13 @@
 package com.shun.mongodb.controller;
 
-import java.util.Date;
 import java.util.List;
-
-import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.shun.mongodb.modelandview.project.Project;
-import com.shun.mongodb.modelandview.project.ProjectDao;
+import com.shun.mongodb.model.project.Project;
 import com.shun.mongodb.service.ProjectService;
 
 @RestController

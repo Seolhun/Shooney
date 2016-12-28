@@ -1,4 +1,4 @@
-package com.shun.mongodb.modelandview.project;
+package com.shun.mongodb.model.project;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -7,7 +7,7 @@ import java.util.List;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import com.shun.mongodb.modelandview.BaseEntity;
+import com.shun.mongodb.model.BaseEntity;
 
 @SuppressWarnings("serial")
 @Document(collection = "project")

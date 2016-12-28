@@ -1,5 +1,9 @@
 /* Write here your custom javascript codes */
-var project="/shooney"
+var project="/shooney";
+var csrfHeader=$("meta[name='_csrf_header']").attr("content");
+var	csrfToken=$("meta[name='_csrf']").attr("content");
+
+	
 	
 //댓글달기 버튼 이벤트 
 $('#commentTextarea').click(function(){
@@ -19,7 +23,6 @@ $('#commentSubmit').click(function(){
 	var data = {}
 	data["content"] = document.getElementById("commentTextarea").value;
 	data["board_id"] = document.getElementById("board_id").innerHTML;
-	data["csrfParameter"] = csrfParameter;
 	data["csrfToken"] = csrfToken;
 	$.ajax({
 		url : project +"/reply/board/add",

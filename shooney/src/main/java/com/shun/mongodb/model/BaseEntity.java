@@ -1,4 +1,4 @@
-package com.shun.mongodb.modelandview;
+package com.shun.mongodb.model;
 
 import java.io.Serializable;
 import org.springframework.data.annotation.Id;

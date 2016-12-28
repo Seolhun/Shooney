@@ -156,9 +156,6 @@
  </div>
 </tag:layout>
 <script>
-	var csrfParameter = '${_csrf.parameterName}';
-	var csrfToken = '${_csrf.token}';
-	var csrfHeader = '${_csrf.headerName}';
 	var kind="${board.entityName}";
 	var board_id="${board.id }";
 	var accessUser="${accessUser.nickname}";

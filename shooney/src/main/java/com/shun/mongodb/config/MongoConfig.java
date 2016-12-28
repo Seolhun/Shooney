@@ -7,7 +7,7 @@ import org.springframework.data.mongodb.core.SimpleMongoDbFactory;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import com.mongodb.MongoClient;
 
-@EnableMongoRepositories(basePackages = "com.shun.mongodb.modelandview")
+@EnableMongoRepositories(basePackages = "com.shun.mongodb.model")
 public class MongoConfig {
 	@Bean
 	public MongoDbFactory mongoDbFactory() throws Exception {

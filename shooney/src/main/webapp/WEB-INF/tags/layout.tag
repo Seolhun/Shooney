@@ -4,35 +4,32 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <%-- <c:choose><c:when test="${language_code eq 'en'}"><spring:eval expression="@text_en" var="text" scope="request" /></c:when><c:otherwise><spring:eval expression="@text_ko" var="text" scope="request" /></c:otherwise></c:choose> --%>
-<spring:url value="/resources" var="resources" />
-<spring:url value="/resources/template" var="template"/>
-<spring:url value="/" var="shooney"/>
-<spring:url value="/board" var="board"/>
-<spring:url value="/project" var="project"/>
-<spring:url value="/portfolio" var="portfolio"/>
-<spring:url value="/myinfo" var="myinfo"/>
-<spring:url value="/admin" var="admin"/>
-<spring:url value="/signup" var="signup"/>
-<spring:url value="/login" var="login"/>
-<spring:url value="/logout" var="logout"/>
+<spring:url value="/resources" var="resources" /><spring:url value="/resources/template" var="template"/><spring:url value="/" var="shooney"/><spring:url value="/board" var="board"/><spring:url value="/project" var="project"/><spring:url value="/portfolio" var="portfolio"/><spring:url value="/myinfo" var="myinfo"/><spring:url value="/admin" var="admin"/><spring:url value="/signup" var="signup"/><spring:url value="/login" var="login"/><spring:url value="/logout" var="logout"/>
 <!doctype html>
 <html class="no-js" lang="${language_code}">
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="keywords" content="SHooney">
-<meta name="description" content="SHooney">
+<meta name="keywords" content="Shooney">
+<meta name="description" content="Shooney's Blog">
+<meta id="_csrf" name="_csrf" content="${_csrf.token}" />
+<meta id="_csrf_header" name="_csrf_header" content="${_csrf.headerName}" />
+
 <title>SomeThing New | Hooney Blog</title>
 
 <link rel="shortcut icon" href="${resources}/img/logo.jpeg" />
+
 <!-- Web Fonts -->
 <link rel='stylesheet' type='text/css' href='//fonts.googleapis.com/css?family=Open+Sans:400,300,600&amp;subset=cyrillic,latin'>
+
 <!-- CSS Global Compulsory -->
 <link rel="stylesheet" href="${template}/plugins/bootstrap/css/bootstrap.min.css">
 <link rel="stylesheet" href="${template}/css/style.css">
+
 <!-- CSS Header and Footer -->
 <link rel="stylesheet" href="${template}/css/headers/header-v6.css">
 <link rel="stylesheet" href="${template}/css/footers/footer-v6.css">
+
 <!-- CSS Implementing Plugins -->
 <link rel="stylesheet" href="${template}/plugins/animate.css">
 <link rel="stylesheet" href="${template}/plugins/line-icons/line-icons.css">
@@ -41,11 +38,14 @@
 <link rel="stylesheet" href="${template}/plugins/owl-carousel/owl-carousel/owl.carousel.css">
 <link rel="stylesheet" href="${template}/plugins/master-slider/masterslider/style/masterslider.css">
 <link rel='stylesheet' href="${template}/plugins/master-slider/masterslider/skins/black-2/style.css">
+
 <!-- CSS Pages Style -->
 <link rel="stylesheet" href="${template}/css/pages/page_one.css">
+
 <!-- CSS Theme -->
 <link rel="stylesheet" href="${template}/css/theme-colors/dark-blue.css" id="style_color">
 <link rel="stylesheet" href="${template}/css/theme-skins/dark.css">
+
 <!-- CSS Customization -->
 <link href="${resources }/summer/summernote.css" rel="stylesheet">
 <link rel="stylesheet" href="${resources}/css/hooney.css">
