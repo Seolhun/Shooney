@@ -17,14 +17,15 @@ public enum State {
 		return this.state;
 	}
 
+	public String getName(){
+		return this.name();
+	}
+
 	@Override
 	public String toString(){
 		return this.state;
 	}
 
-	public String getName(){
-		return this.name();
-	}
 
 
 }

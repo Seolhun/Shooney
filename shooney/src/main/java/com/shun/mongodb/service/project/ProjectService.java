@@ -1,4 +1,4 @@
-package com.shun.mongodb.service;
+package com.shun.mongodb.service.project;
 
 import java.util.List;
 

@@ -9,7 +9,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  * Super class for all entity classes.
  * 
  * @author Zouhir OUFTOU
- *
  */
 @Document
 @JsonIgnoreProperties(ignoreUnknown = true)

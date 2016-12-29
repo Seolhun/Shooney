@@ -9,6 +9,7 @@ import com.mongodb.MongoClient;
 
 @EnableMongoRepositories(basePackages = "com.shun.mongodb.model")
 public class MongoConfig {
+	
 	@Bean
 	public MongoDbFactory mongoDbFactory() throws Exception {
 		return new SimpleMongoDbFactory(new MongoClient(), "shooney");

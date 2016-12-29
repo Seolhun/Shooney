@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.shun.mongodb.model.project.Project;
-import com.shun.mongodb.service.ProjectService;
+import com.shun.mongodb.service.project.ProjectService;
 
 @RestController
 public class ProjectController {

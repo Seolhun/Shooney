@@ -4,9 +4,7 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="tag" tagdir="/WEB-INF/tags"%>
-<spring:url value="/resources/" var="RESOURCES" />
-<spring:url value="/resources/template" var="template" />
-<spring:url value="/po" var="po" />
+<spring:url value="/resources/" var="resources" /><spring:url value="/resources/template" var="template" /><spring:url value="/it" var="it" />
 <tag:layout tab="${target}">
 	<!--=== Call To Action ===-->
 	<div class="call-action-v1 bg-color-light">
@@ -17,12 +15,9 @@
 						services and focused on helping our clients to build a successful
 						business on web and mobile.</p>
 				</div>
-				<sec:authorize access="hasRole('SUPERADMIN')">
-					<div class="call-action-v1-in inner-btn page-scroll">
-						<a href="${po }/crawl/add" class="btn-u btn-brd btn-brd-hover btn-u-dark btn-u-block margin-bottom-5">Add New Music</a> 
-						<a href="${po }//get" class="btn-u btn-brd btn-brd-hover btn-u-dark btn-u-block margin-bottom-5">Get Music Rank</a>
-					</div>
-				</sec:authorize>
+				<div class="call-action-v1-in inner-btn page-scroll">
+					<a href="${it }/itworld/add" class="btn-u btn-brd btn-brd-hover btn-u-dark btn-u-block margin-bottom-5">Add New IT</a> 
+				</div>
 			</div>
 		</div>
 	</div>
