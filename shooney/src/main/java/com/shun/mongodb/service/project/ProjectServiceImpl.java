@@ -1,7 +1,6 @@
 package com.shun.mongodb.service.project;
 
 import java.util.List;
-import java.util.concurrent.atomic.AtomicLong;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,8 +15,6 @@ public class ProjectServiceImpl implements ProjectService {
 
 	@Autowired
 	private ProjectDao pDao;
-
-	private static final AtomicLong counter = new AtomicLong();
 
 	@Override
 	public List<Project> findAllProjects() {

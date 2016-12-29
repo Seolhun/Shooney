@@ -19,7 +19,7 @@ public class ItWorldServiceImpl implements ItWorldService {
 
 	@Override
 	public ItWorld findItWorldById(String id) {
-		return iDao.findById(id);
+		return iDao.findItById(id);
 	}
 
 	@Override

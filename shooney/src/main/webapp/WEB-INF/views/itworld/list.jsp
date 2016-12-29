@@ -16,7 +16,7 @@
 						business on web and mobile.</p>
 				</div>
 				<div class="call-action-v1-in inner-btn page-scroll">
-					<a href="${it }/itworld/add" class="btn-u btn-brd btn-brd-hover btn-u-dark btn-u-block margin-bottom-5">Add New IT</a> 
+					<button class="btn-u btn-brd btn-brd-hover btn-u-dark btn-u-block margin-bottom-5" name="itWorldBtn">Add new ITWorld</button>
 				</div>
 			</div>
 		</div>
@@ -25,8 +25,17 @@
 	<div class="container content-xs">
 		<div class="row">
 			<div class="col-sm-12">
-								
+				<div>
+					${itWorld.id }
+				</div>
+				<div>
+					${itWorld.title }
+				</div>
+				<div>
+					${itWorld.content }
+				</div>			
 			</div>
 		</div>
 	</div>
 </tag:layout>
+<script type="text/javascript" src="${resources}/js/it.js"></script>

@@ -4,5 +4,5 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 public interface ItWorldDao extends MongoRepository<ItWorld, String> {
 
-	ItWorld findById(String id);
+	ItWorld findItById(String id);
 }

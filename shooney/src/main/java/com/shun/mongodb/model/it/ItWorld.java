@@ -1,5 +1,6 @@
 package com.shun.mongodb.model.it;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -10,7 +11,7 @@ import com.shun.mongodb.model.BaseEntity;
 
 @SuppressWarnings("serial")
 @Document(collection = "itworld")
-public class ItWorld extends BaseEntity {
+public class ItWorld extends BaseEntity implements Serializable {
 	
 	@Indexed(unique = true)
 	private String id;
@@ -121,5 +122,19 @@ public class ItWorld extends BaseEntity {
 
 	public void setBoardNo(int boardNo) {
 		this.boardNo = boardNo;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ItWorld other = (ItWorld) obj;
+		if (id != other.id)
+			return false;
+		return true;
 	}
 }
