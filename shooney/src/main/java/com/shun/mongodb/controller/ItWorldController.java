@@ -33,7 +33,8 @@ public class ItWorldController {
 	public @ResponseBody String getITworldInfoList(ModelMap model, @PathVariable String website) {
 		new Thread() {
 			public void run() {
-				for (int i = 71500; i <= 102755; i++) {
+//				71500
+				for (int i = 73232; i <= 102755; i++) {
 					ItWorld itWorld=new ItWorld();
 					// 리스트 가져오기
 					try {
