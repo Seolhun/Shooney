@@ -1,22 +1,24 @@
-# Personal Homepage
+# Personal Homepage and Portfolio Platform
 
-#### *2016-11-26 ~*  
+#### *2016-11-26 ~ *  
 
 - Type : 개인 프로젝트
 - IDE : Spring Tool Suite
 - WAS : Tomcat 9.0
 - OS : OSX  
 - Framework : Spring Boot(Security, JPA, MongoDB), Bootstrap, AngularJS  
-- Library : JQuery, Mybatis, Summernote
+- Library : Summernote, Jsoup
 
 
-## 1. 커뮤니티 웹 서비스 플랫폼의 목표  
-- 빠른 개발 기간을 위해 `스프링 부트` 프로젝트를 적용합니다.  
-- 간단한 설정을 통하여 보다 좋은 보안성을 제공해주는 `스프링 시큐리티` 프로젝트를 적용합니다.  
-- 스프링 시큐리티 프로젝트와 연계하여 `스프링 소셜` 프로젝트로 소셜 로그인 연동 정보를 서버에서 제공받도록 한다.  
-- 기존 SQL 맵핑 프레임워크인 `MyBatis를 배제`하고 표준 자바 퍼시스턴스 기술인 `JPA와 함께 스프링 데이터 JPA 프로젝트를 적용`하여 효율적으로 객체지향 프로그래밍을 접목한다.  
+## 1. 프로젝트 목표.
+- 스프링의 최신버전인 부트에 대해서 이해하는 것
+- XML이 아닌 Java Config를 통한  
+- SQL 맵핑 프레임워크인 `MyBatis를 배제`하고 자바 표준  퍼시스턴스 기술인 `JPA를 적용`하여 효율적으로 객체지향 프로그래밍을 접목한다. 
+- Spring Security를 Java Config와 JPA(Hibernate) 에서 적용시키기.
+- Jsoup을 통한 웹 크롤링 맛보기 
 
-## 2. 구현 과정 상 문제점 및 해결방법 기록    
+
+## 2. 문제점 및 해결방법 기록  
 신규 커뮤니티 웹 서비스 플랫폼을 구현하면서 발생한 문제점을 어떻게 해결하였는지를 서술하겠습니다. 
 
 #### 2.1 Social UserConnection Table Entity  
