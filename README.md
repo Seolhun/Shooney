@@ -6,7 +6,7 @@
 - IDE : Spring Tool Suite
 - WAS : Tomcat 9.0
 - OS : OSX  
-- Framework : Spring Boot(Security, JPA, MongoDB), Bootstrap, AngularJS  
+- Framework : Spring Boot(Security, JPA, Schduler ,MongoDB), Bootstrap, AngularJS  
 - Library : Summernote, Jsoup
 
 
@@ -21,17 +21,22 @@
 ## 2. 문제점 및 해결방법 기록  
 개인 홈페이지 및 포트폴리오 플랫폼을 구현하면서 발생한 문제점을 어떻게 해결하였는지를 서술하겠습니다. 
 
-#### 2.1 Social UserConnection Table Entity  
-스프링 시큐리티 예제를 보면 UserConnection 의 테이블을 직접 DDL로 데이터베이스에 만들어두어야 하는 불편함을 보여 스프링 데이터 JPA를 지원을 받아 도메인 엔터티로 구현하였다.  
+#### 2.1 Spring Security의 자동로그인시 Persisten
+Spring Security에서 자동로
 
 #### 2.2 Paging(Pagination)
 JPA의 Paging처리에서 기존 사용하던 Count값을 가져오는 것에서 원하는 방식이 되지 않아 `@Query`문을 추상클레스에 만들어 Parameter값으로 테이블의 갯수를 파악 할 수 있게 만들었습니다. 후에는 `Criteria`를 통해 JPQL을 컨트롤하여 가져오는 방법을 알았습니다. 
 
 #### 2.3 MongoDB 활용
-ITWorld나 
+IT관련 정보를 제공하는 사이트들의 뉴스를 크롤링하여 몽고디비에 저장하였습니다.
 
-## 3. 추가 구현 계획  
+#### 2.4 Jsoup을 통한 데이터 크롤링
+IT관련 정보를 제공하는 사이트들의 뉴스를 크롤링하여 몽고디비에 저장하였습니다.
 
-- 스프링 웹 소켓을 적용하여 알림 기능 구현 예정(알림 기능을 Spring Stomp + Sock.Js로 구현 할 가능성 있음)  
+
+## 3. 추가 구현 계획 
+
+- Spring Security에서 로그인 카운트 체크와 제한, 잠금해제 기능 구현 예정.
+- Spring WebSocket을 적용하여 알림 기능 구현 예정(알림 기능을 Spring Stomp + Sock.Js로 구현 할 가능성 있음)  
 - Spring Social을 통해 자신이 올린 포트폴리오 등에 대한 정보를 공유할 수 있는 기능.
-- 
+- 웹 크롤링 데이터 확대 및 통계/분석 기능.
