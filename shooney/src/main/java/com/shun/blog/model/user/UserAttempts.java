@@ -13,7 +13,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
-@Table(name="USER_ATTEMPTS")
+@Table(name="TB_USER_ATTEMPTS")
 public class UserAttempts {
 
 	@Id

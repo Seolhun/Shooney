@@ -11,7 +11,7 @@ import javax.persistence.Transient;
 import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
-@Table(name = "MONSTER")
+@Table(name = "TB_MONSTER")
 public class Monster {
 
 	@Id

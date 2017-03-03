@@ -18,7 +18,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import com.shun.blog.model.board.Board;
 
 @Entity
-@Table(name = "FILEDATA")
+@Table(name = "TB_FILEDATA")
 public class FileData {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

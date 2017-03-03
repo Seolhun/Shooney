@@ -2,7 +2,6 @@ package com.shun.blog.model.file;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 public class Files implements Serializable {
 

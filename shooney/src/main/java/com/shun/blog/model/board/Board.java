@@ -20,7 +20,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import com.shun.blog.model.file.FileData;
 
 @Entity
-@Table(name = "BOARD")
+@Table(name = "TB_BOARD")
 public class Board implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
