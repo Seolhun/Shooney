@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.shun.blog.controller.common.CommonFn;
+import com.shun.blog.common.service.CommonService;
 import com.shun.blog.model.portfolio.item.ItemData;
 import com.shun.blog.model.portfolio.item.Monster;
 import com.shun.blog.service.portfolio.item.ItemService;
@@ -31,15 +31,14 @@ public class ItemController {
 	MessageSource messageSource;
 	
 	@Autowired
-	CommonFn commonFn;
-	
+	CommonService commonService;
 	private static final Logger logger = LoggerFactory.getLogger(ItemController.class);
 
 	@RequestMapping(value = "/portfolio/item/list", method = RequestMethod.GET, produces = "application/json; charset=utf8")
 	public String listItems(ModelMap model) throws IOException {
 		ArrayList<Monster> items = (ArrayList<Monster>) itemService.findAllItems();
 		//Json형식의 데이터 파싱하기.
-		ObjectMapper mapper = commonFn.setJSONMapper();
+		ObjectMapper mapper = commonService.setJSONMapper();
 		for (int i = 0; i < items.size(); i++) {
 			String jsonData = items.get(i).getData();
 			ItemData itemdata = mapper.readValue(jsonData, ItemData.class);

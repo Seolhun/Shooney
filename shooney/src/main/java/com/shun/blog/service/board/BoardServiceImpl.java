@@ -5,9 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.shun.blog.common.model.Paging;
 import com.shun.blog.dao.board.BoardDao;
 import com.shun.blog.model.board.Board;
-import com.shun.blog.model.common.Paging;
 
 @Service("boardService")
 public class BoardServiceImpl implements BoardService {

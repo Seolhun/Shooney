@@ -1,5 +1,6 @@
 package com.shun.blog.controller.comment;
 
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,9 +21,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.shun.blog.controller.common.CommonFn;
+import com.shun.blog.common.model.Paging;
+import com.shun.blog.common.service.CommonService;
 import com.shun.blog.model.comment.Comment;
-import com.shun.blog.model.common.Paging;
 import com.shun.blog.model.user.User;
 import com.shun.blog.service.comment.CommentService;
 import com.shun.blog.service.user.UserService;
@@ -36,7 +37,7 @@ public class CommentController {
 	UserService uService;
 
 	@Autowired
-	CommonFn cFn;
+	CommonService commonService;
 
 	private static final Logger logger = LoggerFactory.getLogger(CommentController.class);
 	
@@ -57,9 +58,9 @@ public class CommentController {
 	}
 	
 	@RequestMapping(value = "/reply/board/delete/{id}", method = {RequestMethod.GET})
-	public @ResponseBody String deleteBoardComment(HttpServletRequest reqeust, Comment comment, @PathVariable int id) {
+	public @ResponseBody String deleteBoardComment(HttpServletRequest reqeust, Comment comment, @PathVariable Long id, Principal principal) {
 		String writer=reqeust.getParameter("writer");
-		String accessUser=initializeUser().getNickname();
+		String accessUser=initializeUser(principal).getEmail();
 		if(!accessUser.equals(writer)){
 			return "false";
 		}
@@ -71,9 +72,9 @@ public class CommentController {
 	}
 	
 	@RequestMapping(value = "/reply/board/modify/{id}", method = {RequestMethod.GET})
-	public @ResponseBody String modifyBoardComment(HttpServletRequest reqeust, Comment comment, @PathVariable int id) {
+	public @ResponseBody String modifyBoardComment(HttpServletRequest reqeust, Comment comment, @PathVariable Long id, Principal principal) {
 		String writer=reqeust.getParameter("writer");
-		String accessUser=initializeUser().getNickname();
+		String accessUser=initializeUser(principal).getEmail();
 		if(!accessUser.equals(writer)){
 			return "false";
 		}
@@ -84,14 +85,14 @@ public class CommentController {
 	}
 	
 	@RequestMapping(value = "/reply/board/list", method = {RequestMethod.GET}, produces = "application/json; charset=utf8")
-	public @ResponseBody String getCommentsList(@RequestParam int board_id, HttpServletRequest request, ModelMap model) throws JsonProcessingException {
+	public @ResponseBody String getCommentsList(@RequestParam Long board_id, HttpServletRequest request, ModelMap model) throws JsonProcessingException {
 		//댓글 가져오기
-		int cPage = cFn.checkVDInt(request.getParameter("cp"), 1);
-		int sType = cFn.checkVDInt(request.getParameter("sty"), 0);
-		String question = cFn.checkVDQuestion(request.getParameter("sty"));
-		String sDate = cFn.checkVDQuestion(request.getParameter("sda"));
-		int limit = cFn.checkVDInt(request.getParameter("li"), 5);
-		String pfName = cFn.checkVDQuestion(request.getParameter("pf"));
+		int cPage = commonService.checkVDInt(request.getParameter("cp"), 1);
+		int sType = commonService.checkVDInt(request.getParameter("sty"), 0);
+		String question = commonService.checkVDQuestion(request.getParameter("sty"));
+		int sDate = commonService.checkVDInt(request.getParameter("sda"), 0);
+		int limit = commonService.checkVDInt(request.getParameter("li"), 5);
+		String pfName = commonService.checkVDQuestion(request.getParameter("pf"));
 		Paging paging = new Paging(cPage, sType, question, sDate, limit, pfName);
 		paging.setId(board_id);
 
@@ -99,7 +100,7 @@ public class CommentController {
 		int totalCount = cService.getCount(paging);
 		
 		paging.setTotalCount(totalCount);
-		cFn.setPaging(paging);
+		commonService.setPaging(paging);
 		
 		List<Comment> comments=cService.findAllComments(paging);
 		
@@ -108,15 +109,15 @@ public class CommentController {
 		jsonObject.put("paging", paging);
 		jsonObject.put("comments", comments);
 		
-		String result=cFn.getJSONData(jsonObject);
+		String result=commonService.getJSONData(jsonObject);
 		return result;
 	}
 
 	// 선언하면 모델값으로 쉽게 넘길 수 있음
 	@ModelAttribute("accessUser")
-	public User initializeUser() {
-		String accessEmail = cFn.getPrincipal();
-		return uService.findByEmail(accessEmail);
+	public User initializeUser(Principal principal) {
+		User user= commonService.getPrincipal(principal);
+		return user;
 	}
 	
 //	@RequestMapping(value = "/board/{hospitalAlias}/{boardType}/{path}/commentListJSON", method = RequestMethod.GET, produces = "application/json; charset=utf8")

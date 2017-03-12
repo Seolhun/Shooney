@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.shun.blog.model.common.Paging;
+import com.shun.blog.common.model.Paging;
 import com.shun.blog.model.file.FileData;
 
 @Service("fileService")

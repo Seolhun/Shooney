@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.springframework.transaction.annotation.Transactional;
 
+import com.shun.blog.common.model.Paging;
 import com.shun.blog.model.board.Board;
-import com.shun.blog.model.common.Paging;
 
 @Transactional(transactionManager="txManager", noRollbackFor={NullPointerException.class})
 public interface BoardService {

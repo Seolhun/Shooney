@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.shun.blog.common.model.Paging;
 import com.shun.blog.dao.user.UserDao;
-import com.shun.blog.model.common.Paging;
 import com.shun.blog.model.user.State;
 import com.shun.blog.model.user.User;
 

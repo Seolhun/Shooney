@@ -10,9 +10,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
+import com.shun.blog.common.model.Paging;
 import com.shun.blog.dao.AbstractDao;
 import com.shun.blog.model.board.Board;
-import com.shun.blog.model.common.Paging;
 
 @Repository("boardDao")
 public class BoardDaoImpl extends AbstractDao<Integer, Board> implements BoardDao {
@@ -21,9 +21,9 @@ public class BoardDaoImpl extends AbstractDao<Integer, Board> implements BoardDa
 
 	@SuppressWarnings("unchecked")
 	public List<Board> findAllBoards(Paging paging) {
-		int cPage = paging.getcPage();
-		int sType = paging.getsType();
-		String sText = paging.getsText();
+		int cPage = paging.getCPage();
+		int sType = paging.getSDate();
+		String sText = paging.getSText();
 		int limit = paging.getLimit();
 		String entityName = paging.getEntityName();
 		String pfName = paging.getPfName();
@@ -41,13 +41,13 @@ public class BoardDaoImpl extends AbstractDao<Integer, Board> implements BoardDa
 			criteria.add(Restrictions.eq("pfName", pfName));
 		}
 
-		if (paging.getsType() != 0 && sType == 1) {
+		if (paging.getSDate() != 0 && sType == 1) {
 			criteria.add(Restrictions.like("title", "%" + sText + "%"));
-		} else if (paging.getsType() != 0 && sType == 2) {
+		} else if (paging.getSDate() != 0 && sType == 2) {
 			criteria.add(Restrictions.like("content", "%" + sText + "%"));
-		} else if (paging.getsType() != 0 && sType == 3) {
+		} else if (paging.getSDate() != 0 && sType == 3) {
 			criteria.add(Restrictions.like("writer", "%" + sText + "%"));
-		} else if (paging.getsType() != 0 && sType == 4) {
+		} else if (paging.getSDate() != 0 && sType == 4) {
 			criteria.add(Restrictions.like("title", "%" + sText + "%"))
 					.add(Restrictions.like("content", "%" + sText + "%"));
 		}

@@ -17,6 +17,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -44,8 +45,10 @@ public class User implements Serializable {
 	private String nickname;
 
 	@Column(name = "USER_PASSWORD", nullable = false, length=100)
-	@NotEmpty
 	private String password;
+	
+	@Column(name = "USER_LOCKED_AUTH", nullable = false, length=100)
+	private String lockedAuth;
 	
 	@Column(name = "USER_CREATED_BY", nullable = false, length = 60)
 	private String boardCreatedBy;
@@ -76,6 +79,9 @@ public class User implements Serializable {
 
 	@Column(name = "USER_RECEIVE_EMAIL", nullable=false)
 	private Integer receiveEmail=0;
+	
+	@Transient
+	private int type;
 
 //
 //	@Override

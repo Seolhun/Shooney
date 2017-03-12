@@ -1,6 +1,5 @@
 package com.shun.blog.controller.user;
 
-import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
@@ -32,8 +31,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
-import com.shun.blog.controller.common.CommonFn;
-import com.shun.blog.model.common.Paging;
+import com.shun.blog.common.model.Paging;
+import com.shun.blog.common.service.CommonService;
 import com.shun.blog.model.user.State;
 import com.shun.blog.model.user.User;
 import com.shun.blog.model.user.UserProfile;
@@ -62,7 +61,7 @@ public class UserController {
 	AuthenticationTrustResolver authenticationTrustResolver;
 
 	@Autowired
-	CommonFn cFn;
+	CommonService commonService;
 
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
@@ -77,17 +76,17 @@ public class UserController {
 	@RequestMapping(value = "/admin/list", method = RequestMethod.GET)
 	public String listUsers(ModelMap model, HttpServletRequest request) {
 		// 파라미터 호출 및 유효성 검사
-		int cPage = cFn.checkVDInt(request.getParameter("cp"), 1);
-		int sType = cFn.checkVDInt(request.getParameter("sty"), 0);
-		String question = cFn.checkVDQuestion(request.getParameter("sty"));
-		String sDate = cFn.checkVDQuestion(request.getParameter("sda"));
-		int limit = cFn.checkVDInt(request.getParameter("li"), 20);
+		int cPage = commonService.checkVDInt(request.getParameter("cp"), 1);
+		int sType = commonService.checkVDInt(request.getParameter("sty"), 0);
+		String question = commonService.checkVDQuestion(request.getParameter("sty"));
+		int sDate = commonService.checkVDInt(request.getParameter("sda"),0);
+		int limit = commonService.checkVDInt(request.getParameter("li"), 20);
 		Paging paging = new Paging(cPage, sType, question, sDate, limit);
 
 		// 전체 게시판 갯수 확인
 		int totalCount = userService.getCount(paging);
 		paging.setTotalCount(totalCount);
-		cFn.setPaging(paging);
+		commonService.setPaging(paging);
 		List<User> users = userService.findAllUsers(paging);
 
 		model.addAttribute("users", users);
@@ -196,7 +195,7 @@ public class UserController {
 		String[] keys = key.split(",");
 		for (int i = 0; i < keys.length; i++) {
 			try {
-				int id = cFn.checkVDInt(keys[i], 0);
+				int id = commonService.checkVDInt(keys[i], 0);
 				User user = userService.findById(id);
 				//유저 상태 부여				
 				if (stateType != null || stateType != "") {

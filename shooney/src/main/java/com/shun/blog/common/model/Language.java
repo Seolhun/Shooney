@@ -1,4 +1,4 @@
-package com.shun.blog.model.common;
+package com.shun.blog.common.model;
 
 import java.util.Properties;
 

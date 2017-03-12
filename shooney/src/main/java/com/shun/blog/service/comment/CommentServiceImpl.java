@@ -5,9 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.shun.blog.common.model.Paging;
 import com.shun.blog.dao.comment.CommentDao;
 import com.shun.blog.model.comment.Comment;
-import com.shun.blog.model.common.Paging;
 
 @Service("commentService")
 public class CommentServiceImpl implements CommentService {

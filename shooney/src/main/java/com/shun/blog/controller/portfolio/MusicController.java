@@ -31,7 +31,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.shun.blog.controller.common.CommonFn;
+import com.shun.blog.common.service.CommonService;
 import com.shun.blog.model.portfolio.music.Music;
 import com.shun.blog.model.portfolio.music.MusicType;
 import com.shun.blog.service.portfolio.music.MusicService;
@@ -47,7 +47,7 @@ public class MusicController {
 	MessageSource messageSource;
 
 	@Autowired
-	CommonFn commonFn;
+	CommonService commonService;
 	
 	private static final Logger logger = LoggerFactory.getLogger(MusicController.class);
 	

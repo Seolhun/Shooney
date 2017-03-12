@@ -2,8 +2,8 @@ package com.shun.blog.dao.board;
 
 import java.util.List;
 
+import com.shun.blog.common.model.Paging;
 import com.shun.blog.model.board.Board;
-import com.shun.blog.model.common.Paging;
 
 public interface BoardDao {
 

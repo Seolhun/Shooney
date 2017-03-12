@@ -1,6 +1,7 @@
 package com.shun.blog.controller.board;
 
 import java.io.IOException;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -23,11 +24,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.shun.blog.controller.common.CommonFn;
+import com.shun.blog.common.model.Paging;
+import com.shun.blog.common.service.CommonService;
 import com.shun.blog.model.board.Board;
 import com.shun.blog.model.board.EntityName;
 import com.shun.blog.model.board.PortfolioName;
-import com.shun.blog.model.common.Paging;
 import com.shun.blog.model.file.FileData;
 import com.shun.blog.model.user.User;
 import com.shun.blog.service.board.BoardService;
@@ -48,7 +49,7 @@ public class BoardController {
 	CommentService cService;
 
 	@Autowired
-	CommonFn cFn;
+	CommonService cFn;
 
 	@Autowired
 	MessageSource messageSource;
@@ -65,7 +66,7 @@ public class BoardController {
 		int cPage = cFn.checkVDInt(request.getParameter("cp"), 1);
 		int sType = cFn.checkVDInt(request.getParameter("sty"), 0);
 		String question = cFn.checkVDQuestion(request.getParameter("sty"));
-		String sDate = cFn.checkVDQuestion(request.getParameter("sda"));
+		int sDate = cFn.checkVDInt(request.getParameter("sda"), 0);
 		int limit = cFn.checkVDInt(request.getParameter("li"), 20);
 		String pfName = cFn.checkVDQuestion(request.getParameter("pf"));
 		Paging paging = new Paging(cPage, sType, question, sDate, limit, kind, pfName);
@@ -130,7 +131,7 @@ public class BoardController {
 	}
 
 	@RequestMapping(value = { "/board/{kind}/r{id}" }, method = RequestMethod.GET)
-	public String detailBoard(@PathVariable Long id, ModelMap model, @PathVariable String kind, HttpServletRequest request, HttpServletResponse response) {
+	public String detailBoard(@PathVariable Long id, ModelMap model, @PathVariable String kind, HttpServletRequest request, HttpServletResponse response, Principal principal) {
 		String strId=String.valueOf(id);
 		
 		if(checkHitCookie(request, response, strId)){
@@ -145,7 +146,7 @@ public class BoardController {
 		model.addAttribute("board", board);
 		model.addAttribute("edit", false);
 		model.addAttribute("kind", kind);
-		model.addAttribute("accessUser", initializeUser());
+		model.addAttribute("accessUser", initializeUser(principal));
 		model.addAttribute("enNames", board.getEntityName());
 		model.addAttribute("pfNames", board.getPfName());
 		
@@ -201,8 +202,8 @@ public class BoardController {
 
 	// 선언하면 모델값으로 쉽게 넘길 수 있음
 	@ModelAttribute("accessUser")
-	public User initializeUser() {
-		String accessEmail = cFn.getPrincipal();
+	public User initializeUser(Principal principal) {
+		String accessEmail = principal.getName();
 		return uService.findByEmail(accessEmail);
 	}
 

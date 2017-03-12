@@ -10,9 +10,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
+import com.shun.blog.common.model.Paging;
 import com.shun.blog.dao.AbstractDao;
 import com.shun.blog.model.comment.Comment;
-import com.shun.blog.model.common.Paging;
 
 @Repository("commentDao")
 public class CommentDaoImpl extends AbstractDao<Integer, Comment> implements CommentDao {
@@ -21,9 +21,9 @@ public class CommentDaoImpl extends AbstractDao<Integer, Comment> implements Com
 
 	@SuppressWarnings("unchecked")
 	public List<Comment> findAllComments(Paging paging) {
-		int cPage = paging.getcPage();
-		int sType = paging.getsType();
-		String sText = paging.getsText();
+		int cPage = paging.getCPage();
+		int sType = paging.getSType();
+		String sText = paging.getSText();
 		int limit = paging.getLimit();
 
 		// 검색 로직
@@ -31,11 +31,11 @@ public class CommentDaoImpl extends AbstractDao<Integer, Comment> implements Com
 				.setMaxResults(limit).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).add(Restrictions.eq("delCheck", 0))
 				.add(Restrictions.eq("board_id", paging.getId()));
 
-		if (paging.getsType() != 0 && sType == 2) {
+		if (paging.getSType() != 0 && sType == 2) {
 			criteria.add(Restrictions.like("content", "%" + sText + "%"));
-		} else if (paging.getsType() != 0 && sType == 3) {
+		} else if (paging.getSType() != 0 && sType == 3) {
 			criteria.add(Restrictions.like("writer", "%" + sText + "%"));
-		} else if (paging.getsType() != 0 && sType == 4) {
+		} else if (paging.getSType() != 0 && sType == 4) {
 			criteria.add(Restrictions.like("content", "%" + sText + "%"));
 		}
 

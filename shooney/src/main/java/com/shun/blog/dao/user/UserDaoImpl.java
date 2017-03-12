@@ -11,8 +11,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
+import com.shun.blog.common.model.Paging;
 import com.shun.blog.dao.AbstractDao;
-import com.shun.blog.model.common.Paging;
 import com.shun.blog.model.user.User;
 
 @Repository("userDao")
@@ -53,9 +53,9 @@ public class UserDaoImpl extends AbstractDao<Integer, User> implements UserDao {
 	// Criteria는 무엇인가?
 	@SuppressWarnings("unchecked")
 	public List<User> findAllUsers(Paging paging) {
-		int cPage = paging.getcPage();
-		int sType = paging.getsType();
-		String sText = paging.getsText();
+		int cPage = paging.getCPage();
+		int sType = paging.getSType();
+		String sText = paging.getSText();
 		int limit = paging.getLimit();
 		String entityName = paging.getEntityName();
 		String pfName = paging.getPfName();
@@ -74,9 +74,9 @@ public class UserDaoImpl extends AbstractDao<Integer, User> implements UserDao {
 			criteria.add(Restrictions.eq("pfName", pfName));
 		}
 
-		if (paging.getsType() != 0 && sType == 1) {
+		if (paging.getSType() != 0 && sType == 1) {
 			criteria.add(Restrictions.like("email", "%" + sText + "%"));
-		} else if (paging.getsType() != 0 && sType == 2) {
+		} else if (paging.getSType() != 0 && sType == 2) {
 			criteria.add(Restrictions.like("nickname", "%" + sText + "%"));
 		} 
 
