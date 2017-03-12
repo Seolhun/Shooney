@@ -75,7 +75,7 @@ public class User implements Serializable {
 	private Set<UserProfile> userProfiles = new HashSet<UserProfile>();
 
 	@Column(name = "USER_RECEIVE_EMAIL", nullable=false)
-	private Integer receiveEmail=0;
+	private int receiveEmail=0;
 	
 	@Transient
 	private int type;

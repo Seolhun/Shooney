@@ -62,7 +62,7 @@ public class UserController {
 	@Autowired
 	CommonService commonService;
 
-	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
+	private static final Logger LOG = LoggerFactory.getLogger(UserController.class);
 
 	// final private String emailPattern =
 	// "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,3})$";
@@ -75,21 +75,20 @@ public class UserController {
 	@RequestMapping(value = "/admin/list", method = RequestMethod.GET)
 	public String listUsers(ModelMap model, HttpServletRequest request) {
 		// 파라미터 호출 및 유효성 검사
-		Integer cPage = commonService.checkVDInt(request.getParameter("cp"), 1);
-		Integer sType = commonService.checkVDInt(request.getParameter("sty"), 0);
+		int cPage = commonService.checkVDInt(request.getParameter("cp"), 1);
+		int sType = commonService.checkVDInt(request.getParameter("sty"), 0);
 		String sText = commonService.checkVDQuestion(request.getParameter("question"));
-		Integer sDate = commonService.checkVDInt(request.getParameter("sda"), 0);
-		Integer limit = commonService.checkVDInt(request.getParameter("li"), 20);
+		int sDate = commonService.checkVDInt(request.getParameter("sda"), 0);
+		int limit = commonService.checkVDInt(request.getParameter("li"), 20);
 		Paging paging = new Paging(cPage, sType, sText, sDate, limit);
 
 		// 전체 게시판 갯수 확인
-		Integer totalCount = userService.getCount(paging);
-		logger.info("return : {}", totalCount);
-		
+		int totalCount = userService.getCount(paging);
 		paging.setTotalCount(totalCount);
-		commonService.setPaging(paging);
+		
+		paging=commonService.setPaging(paging);
 		List<User> users = userService.findAllUsers(paging);
-
+		
 		model.addAttribute("users", users);
 		model.addAttribute("paging", paging);
 		model.addAttribute("userProfile", UserProfileType.values());
@@ -109,7 +108,7 @@ public class UserController {
 
 	@RequestMapping(value = { "/signup" }, method = RequestMethod.POST)
 	public String signupDo(@Valid User user, BindingResult result, ModelMap model) {
-		logger.info("param {}", user);
+		LOG.info("param {}", user);
 		String mapping = "user/signup";
 		if (result.hasErrors()) {
 			return mapping;
@@ -154,7 +153,7 @@ public class UserController {
 
 	@RequestMapping(value = { "/admin/edit-{email}" }, method = RequestMethod.POST)
 	public String updateUser(User user, ModelMap model, @PathVariable String email) {
-		logger.info("Request POST : Parameter = " + user);
+		LOG.info("Request POST : Parameter = " + user);
 		userService.update(user);
 		model.addAttribute("success", "User " + user.getNickname() + " updated successfully");
 		model.addAttribute("loggedinuser", getPrincipal());
@@ -188,7 +187,7 @@ public class UserController {
 			stateType = request.getParameter("stateType");
 			roleType = request.getParameter("roleType");
 		} catch (NullPointerException e) {
-			logger.info("NullPoint Error : Ajax Function");
+			LOG.info("NullPoint Error : Ajax Function");
 		}
 		
 		String[] keys = key.split(",");
@@ -221,7 +220,7 @@ public class UserController {
 				userService.update(user);
 				
 			} catch (Exception e) {
-				logger.error("ERROR : Admin user Error");
+				LOG.error("ERROR : Admin user Error");
 				return "false";
 			}
 		}

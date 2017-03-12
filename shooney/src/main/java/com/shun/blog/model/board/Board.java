@@ -61,10 +61,10 @@ public class Board implements Serializable {
 	private String pfName;
 	
 	@Column(name = "BOARD_CREATED_BY", nullable = false, length = 60)
-	private String boardCreatedBy;
+	private String createdBy;
 
 	@Column(name = "BOARD_MODIFIED_BY", length = 60)
-	private String boardModifiedBy;
+	private String modifiedBy;
 
 	@CreationTimestamp
 	@Temporal(TemporalType.TIMESTAMP)

@@ -48,8 +48,8 @@
 						<tr>
 							<td style="width: 10%; text-align: center;">${i.id}</td>
 							<td style="width: 40%"><a href="${bo}/${kind}/${i.id}">[ ${i.pfName} ] ${i.title}<c:if test="${i.depth>0}">&nbsp;&nbsp;<i class="fa fa-comments">&nbsp;${i.depth}</i></c:if></a></td>
-							<td style="width: 15%; text-align: center;">${i.writer}</td>
-							<td style="width: 15%; text-align: center;"><fmt:formatDate value="${i.latestDate}" pattern="yy-MM-dd, HH:mm"/></td>
+							<td style="width: 15%; text-align: center;">${i.createdBy}</td>
+							<td style="width: 15%; text-align: center;"><fmt:formatDate value="${i.createdDate}" pattern="yy-MM-dd, HH:mm"/></td>
 							<td style="width: 5%; text-align: center;">${i.hits}</td>
 							<td style="width: 5%; text-align: center;">${i.likes}</td>
 						</tr>
@@ -61,19 +61,19 @@
    					<div class="col-sm-12">
 						<form:form method="GET" acceptCharset="UTF-8">
 							<select class="select" name="sDate">
-								<option value="0" <c:if test="${paging.sDate==0}">selected='selected'</c:if>>All Day</option>
-								<option value="1" <c:if test="${paging.sDate==1}">selected='selected'</c:if>>One Day</option>
-								<option value="7" <c:if test="${paging.sDate==7}">selected='selected'</c:if>>One Week</option>
-								<option value="30" <c:if test="${paging.sDate==30}">selected='selected'</c:if>>One Month</option>
-								<option value="180" <c:if test="${paging.sDate==180}">selected='selected'</c:if>>Six Months</option>
-								<option value="365" <c:if test="${paging.sDate==365}">selected='selected'</c:if>>One Year</option>
+								<option value="0" <c:if test="${paging.searchDate==0}">selected='selected'</c:if>>All Day</option>
+								<option value="1" <c:if test="${paging.searchDate==1}">selected='selected'</c:if>>One Day</option>
+								<option value="7" <c:if test="${paging.searchDate==7}">selected='selected'</c:if>>One Week</option>
+								<option value="30" <c:if test="${paging.searchDate==30}">selected='selected'</c:if>>One Month</option>
+								<option value="180" <c:if test="${paging.searchDate==180}">selected='selected'</c:if>>Six Months</option>
+								<option value="365" <c:if test="${paging.searchDate==365}">selected='selected'</c:if>>One Year</option>
 							</select>
 							<select class="select" name="sType">
-								<option value="0" <c:if test="${paging.sType==0}">selected='selected'</c:if>>Subject</option>
-								<option value="1" <c:if test="${paging.sType==1}">selected='selected'</c:if>>Writer</option>
-								<option value="2" <c:if test="${paging.sType==2}">selected='selected'</c:if>>Subject &amp; Reply</option>
+								<option value="0" <c:if test="${paging.searchType==0}">selected='selected'</c:if>>Subject</option>
+								<option value="1" <c:if test="${paging.searchType==1}">selected='selected'</c:if>>Writer</option>
+								<option value="2" <c:if test="${paging.searchType==2}">selected='selected'</c:if>>Subject &amp; Reply</option>
 							</select>
-							<input type="text" name="sText" class="input" placeholder="Searching" value="${paging.sText}">
+							<input type="text" name="sText" class="input" placeholder="Searching" value="${paging.searchText}">
 			       			<button type="submit" class="btn-u btn-u-block rounded">Search</button>
 						</form:form>
 					</div>
@@ -81,17 +81,17 @@
    			</div>
    			<hr>
 	   		<div class="text-center">
-	   			<a href="list?cp=${paging.cPage -10 < 1 ? 1 : paging.cPage -10}" class="btn-u btn-brd btn-brd-hover btn-u-dark-blue btn-u-block margin-bottom-5">&larr;&larr;</a>
-	   			<a href="list?cp=${paging.cPage -1 < 1 ? 1 : paging.cPage -1}" class="btn-u btn-brd btn-brd-hover btn-u-dark-blue btn-u-block margin-bottom-5">&larr;</a>
+	   			<a href="list?cp=${paging.currentPage -10 < 1 ? 1 : paging.currentPage -10}" class="btn-u btn-brd btn-brd-hover btn-u-dark-blue btn-u-block margin-bottom-5">&larr;&larr;</a>
+	   			<a href="list?cp=${paging.currentPage -1 < 1 ? 1 : paging.currentPage -1}" class="btn-u btn-brd btn-brd-hover btn-u-dark-blue btn-u-block margin-bottom-5">&larr;</a>
 	   			<c:forEach begin="${paging.blockStartNo }" end="${paging.blockEndNo}" varStatus="status">
 					<a href="${bo}/${kind}/list?cp=${status.index }" class="btn-u btn-brd btn-brd-hover btn-u-dark-blue btn-u-block margin-bottom-5" 
-					<c:if test="${status.index==paging.cPage }">style="color : #4765a0"</c:if>>${status.index}</a>
+					<c:if test="${status.index==paging.currentPage }">style="color : #4765a0"</c:if>>${status.index}</a>
 	   			</c:forEach>
-	   			<a href="list?cp=${paging.cPage +1 > paging.totalPage ? paging.totalPage : paging.cPage +1}" class="btn-u btn-brd btn-brd-hover btn-u-dark-blue btn-u-block margin-bottom-5">&rarr;</a>
-	   			<a href="list?cp=${paging.cPage +10 > paging.totalPage ? paging.totalPage : paging.cPage +10 }" class="btn-u btn-brd btn-brd-hover btn-u-dark-blue btn-u-block margin-bottom-5">&rarr;&rarr;</a>
+	   			<a href="list?cp=${paging.currentPage +1 > paging.totalPage ? paging.totalPage : paging.currentPage +1}" class="btn-u btn-brd btn-brd-hover btn-u-dark-blue btn-u-block margin-bottom-5">&rarr;</a>
+	   			<a href="list?cp=${paging.currentPage +10 > paging.totalPage ? paging.totalPage : paging.currentPage +10 }" class="btn-u btn-brd btn-brd-hover btn-u-dark-blue btn-u-block margin-bottom-5">&rarr;&rarr;</a>
 	   		</div>
 	   		<div class="text-center">
-	   			${paging.cPage } / ${paging.totalPage}
+	   			${paging.currentPage } / ${paging.totalPage}
 	   		</div>
 		</div>
 	</div> 

@@ -15,7 +15,7 @@ import com.shun.blog.dao.AbstractDao;
 import com.shun.blog.model.common.Paging;
 import com.shun.blog.model.user.User;
 
-@Repository("userRepository")
+@Repository
 public class UserRepositoryImpl extends AbstractDao<Integer, User> implements UserRepository {
 	static final Logger LOG = LoggerFactory.getLogger(UserRepositoryImpl.class);
 
@@ -55,10 +55,10 @@ public class UserRepositoryImpl extends AbstractDao<Integer, User> implements Us
 	// Criteria는 무엇인가?
 	@SuppressWarnings("unchecked")
 	public List<User> findAllUsers(Paging paging) {
-		Integer cPage = paging.getCPage();
-		Integer sType = paging.getSType();
-		String sText = paging.getSText();
-		Integer limit = paging.getLimit();
+		int cPage = paging.getCurrentPage();
+		int sType = paging.getSearchType();
+		String sText = paging.getSearchText();
+		int limit = paging.getLimit();
 		String entityName = paging.getEntityName();
 		String pfName = paging.getPfName();
 
@@ -77,9 +77,9 @@ public class UserRepositoryImpl extends AbstractDao<Integer, User> implements Us
 			criteria.add(Restrictions.eq("pfName", pfName));
 		}
 
-		if (paging.getSType() != 0 && sType == 1) {
+		if (paging.getSearchType() != 0 && sType == 1) {
 			criteria.add(Restrictions.like("email", "%" + sText + "%"));
-		} else if (paging.getSType() != 0 && sType == 2) {
+		} else if (paging.getSearchType() != 0 && sType == 2) {
 			criteria.add(Restrictions.like("nickname", "%" + sText + "%"));
 		} 
 

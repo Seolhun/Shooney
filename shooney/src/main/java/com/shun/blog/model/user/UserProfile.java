@@ -18,7 +18,7 @@ public class UserProfile implements Serializable{
 	@Id 
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="USER_PROFILE_ID", length=10, nullable=false)
-	private Integer id;	
+	private int id;	
 
 	@Column(name="USER_PROFILE_TYPE", length=15, unique=true, nullable=false)
 	private String type = UserProfileType.GUEST.getUserProfileType();

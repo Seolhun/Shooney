@@ -21,9 +21,9 @@ public class BoardRepositoryImpl extends AbstractDao<Integer, Board> implements 
 
 	@SuppressWarnings("unchecked")
 	public List<Board> findAllBoards(Paging paging) {
-		int cPage = paging.getCPage();
-		int sType = paging.getSType();
-		String sText = paging.getSText();
+		int cPage = paging.getCurrentPage();
+		int sType = paging.getSearchType();
+		String sText = paging.getSearchText();
 		int limit = paging.getLimit();
 		String entityName = paging.getEntityName();
 		String pfName = paging.getPfName();
@@ -41,13 +41,13 @@ public class BoardRepositoryImpl extends AbstractDao<Integer, Board> implements 
 			criteria.add(Restrictions.eq("pfName", pfName));
 		}
 
-		if (paging.getSDate() != 0 && sType == 1) {
+		if (paging.getSearchDate() != 0 && sType == 1) {
 			criteria.add(Restrictions.like("title", "%" + sText + "%"));
-		} else if (paging.getSDate() != 0 && sType == 2) {
+		} else if (paging.getSearchDate() != 0 && sType == 2) {
 			criteria.add(Restrictions.like("content", "%" + sText + "%"));
-		} else if (paging.getSDate() != 0 && sType == 3) {
+		} else if (paging.getSearchDate() != 0 && sType == 3) {
 			criteria.add(Restrictions.like("writer", "%" + sText + "%"));
-		} else if (paging.getSDate() != 0 && sType == 4) {
+		} else if (paging.getSearchDate() != 0 && sType == 4) {
 			criteria.add(Restrictions.like("title", "%" + sText + "%")).add(Restrictions.like("content", "%" + sText + "%"));
 		}
 

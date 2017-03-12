@@ -4,9 +4,6 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="tag" tagdir="/WEB-INF/tags"%>
-<spring:url value="/resources/" var="resources" />
-<spring:url value="/admin" var="admin"/>
-<spring:url value="/signup" var="signup"/>
 <tag:layout tab="${target}">
 <div class="call-action-v1 bg-color-light">
 	<div class="container">
@@ -82,18 +79,18 @@
 				</c:forEach>
 	    		</tbody>
 	    	</table>
-	    	<form:form method="GET" class="form-horizontal" action="${admin}/list">
+	    	<form action="${admin}/list" class="form-horizontal">
 		   		<div class="text-center">
-		   			<a href="list?cp=${paging.cPage -10 < 1 ? 1 : paging.cPage -10}" class="btn-u btn-brd btn-brd-hover btn-u-dark btn-u-block margin-bottom-5">&larr;&larr;</a>
-		   			<a href="list?cp=${paging.cPage -1 < 1 ? 1 : paging.cPage -1}" class="btn-u btn-brd btn-brd-hover btn-u-dark btn-u-block margin-bottom-5">&larr;</a>
+		   			<a href="list?cp=${paging.currentPage -10 < 1 ? 1 : paging.currentPage -10}" class="btn-u btn-brd btn-brd-hover btn-u-dark btn-u-block margin-bottom-5">&larr;&larr;</a>
+		   			<a href="list?cp=${paging.currentPage -1 < 1 ? 1 : paging.currentPage -1}" class="btn-u btn-brd btn-brd-hover btn-u-dark btn-u-block margin-bottom-5">&larr;</a>
 		   			<c:forEach begin="${paging.blockStartNo }" end="${paging.blockEndNo}" varStatus="status">
 						<a href="list?cp=${status.index }" class="btn-u btn-brd btn-brd-hover btn-u-dark btn-u-block margin-bottom-5" 
-						<c:if test="${status.index==paging.cPage }">style="color: Green"</c:if>>${status.index}</a>
+						<c:if test="${status.index==paging.currentPage }">style="color: Green"</c:if>>${status.index}</a>
 		   			</c:forEach>
-		   			<a href="list?cp=${paging.cPage +1 > paging.totalPage ? paging.totalPage : paging.cPage +1}" class="btn-u btn-brd btn-brd-hover btn-u-dark btn-u-block margin-bottom-5">&rarr;</a>
-		   			<a href="list?cp=${paging.cPage +10 > paging.totalPage ? paging.totalPage : paging.cPage +10 }" class="btn-u btn-brd btn-brd-hover btn-u-dark btn-u-block margin-bottom-5">&rarr;&rarr;</a>
+		   			<a href="list?cp=${paging.currentPage +1 > paging.totalPage ? paging.totalPage : paging.currentPage +1}" class="btn-u btn-brd btn-brd-hover btn-u-dark btn-u-block margin-bottom-5">&rarr;</a>
+		   			<a href="list?cp=${paging.currentPage +10 > paging.totalPage ? paging.totalPage : paging.currentPage +10 }" class="btn-u btn-brd btn-brd-hover btn-u-dark btn-u-block margin-bottom-5">&rarr;&rarr;</a>
 		   		</div>
-	   		</form:form>
+	   		</form>
 		</div>
    	</div>
 </div>

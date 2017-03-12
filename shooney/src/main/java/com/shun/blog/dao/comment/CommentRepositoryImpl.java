@@ -21,9 +21,9 @@ public class CommentRepositoryImpl extends AbstractDao<Integer, Comment> impleme
 
 	@SuppressWarnings("unchecked")
 	public List<Comment> findAllComments(Paging paging) {
-		int cPage = paging.getCPage();
-		int sType = paging.getSType();
-		String sText = paging.getSText();
+		int cPage = paging.getCurrentPage();
+		int sType = paging.getSearchType();
+		String sText = paging.getSearchText();
 		int limit = paging.getLimit();
 
 		// 검색 로직
@@ -31,11 +31,11 @@ public class CommentRepositoryImpl extends AbstractDao<Integer, Comment> impleme
 				.setMaxResults(limit).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).add(Restrictions.eq("delCheck", 0))
 				.add(Restrictions.eq("board_id", paging.getId()));
 
-		if (paging.getSType() != 0 && sType == 2) {
+		if (paging.getSearchType() != 0 && sType == 2) {
 			criteria.add(Restrictions.like("content", "%" + sText + "%"));
-		} else if (paging.getSType() != 0 && sType == 3) {
+		} else if (paging.getSearchType() != 0 && sType == 3) {
 			criteria.add(Restrictions.like("writer", "%" + sText + "%"));
-		} else if (paging.getSType() != 0 && sType == 4) {
+		} else if (paging.getSearchType() != 0 && sType == 4) {
 			criteria.add(Restrictions.like("content", "%" + sText + "%"));
 		}
 

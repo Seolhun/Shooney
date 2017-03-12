@@ -32,8 +32,8 @@ public class BoardServiceImpl implements BoardService {
 		} else if(entity != null){
 			entity.setTitle(board.getTitle());
 			entity.setContent(board.getContent());
-			entity.setBoardCreatedBy(board.getBoardCreatedBy());
-			entity.setBoardModifiedBy(board.getBoardModifiedBy());
+			entity.setCreatedBy(board.getCreatedBy());
+			entity.setModifiedBy(board.getModifiedBy());
 			entity.setDepth(board.getDepth());
 			entity.setEntityName(board.getEntityName());
 			entity.setPfName(board.getPfName());
