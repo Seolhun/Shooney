@@ -43,8 +43,8 @@ IT관련 정보를 제공하는 사이트들의 뉴스를 크롤링하여 몽고
 
 
 ## 4. 실행방법
-1) Mongodb를 설치하고, mongod를 통한 몽고디비 서버 실행
-2) Redis를 설치하고, redis-server를 통해 레디스 서버 실행
-3) Application Properties에 Entity자동생성 부분이 Create로 되어있는지 확인
-4) Project Run. 
-5) 권한이 적용되어있으므로, 회원가입한 후 사용할 것.
+- Mongodb를 설치하고, mongod를 통한 몽고디비 서버 실행
+- Redis를 설치하고, redis-server를 통해 레디스 서버 실행
+- Application Properties에 Entity자동생성 부분이 Create로 되어있는지 확인
+- Project Run. 
+- 권한이 적용되어있으므로, 회원가입한 후 사용할 것.
