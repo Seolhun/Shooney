@@ -40,3 +40,11 @@ IT관련 정보를 제공하는 사이트들의 뉴스를 크롤링하여 몽고
 - Spring WebSocket을 적용하여 알림 기능 구현 예정(알림 기능을 Spring Stomp + Sock.Js로 구현 할 가능성 있음)  
 - Spring Social을 통해 자신이 올린 포트폴리오 등에 대한 정보를 공유할 수 있는 기능.
 - 웹 크롤링 데이터 확대 및 통계/분석 기능.
+
+
+## 4. 실행방법
+1) Mongodb를 설치하고, mongod를 통한 몽고디비 서버 실행
+2) Redis를 설치하고, redis-server를 통해 레디스 서버 실행
+3) Application Properties에 Entity자동생성 부분이 Create로 되어있는지 확인
+4) Project Run. 
+5) 권한이 적용되어있으므로, 회원가입한 후 사용할 것.
