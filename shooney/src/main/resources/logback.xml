@@ -1,20 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-	<property name="DEV_HOME" value="/Users/HunSeol/Desktop/shooney/log/"/>
+	<property name="DEV_HOME" value="/Users/HunSeol/Desktop/project/shooney/log/"/>
 
 	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
 	    <layout class="ch.qos.logback.classic.PatternLayout">
-		<Pattern>
-			%d{yyyy-MM-dd HH:mm:ss} %-5level %logger{36} - %msg%n
-		</Pattern>
+			<Pattern>
+				%d{yyyy-MM-dd HH:mm:ss} %-5level %logger{36} - %msg%n
+			</Pattern>
 	    </layout>
 	</appender>
 	
-		<!-- 
-	<property name="DEV_HOME" value="c:/logs" />
-
-	<appender name="FILE-AUDIT"
-		class="ch.qos.logback.core.rolling.RollingFileAppender">
+	<appender name="FILE-AUDIT" class="ch.qos.logback.core.rolling.RollingFileAppender">
 		<file>${DEV_HOME}/debug.log</file>
 		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
 			<Pattern>
@@ -22,35 +18,37 @@
 			</Pattern>
 		</encoder>
 
-		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			rollover daily
-			<fileNamePattern>${DEV_HOME}/archived/debug.%d{yyyy-MM-dd}.%i.log
-                        </fileNamePattern>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">rollover daily
+			<fileNamePattern>
+				${DEV_HOME}/archived/debug.%d{yyyy-MM-dd}.%i.log
+			</fileNamePattern>
 			<timeBasedFileNamingAndTriggeringPolicy
 				class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
 				<maxFileSize>10MB</maxFileSize>
 			</timeBasedFileNamingAndTriggeringPolicy>
 		</rollingPolicy>
 	</appender>
-	 -->
-
+	
+<!-- 
 	<logger name="com.shun.blog" level="DEBUG" additivity="false">
 		<appender-ref ref="STDOUT" />
 	</logger>
-	
+	 -->
 	<root name="com.shun.blog" level="INFO">
 		<appender-ref ref="STDOUT" />
 	</root>
 	
+<!-- 	
 	<root name="com.shun.blog" level="WARN">
 		<appender-ref ref="STDOUT" />
 	</root>
-
+ -->
 	<root name="com.shun.blog" level="ERROR">
 		<appender-ref ref="STDOUT" />
 	</root>
-	
+<!-- 	
 	<root name="com.shun.blog" level="TRACE">
 		<appender-ref ref="STDOUT" />
 	</root>
+	 -->
 </configuration>

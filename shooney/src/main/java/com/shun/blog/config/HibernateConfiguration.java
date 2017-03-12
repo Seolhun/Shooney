@@ -12,14 +12,14 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import org.springframework.orm.hibernate4.HibernateTransactionManager;
-import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
+import org.springframework.orm.hibernate5.HibernateTransactionManager;
+import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
 @EnableTransactionManagement
 @ComponentScan({ "com.shun.blog.config" })
-@PropertySource(value = { "classpath:application.properties" })
+@PropertySource(value = { "classpath:datasource.properties" })
 public class HibernateConfiguration {
 
     @Autowired
@@ -51,10 +51,10 @@ public class HibernateConfiguration {
         properties.put("hibernate.show_sql", environment.getRequiredProperty("hibernate.show_sql"));
         properties.put("hibernate.format_sql", environment.getRequiredProperty("hibernate.format_sql"));
         
-        //Entity를 통한 테이블 생성
-        properties.put("hibernate.hbm2ddl.auto", environment.getRequiredProperty("hibernate.ddl_auto"));
-        properties.put("jpa.generate-ddl", environment.getRequiredProperty("jpa.generate-ddl"));
-        properties.put("hibernate.hbm2ddl.import_files", environment.getRequiredProperty("hibernate.hbm2ddl.import_files"));
+//        //Entity를 통한 테이블 생성
+//        properties.put("hibernate.hbm2ddl.auto", environment.getRequiredProperty("hibernate.ddl_auto"));
+//        properties.put("jpa.generate-ddl", environment.getRequiredProperty("jpa.generate-ddl"));
+//        properties.put("hibernate.hbm2ddl.import_files", environment.getRequiredProperty("hibernate.hbm2ddl.import_files"));
         
         properties.put("hibernate.current_session_context_class", environment.getRequiredProperty("hibernate.current_session_context_class"));
         properties.put("hibernate.current_session_context_class", environment.getRequiredProperty("hibernate.current_session_context_class"));

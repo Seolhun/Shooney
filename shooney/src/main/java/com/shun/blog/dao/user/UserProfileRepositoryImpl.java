@@ -11,7 +11,7 @@ import com.shun.blog.dao.AbstractDao;
 import com.shun.blog.model.user.UserProfile;
 
 @Repository("userProfileDao")
-public class UserProfileDaoImpl extends AbstractDao<Integer, UserProfile> implements UserProfileDao {
+public class UserProfileRepositoryImpl extends AbstractDao<Integer, UserProfile> implements UserProfileRepository {
 
 	public UserProfile findById(int id) {
 		return getByKey(id);

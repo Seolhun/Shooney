@@ -11,57 +11,60 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
-import com.shun.blog.common.model.Paging;
 import com.shun.blog.dao.AbstractDao;
+import com.shun.blog.model.common.Paging;
 import com.shun.blog.model.user.User;
 
-@Repository("userDao")
-public class UserDaoImpl extends AbstractDao<Integer, User> implements UserDao {
-
-	static final Logger logger = LoggerFactory.getLogger(UserDaoImpl.class);
+@Repository("userRepository")
+public class UserRepositoryImpl extends AbstractDao<Integer, User> implements UserRepository {
+	static final Logger LOG = LoggerFactory.getLogger(UserRepositoryImpl.class);
 
 	public User findById(int id) {
 		User user = getByKey(id);
 		if (user != null) {
 			Hibernate.initialize(user.getUserProfiles());
 		}
+		LOG.info("return : findById {}", user);
 		return user;
 	}
 
 	public User findByEmail(String email) {
-		logger.info("email : {}", email);
+		LOG.info("email : {}", email);
 		Criteria crit = createEntityCriteria();
 		crit.add(Restrictions.eq("email", email));
 		User user = (User) crit.uniqueResult();
 		if (user != null) {
 			Hibernate.initialize(user.getUserProfiles());
 		}
+		LOG.info("return : findByEmail {}", user);
 		return user;
 	}
 
 	public User findByNickname(String nickname) {
-		logger.info("nickname : {}", nickname);
+		LOG.info("nickname : {}", nickname);
 		Criteria crit = createEntityCriteria();
 		crit.add(Restrictions.eq("nickname", nickname));
 		User user = (User) crit.uniqueResult();
 		if (user != null) {
 			Hibernate.initialize(user.getUserProfiles());
 		}
+		LOG.info("return : findByNickname {}", user);
 		return user;
 	}
 
 	// Criteria는 무엇인가?
 	@SuppressWarnings("unchecked")
 	public List<User> findAllUsers(Paging paging) {
-		int cPage = paging.getCPage();
-		int sType = paging.getSType();
+		Integer cPage = paging.getCPage();
+		Integer sType = paging.getSType();
 		String sText = paging.getSText();
-		int limit = paging.getLimit();
+		Integer limit = paging.getLimit();
 		String entityName = paging.getEntityName();
 		String pfName = paging.getPfName();
 
 		// 검색 로직
-		Criteria criteria = createEntityCriteria().addOrder(Order.desc("id")).setFirstResult((cPage - 1) * limit)
+		Criteria criteria = createEntityCriteria().addOrder(Order.desc("id"))
+				.setFirstResult((cPage - 1) * limit)
 				.setMaxResults(limit).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 		List<User> users = (List<User>) criteria.list();
 
@@ -80,6 +83,7 @@ public class UserDaoImpl extends AbstractDao<Integer, User> implements UserDao {
 			criteria.add(Restrictions.like("nickname", "%" + sText + "%"));
 		} 
 
+		LOG.info("return : findAllUsers {}", users);
 		return users;
 	}
 
@@ -89,7 +93,7 @@ public class UserDaoImpl extends AbstractDao<Integer, User> implements UserDao {
 		if (paging.getEntityName() != null) {
 			condition = "WHERE state='" + paging.getEntityName() + "'";
 		}
-		Query query = rawQuery("SELECT COUNT(*) FROM USER " + condition);
+		Query query = rawQuery("SELECT COUNT(*) FROM TB_USER " + condition);
 		return ((Number) query.uniqueResult()).intValue();
 	}
 

@@ -1,0 +1,162 @@
+.alertPopOver {
+    width:100%;
+    height: auto;
+    min-width : 450px;
+    max-width : 450px;
+    
+    min-height: 100px;
+    max-height: 550px;
+}
+
+.message-div{
+	height: 34px; 
+	padding-top: 10px;	
+}
+
+.popover-icon{
+	cursor: pointer;
+	
+}
+
+.moveMessageHref {
+	color : #a9a9a9;
+}
+
+.moveMessageHref:hover {
+	color : #337ab7;
+}
+
+.untilNotRead {
+	color : #337ab7;
+}
+
+.untilNotRead:hover {
+	color : #5bc0de;
+}
+
+@CHARSET "UTF-8";
+textarea {
+	border: 1px solid #cbcbcb;
+	width: 96%;
+	margin: 5px 0;
+	padding: 3px;
+}
+
+.text-right{
+	text-align: right;
+	margin-right: 20px;
+}
+
+.text-left{
+	text-align: left;
+	margin-left: 20px;
+}
+
+.language {
+	height: 20px;
+	width: 20px;
+}
+
+#comment-content {
+	min-height: 50px;
+}
+
+#board-content {
+	min-height: 600px;
+}
+
+.select {
+	height: 34px;
+	padding: 6px 12px;
+	font-size: 14px;
+	line-height: 1.42857143;
+	color: #555;
+	background-color: #fff;
+	background-image: none;
+	border: 1px solid #ccc;
+}
+
+.input {
+	height: 34px;
+	padding: 6px 12px;
+	font-size: 14px;
+	line-height: 1.42857143;
+	color: #555;
+	background-color: #fff;
+	background-image: none;
+	border: 1px solid #ccc;
+}
+
+.btn-u-dark-orange {
+	background-color: orange;
+	opacity: 0.6;
+}
+
+.skill {
+	cursor: pointer;
+	margin-right: 5px;
+	margin-left: 5px;
+}
+
+.main-head {
+	text-align: center;
+	vertical-align: middle;
+}
+
+.main-head h1 {
+	margin-top: 20px;
+}
+
+.myprofile {
+	height: auto;
+	min-height: 500px;
+}
+
+.myprofile-ul {
+	text-align: left;
+}
+
+.myprofile-img {
+	height: 188px;
+	max-width: 100%;
+	position: relative;
+	transform: translateY(0%);
+}
+
+.attitude-img {
+	height: 456px;
+	max-width: 100%;
+	position: relative;
+	transform: translateY(0%);
+}
+
+#aboverow {
+	margin-top: 3px;
+}
+
+#abovenav {
+	font-size: 14px;
+	color: white;
+	background-color: #3c3c3c;
+	height: 30px;
+	width: 100%;
+}
+
+#head-a:link {
+	color: white;
+}
+
+/* visited link */
+#head-a:visited {
+	color: white;
+}
+
+/* mouse over link */
+#head-a:hover {
+	color: #71bf2c;
+}
+
+/* selected link */
+#head-a:active {
+	color: #71bf2c;
+}

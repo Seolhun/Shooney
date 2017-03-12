@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.shun.blog.dao.user.UserProfileDao;
+import com.shun.blog.dao.user.UserProfileRepository;
 import com.shun.blog.model.user.UserProfile;
 
 @Service("userProfileService")
@@ -15,7 +15,7 @@ import com.shun.blog.model.user.UserProfile;
 public class UserProfileServiceImpl implements UserProfileService {
 
 	@Autowired
-	UserProfileDao dao;
+	UserProfileRepository dao;
 
 	@Override
 	public UserProfile findById(int id) {

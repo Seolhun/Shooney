@@ -31,9 +31,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.shun.blog.common.service.CommonService;
 import com.shun.blog.model.portfolio.music.Music;
 import com.shun.blog.model.portfolio.music.MusicType;
+import com.shun.blog.service.common.CommonService;
 import com.shun.blog.service.portfolio.music.MusicService;
 
 @Controller

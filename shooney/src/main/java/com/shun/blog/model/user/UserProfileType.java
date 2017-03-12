@@ -4,9 +4,8 @@ import java.io.Serializable;
 
 public enum UserProfileType implements Serializable{
 	GUEST("GUEST"),
-	PLAYER("PLAYER"),
-	CAPTAIN("CAPTAIN"),
-	DIRECTOR("DIRECTOR"),
+	CAPTAIN("USER"),
+	DIRECTOR("STAR"),
 	SUPERADMIN("SUPERADMIN");
 	
 	String type;

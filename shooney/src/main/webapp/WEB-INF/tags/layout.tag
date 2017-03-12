@@ -42,13 +42,16 @@
 <!-- CSS Pages Style -->
 <link rel="stylesheet" href="${template}/css/pages/page_one.css">
 
+<!-- CSS Default -->
+<link rel="stylesheet" href="${resources}/css/app.css">
+<link rel="stylesheet" href="${resources}/css/header.css">
+
 <!-- CSS Theme -->
 <link rel="stylesheet" href="${template}/css/theme-colors/dark-blue.css" id="style_color">
 <link rel="stylesheet" href="${template}/css/theme-skins/dark.css">
 
 <!-- CSS Customization -->
 <link href="${resources }/summer/summernote.css" rel="stylesheet">
-<link rel="stylesheet" href="${resources}/css/hooney.css">
 </head>
 <body class="header-fixed header-fixed-space">
 	<div class="wrapper">
@@ -56,26 +59,20 @@
 			<div id="abovenav">
 				<div class="container">
 					<div class="row" id="aboverow">
-						<div class="col-sm-6 col-xs-6" style="text-align: left">
+						<div class="col-sm-4 col-xs-4" style="text-align: left">
 							<a href="#" class="link-txt" id="head-a"><img src="${resources}/img/lang_ko.png" class="language"> Korean&nbsp;</a>| 
 							<a href="#" class="link-txt" id="head-a"><img src="${resources}/img/lang_en.png" class="language"> English</a>
 						</div>
-						<div class="col-sm-3 col-xs-3">	
+
+						<div class="col-sm-8 col-xs-8" style="text-align : right">	
 							<sec:authorize access="isAuthenticated()">
-								<sec:authentication property="principal.username"/>
-							</sec:authorize>
-						</div>
-						<div class="col-sm-3 col-xs-3" style="text-align : right">	
-							<sec:authorize access="isAuthenticated()">
-								<a href="${logout }" id="head-a">LOGOUT</a>
+								<span class="margin-right-10"><b>ID : </b><sec:authentication property="principal.username"/></span>
+								<span class="margin-right-20"><b>Role : </b><sec:authentication property="principal.authorities"/></span>
+								<span><b><a href="${logout }" id="head-a">LOGOUT</a></b></span>
 							</sec:authorize>
 							<sec:authorize access="isAnonymous()">
-								<a href="${login }" id="head-a">LOGIN</a>
-								&nbsp;&nbsp;|&nbsp;&nbsp;
-							</sec:authorize>
-							<!-- Demo Pages -->
-							<sec:authorize access="isAnonymous()">
-								<a href="${signup }" id="head-a">SIGN UP</a>
+								<b><a href="${login }" class="margin-right-10" id="head-a">LOGIN</a></b>
+								<b><a href="${signup }" id="head-a">SIGN UP</a></b>
 							</sec:authorize>
 						</div>
 					</div>

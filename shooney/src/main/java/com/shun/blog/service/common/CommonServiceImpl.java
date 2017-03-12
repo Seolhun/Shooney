@@ -1,4 +1,4 @@
-package com.shun.blog.common.service;
+package com.shun.blog.service.common;
 
 import java.io.IOException;
 import java.security.MessageDigest;
@@ -29,7 +29,7 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.shun.blog.common.model.Paging;
+import com.shun.blog.model.common.Paging;
 import com.shun.blog.model.user.User;
 import com.shun.blog.service.user.UserService;
 
@@ -84,23 +84,23 @@ public class CommonServiceImpl implements CommonService {
 
 	@Override
 	public Paging setPaging(Paging paging) {
-		int blockLimit = 10; // 페이지 당 보여줄 블록 번호 limit
+		Integer blockLimit = 10; // 페이지 당 보여줄 블록 번호 limit
 								// [1],[2],[3],[4],[5],[6],[7],[8],[9],[10]
-		int totalPage = paging.getTotalPage();
-		int limit = paging.getLimit();
-		int cPage = paging.getCPage();
+		Integer totalPage = paging.getTotalPage();
+		Integer limit = paging.getLimit();
+		Integer cPage = paging.getCPage();
 
-		int totalBlock = totalPage / limit + (totalPage % limit > 0 ? 1 : 0); // 전체
-		int currentBlock = cPage / blockLimit + (cPage % blockLimit > 0 ? 1 : 0);// 현재
-		int blockEndNo = currentBlock * blockLimit;
-		int blockStartNo = blockEndNo - (blockLimit - 1);
+		Integer totalBlock = totalPage / limit + (totalPage % limit > 0 ? 1 : 0); // 전체
+		Integer currentBlock = cPage / blockLimit + (cPage % blockLimit > 0 ? 1 : 0);// 현재
+		Integer blockEndNo = currentBlock * blockLimit;
+		Integer blockStartNo = blockEndNo - (blockLimit - 1);
 
 		if (blockEndNo > totalBlock) {
 			blockEndNo = totalBlock;
 		}
 
-		int prev_cPage = blockStartNo - blockLimit; // << *[이전]*
-		int next_cPage = blockStartNo + blockLimit; // *[다음]* >>
+		Integer prev_cPage = blockStartNo - blockLimit; // << *[이전]*
+		Integer next_cPage = blockStartNo + blockLimit; // *[다음]* >>
 
 		if (prev_cPage < 1) {
 			prev_cPage = 1;
@@ -109,6 +109,7 @@ public class CommonServiceImpl implements CommonService {
 		if (next_cPage > totalBlock) {
 			next_cPage = totalBlock / blockLimit * blockLimit + 1;
 		}
+		
 		paging.setBlockLimit(blockLimit);
 		paging.setCurrentBlock(currentBlock);
 		paging.setTotalPage(totalBlock);

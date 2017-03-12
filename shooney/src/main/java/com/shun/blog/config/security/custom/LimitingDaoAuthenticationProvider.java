@@ -13,10 +13,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import com.shun.blog.common.model.CommonState;
-import com.shun.blog.common.service.CommonService;
+import com.shun.blog.model.common.CommonState;
 import com.shun.blog.model.user.User;
 import com.shun.blog.model.user.UserAttempts;
+import com.shun.blog.service.common.CommonService;
 import com.shun.blog.service.user.UserAttemptsService;
 import com.shun.blog.service.user.UserService;
 
@@ -99,7 +99,7 @@ public class LimitingDaoAuthenticationProvider extends DaoAuthenticationProvider
 				dbUser.setType(1);
 				dbUser.setState(CommonState.LOCKED.getState());
 				dbUser.setLockedAuth(auth);
-				userService.updateUser(dbUser);
+				userService.update(dbUser);
 
 				// 메일을 보낸다.
 				try {

@@ -1,4 +1,4 @@
-package com.shun.blog.common.service;
+package com.shun.blog.service.common;
 
 
 import java.io.IOException;
@@ -12,7 +12,7 @@ import org.springframework.validation.BindingResult;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.shun.blog.common.model.Paging;
+import com.shun.blog.model.common.Paging;
 import com.shun.blog.model.user.User;
 
 public interface CommonService {

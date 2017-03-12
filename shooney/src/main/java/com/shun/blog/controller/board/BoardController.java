@@ -23,20 +23,21 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import com.shun.blog.common.model.Paging;
-import com.shun.blog.common.service.CommonService;
 import com.shun.blog.model.board.Board;
 import com.shun.blog.model.board.EntityName;
 import com.shun.blog.model.board.PortfolioName;
+import com.shun.blog.model.common.Paging;
 import com.shun.blog.model.file.FileData;
 import com.shun.blog.model.user.User;
 import com.shun.blog.service.board.BoardService;
 import com.shun.blog.service.comment.CommentService;
+import com.shun.blog.service.common.CommonService;
 import com.shun.blog.service.user.UserService;
 
 @Controller
-@RequestMapping("/")
+@RequestMapping("/board")
 public class BoardController {
 
 	@Autowired
@@ -49,7 +50,7 @@ public class BoardController {
 	CommentService cService;
 
 	@Autowired
-	CommonService cFn;
+	CommonService commonService;
 
 	@Autowired
 	MessageSource messageSource;
@@ -58,34 +59,33 @@ public class BoardController {
 
 	private static final String UPLOAD_LOCATION = "/Users/HunSeol/Desktop/shooney/file/";
 
-	@RequestMapping(value = "/board/{kind}/list", method = RequestMethod.GET)
+	@RequestMapping(value = "/{kind}/list", method = RequestMethod.GET)
 	public String allBoardList(ModelMap model, @PathVariable String kind, HttpServletRequest request) {
 		logger.info("TEST : Get Board List of " + kind);
 
 		// 파라미터 호출 및 유효성 검사
-		int cPage = cFn.checkVDInt(request.getParameter("cp"), 1);
-		int sType = cFn.checkVDInt(request.getParameter("sty"), 0);
-		String question = cFn.checkVDQuestion(request.getParameter("sty"));
-		int sDate = cFn.checkVDInt(request.getParameter("sda"), 0);
-		int limit = cFn.checkVDInt(request.getParameter("li"), 20);
-		String pfName = cFn.checkVDQuestion(request.getParameter("pf"));
-		Paging paging = new Paging(cPage, sType, question, sDate, limit, kind, pfName);
-
+		int cPage = commonService.checkVDInt(request.getParameter("cp"), 1);
+		int sType = commonService.checkVDInt(request.getParameter("sty"), 0);
+		String sText = commonService.checkVDQuestion(request.getParameter("sty"));
+		int sDate = commonService.checkVDInt(request.getParameter("sda"), 0);
+		int limit = commonService.checkVDInt(request.getParameter("li"), 20);
+		String pfName = commonService.checkVDQuestion(request.getParameter("pf"));
+		Paging paging = new Paging(cPage, sType, sText, sDate, limit, kind, pfName);
+		
 		// 전체 게시판 갯수 확인
 		int totalCount = bService.getCount(paging);
 		paging.setTotalCount(totalCount);
-		cFn.setPaging(paging);
+		commonService.setPaging(paging);
 		List<Board> boards = bService.findAllBoards(paging);
-
+		
 		model.addAttribute("boards", boards);
 		model.addAttribute("paging", paging);
 		model.addAttribute("kind", kind);
 		model.addAttribute("pfNames", PortfolioName.values());
-
 		return "board/list";
 	}
 
-	@RequestMapping(value = { "/board/{kind}/add" }, method = RequestMethod.GET)
+	@RequestMapping(value = { "/{kind}/add" }, method = RequestMethod.GET)
 	public String addBoard(ModelMap model, @PathVariable String kind) {
 		Board board = new Board();
 		model.addAttribute("board", board);
@@ -97,7 +97,7 @@ public class BoardController {
 		return "board/add";
 	}
 
-	@RequestMapping(value = { "/board/{kind}/add" }, method = RequestMethod.POST)
+	@RequestMapping(value = { "/{kind}/add" }, method = RequestMethod.POST)
 	public String addBoardDo(@Valid Board board, @Valid FileData fileData, BindingResult result,
 			ModelMap model, @PathVariable String kind, HttpServletRequest req) throws IOException {
 		// Board 부분
@@ -130,7 +130,7 @@ public class BoardController {
 		return "result/success";
 	}
 
-	@RequestMapping(value = { "/board/{kind}/r{id}" }, method = RequestMethod.GET)
+	@RequestMapping(value = { "/{kind}/{id}" }, method = RequestMethod.GET)
 	public String detailBoard(@PathVariable Long id, ModelMap model, @PathVariable String kind, HttpServletRequest request, HttpServletResponse response, Principal principal) {
 		String strId=String.valueOf(id);
 		
@@ -153,12 +153,12 @@ public class BoardController {
 		return "board/detail";
 	}
 
-	@RequestMapping(value = { "/board/{kind}/m{id}" }, method = RequestMethod.GET)
-	public String editBoard(@PathVariable Long id, ModelMap model, @PathVariable String kind) {
+	@RequestMapping(value = { "/{kind}/modify" }, method = RequestMethod.GET)
+	public String editBoard(@RequestParam(required=true) Long id, ModelMap model, @PathVariable String kind) {
 		Board board = bService.findById(id);
 
 //		if (!(board.getWriter().equals(initializeUser().getNickname()))) {
-//			return "redirect:/board/" + kind + "/r" + id;
+//			return "redirect:/" + kind + "/r" + id;
 //		}
 
 		model.addAttribute("board", board);
@@ -169,9 +169,8 @@ public class BoardController {
 		return "board/add";
 	}
 
-	@RequestMapping(value = { "/board/{kind}/m{id}" }, method = RequestMethod.POST)
-	public String editBoardDo(@Valid Board board, BindingResult result, ModelMap model, @PathVariable int id,
-			@PathVariable String kind) {
+	@RequestMapping(value = { "/{kind}/modify" }, method = RequestMethod.POST)
+	public String editBoardDo(@Valid Board board, BindingResult result, ModelMap model, @PathVariable String kind) {
 		if (result.hasErrors()) {
 			model.addAttribute("edit", true);
 			model.addAttribute("kind", kind);
@@ -179,7 +178,7 @@ public class BoardController {
 		}
 
 //		if (!(board.getWriter().equals(initializeUser().getNickname()))) {
-//			return "redirect:/board/" + kind + "/r" + id;
+//			return "redirect:/" + kind + "/r" + id;
 //		}
 
 		bService.updateBoard(board);
@@ -189,15 +188,15 @@ public class BoardController {
 		return "result/success";
 	}
 
-	@RequestMapping(value = { "/board/{kind}/d{id}" }, method = RequestMethod.GET)
-	public String deleteBoard(@PathVariable Long id, @PathVariable String kind) {
+	@RequestMapping(value = { "/{kind}/delete" }, method = RequestMethod.GET)
+	public String deleteBoard(@PathVariable String kind, @RequestParam(required=true) Long id) {
 		Board board = bService.findById(id);
 //		if (!(board.getWriter().equals(initializeUser().getNickname()))) {
-//			return "redirect:/board/" + kind + "/r" + id;
+//			return "redirect:/" + kind + "/r" + id;
 //		}
 //		board.setDelCheck(1);
 		bService.updateBoard(board);
-		return "redirect:/board/" + kind + "/list";
+		return "redirect:/" + kind + "/list";
 	}
 
 	// 선언하면 모델값으로 쉽게 넘길 수 있음
@@ -207,7 +206,7 @@ public class BoardController {
 		return uService.findByEmail(accessEmail);
 	}
 
-	// @RequestMapping(value = { "/board/{tableName}/detail" }, method =
+	// @RequestMapping(value = { "/{tableName}/detail" }, method =
 	// RequestMethod.GET)
 	// public String getBoardDetail(ModelMap model, HttpServletRequest request,
 	// HttpServletResponse response, @PathVariable String tableName,

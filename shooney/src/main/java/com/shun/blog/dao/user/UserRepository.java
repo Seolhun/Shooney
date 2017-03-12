@@ -2,10 +2,10 @@ package com.shun.blog.dao.user;
 
 import java.util.List;
 
-import com.shun.blog.common.model.Paging;
+import com.shun.blog.model.common.Paging;
 import com.shun.blog.model.user.User;
 
-public interface UserDao {
+public interface UserRepository {
 
 	User findById(int id);
 	

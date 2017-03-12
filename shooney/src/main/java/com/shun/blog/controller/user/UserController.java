@@ -31,17 +31,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
-import com.shun.blog.common.model.Paging;
-import com.shun.blog.common.service.CommonService;
+import com.shun.blog.model.common.Paging;
 import com.shun.blog.model.user.State;
 import com.shun.blog.model.user.User;
 import com.shun.blog.model.user.UserProfile;
 import com.shun.blog.model.user.UserProfileType;
+import com.shun.blog.service.common.CommonService;
 import com.shun.blog.service.user.UserProfileService;
 import com.shun.blog.service.user.UserService;
 
 @Controller
-@RequestMapping("/")
 @SessionAttributes({"roles"})
 public class UserController {
 
@@ -76,15 +75,17 @@ public class UserController {
 	@RequestMapping(value = "/admin/list", method = RequestMethod.GET)
 	public String listUsers(ModelMap model, HttpServletRequest request) {
 		// 파라미터 호출 및 유효성 검사
-		int cPage = commonService.checkVDInt(request.getParameter("cp"), 1);
-		int sType = commonService.checkVDInt(request.getParameter("sty"), 0);
-		String question = commonService.checkVDQuestion(request.getParameter("sty"));
-		int sDate = commonService.checkVDInt(request.getParameter("sda"),0);
-		int limit = commonService.checkVDInt(request.getParameter("li"), 20);
-		Paging paging = new Paging(cPage, sType, question, sDate, limit);
+		Integer cPage = commonService.checkVDInt(request.getParameter("cp"), 1);
+		Integer sType = commonService.checkVDInt(request.getParameter("sty"), 0);
+		String sText = commonService.checkVDQuestion(request.getParameter("question"));
+		Integer sDate = commonService.checkVDInt(request.getParameter("sda"), 0);
+		Integer limit = commonService.checkVDInt(request.getParameter("li"), 20);
+		Paging paging = new Paging(cPage, sType, sText, sDate, limit);
 
 		// 전체 게시판 갯수 확인
-		int totalCount = userService.getCount(paging);
+		Integer totalCount = userService.getCount(paging);
+		logger.info("return : {}", totalCount);
+		
 		paging.setTotalCount(totalCount);
 		commonService.setPaging(paging);
 		List<User> users = userService.findAllUsers(paging);
@@ -93,7 +94,6 @@ public class UserController {
 		model.addAttribute("paging", paging);
 		model.addAttribute("userProfile", UserProfileType.values());
 		model.addAttribute("state", State.values());
-		model.addAttribute("loggedinuser", getPrincipal());
 		return "user/userlist";
 	}
 
@@ -109,7 +109,7 @@ public class UserController {
 
 	@RequestMapping(value = { "/signup" }, method = RequestMethod.POST)
 	public String signupDo(@Valid User user, BindingResult result, ModelMap model) {
-		logger.info("Request POST : Parameter = " + user);
+		logger.info("param {}", user);
 		String mapping = "user/signup";
 		if (result.hasErrors()) {
 			return mapping;
@@ -124,8 +124,7 @@ public class UserController {
 		}
 
 		if (!userService.isUserNicknameUnique(user.getNickname())) {
-			FieldError nicknameError = new FieldError("user", "nickname", messageSource
-					.getMessage("non.unique.nickname", new String[] { user.getNickname() }, Locale.getDefault()));
+			FieldError nicknameError = new FieldError("user", "nickname", messageSource.getMessage("non.unique.nickname", new String[] { user.getNickname() }, Locale.getDefault()));
 			result.addError(nicknameError);
 			return mapping;
 		}
@@ -133,12 +132,12 @@ public class UserController {
 		// 유저 권한 넣기(프론트에서 값을 받지 않기때문에 백엔드에서 넣어준다.)
 		Set<UserProfile> upSet = new HashSet<>();
 		UserProfile up = new UserProfile();
-		up.setId(UserProfileType.PLAYER.ordinal()+1);
-		up.setType(UserProfileType.PLAYER.getType());
+		up.setId(UserProfileType.GUEST.ordinal()+1);
+		up.setType(UserProfileType.GUEST.getType());
 		upSet.add(up);
 		user.setUserProfiles(upSet);
 		
-		userService.saveUser(user);
+		userService.insert(user);
 
 		model.addAttribute("success", "User " + user.getEmail() + " registered successfully");
 		model.addAttribute("loggedinuser", getPrincipal());
@@ -156,7 +155,7 @@ public class UserController {
 	@RequestMapping(value = { "/admin/edit-{email}" }, method = RequestMethod.POST)
 	public String updateUser(User user, ModelMap model, @PathVariable String email) {
 		logger.info("Request POST : Parameter = " + user);
-		userService.updateUser(user);
+		userService.update(user);
 		model.addAttribute("success", "User " + user.getNickname() + " updated successfully");
 		model.addAttribute("loggedinuser", getPrincipal());
 		return "result/success";
@@ -171,7 +170,7 @@ public class UserController {
 				user.setState(e.getState());
 			}
 		}
-		userService.updateUser(user);
+		userService.update(user);
 		
 		// userService.deleteUserByEmail(email);
 		return "redirect:/admin/list";
@@ -219,7 +218,7 @@ public class UserController {
 					}
 				}
 				
-				userService.updateUser(user);
+				userService.update(user);
 				
 			} catch (Exception e) {
 				logger.error("ERROR : Admin user Error");

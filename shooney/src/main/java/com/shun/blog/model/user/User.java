@@ -47,14 +47,11 @@ public class User implements Serializable {
 	@Column(name = "USER_PASSWORD", nullable = false, length=100)
 	private String password;
 	
-	@Column(name = "USER_LOCKED_AUTH", nullable = false, length=100)
+	@Column(name = "USER_LOCKED_AUTH", length=100)
 	private String lockedAuth;
 	
-	@Column(name = "USER_CREATED_BY", nullable = false, length = 60)
-	private String boardCreatedBy;
-
 	@Column(name = "USER_MODIFIED_BY", length = 60)
-	private String boardModifiedBy;
+	private String modifiedBy;
 
 	@CreationTimestamp
 	@Temporal(TemporalType.TIMESTAMP)

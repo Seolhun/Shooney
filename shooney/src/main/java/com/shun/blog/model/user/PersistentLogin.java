@@ -26,7 +26,7 @@ public class PersistentLogin implements Serializable{
 	@Column(name="PERSISTENT_EMAIL", unique=true, nullable=false, length=60)
 	private String email;
 	
-	@Column(name="PERSISTENTTOKEN", unique=true, nullable=false, length=100)
+	@Column(name="PERSISTENT_TOKEN", unique=true, nullable=false, length=100)
 	private String token;
 	
 	@Temporal(TemporalType.TIMESTAMP)

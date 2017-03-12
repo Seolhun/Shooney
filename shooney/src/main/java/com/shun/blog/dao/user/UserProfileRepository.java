@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.shun.blog.model.user.UserProfile;
 
-public interface UserProfileDao {
+public interface UserProfileRepository {
 
 	List<UserProfile> findAll();
 

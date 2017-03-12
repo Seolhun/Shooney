@@ -37,7 +37,7 @@
 		<div class="row equal-height-columns">
 			<div class="col-md-12 col-sm-12 form-block equal-height-column">
 				<a href="${shooney}">
-					<img src="${template}/img/themes/logo1-dark-blue.png" alt="">
+					<img src="${template}/img/themes/logo1-dark-blue.png">
 				</a>
 				<c:choose>
 					<c:when test="${edit}">

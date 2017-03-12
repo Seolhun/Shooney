@@ -10,24 +10,24 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
-import com.shun.blog.common.model.Paging;
 import com.shun.blog.dao.AbstractDao;
 import com.shun.blog.model.board.Board;
+import com.shun.blog.model.common.Paging;
 
 @Repository("boardDao")
-public class BoardDaoImpl extends AbstractDao<Integer, Board> implements BoardDao {
+public class BoardRepositoryImpl extends AbstractDao<Integer, Board> implements BoardRepository {
 
-	static final Logger logger = LoggerFactory.getLogger(BoardDaoImpl.class);
+	static final Logger logger = LoggerFactory.getLogger(BoardRepositoryImpl.class);
 
 	@SuppressWarnings("unchecked")
 	public List<Board> findAllBoards(Paging paging) {
 		int cPage = paging.getCPage();
-		int sType = paging.getSDate();
+		int sType = paging.getSType();
 		String sText = paging.getSText();
 		int limit = paging.getLimit();
 		String entityName = paging.getEntityName();
 		String pfName = paging.getPfName();
-
+		
 		// 검색 로직
 		Criteria criteria = createEntityCriteria().addOrder(Order.desc("id")).setFirstResult((cPage - 1) * limit)
 				.setMaxResults(limit).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
@@ -48,12 +48,11 @@ public class BoardDaoImpl extends AbstractDao<Integer, Board> implements BoardDa
 		} else if (paging.getSDate() != 0 && sType == 3) {
 			criteria.add(Restrictions.like("writer", "%" + sText + "%"));
 		} else if (paging.getSDate() != 0 && sType == 4) {
-			criteria.add(Restrictions.like("title", "%" + sText + "%"))
-					.add(Restrictions.like("content", "%" + sText + "%"));
+			criteria.add(Restrictions.like("title", "%" + sText + "%")).add(Restrictions.like("content", "%" + sText + "%"));
 		}
 
-		logger.info(criteria.toString());
 		List<Board> boards = (List<Board>) criteria.list();
+		logger.info("return : {}", boards);
 		return boards;
 	}
 
@@ -67,7 +66,7 @@ public class BoardDaoImpl extends AbstractDao<Integer, Board> implements BoardDa
 		if (paging.getPfName() != null) {
 			condition2 = " AND pfname='" + paging.getPfName().toUpperCase() + "'";
 		}
-		Query query = rawQuery("SELECT COUNT(*) FROM BOARD " + condition + condition2);
+		Query query = rawQuery("SELECT COUNT(*) FROM TB_BOARD " + condition + condition2);
 		return ((Number) query.uniqueResult()).intValue();
 	}
 

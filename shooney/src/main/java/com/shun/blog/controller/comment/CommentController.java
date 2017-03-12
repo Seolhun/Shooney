@@ -21,20 +21,20 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.shun.blog.common.model.Paging;
-import com.shun.blog.common.service.CommonService;
 import com.shun.blog.model.comment.Comment;
+import com.shun.blog.model.common.Paging;
 import com.shun.blog.model.user.User;
 import com.shun.blog.service.comment.CommentService;
+import com.shun.blog.service.common.CommonService;
 import com.shun.blog.service.user.UserService;
 
 @Controller
 public class CommentController {
 	@Autowired
-	CommentService cService;
+	CommentService commentService;
 
 	@Autowired
-	UserService uService;
+	UserService userService;
 
 	@Autowired
 	CommonService commonService;
@@ -53,7 +53,7 @@ public class CommentController {
 			logger.error("Fail to get login user information ");
 		}
 		comment.setContent(comment.getContent().replaceAll("\n", "<br/>"));
-		cService.saveComment(comment);
+		commentService.saveComment(comment);
 		return "true";
 	}
 	
@@ -67,7 +67,7 @@ public class CommentController {
 		
 //		comment.setDelCheck(1);
 //		comment.setId(id);
-		cService.updateComment(comment);
+		commentService.updateComment(comment);
 		return "true";
 	}
 	
@@ -80,7 +80,7 @@ public class CommentController {
 		}
 		comment.setContent(comment.getContent().replaceAll("\n", "<br/>"));
 //		comment.setId(id);
-		cService.updateComment(comment);
+		commentService.updateComment(comment);
 		return "true";
 	}
 	
@@ -97,12 +97,12 @@ public class CommentController {
 		paging.setId(board_id);
 
 		// 전체 게시판 갯수 확인
-		int totalCount = cService.getCount(paging);
+		int totalCount = commentService.getCount(paging);
 		
 		paging.setTotalCount(totalCount);
 		commonService.setPaging(paging);
 		
-		List<Comment> comments=cService.findAllComments(paging);
+		List<Comment> comments=commentService.findAllComments(paging);
 		
 		Map<String, Object> jsonObject = new HashMap<String, Object>();
 		

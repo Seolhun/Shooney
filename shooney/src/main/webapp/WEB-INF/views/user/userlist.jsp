@@ -50,10 +50,10 @@
 				        <th>State.</th>
 				        <th>Role.</th>
 				        <th>Email Check</th>
-				        <sec:authorize access="hasRole('ADMIN') or hasRole('SUPERADMIN')">
+				        <sec:authorize access="hasRole('SUPERADMIN')">
 				        	<th>Edit.</th>
 				        </sec:authorize>
-				        <sec:authorize access="hasRole('ADMIN') or hasRole('SUPERADMIN')">
+				        <sec:authorize access="hasRole('SUPERADMIN')">
 				        	<th>Delete.</th>
 				        </sec:authorize>
 				        
@@ -68,7 +68,7 @@
 						<td>${user.nickname}</td>
 						<td>${user.state}</td>
 						<td><c:forEach items="${user.userProfiles}" var="i">${i.type }<br></c:forEach></td>
-						<td>${user.checkemail}</td>
+						<td>${user.receiveEmail}</td>
 						<td><a href="${admin }/edit-${user.email}" class="btn btn-default custom-width rounded">Edit</a></td>
 				        <c:choose>
 				        	<c:when test="${user.state.equals('Active')}">
@@ -83,14 +83,13 @@
 	    		</tbody>
 	    	</table>
 	    	<form:form method="GET" class="form-horizontal" action="${admin}/list">
-		   		<div style="text-align: center">
+		   		<div class="text-center">
 		   			<a href="list?cp=${paging.cPage -10 < 1 ? 1 : paging.cPage -10}" class="btn-u btn-brd btn-brd-hover btn-u-dark btn-u-block margin-bottom-5">&larr;&larr;</a>
 		   			<a href="list?cp=${paging.cPage -1 < 1 ? 1 : paging.cPage -1}" class="btn-u btn-brd btn-brd-hover btn-u-dark btn-u-block margin-bottom-5">&larr;</a>
-		   			&nbsp;
 		   			<c:forEach begin="${paging.blockStartNo }" end="${paging.blockEndNo}" varStatus="status">
-						<a href="list?cp=${status.index }" class="btn-u btn-brd btn-brd-hover btn-u-dark btn-u-block margin-bottom-5" <c:if test="${status.index==paging.cPage }">style="color: Green"</c:if>>${status.index}</a>
+						<a href="list?cp=${status.index }" class="btn-u btn-brd btn-brd-hover btn-u-dark btn-u-block margin-bottom-5" 
+						<c:if test="${status.index==paging.cPage }">style="color: Green"</c:if>>${status.index}</a>
 		   			</c:forEach>
-		   			&nbsp;
 		   			<a href="list?cp=${paging.cPage +1 > paging.totalPage ? paging.totalPage : paging.cPage +1}" class="btn-u btn-brd btn-brd-hover btn-u-dark btn-u-block margin-bottom-5">&rarr;</a>
 		   			<a href="list?cp=${paging.cPage +10 > paging.totalPage ? paging.totalPage : paging.cPage +10 }" class="btn-u btn-brd btn-brd-hover btn-u-dark btn-u-block margin-bottom-5">&rarr;&rarr;</a>
 		   		</div>
