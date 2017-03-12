@@ -43,7 +43,7 @@ public class CommentController {
 	@RequestMapping(value = "/reply/board/add", method = {RequestMethod.POST}, produces = "application/json; charset=utf8")
 	public @ResponseBody String addBoardComment(@RequestBody Comment comment) {
 		try {
-			comment.setWriter(initializeUser().getNickname());
+//			comment.setWriter(initializeUser().getNickname());
 			String content=comment.getContent();
 			if(content==null || content.length()<1){
 				return "false";
@@ -64,8 +64,8 @@ public class CommentController {
 			return "false";
 		}
 		
-		comment.setDelCheck(1);
-		comment.setId(id);
+//		comment.setDelCheck(1);
+//		comment.setId(id);
 		cService.updateComment(comment);
 		return "true";
 	}
@@ -78,7 +78,7 @@ public class CommentController {
 			return "false";
 		}
 		comment.setContent(comment.getContent().replaceAll("\n", "<br/>"));
-		comment.setId(id);
+//		comment.setId(id);
 		cService.updateComment(comment);
 		return "true";
 	}

@@ -6,11 +6,11 @@ import com.shun.blog.model.portfolio.music.Music;
 
 public interface MusicDao {
 
-	Music findById(int id);
+	Music findById(Long id);
 
 	List<Music> findAllMusics();
 
 	void saveMusic(Music music);
 
-	void deleteUserById(int id);
+	void deleteUserById(Long id);
 }

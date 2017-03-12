@@ -17,7 +17,7 @@ public class MusicServiceImpl implements MusicService {
 	@Autowired
 	private MusicDao dao;
 
-	public Music findById(int id) {
+	public Music findById(Long id) {
 		return dao.findById(id);
 	}
 
@@ -30,12 +30,11 @@ public class MusicServiceImpl implements MusicService {
 		if (entity != null) {
 			entity.setSinger(music.getSinger());
 			entity.setTitle(music.getTitle());
-			entity.setLatestDate(music.getLatestDate());
 		}
 	}
 
 	@Override
-	public void deleteUserById(int id) {
+	public void deleteUserById(Long id) {
 		dao.deleteUserById(id);
 	}
 

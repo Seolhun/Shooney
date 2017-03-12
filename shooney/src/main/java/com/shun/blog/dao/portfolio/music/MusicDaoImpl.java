@@ -17,8 +17,8 @@ public class MusicDaoImpl extends AbstractDao<Integer, Music> implements MusicDa
 
 	static final Logger logger = LoggerFactory.getLogger(MusicDaoImpl.class);
 	
-	public Music findById(int id) {
-		Music music = getByKey(id);
+	public Music findById(Long id) {
+		Music music = getByLong(id);
 		return music;
 	}
 	
@@ -34,7 +34,7 @@ public class MusicDaoImpl extends AbstractDao<Integer, Music> implements MusicDa
 		persist(music);
 	}
 
-	public void deleteUserById(int id) {
+	public void deleteUserById(Long id) {
 		Criteria crit = createEntityCriteria();
 		crit.add(Restrictions.eq("id", id));
 		Music music = (Music)crit.uniqueResult();

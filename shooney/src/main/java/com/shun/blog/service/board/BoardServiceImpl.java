@@ -16,7 +16,7 @@ public class BoardServiceImpl implements BoardService {
 	private BoardDao boardDao;
 	
 	
-	public Board findById(int id) {
+	public Board findById(Long id) {
 		return boardDao.findById(id);
 	}
 
@@ -32,8 +32,8 @@ public class BoardServiceImpl implements BoardService {
 		} else if(entity != null){
 			entity.setTitle(board.getTitle());
 			entity.setContent(board.getContent());
-			entity.setWriter(board.getWriter());
-			entity.setDelCheck(board.getDelCheck());
+			entity.setBoardCreatedBy(board.getBoardCreatedBy());
+			entity.setBoardModifiedBy(board.getBoardModifiedBy());
 			entity.setDepth(board.getDepth());
 			entity.setEntityName(board.getEntityName());
 			entity.setPfName(board.getPfName());
@@ -41,7 +41,7 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public void deleteBoardById(int id) {
+	public void deleteBoardById(Long id) {
 		boardDao.deleteBoardById(id);
 	}
 	

@@ -13,153 +13,75 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.validator.constraints.NotEmpty;
-import org.springframework.format.annotation.DateTimeFormat;
 
+import com.shun.blog.model.comment.Comment;
 import com.shun.blog.model.file.FileData;
+
+import lombok.Data;
 
 @Entity
 @Table(name = "TB_BOARD")
+@Data
 public class Board implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	@Column(name = "BOARD_ID")
+	private Long id;
+	
+	@Column(name = "BOARD_IDX", nullable=false)
+	private Long idx;
 
 	@NotEmpty
-	@Column(name = "TITLE", nullable = false)
+	@Column(name = "BOARD_TITLE",length=150 , nullable = false)
 	private String title;
 
 	@NotEmpty
-	@Column(name = "CONTENT", nullable = false)
+	@Column(name = "BOARD_CONTENT", length=300, nullable = false)
 	private String content;
+	
+	@Column(name = "BOARD_HITS", nullable=false)
+	private int hits=0;
 
-	@Column(name = "WRITER")
-	private String writer;
+	@Column(name = "BOARD_LIKES", nullable=false)
+	private int likes=0;
 
-	@Column(name = "LATESTDATE", nullable = false)
-	@DateTimeFormat(pattern = "yyyy-mm-dd")
-	private Date latestDate;
+	@Column(name = "BOARD_DEPTH", nullable=false)
+	private int depth=0;
 
-	@Column(name = "HITS")
-	private int hits;
-
-	@Column(name = "LIKES")
-	private int likes;
-
-	@Column(name = "DELCHECK")
-	private int delCheck;
-
-	@Column(name = "DEPTH")
-	private int depth;
-
-	@Column(name = "ENTITYNAME")
+	@Column(name = "BOARD_ENTITYNAME", length=30)
 	private String entityName;
 
-	@Column(name = "PFNAME")
+	@Column(name = "BOARD_PFNAME", length=30)
 	private String pfName;
 	
-//	@OneToMany
-//	@JoinTable(name = "COMMENT", joinColumns = { @JoinColumn(name = "BOARD_ID") })
-//	private List<Comment> comments;
+	@Column(name = "BOARD_CREATED_BY", nullable = false, length = 60)
+	private String boardCreatedBy;
+
+	@Column(name = "BOARD_MODIFIED_BY", length = 60)
+	private String boardModifiedBy;
+
+	@CreationTimestamp
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "BOARD_CREATED_DATE")
+	private Date createdDate;
+
+	@UpdateTimestamp
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "BOARD_MODIFIED_DATE")
+	private Date modifiedDate;
 	
-//	@Transient	
-	@OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
-	private Set<FileData> files=new HashSet<FileData>();
+	@Column(name = "BOARD_DELCHECK", nullable=false)
+	private int delCheck=0;
 	
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public String getTitle() {
-		return title;
-	}
-
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
-	public String getContent() {
-		return content;
-	}
-
-	public void setContent(String content) {
-		this.content = content;
-	}
-
-	public String getWriter() {
-		return writer;
-	}
-
-	public void setWriter(String writer) {
-		this.writer = writer;
-	}
-
-	public int getHits() {
-		return hits;
-	}
-
-	public void setHits(int hits) {
-		this.hits = hits;
-	}
-
-	public int getLikes() {
-		return likes;
-	}
-
-	public void setLikes(int likes) {
-		this.likes = likes;
-	}
-
-	public Date getLatestDate() {
-		return latestDate;
-	}
-
-	public void setLatestDate(Date latestDate) {
-		this.latestDate = latestDate;
-	}
-
-	public int getDelCheck() {
-		return delCheck;
-	}
-
-	public void setDelCheck(int delCheck) {
-		this.delCheck = delCheck;
-	}
-
-	public int getDepth() {
-		return depth;
-	}
-
-	public void setDepth(int depth) {
-		this.depth = depth;
-	}
-
-	public String getEntityName() {
-		return entityName;
-	}
-
-	public void setEntityName(String entityName) {
-		this.entityName = entityName;
-	}
-
-	public String getPfName() {
-		return pfName;
-	}
-
-	public void setPfName(String pfName) {
-		this.pfName = pfName;
-	}
-
-	public Set<FileData> getFiles() {
-		return files;
-	}
-
-	public void setFiles(Set<FileData> files) {
-		this.files = files;
-	}
+	@OneToMany(mappedBy = "boardInFile", cascade = CascadeType.ALL)
+	private Set<FileData> files=new HashSet<>();
+	
+	@OneToMany(mappedBy = "boardInComment", cascade = CascadeType.ALL)
+	private Set<Comment> comments=new HashSet<>();
 }

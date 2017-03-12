@@ -1,6 +1,7 @@
 package com.shun.blog.model.user;
 
-import java.sql.Date;
+import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,101 +9,55 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
-import org.hibernate.validator.constraints.NotEmpty;
-import org.springframework.format.annotation.DateTimeFormat;
+import org.hibernate.annotations.CreationTimestamp;
+
+import lombok.Data;
 
 @Entity
-@Table(name="TB_USER_ATTEMPTS")
-public class UserAttempts {
+@Table(name = "TB_USER_ATTEMPTS")
+@Data
+public class UserAttempts implements Serializable {
+	private static final long serialVersionUID = -6645634619910097302L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private int id;
-	
-	@Column(name = "EMAIL", nullable = false)
-	@NotEmpty
-	private String email;
-	
-	@Column(name = "ATTEMPTS", nullable = false)
-	@NotEmpty
-	private int attempts;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "USER_ATTEMPTS_ID")
+	private Long userAttemptsId;
 
-	@Column(name = "LATESTDATE", nullable = false)
-	@DateTimeFormat(pattern = "yyyy-mm-dd")
-	private Date latestDate;
-	
-	@Column(name = "LOGIP")
-	private String logIp;
-	
-	@Column(name = "SUCCESSFLAG")
-	private int successFlag;
-	
-	@Column(name = "AUTH")
-	private String auth;
-	
-	public UserAttempts(int id, int attempts, String logIp) {
-		this.logIp = logIp;
-		this.id = id;
-		this.attempts = attempts;
+	@Column(name = "USER_ATTEMPTS_EMAIL", nullable = false, length=60)
+	private String userAttemptsEmail;
+
+	@Column(name = "USER_ATTEMPTS_COUNTS", nullable = false, length=5)
+	private Integer userAttemptsCounts = 1;
+
+	@Column(name = "USER_ATTEMPTS_CREATED_DATE", nullable = false)
+	@Temporal(TemporalType.TIMESTAMP)
+	@CreationTimestamp
+	private Date userAttemptsCreatedDate;
+
+	@Column(name = "USER_ATTEMPTS_LOGIN_IP", length=60)
+	private String userAttemptsLoginIp;
+
+	@Column(name = "USER_ATTEMPTS_SUCCESS_FLAG", length=5)
+	private Integer userAttemptsSuccessFlag=0;
+
+	public UserAttempts() {
+
 	}
 
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public int getAttempts() {
-		return attempts;
-	}
-
-	public void setAttempts(int attempts) {
-		this.attempts = attempts;
-	}
-
-
-	public Date getLatestDate() {
-		return latestDate;
-	}
-
-	public void setLatestDate(Date latestDate) {
-		this.latestDate = latestDate;
-	}
-
-	public String getLogIp() {
-		return logIp;
-	}
-
-	public void setLogIp(String logIp) {
-		this.logIp = logIp;
-	}
-
-	public int getSuccessFlag() {
-		return successFlag;
-	}
-
-	public void setSuccessFlag(int successFlag) {
-		this.successFlag = successFlag;
-	}
-
-	public String getAuth() {
-		return auth;
-	}
-
-	public void setAuth(String auth) {
-		this.auth = auth;
+	public UserAttempts(String userAttemptsEmail, Integer userAttemptsCounts, String userAttemptsLoginIp) {
+		this.userAttemptsEmail=userAttemptsEmail;
+		this.userAttemptsCounts=userAttemptsCounts;
+		this.userAttemptsLoginIp=userAttemptsLoginIp;
 	}
 	
-	
+	public UserAttempts(String userAttemptsEmail, Integer userAttemptsCounts, String userAttemptsLoginIp, Integer userAttemptsSuccessFlag) {
+		this.userAttemptsEmail=userAttemptsEmail;
+		this.userAttemptsCounts=userAttemptsCounts;
+		this.userAttemptsLoginIp=userAttemptsLoginIp;
+		this.userAttemptsSuccessFlag=userAttemptsSuccessFlag;
+	}
 }

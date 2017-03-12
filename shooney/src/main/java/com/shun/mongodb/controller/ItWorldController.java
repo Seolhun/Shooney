@@ -23,13 +23,14 @@ import com.shun.mongodb.model.it.ItWorld;
 import com.shun.mongodb.service.it.ItWorldService;
 
 @Controller
+@RequestMapping(value = "/itworld")
 public class ItWorldController {
 	@Autowired
-	private ItWorldService iService;
+	private ItWorldService itWorldService;
 
 	private static final Logger logger = LoggerFactory.getLogger(ItWorldController.class);
 
-	@RequestMapping(value = "/it/{website}/add", method = RequestMethod.GET)
+	@RequestMapping(value = "/{website}/add", method = RequestMethod.GET)
 	public @ResponseBody String getITworldInfoList(ModelMap model, @PathVariable String website) {
 		new Thread() {
 			public void run() {
@@ -64,7 +65,7 @@ public class ItWorldController {
 							tagList.add(tag);
 						}
 						itWorld.setTags(tagList);
-						iService.saveItWorld(itWorld);
+						itWorldService.saveItWorld(itWorld);
 					} catch (HttpStatusException e) {
 						logger.error("ERROR : HttpStatusException");
 					} catch (NullPointerException e) {
@@ -79,14 +80,14 @@ public class ItWorldController {
 		return "true";
 	}
 
-	@RequestMapping(value = "/it/{website}/list", method = RequestMethod.GET)
+	@RequestMapping(value = "/{website}/list", method = RequestMethod.GET)
 	public String moveITworld(ModelMap model, @PathVariable String website) {
 		return "itworld/list";
 	}
 	
-	@RequestMapping(value = "/it/{website}/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/{website}/{id}", method = RequestMethod.GET)
 	public String getITworldInfo(ModelMap model, @PathVariable String id) {
-		ItWorld itWorld=iService.findItWorldById(id);
+		ItWorld itWorld=itWorldService.findItWorldById(id);
 		model.addAttribute("itWorld", itWorld);
 		return "itworld/list";
 	}

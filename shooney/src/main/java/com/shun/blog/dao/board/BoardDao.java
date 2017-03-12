@@ -11,10 +11,10 @@ public interface BoardDao {
 
 	int getCount(Paging paging);
 
-	Board findById(int id);
+	Board findById(Long id);
 
 	void saveBoard(Board Board);
 
-	void deleteBoardById(int id);
+	void deleteBoardById(Long id);
 
 }

@@ -10,9 +10,9 @@ public interface CommentDao {
 
 	int getCount(Paging paging);
 
-	Comment findById(int id);
+	Comment findById(Long id);
 
 	void saveComment(Comment comment);
 
-	void deleteCommentById(int id);
+	void deleteCommentById(Long id);
 }

@@ -1,6 +1,5 @@
 package com.shun.blog.controller.board;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,7 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.util.FileCopyUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,8 +28,7 @@ import com.shun.blog.model.board.Board;
 import com.shun.blog.model.board.EntityName;
 import com.shun.blog.model.board.PortfolioName;
 import com.shun.blog.model.common.Paging;
-import com.shun.blog.model.file.FileBucket;
-import com.shun.blog.model.file.MultiFileBucket;
+import com.shun.blog.model.file.FileData;
 import com.shun.blog.model.user.User;
 import com.shun.blog.service.board.BoardService;
 import com.shun.blog.service.comment.CommentService;
@@ -100,7 +97,7 @@ public class BoardController {
 	}
 
 	@RequestMapping(value = { "/board/{kind}/add" }, method = RequestMethod.POST)
-	public String addBoardDo(@Valid Board board, @Valid MultiFileBucket multiFileBucket, BindingResult result,
+	public String addBoardDo(@Valid Board board, @Valid FileData fileData, BindingResult result,
 			ModelMap model, @PathVariable String kind, HttpServletRequest req) throws IOException {
 		// Board 부분
 		if (result.hasErrors()) {
@@ -112,33 +109,33 @@ public class BoardController {
 			return "board/add";
 		}
 
-		board.setWriter(initializeUser().getNickname());
+//		board.setWriter(initializeUser().getNickname());
 		bService.saveBoard(board);
 
-		model.addAttribute("success", "Board " + board.getWriter() + "의 " + board.getTitle() + "성공적으로 등록되었습니다.");
+//		model.addAttribute("success", "Board " + board.getWriter() + "의 " + board.getTitle() + "성공적으로 등록되었습니다.");
 		model.addAttribute("kind", kind);
 
 		// File Upload 부분
 		logger.info("Fetching files");
 		List<String> fileNames = new ArrayList<String>();
 		// Now do something with file...
-		for (FileBucket bucket : multiFileBucket.getFiles()) {
-			FileCopyUtils.copy(bucket.getFile().getBytes(),
-					new File(UPLOAD_LOCATION + bucket.getFile().getOriginalFilename()));
-			fileNames.add(bucket.getFile().getOriginalFilename());
-		}
+//		for (FileData bucket : fileData.getFiles()) {
+//			FileCopyUtils.copy(bucket.getFile().getBytes(),
+//					new File(UPLOAD_LOCATION + bucket.getFile().getOriginalFilename()));
+//			fileNames.add(bucket.getFile().getOriginalFilename());
+//		}
 
 		model.addAttribute("fileNames", fileNames);
 		return "result/success";
 	}
 
 	@RequestMapping(value = { "/board/{kind}/r{id}" }, method = RequestMethod.GET)
-	public String detailBoard(@PathVariable int id, ModelMap model, @PathVariable String kind, HttpServletRequest request, HttpServletResponse response) {
+	public String detailBoard(@PathVariable Long id, ModelMap model, @PathVariable String kind, HttpServletRequest request, HttpServletResponse response) {
 		String strId=String.valueOf(id);
 		
 		if(checkHitCookie(request, response, strId)){
 			Board board=new Board();
-			board.setId(id);
+			board.setId(id);;
 			board.setHits(1);
 			bService.updateBoard(board);
 		}
@@ -156,12 +153,12 @@ public class BoardController {
 	}
 
 	@RequestMapping(value = { "/board/{kind}/m{id}" }, method = RequestMethod.GET)
-	public String editBoard(@PathVariable int id, ModelMap model, @PathVariable String kind) {
+	public String editBoard(@PathVariable Long id, ModelMap model, @PathVariable String kind) {
 		Board board = bService.findById(id);
 
-		if (!(board.getWriter().equals(initializeUser().getNickname()))) {
-			return "redirect:/board/" + kind + "/r" + id;
-		}
+//		if (!(board.getWriter().equals(initializeUser().getNickname()))) {
+//			return "redirect:/board/" + kind + "/r" + id;
+//		}
 
 		model.addAttribute("board", board);
 		model.addAttribute("edit", true);
@@ -180,24 +177,24 @@ public class BoardController {
 			return "board/add";
 		}
 
-		if (!(board.getWriter().equals(initializeUser().getNickname()))) {
-			return "redirect:/board/" + kind + "/r" + id;
-		}
+//		if (!(board.getWriter().equals(initializeUser().getNickname()))) {
+//			return "redirect:/board/" + kind + "/r" + id;
+//		}
 
 		bService.updateBoard(board);
 
-		model.addAttribute("success", "Board " + board.getWriter() + "의 " + board.getTitle() + "성공적으로 수정되었습니다.");
+//		model.addAttribute("success", "Board " + board.getWriter() + "의 " + board.getTitle() + "성공적으로 수정되었습니다.");
 		model.addAttribute("entity", kind);
 		return "result/success";
 	}
 
 	@RequestMapping(value = { "/board/{kind}/d{id}" }, method = RequestMethod.GET)
-	public String deleteBoard(@PathVariable int id, @PathVariable String kind) {
+	public String deleteBoard(@PathVariable Long id, @PathVariable String kind) {
 		Board board = bService.findById(id);
-		if (!(board.getWriter().equals(initializeUser().getNickname()))) {
-			return "redirect:/board/" + kind + "/r" + id;
-		}
-		board.setDelCheck(1);
+//		if (!(board.getWriter().equals(initializeUser().getNickname()))) {
+//			return "redirect:/board/" + kind + "/r" + id;
+//		}
+//		board.setDelCheck(1);
 		bService.updateBoard(board);
 		return "redirect:/board/" + kind + "/list";
 	}

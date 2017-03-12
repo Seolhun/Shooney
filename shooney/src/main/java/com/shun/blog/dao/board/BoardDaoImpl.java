@@ -72,8 +72,8 @@ public class BoardDaoImpl extends AbstractDao<Integer, Board> implements BoardDa
 	}
 
 	@Override
-	public Board findById(int id) {
-		Board board = getByKey(id);
+	public Board findById(Long id) {
+		Board board = getByLong(id);
 		return board;
 	}
 
@@ -83,7 +83,7 @@ public class BoardDaoImpl extends AbstractDao<Integer, Board> implements BoardDa
 	}
 
 	@Override
-	public void deleteBoardById(int id) {
+	public void deleteBoardById(Long id) {
 		Criteria crit = createEntityCriteria();
 		crit.add(Restrictions.eq("id", id));
 		Board board = (Board) crit.uniqueResult();

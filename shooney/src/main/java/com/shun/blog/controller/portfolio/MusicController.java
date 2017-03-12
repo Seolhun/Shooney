@@ -144,7 +144,7 @@ public class MusicController {
 	}
 
 	@RequestMapping(value = { "/portfolio/music/edit-{id}" }, method = RequestMethod.GET)
-	public String editUser(@PathVariable int id, ModelMap model) {
+	public String editUser(@PathVariable Long id, ModelMap model) {
 		Music music = musicService.findById(id);
 		model.addAttribute("music", music);
 		model.addAttribute("edit", true);
@@ -163,7 +163,7 @@ public class MusicController {
 	}
 
 	@RequestMapping(value = { "/portfolio/music/delete-{id}" }, method = RequestMethod.GET)
-	public String deleteUser(@PathVariable int id) {
+	public String deleteUser(@PathVariable Long id) {
 		musicService.deleteUserById(id);
 		return "redirect:/musiclist";
 	}

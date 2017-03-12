@@ -14,7 +14,7 @@ import com.shun.mongodb.service.project.ProjectService;
 public class ProjectController {
 
 	@Autowired
-	private ProjectService pService;
+	private ProjectService projectService;
 
 //	@PostConstruct
 //	public void initData() {
@@ -26,13 +26,13 @@ public class ProjectController {
 
 	@RequestMapping("/project")
 	public List<Project> getAllProjects() {
-		List<Project> projects=pService.findAllProjects();
+		List<Project> projects=projectService.findAllProjects();
 		return projects;
 	}
 
 	@RequestMapping(value = "/project/{projectId}")
 	public Project getProjectById(@PathVariable("projectId") String id) {
-		Project project=pService.findById(id);
+		Project project=projectService.findById(id);
 		return project;
 	}
 }

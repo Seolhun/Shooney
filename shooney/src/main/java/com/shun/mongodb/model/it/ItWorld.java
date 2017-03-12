@@ -9,12 +9,17 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.shun.mongodb.model.BaseEntity;
 
+import lombok.Getter;
+import lombok.Setter;
+
 @SuppressWarnings("serial")
 @Document(collection = "itworld")
+@Getter
+@Setter
 public class ItWorld extends BaseEntity implements Serializable {
 	
 	@Indexed(unique = true)
-	private String id;
+	private String idx;
 
 	private String title;
 
@@ -36,105 +41,4 @@ public class ItWorld extends BaseEntity implements Serializable {
 
 	private int delcheck;
 
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
-
-	public String getTitle() {
-		return title;
-	}
-
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
-	public String getContent() {
-		return content;
-	}
-
-	public void setContent(String content) {
-		this.content = content;
-	}
-
-	public String getWriter() {
-		return writer;
-	}
-
-	public void setWriter(String writer) {
-		this.writer = writer;
-	}
-
-	public Date getRegdate() {
-		return regdate;
-	}
-
-	public void setRegdate(Date regdate) {
-		this.regdate = regdate;
-	}
-
-	public Date getLatestdate() {
-		return latestdate;
-	}
-
-	public void setLatestdate(Date latestdate) {
-		this.latestdate = latestdate;
-	}
-
-	public int getHit() {
-		return hit;
-	}
-
-	public void setHit(int hit) {
-		this.hit = hit;
-	}
-
-	public int getLikes() {
-		return likes;
-	}
-
-	public void setLikes(int likes) {
-		this.likes = likes;
-	}
-
-	public int getDelcheck() {
-		return delcheck;
-	}
-
-	public void setDelcheck(int delcheck) {
-		this.delcheck = delcheck;
-	}
-
-	public List<String> getTags() {
-		return tags;
-	}
-
-	public void setTags(List<String> tags) {
-		this.tags = tags;
-	}
-
-	public int getBoardNo() {
-		return boardNo;
-	}
-
-	public void setBoardNo(int boardNo) {
-		this.boardNo = boardNo;
-	}
-	
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		ItWorld other = (ItWorld) obj;
-		if (id != other.id)
-			return false;
-		return true;
-	}
 }

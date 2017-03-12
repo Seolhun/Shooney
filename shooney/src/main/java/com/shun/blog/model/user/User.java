@@ -1,6 +1,7 @@
 package com.shun.blog.model.user;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -14,31 +15,58 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
+import lombok.Data;
+
 @Entity
 @Table(name = "TB_USER")
+@Data
 public class User implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+	@Column(name = "USER_ID", nullable = false)
+	private Long id;
 
 	@Email
-	@Column(name = "EMAIL", unique = true, nullable = false)
+	@Column(name = "USER_EMAIL", unique = true, nullable = false, length=60)
 	@NotEmpty
 	private String email;
 
-	@Column(name = "NICKNAME", unique = true, nullable = false)
+	@Column(name = "USER_NICKNAME", unique = true, nullable = false, length=30)
 	@NotEmpty
 	private String nickname;
 
-	@Column(name = "PASSWORD", nullable = false)
+	@Column(name = "USER_PASSWORD", nullable = false, length=100)
 	@NotEmpty
 	private String password;
+	
+	@Column(name = "USER_CREATED_BY", nullable = false, length = 60)
+	private String boardCreatedBy;
 
-	@Column(name = "STATE")
+	@Column(name = "USER_MODIFIED_BY", length = 60)
+	private String boardModifiedBy;
+
+	@CreationTimestamp
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "USER_CREATED_DATE")
+	private Date createdDate;
+
+	@UpdateTimestamp
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "USER_MODIFIED_DATE")
+	private Date modifiedDate;
+	
+	@Column(name = "USER_DELCHECK", nullable=false)
+	private int delCheck=0;
+
+	@Column(name = "USER_STATE", length=20, nullable=false)
 	private String state = State.ACTIVE.getState();
 
 	@ManyToMany(fetch = FetchType.EAGER)
@@ -46,101 +74,46 @@ public class User implements Serializable {
 			@JoinColumn(name = "USER_PROFILE_ID") })
 	private Set<UserProfile> userProfiles = new HashSet<UserProfile>();
 
-	@Column(name = "CHECKEMAIL")
-	private int checkemail;
+	@Column(name = "USER_RECEIVE_EMAIL", nullable=false)
+	private Integer receiveEmail=0;
 
-	public int getCheckemail() {
-		return checkemail;
-	}
-
-	public void setCheckemail(int checkemail) {
-		this.checkemail = checkemail;
-	}
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getNickname() {
-		return nickname;
-	}
-
-	public void setNickname(String nickname) {
-		this.nickname = nickname;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public String getState() {
-		return state;
-	}
-
-	public void setState(String state) {
-		this.state = state;
-	}
-
-	public Set<UserProfile> getUserProfiles() {
-		return userProfiles;
-	}
-
-	public void setUserProfiles(Set<UserProfile> userProfiles) {
-		this.userProfiles = userProfiles;
-	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((email == null) ? 0 : email.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (!(obj instanceof User))
-			return false;
-		User other = (User) obj;
-		if (id != other.id)
-			return false;
-		if (email == null) {
-			if (other.email != null)
-				return false;
-		} else if (!email.equals(other.email))
-			return false;
-		if (nickname == null) {
-			if (other.nickname != null)
-				return false;
-		} else if (!nickname.equals(other.nickname))
-			return false;
-		return true;
-	}
-
-	@Override
-	public String toString() {
-		return "User [id=" + id + ", password=" + password + ", NickName =" + nickname + ", email =" + email
-				+ ", state=" + state + ", userProfiles =" + userProfiles + "]";
-	}
+//
+//	@Override
+//	public int hashCode() {
+//		final int prime = 31;
+//		int result = 1;
+//		result = prime * result + ((id == null) ? 0 : id.hashCode());
+//		result = prime * result + ((email == null) ? 0 : email.hashCode());
+//		return result;
+//	}
+//
+//	@Override
+//	public boolean equals(Object obj) {
+//		if (this == obj)
+//			return true;
+//		if (obj == null)
+//			return false;
+//		if (!(obj instanceof User))
+//			return false;
+//		User other = (User) obj;
+//		if (id != other.id)
+//			return false;
+//		if (email == null) {
+//			if (other.email != null)
+//				return false;
+//		} else if (!email.equals(other.email))
+//			return false;
+//		if (nickname == null) {
+//			if (other.nickname != null)
+//				return false;
+//		} else if (!nickname.equals(other.nickname))
+//			return false;
+//		return true;
+//	}
+//
+//	@Override
+//	public String toString() {
+//		return "User [id=" + id + ", password=" + password + ", NickName =" + nickname + ", email =" + email
+//				+ ", state=" + state + ", userProfiles =" + userProfiles + "]";
+//	}
 }

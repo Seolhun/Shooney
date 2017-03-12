@@ -9,32 +9,20 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import lombok.Data;
+
 @Entity
 @Table(name="TB_USER_PROFILE")
+@Data
 public class UserProfile implements Serializable{
 	@Id 
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name="USER_PROFILE_ID", length=10, nullable=false)
 	private Integer id;	
 
-	@Column(name="TYPE", length=15, unique=true, nullable=false)
+	@Column(name="USER_PROFILE_TYPE", length=15, unique=true, nullable=false)
 	private String type = UserProfileType.PLAYER.getUserProfileType();
 	
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-	public String getType() {
-		return type;
-	}
-
-	public void setType(String type) {
-		this.type = type;
-	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -70,8 +58,4 @@ public class UserProfile implements Serializable{
 	public String toString() {
 		return "UserProfile [id=" + id + ", type=" + type + "]";
 	}
-
-
-
-
 }

@@ -26,7 +26,7 @@ public class HibernateTokenRepositoryImpl extends AbstractDao<String, Persistent
 		persistentLogin.setEmail(token.getUsername());
 		persistentLogin.setSeries(token.getSeries());
 		persistentLogin.setToken(token.getTokenValue());
-		persistentLogin.setLatestdate(token.getDate());
+		persistentLogin.setCreatedDate(token.getDate());
 		persist(persistentLogin);
 
 	}
@@ -41,7 +41,7 @@ public class HibernateTokenRepositoryImpl extends AbstractDao<String, Persistent
 			PersistentLogin persistentLogin = (PersistentLogin) crit.uniqueResult();
 
 			return new PersistentRememberMeToken(persistentLogin.getEmail(), persistentLogin.getSeries(),
-					persistentLogin.getToken(), persistentLogin.getLatestdate());
+					persistentLogin.getToken(), persistentLogin.getCreatedDate());
 		} catch (Exception e) {
 			logger.info("Token not found...");
 			return null;
@@ -65,7 +65,7 @@ public class HibernateTokenRepositoryImpl extends AbstractDao<String, Persistent
 		logger.info("Updating Token for seriesId : {}", seriesId);
 		PersistentLogin persistentLogin = getByKey(seriesId);
 		persistentLogin.setToken(tokenValue);
-		persistentLogin.setLatestdate(lastUsed);
+		persistentLogin.setCreatedDate(lastUsed);
 		update(persistentLogin);
 	}
 

@@ -53,8 +53,8 @@ public class CommentDaoImpl extends AbstractDao<Integer, Comment> implements Com
 	}
 
 	@Override
-	public Comment findById(int id) {
-		Comment comment = getByKey(id);
+	public Comment findById(Long id) {
+		Comment comment = getByLong(id);
 		return comment;
 	}
 
@@ -64,7 +64,7 @@ public class CommentDaoImpl extends AbstractDao<Integer, Comment> implements Com
 	}
 
 	@Override
-	public void deleteCommentById(int id) {
+	public void deleteCommentById(Long id) {
 		Criteria crit = createEntityCriteria();
 		crit.add(Restrictions.eq("id", id));
 		Comment comment = (Comment) crit.uniqueResult();

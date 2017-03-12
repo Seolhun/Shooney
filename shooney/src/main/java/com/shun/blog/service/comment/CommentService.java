@@ -11,13 +11,13 @@ import com.shun.blog.model.common.Paging;
 public interface CommentService {
 
 	@Transactional(transactionManager="txManager", noRollbackFor={NullPointerException.class}, readOnly=true)
-	Comment findById(int id);
+	Comment findById(Long id);
 
 	void saveComment(Comment comment);
 
 	void updateComment(Comment comment);
 
-	void deleteUserById(int id);
+	void deleteUserById(Long id);
 
 	List<Comment> findAllComments(Paging paging);
 	

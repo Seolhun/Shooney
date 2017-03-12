@@ -10,51 +10,28 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.UpdateTimestamp;
+
+import lombok.Data;
+
 @Entity
 @Table(name="TB_PERSISTENT_LOGINS")
+@Data
 public class PersistentLogin implements Serializable{
 
 	@Id
+	@Column(name="PERSISTENT_SERIES", length=100)
 	private String series;
 
-	@Column(name="EMAIL", unique=true, nullable=false)
+	@Column(name="PERSISTENT_EMAIL", unique=true, nullable=false, length=60)
 	private String email;
 	
-	@Column(name="TOKEN", unique=true, nullable=false)
+	@Column(name="PERSISTENTTOKEN", unique=true, nullable=false, length=100)
 	private String token;
 	
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date latestdate;
+	@Column(name="PERSISTENT_CREATED_DATE", nullable=false)
+	@UpdateTimestamp
+	private Date createdDate;
 
-	public String getSeries() {
-		return series;
-	}
-
-	public void setSeries(String series) {
-		this.series = series;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getToken() {
-		return token;
-	}
-
-	public void setToken(String token) {
-		this.token = token;
-	}
-
-	public Date getLatestdate() {
-		return latestdate;
-	}
-
-	public void setLatestdate(Date latestdate) {
-		this.latestdate = latestdate;
-	}
 }

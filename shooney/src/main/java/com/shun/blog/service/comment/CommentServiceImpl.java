@@ -16,7 +16,7 @@ public class CommentServiceImpl implements CommentService {
 	private CommentDao commentDao;
 	
 	
-	public Comment findById(int id) {
+	public Comment findById(Long id) {
 		return commentDao.findById(id);
 	}
 
@@ -28,17 +28,12 @@ public class CommentServiceImpl implements CommentService {
 		Comment entity = commentDao.findById(comment.getId());
 		//읽을시 쿠키 읽기
 		if(entity != null){
-			if(comment.getDelCheck()==1){
-				entity.setDelCheck(comment.getDelCheck());	
-			} else if(comment.getDelCheck()==0){
-				entity.setContent(comment.getContent());
-				entity.setWriter(comment.getWriter());
-			}
+			
 		}
 	}
 
 	@Override
-	public void deleteUserById(int id) {
+	public void deleteUserById(Long id) {
 		commentDao.deleteCommentById(id);
 	}
 	
