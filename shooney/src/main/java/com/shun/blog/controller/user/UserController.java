@@ -14,12 +14,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.security.authentication.AuthenticationTrustResolver;
+import org.springframework.security.authentication.DisabledException;
+import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenBasedRememberMeServices;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -233,8 +236,12 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public String loginPage() {
+	public String loginPage(@RequestParam(required=false) String error, HttpServletRequest request, Model model) {
 		if (isCurrentAuthenticationAnonymous()) {
+			if (error != null) {
+				Exception exception = (Exception)request.getSession().getAttribute("SPRING_SECURITY_LAST_EXCEPTION");
+				model.addAttribute("errorMsg", getErrorMessage(exception));
+			}
 			return "user/login";
 		} else {
 			return "redirect:/";
@@ -273,5 +280,22 @@ public class UserController {
 	private boolean isCurrentAuthenticationAnonymous() {
 		final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		return authenticationTrustResolver.isAnonymous(authentication);
+	}
+	
+	// 커스텀 된 로그인 에러 메세지
+	private String getErrorMessage(Exception exception) {
+		String error = "";
+		if (exception instanceof LockedException) {
+			//, BindingResult result, HttpServletRequest request, String objectValidValue, String fieldObjectName, String fieldName, String messagePropertyName
+//			commonService.validCheckAndSendError(messageSource, result, request, objectValidValue, fieldObjectName, fieldName, messagePropertyName);
+			error = "현재 계정이 잠겼습니다.";
+		} else if (exception instanceof DisabledException) {
+//			commonService.validCheckAndSendError(messageSource, result, request, objectValidValue, fieldObjectName, fieldName, messagePropertyName);
+			error = "현재 계정이 이용 불가능합니다.";
+		} else {
+//			commonService.validCheckAndSendError(messageSource, result, request, objectValidValue, fieldObjectName, fieldName, messagePropertyName);
+			error = "계정과 비밀번호를 올바르게 입력해주세요,.";
+		}
+		return error;
 	}
 }

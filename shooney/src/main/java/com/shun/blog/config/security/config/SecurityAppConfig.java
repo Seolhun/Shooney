@@ -20,6 +20,7 @@ import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
 import com.shun.blog.config.security.custom.CustomSuccessHandler;
+import com.shun.blog.config.security.custom.LimitingDaoAuthenticationProvider;
 
 
 @Configuration
@@ -92,7 +93,7 @@ public class SecurityAppConfig extends WebSecurityConfigurerAdapter {
 	//로그인 시 인증정보 제공 프록시
 	@Bean
 	public DaoAuthenticationProvider authenticationProvider() {
-		DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
+		LimitingDaoAuthenticationProvider authenticationProvider = new LimitingDaoAuthenticationProvider();
 		authenticationProvider.setPasswordEncoder(passwordEncoder());
 		authenticationProvider.setUserDetailsService(userDetailsService);
 		return authenticationProvider;

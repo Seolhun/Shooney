@@ -146,7 +146,7 @@ public class BoardController {
 		model.addAttribute("board", board);
 		model.addAttribute("edit", false);
 		model.addAttribute("kind", kind);
-		model.addAttribute("accessUser", initializeUser(principal));
+		model.addAttribute("accessUser", getAccessUser(principal));
 		model.addAttribute("enNames", board.getEntityName());
 		model.addAttribute("pfNames", board.getPfName());
 		
@@ -201,8 +201,13 @@ public class BoardController {
 
 	// 선언하면 모델값으로 쉽게 넘길 수 있음
 	@ModelAttribute("accessUser")
-	public User initializeUser(Principal principal) {
-		String accessEmail = principal.getName();
+	public User getAccessUser(Principal principal) {
+		String accessEmail="";
+		try {
+			accessEmail = principal.getName();	
+		} catch (Exception e) {
+			
+		}
 		return uService.findByEmail(accessEmail);
 	}
 

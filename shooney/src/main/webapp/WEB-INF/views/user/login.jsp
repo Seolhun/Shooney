@@ -50,7 +50,8 @@
 				<form:form action="${login }">
 					<c:if test="${param.error != null}">
 						<div class="alert alert-danger">
-							<p>Invalid username and password.</p>
+							<!-- <p>Invalid username and password.</p> -->
+							<p>${errorMsg }</p>
 						</div>
 					</c:if>
 					<c:if test="${param.logout != null}">

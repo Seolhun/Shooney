@@ -43,7 +43,8 @@ public class LimitingDaoAuthenticationProvider extends DaoAuthenticationProvider
 			
 			//로그인 시도한 유저정보를 찾기.
 			User user = userService.findByEmail(authentication.getName());
-			String ip = commonService.getUserIP();
+//			String ip = commonService.getUserIP();
+			String ip ="127.0.0.1";
 			log.info("param : "+user.toString());
 			
 			// 로그인 성공 플래그 넣기
@@ -81,7 +82,7 @@ public class LimitingDaoAuthenticationProvider extends DaoAuthenticationProvider
 		String loginIp="";
 		try {
 			userDBAttempts = userAttemptsService.selectByEmail(dbUser.getEmail());
-			loginIp = commonService.getUserIP();
+//			loginIp = commonService.getUserIP();
 		} catch (NullPointerException e) {
 			throw new BadCredentialsException("error");
 		}

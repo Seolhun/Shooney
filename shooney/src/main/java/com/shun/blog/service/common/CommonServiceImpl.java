@@ -152,8 +152,7 @@ public class CommonServiceImpl implements CommonService {
 
 	@Override
 	public String getUserIP() {
-		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes())
-				.getRequest();
+		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
 		String ip = request.getHeader("X-FORWARDED-FOR");
 		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
 			ip = request.getHeader("Proxy-Client-IP");
@@ -343,9 +342,9 @@ public class CommonServiceImpl implements CommonService {
 	}
 
 	@Override
-	public void validCheckAndSendError(MessageSource messageSource, BindingResult result, HttpServletRequest request, String getValue, String objectName, String fieldName, String messagePropertyName) {
+	public void validCheckAndSendError(MessageSource messageSource, BindingResult bindingResult, HttpServletRequest request, String getValue, String objectName, String fieldName, String messagePropertyName) {
 		FieldError error = new FieldError(objectName, fieldName, messageSource.getMessage(messagePropertyName, new String[] { getValue }, request.getLocale()));
-		result.addError(error);
+		bindingResult.addError(error);
 	}
 
 	@Override
