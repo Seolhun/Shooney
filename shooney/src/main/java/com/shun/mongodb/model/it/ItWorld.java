@@ -19,7 +19,7 @@ import lombok.Setter;
 public class ItWorld extends BaseEntity implements Serializable {
 	
 	@Indexed(unique = true)
-	private String idx;
+	private String id;
 
 	private String title;
 

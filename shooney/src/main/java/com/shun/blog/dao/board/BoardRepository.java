@@ -7,14 +7,14 @@ import com.shun.blog.model.common.Paging;
 
 public interface BoardRepository {
 
-	List<Board> findAllBoards(Paging paging);
+	List<Board> findAll(Paging paging);
 
 	int getCount(Paging paging);
 
-	Board findById(Long id);
+	Board selectById(Long id);
 
-	void saveBoard(Board Board);
+	void insert(Board Board);
 
-	void deleteBoardById(Long id);
+	void deleteById(Long id);
 
 }

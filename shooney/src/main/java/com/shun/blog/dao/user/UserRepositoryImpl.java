@@ -19,15 +19,15 @@ import com.shun.blog.model.user.User;
 public class UserRepositoryImpl extends AbstractDao<Integer, User> implements UserRepository {
 	static final Logger LOG = LoggerFactory.getLogger(UserRepositoryImpl.class);
 
-	public User findById(int id) {
-		User user = getByKey(id);
+	public User findById(Long id) {
+		User user = getByLong(id);
 		if (user != null) {
 			Hibernate.initialize(user.getUserProfiles());
 		}
 		LOG.info("return : findById {}", user);
 		return user;
 	}
-
+	@Override
 	public User findByEmail(String email) {
 		LOG.info("email : {}", email);
 		Criteria crit = createEntityCriteria();
@@ -40,6 +40,7 @@ public class UserRepositoryImpl extends AbstractDao<Integer, User> implements Us
 		return user;
 	}
 
+	@Override
 	public User findByNickname(String nickname) {
 		LOG.info("nickname : {}", nickname);
 		Criteria crit = createEntityCriteria();
@@ -53,29 +54,19 @@ public class UserRepositoryImpl extends AbstractDao<Integer, User> implements Us
 	}
 
 	// Criteria는 무엇인가?
+	@Override
 	@SuppressWarnings("unchecked")
 	public List<User> findAllUsers(Paging paging) {
 		int cPage = paging.getCurrentPage();
 		int sType = paging.getSearchType();
 		String sText = paging.getSearchText();
 		int limit = paging.getLimit();
-		String entityName = paging.getEntityName();
-		String pfName = paging.getPfName();
 
 		// 검색 로직
 		Criteria criteria = createEntityCriteria().addOrder(Order.desc("id"))
 				.setFirstResult((cPage - 1) * limit)
 				.setMaxResults(limit).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 		List<User> users = (List<User>) criteria.list();
-
-		// 클래스에 객체 명을 따라간다.
-		if (entityName != null) {
-			criteria.add(Restrictions.eq("entityName", entityName));
-		}
-
-		if (pfName != null) {
-			criteria.add(Restrictions.eq("pfName", pfName));
-		}
 
 		if (paging.getSearchType() != 0 && sType == 1) {
 			criteria.add(Restrictions.like("email", "%" + sText + "%"));
@@ -96,12 +87,14 @@ public class UserRepositoryImpl extends AbstractDao<Integer, User> implements Us
 		Query query = rawQuery("SELECT COUNT(*) FROM TB_USER " + condition);
 		return ((Number) query.uniqueResult()).intValue();
 	}
-
+	
+	@Override
 	public void save(User user) {
 		persist(user);
 	}
 
 	// Criteria는 무엇인가?
+	@Override
 	public void deleteByEmail(String email) {
 		Criteria crit = createEntityCriteria();
 		crit.add(Restrictions.eq("email", email));

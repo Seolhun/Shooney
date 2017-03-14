@@ -1,16 +1,16 @@
 /* Write here your custom javascript codes */
-var project="/shooney"
+var project="/shooney";
+var csrfHeader=document.getElementById("csrfHeader").content;
+var csrfToken=document.getElementById("csrfToken").content;
 
 //회원관리 전체작업용
 $(function() {
 	$("#allSubmit").click(function(){
 		var roleType=$("select[name=roleType]").val();
 		var stateType=$("select[name=stateType]").val();
-		//선택된 번호를 받기 위한 변수명
-		var key = "";
-		//메세지를 전달하기 위한 변수명
-		var stateMsg = "";
-		var roleMsg = "";
+		//선택된 번호를 받기 위한 변수명과 메세지를 전달하기 위한 변수명
+		var key = "", stateMsg = "", roleMsg = "";
+		
 		$("input[name=check]:checked").each(function(index) {
 			var val = $(this).val();
 			key+= val + ",";
@@ -23,12 +23,10 @@ $(function() {
 		
 		if (roleType=="GUEST") {
 			roleMsg = "GUEST"
-		} else if (roleType=="PLAYER") {
-			roleMsg = "PLAYER"
-		} else if (roleType=="CAPTAIN") {
-			roleMsg = "CAPTAIN"
-		} else if (roleType=="DIRECTOR") {
-			roleMsg = "DIRECTOR"
+		} else if (roleType=="USER") {
+			roleMsg = "USER"
+		} else if (roleType=="START") {
+			roleMsg = "START"
 		} else if (roleType=="SUPERADMIN") {
 			roleMsg = "SUPERADMIN"
 			if (confirm("Really?")) {
@@ -68,10 +66,10 @@ $(function() {
 		var defaultStateMsg = "Success : User is " + stateMsg + "\n";
 		var defaultRoleMsg = "Success : User is " + roleMsg + "\n";
 		
-		var defaultFailStateMsg = "Fail : User is " + stateMsg;
-		var defaultFailRoleMsg = "Fail : User is " + roleMsg;
+		var defaultFailStateMsg = "Fail : User is " + stateMsg + "\n";
+		var defaultFailRoleMsg = "Fail : User is " + roleMsg + "\n";
 		$.ajax({
-			url : project+"/admin/allup",
+			url : project+"/admin/user/all/update",
 			type : 'GET',
 			timeout: 60000,
 			data : {
@@ -80,15 +78,20 @@ $(function() {
 				'stateType' : stateType
 			},
 			dataType : "json",
-			success : function(data) {
-				if (data) {
+			beforeSend: function(xhr) {
+                 xhr.setRequestHeader("Accept", "application/json");
+                 xhr.setRequestHeader("Content-Type", "application/json");
+                 xhr.setRequestHeader(csrfHeader, csrfToken);
+			}, success : function(data) {
+				if (data.result=="success") {
+					console.log("Success");
 					alert(defaultStateMsg+defaultRoleMsg);
 					location.reload();
 				} else {
+					console.log("Fail");
 					alert(defaultFailStateMsg+defaultFailRoleMsg);
 				}
-			},
-			error : function(error) {
+			}, error : function(error) {
 				alert("Request Error : " + error);
 			}
 		});

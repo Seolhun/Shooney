@@ -19,26 +19,23 @@ public class BoardRepositoryImpl extends AbstractDao<Integer, Board> implements 
 
 	static final Logger logger = LoggerFactory.getLogger(BoardRepositoryImpl.class);
 
+	@Override
 	@SuppressWarnings("unchecked")
-	public List<Board> findAllBoards(Paging paging) {
+	public List<Board> findAll(Paging paging) {
 		int cPage = paging.getCurrentPage();
 		int sType = paging.getSearchType();
 		String sText = paging.getSearchText();
 		int limit = paging.getLimit();
-		String entityName = paging.getEntityName();
-		String pfName = paging.getPfName();
+		String portfolioType = paging.getPortfolioType();
 		
 		// 검색 로직
-		Criteria criteria = createEntityCriteria().addOrder(Order.desc("id")).setFirstResult((cPage - 1) * limit)
+		Criteria criteria = createEntityCriteria()
+				.addOrder(Order.desc("id")).add(Restrictions.eq("delCheck", 0))
+				.setFirstResult((cPage - 1) * limit)
 				.setMaxResults(limit).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 
-		// 클래스에 객체 명을 따라간다.
-		if (entityName != null) {
-			criteria.add(Restrictions.eq("entityName", entityName)).add(Restrictions.eq("delCheck", 0));
-		}
-
-		if (pfName != null) {
-			criteria.add(Restrictions.eq("pfName", pfName));
+		if (portfolioType != null) {
+			criteria.add(Restrictions.eq("portfolioType", portfolioType));
 		}
 
 		if (paging.getSearchDate() != 0 && sType == 1) {
@@ -60,29 +57,26 @@ public class BoardRepositoryImpl extends AbstractDao<Integer, Board> implements 
 	public int getCount(Paging paging) {
 		String condition = "";
 		String condition2 = "";
-		if (paging.getEntityName() != null) {
-			condition = "WHERE entityname='" + paging.getEntityName() + "'";
-		}
-		if (paging.getPfName() != null) {
-			condition2 = " AND pfname='" + paging.getPfName().toUpperCase() + "'";
+		if (paging.getPortfolioType() != null) {
+			condition2 = " WHERE BOARD_PORTFOLIO_TYPE='" + paging.getPortfolioType().toLowerCase() + "'";
 		}
 		Query query = rawQuery("SELECT COUNT(*) FROM TB_BOARD " + condition + condition2);
 		return ((Number) query.uniqueResult()).intValue();
 	}
 
 	@Override
-	public Board findById(Long id) {
+	public Board selectById(Long id) {
 		Board board = getByLong(id);
 		return board;
 	}
 
 	@Override
-	public void saveBoard(Board board) {
+	public void insert(Board board) {
 		persist(board);
 	}
 
 	@Override
-	public void deleteBoardById(Long id) {
+	public void deleteById(Long id) {
 		Criteria crit = createEntityCriteria();
 		crit.add(Restrictions.eq("id", id));
 		Board board = (Board) crit.uniqueResult();

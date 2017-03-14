@@ -2,6 +2,9 @@ package com.shun.blog.service.user;
 
 import java.util.List;
 
+import org.hibernate.annotations.BatchSize;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -9,62 +12,72 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.shun.blog.dao.user.UserRepository;
+import com.shun.blog.model.common.CommonState;
 import com.shun.blog.model.common.Paging;
-import com.shun.blog.model.user.State;
 import com.shun.blog.model.user.User;
 
 @Service("userService")
 @Transactional(propagation=Propagation.REQUIRED, transactionManager="txManager", noRollbackFor={NullPointerException.class})
 public class UserServiceImpl implements UserService {
-
 	@Autowired
 	private UserRepository userRepository;
 
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 	
+	private static final Logger LOG = LoggerFactory.getLogger(UserServiceImpl.class);
+	
 	@Override
-	public User findById(int id) {
+	public User findById(Long id) {
+		LOG.info("param : {}", id);
 		return userRepository.findById(id);
 	}
 	@Override
 	public User findByEmail(String email) {
+		LOG.info("param : {}", email);
 		User user = userRepository.findByEmail(email);
 		return user;
 	}
 	
 	@Override
 	public User findByNickname(String nickname) {
+		LOG.info("param : {}", nickname);
 		User user = userRepository.findByNickname(nickname);
 		return user;
 	}
 	
 	@Override
 	public void insert(User user) {
+		LOG.info("param : {}", user.toString());
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
-		user.setState(State.ACTIVE.getState());
+		user.setState(CommonState.ACTIVE.getState());
 		userRepository.save(user);
 	}
 	
 	@Override
+	@BatchSize(size=20)
+	@Transactional(rollbackFor=NullPointerException.class)
 	public void update(User user) {
-		User entity = userRepository.findByEmail(user.getEmail());
-		if (entity != null) {
-			if(user.getPassword()!=null) {
-				entity.setPassword(passwordEncoder.encode(user.getPassword()));
+		LOG.info("param : {}", user.toString());
+		User dbUser = userRepository.findByEmail(user.getEmail());
+		if (dbUser != null) {
+			if(user.getPassword()!="") {
+				dbUser.setPassword(passwordEncoder.encode(user.getPassword()));
 			}
 		} 
-		entity.setState(user.getState());
-		entity.setUserProfiles(user.getUserProfiles());
+		dbUser.setState(user.getState());
+		dbUser.setUserProfiles(user.getUserProfiles());
 	}
 	
 	@Override
 	public void deleteByEmail(String email) {
+		LOG.info("param : {}", email);
 		userRepository.deleteByEmail(email);
 	}
 	
 	@Override
 	public List<User> findAllUsers(Paging paging) {
+		LOG.info("param : {}", paging.toString());
 		return userRepository.findAllUsers(paging);
 	}
 	

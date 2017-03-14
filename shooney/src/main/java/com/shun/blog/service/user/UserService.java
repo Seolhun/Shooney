@@ -11,7 +11,7 @@ import com.shun.blog.model.user.User;
 @Transactional(propagation=Propagation.REQUIRED, transactionManager="txManager", noRollbackFor={NullPointerException.class})
 public interface UserService {
 
-	User findById(int id);
+	User findById(Long id);
 
 	User findByEmail(String email);
 	

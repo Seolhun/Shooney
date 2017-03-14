@@ -8,6 +8,7 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -57,8 +58,8 @@ public class Board implements Serializable {
 	@Column(name = "BOARD_ENTITYNAME", length=30)
 	private String entityName;
 
-	@Column(name = "BOARD_PFNAME", length=30)
-	private String pfName;
+	@Column(name = "BOARD_PORTFOLIO_TYPE", length=30)
+	private String portfolioType;
 	
 	@Column(name = "BOARD_CREATED_BY", nullable = false, length = 60)
 	private String createdBy;
@@ -79,9 +80,9 @@ public class Board implements Serializable {
 	@Column(name = "BOARD_DELCHECK", nullable=false)
 	private int delCheck=0;
 	
-	@OneToMany(mappedBy = "boardInFile", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "boardInFile", cascade = CascadeType.ALL, fetch=FetchType.LAZY)
 	private Set<FileData> files=new HashSet<>();
 	
-	@OneToMany(mappedBy = "boardInComment", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "boardInComment", cascade = CascadeType.ALL, fetch=FetchType.LAZY)
 	private Set<Comment> comments=new HashSet<>();
 }

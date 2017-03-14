@@ -14,7 +14,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.shun.blog.model.user.State;
+import com.shun.blog.model.common.CommonState;
 import com.shun.blog.model.user.User;
 import com.shun.blog.model.user.UserProfile;
 import com.shun.blog.service.user.UserService;
@@ -37,7 +37,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 				logger.info("User not found");
 				throw new UsernameNotFoundException("User not found");
 			}
-			return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), user.getState().equals(State.ACTIVE.getState()), true, true, true, getGrantedAuthorities(user));
+			return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), user.getState().equals(CommonState.ACTIVE.getState()), true, true, true, getGrantedAuthorities(user));
 		} catch (Exception e){
 			throw new UsernameNotFoundException("Not user");
 		}

@@ -7,11 +7,12 @@ public class Paging {
 	// 참조할 때의 엔티티 키 값
 	private Long id;
 	
-	// 게시판 종류
-	private String tableName;
-	private String kind;
-	private String pfName;
+	// To Find Entity Name
 	private String entityName;
+	// 게시판 종류
+	private String boardType;
+	//게시판에서 게시물의 타입.
+	private String portfolioType;
 	
 	// 현재 페이지
 	private int currentPage;
@@ -49,29 +50,30 @@ public class Paging {
 
 	}
 	
-	public Paging(int cPage, int searchType, String searchText, int searchDate, int limit, String kind, String pfName){
-		this.currentPage = cPage;
+	public Paging(int currentPage, int searchType, String searchText, int searchDate, int limit, String boardType, String portfolioType){
+		this.currentPage = currentPage;
 		this.searchType = searchType;
-		this.searchText = question;
+		this.searchText = searchText;
 		this.searchDate=searchDate;
-		this.kind=kind;
 		this.limit = limit;
+		this.boardType=boardType;
+		this.portfolioType=portfolioType;
 	}
 
-	public Paging(int cPage, int searchType, String searchText, int searchDatesDate, int limit) {
-		this.currentPage = cPage;
+	public Paging(int currentPage, int searchType, String searchText, int searchDatesDate, int limit) {
+		this.currentPage = currentPage;
 		this.searchType = searchType;
 		this.searchText = searchText;
 		this.limit = limit;
 		this.searchDate = searchDatesDate;
 	}
 
-	public Paging(int currentPage, int searchType, String searchText, int searchDate, int limit, String tableName) {
+	public Paging(int currentPage, int searchType, String searchText, int searchDate, int limit, String boardType) {
 		this.currentPage = currentPage;
 		this.searchType = searchType;
 		this.searchText = searchText;
 		this.searchDate = searchDate;
 		this.limit = limit;
-		this.tableName = tableName;
+		this.boardType = boardType;
 	}
 }

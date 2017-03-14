@@ -13,7 +13,7 @@ import com.shun.blog.model.file.FileData;
 public class FileServiceImpl implements FileService {
 
 	@Override
-	public FileData findById(int id) {
+	public FileData selectById(Long id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -25,7 +25,7 @@ public class FileServiceImpl implements FileService {
 	}
 
 	@Override
-	public List<FileData> findAllFile(Paging paging) {
+	public List<FileData> findAll(Paging paging) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -43,7 +43,7 @@ public class FileServiceImpl implements FileService {
 	}
 
 	@Override
-	public void deleteFileById(int id) {
+	public void deleteById(Long id) {
 		// TODO Auto-generated method stub
 		
 	}

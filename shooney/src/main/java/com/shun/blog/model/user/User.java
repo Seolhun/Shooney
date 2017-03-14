@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -20,9 +21,13 @@ import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
+
+import com.shun.blog.model.common.CommonState;
 
 import lombok.Data;
 
@@ -37,7 +42,6 @@ public class User implements Serializable {
 
 	@Email
 	@Column(name = "USER_EMAIL", unique = true, nullable = false, length=60)
-	@NotEmpty
 	private String email;
 
 	@Column(name = "USER_NICKNAME", unique = true, nullable = false, length=30)
@@ -67,9 +71,10 @@ public class User implements Serializable {
 	private int delCheck=0;
 
 	@Column(name = "USER_STATE", length=20, nullable=false)
-	private String state = State.ACTIVE.getState();
+	private String state = CommonState.ACTIVE.getState();
 
-	@ManyToMany(fetch = FetchType.EAGER)
+	@Fetch(FetchMode.JOIN)
+	@ManyToMany(fetch = FetchType.LAZY, cascade=CascadeType.PERSIST)
 	@JoinTable(name = "TB_USER_PROFILE_REFER", joinColumns = { @JoinColumn(name = "USER_ID") }, inverseJoinColumns = {
 			@JoinColumn(name = "USER_PROFILE_ID") })
 	private Set<UserProfile> userProfiles = new HashSet<UserProfile>();

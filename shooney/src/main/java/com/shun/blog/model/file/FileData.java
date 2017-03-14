@@ -2,6 +2,7 @@ package com.shun.blog.model.file;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -16,8 +17,9 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.hibernate.validator.constraints.NotEmpty;
 
 import com.shun.blog.model.board.Board;
 
@@ -32,15 +34,14 @@ public class FileData {
 	@Column(name = "FILE_ID")
 	private Long fileDataId;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(foreignKey = @ForeignKey(name = "FILE_BOARD_FK"), name = "FILE_BOARD_ID", referencedColumnName = "BOARD_ID", nullable = false)
+	@Fetch(FetchMode.JOIN)
+	@ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.PERSIST)
+	@JoinColumn(foreignKey = @ForeignKey(name = "FILE_BOARD_FK"), name = "FILE_BOARD_ID", referencedColumnName = "BOARD_ID")
 	private Board boardInFile;
 
-	@NotEmpty
 	@Column(name = "FILE_ORIGIN_NAME", nullable = false, length = 100)
 	private String fileDataOriginName;
 
-	@NotEmpty
 	@Column(name = "FILE_SAVED_NAME", nullable = false, length = 200)
 	private String fileDataSavedName;
 

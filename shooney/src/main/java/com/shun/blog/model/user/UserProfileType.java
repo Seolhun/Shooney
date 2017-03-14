@@ -3,12 +3,12 @@ package com.shun.blog.model.user;
 import java.io.Serializable;
 
 public enum UserProfileType implements Serializable{
-	GUEST("GUEST"),
-	CAPTAIN("USER"),
-	DIRECTOR("STAR"),
-	SUPERADMIN("SUPERADMIN");
-	
-	String type;
+	GUEST("guest"),
+	USER("user"),
+	STAR("star"),
+	SUPERADMIN("superadmin");
+	//Name/type
+	private String type;
 	
 	private UserProfileType(String type){
 		this.type = type;

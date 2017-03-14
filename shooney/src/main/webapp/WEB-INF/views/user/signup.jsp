@@ -59,7 +59,7 @@
 							<span class="input-group-addon rounded-left"><i class="icon-envelope color-green"></i></span>
 							<c:choose>
 								<c:when test="${edit}">
-									<form:input path="email" type="email" class="form-control rounded-right" placeholder="Your email" disabled="true"/>
+									<form:input path="email" value="${user.email }" type="email" class="form-control rounded-right" placeholder="Your email" disabled="true"/>
 								</c:when>
 								<c:otherwise>
 									<form:input path="email" type="email" class="form-control rounded-right" placeholder="Your email"/>
@@ -77,7 +77,7 @@
 							<span class="input-group-addon rounded-left"><i class="icon-user color-green"></i></span>
 							<c:choose>
 								<c:when test="${edit}">
-									<form:input path="nickname" name="nickname" type="text" class="form-control rounded-right" placeholder="NickName" readonly="true"/>
+									<form:input path="nickname" value="${user.nickname }"  name="nickname" type="text" class="form-control rounded-right" placeholder="NickName" readonly="true"/>
 								</c:when>
 								<c:otherwise>
 									<form:input path="nickname" name="nickname" type="text" class="form-control rounded-right" placeholder="NickName"/>
@@ -132,7 +132,7 @@
 								</c:choose>	
 							</div>
 							<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" >
-								<button type="button" class="btn-u btn-u-default btn-block rounded" onclick="javascript:history.back()">Cancel</button>
+								<a href="${shooney }"><button type="button" class="btn-u btn-u-default btn-block rounded">Cancel</button></a>
 							</div>
 						</div>
 						

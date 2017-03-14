@@ -45,6 +45,14 @@ public abstract class AbstractDao<PK extends Serializable, T> {
 		getSession().delete(entity);
 	}
 	
+	public void clear() {
+		getSession().clear();
+	}
+	
+	public void refresh(T entity) {
+		getSession().refresh(entity);
+	}
+	
 	public Query rawQuery(String raw) {
 		Query query=getSession().createSQLQuery(raw);
 		return query;

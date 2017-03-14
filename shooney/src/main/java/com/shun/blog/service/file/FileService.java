@@ -7,15 +7,15 @@ import com.shun.blog.model.file.FileData;
 
 public interface FileService {
 
-	FileData findById(int id);
+	FileData selectById(Long id);
 	
 	int getCount(Paging paging);
 	
-	List<FileData> findAllFile(Paging paging);
+	List<FileData> findAll(Paging paging);
 
 	void setFile(FileData file);
 
 	void getFile(FileData file);
 
-	void deleteFileById(int id);
+	void deleteById(Long id);
 }

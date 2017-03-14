@@ -3,7 +3,6 @@ package com.shun.blog.service.common;
 import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.security.Principal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -19,9 +18,12 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -42,6 +44,58 @@ public class CommonServiceImpl implements CommonService {
 	
 	@Autowired
 	UserService userService;
+	
+	@Autowired
+	CommonService commonService;
+	
+	final private String emailPattern = "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,3})$";
+	final private String idPattern = "^[A-Za-z0-9].{1,20}";
+	final private String passwordPattern = "((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+=-~`]).{8,20})";
+//	final private String passwordPattern = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,20}";
+	/*
+		(?=.*[0-9]) a digit must occur at least once
+		(?=.*[a-z]) a lower case letter must occur at least once
+		(?=.*[A-Z]) an upper case letter must occur at least once
+		(?=.*[@#$%^&+=]) a special character must occur at least once
+		(?=\\S+$) no whitespace allowed in the entire string
+		.{8,} at least 8 characters
+	*/
+	final private String namePattern = ".[가-힣]{1,14}";
+	final private String phonePattern = "\\d{10,11}";
+	final private String telPattern = "\\d{9,10}";
+	
+	@Override
+	//Pattern에 틀리면 True || 맞으면 False
+	public boolean validPattern(String parameter, String patternName) {
+		boolean validation=false;
+		switch (patternName) {
+		case "password":
+			validation=parameter.matches(passwordPattern);
+		case "email":
+			validation=parameter.matches(emailPattern);
+		case "id":
+			validation=parameter.matches(idPattern);
+		case "name":
+			validation=parameter.matches(namePattern);
+		case "phone":
+			validation=parameter.matches(phonePattern);
+		case "tel":
+			validation=parameter.matches(telPattern);
+		}
+		LOG.info("return : {}", validation);
+		return validation;
+	}
+	
+	@Override
+	public Long checkVDLong(String parameter, int default_value) {
+		Long longValue;
+		try {
+			longValue = Long.parseLong(parameter);
+		} catch (Exception e) {
+			longValue = Integer.toUnsignedLong(default_value);
+		}
+		return longValue;
+	}
 
 	@Override
 	public int checkVDInt(String parameter, int default_value) {
@@ -342,14 +396,46 @@ public class CommonServiceImpl implements CommonService {
 	}
 
 	@Override
-	public void validCheckAndSendError(MessageSource messageSource, BindingResult bindingResult, HttpServletRequest request, String getValue, String objectName, String fieldName, String messagePropertyName) {
-		FieldError error = new FieldError(objectName, fieldName, messageSource.getMessage(messagePropertyName, new String[] { getValue }, request.getLocale()));
-		bindingResult.addError(error);
+	public void validCheckAndSendError(MessageSource messageSource, BindingResult bindingResult, HttpServletRequest request, String inputValue, String objectName, String fieldName, String messagePropertyName) {
+		try {
+			FieldError error = new FieldError(objectName, fieldName, messageSource.getMessage(messagePropertyName, new String[] { inputValue }, request.getLocale()));	
+			bindingResult.addError(error);	
+		} catch (Exception e) {
+			FieldError error = new FieldError(objectName, fieldName, messageSource.getMessage(messagePropertyName, new String[] { inputValue }, Locale.getDefault()));	
+			bindingResult.addError(error);
+		}
+		
 	}
 
 	@Override
-	public User getPrincipal(Principal principal) {
-		User user=userService.findByEmail(principal.getName());
-		return user;
+	public String getPrincipal() throws Exception{
+		String userName = null;
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		if (principal instanceof UserDetails) {
+			userName = ((UserDetails) principal).getUsername();
+		} else {
+			userName = principal.toString();
+		}
+		return userName;
+	}
+	
+	// 파라미터 호출 및 유효성 검사
+	@Override
+	public Paging beforePagingGetData(HttpServletRequest request) {
+		int currentPage = commonService.checkVDInt(request.getParameter("cPage"), 1);
+		int searchType = commonService.checkVDInt(request.getParameter("sType"), 0);
+		String searchText = commonService.checkVDQuestion(request.getParameter("sText"));
+		int searchDate = commonService.checkVDInt(request.getParameter("sDate"), 0);
+		int limit = commonService.checkVDInt(request.getParameter("limit"), 20);
+		Paging paging = new Paging(currentPage, searchType, searchText, searchDate, limit);
+		return paging;
+	}
+	
+	@Override
+	@ModelAttribute(name="accessUser")
+	public User getAccessUserToModel() throws Exception {
+		String userEmail=commonService.getPrincipal();
+		LOG.info("return : getAccessUserToModel : {}", userEmail);
+		return userService.findByEmail(userEmail);
 	}
 }

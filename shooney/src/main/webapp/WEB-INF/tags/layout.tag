@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%-- <c:choose><c:when test="${language_code eq 'en'}"><spring:eval expression="@text_en" var="text" scope="request" /></c:when><c:otherwise><spring:eval expression="@text_ko" var="text" scope="request" /></c:otherwise></c:choose> --%>
 <spring:url value="/resources" var="resources" /><spring:url value="/resources/template" var="template"/><spring:url value="/" var="shooney"/><spring:url value="/board" var="board"/><spring:url value="/project" var="project"/><spring:url value="/portfolio" var="portfolio"/><spring:url value="/myinfo" var="myinfo"/><spring:url value="/admin" var="admin"/><spring:url value="/signup" var="signup"/><spring:url value="/login" var="login"/><spring:url value="/logout" var="logout"/><spring:url value="/it" var="it"/>
 <!doctype html>
@@ -12,8 +13,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="keywords" content="Shooney">
 <meta name="description" content="Shooney's Blog">
-<meta id="_csrf" name="_csrf" content="${_csrf.token}" />
-<meta id="_csrf_header" name="_csrf_header" content="${_csrf.headerName}" />
+<meta id="csrfToken" name="csrfToken" content="${_csrf.token}" />
+<meta id="csrfHeader" name="csrfHeader" content="${_csrf.headerName}" />
 
 <title>SomeThing New | Hooney Blog</title>
 
@@ -131,16 +132,7 @@
 								<li><a href="${shooney}" class="dropdown-toggle">Home</a></li>
 								<!-- End Home -->
 
-								<!-- Pages -->
-								<li class="dropdown">
-									<a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">Board</a>
-									<ul class="dropdown-menu">
-										<li><a href="${board }/notice/list">Notice</a></li>
-										<li><a href="${board }/freeboard/list">Free Board</a></li>
-										<li><a href="${board }/qna/list">QNA</a></li>
-									</ul>
-								</li>
-								<!-- End Pages -->
+								<li><a href="${board }/list" class="dropdown-toggle">Board</a></li>
 								
 								<!-- Shortcodes -->
 								<!-- <li class="dropdown mega-menu-fullwidth"> -->
@@ -254,7 +246,7 @@
 								</li>
 								<sec:authorize access="hasRole('SUPERADMIN')">
 									<li class="dropdown">
-										<a href="${admin}/list">Admin</a>
+										<a href="${admin}/user/list">Admin</a>
 									</li>
 								</sec:authorize>	
 								<!-- End Blog -->

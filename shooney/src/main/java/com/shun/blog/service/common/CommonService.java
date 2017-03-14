@@ -2,7 +2,6 @@ package com.shun.blog.service.common;
 
 
 import java.io.IOException;
-import java.security.Principal;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -16,11 +15,16 @@ import com.shun.blog.model.common.Paging;
 import com.shun.blog.model.user.User;
 
 public interface CommonService {
+	boolean validPattern(String parameter, String patternName);
+	
+	//Long 유효성 검사하기.
+	Long checkVDLong(String parameter, int defaultValue);
+	
 	//int 유효성 검사하기.
-	int checkVDInt(String parameter, int default_value);
+	int checkVDInt(String parameter, int defaultValue);
 	
 	//Float 유효성 검사하기.
-	float checkVDFloat(String parameter, int default_value);
+	float checkVDFloat(String parameter, int defaultValue);
 	
 	//검색어 유효성 검사하기.
 	String checkVDQuestion(String question);
@@ -51,7 +55,14 @@ public interface CommonService {
 	void sendEmailLockingUser(String toEmail, String userName, String authentication, String httpPath, String password) throws IOException;
 	
 	//@Valid로 검사시 중복값 리다이렉트해주기.
-	void validCheckAndSendError(MessageSource messageSource, BindingResult result, HttpServletRequest request, String objectValidValue, String fieldObjectName, String fieldName, String messagePropertyName);
+	void validCheckAndSendError(MessageSource messageSource, BindingResult bindingResult, HttpServletRequest request, String inputValue, String objectName, String fieldName, String messagePropertyName);
 	
-	User getPrincipal(Principal principal);
+	//로그인된 유저 이메일로 유저 가져오기.(null처리 가능)
+	String getPrincipal() throws Exception;
+	
+	//페이징 전에 페이징 데이터 가져오
+	Paging beforePagingGetData(HttpServletRequest request);
+	
+	//현재 접속한 유저로 유저정보 가져오기.
+	User getAccessUserToModel() throws Exception;
 }

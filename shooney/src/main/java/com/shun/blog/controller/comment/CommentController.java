@@ -12,7 +12,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,7 +22,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.shun.blog.model.comment.Comment;
 import com.shun.blog.model.common.Paging;
-import com.shun.blog.model.user.User;
 import com.shun.blog.service.comment.CommentService;
 import com.shun.blog.service.common.CommonService;
 import com.shun.blog.service.user.UserService;
@@ -58,9 +56,10 @@ public class CommentController {
 	}
 	
 	@RequestMapping(value = "/reply/board/delete/{id}", method = {RequestMethod.GET})
-	public @ResponseBody String deleteBoardComment(HttpServletRequest reqeust, Comment comment, @PathVariable Long id, Principal principal) {
+	@ResponseBody
+	public String deleteBoardComment(HttpServletRequest reqeust, Comment comment, @PathVariable Long id, Principal principal) {
 		String writer=reqeust.getParameter("writer");
-		String accessUser=initializeUser(principal).getEmail();
+		String accessUser=principal.getName();
 		if(!accessUser.equals(writer)){
 			return "false";
 		}
@@ -74,7 +73,7 @@ public class CommentController {
 	@RequestMapping(value = "/reply/board/modify/{id}", method = {RequestMethod.GET})
 	public @ResponseBody String modifyBoardComment(HttpServletRequest reqeust, Comment comment, @PathVariable Long id, Principal principal) {
 		String writer=reqeust.getParameter("writer");
-		String accessUser=initializeUser(principal).getEmail();
+		String accessUser=principal.getName();
 		if(!accessUser.equals(writer)){
 			return "false";
 		}
@@ -113,13 +112,6 @@ public class CommentController {
 		return result;
 	}
 
-	// 선언하면 모델값으로 쉽게 넘길 수 있음
-	@ModelAttribute("accessUser")
-	public User initializeUser(Principal principal) {
-		User user= commonService.getPrincipal(principal);
-		return user;
-	}
-	
 //	@RequestMapping(value = "/board/{hospitalAlias}/{boardType}/{path}/commentListJSON", method = RequestMethod.GET, produces = "application/json; charset=utf8")
 //	public @ResponseBody String setCommentListJSON(ModelMap model, HttpServletRequest request, HttpServletResponse response, @PathVariable("path") int path, @PathVariable("hospitalAlias") String hospitalAlias,
 //			@PathVariable("boardType") String boardType) throws JsonProcessingException, UnsupportedEncodingException {

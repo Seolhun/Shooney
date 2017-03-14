@@ -11,15 +11,15 @@ import com.shun.blog.model.common.Paging;
 public interface BoardService {
 
 	@Transactional(transactionManager="txManager", noRollbackFor={NullPointerException.class}, readOnly=true)
-	Board findById(Long id);
+	Board selectById(Long id);
 
-	void saveBoard(Board board);
+	void insert(Board board);
 
-	void updateBoard(Board board);
+	void update(Board board);
 
-	void deleteBoardById(Long id);
+	void deleteById(Long id);
 
-	List<Board> findAllBoards(Paging paging);
+	List<Board> findAll(Paging paging);
 	
 	int getCount(Paging paging);
 }

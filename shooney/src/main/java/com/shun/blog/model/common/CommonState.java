@@ -3,7 +3,7 @@ package com.shun.blog.model.common;
 public enum CommonState {
 
 	ACTIVE("active"),
-	EXPIRED("expired"),
+	INACTIVE("inactive"),
 	DELETED("deleted"),
 	LOCKED("locked");
 	

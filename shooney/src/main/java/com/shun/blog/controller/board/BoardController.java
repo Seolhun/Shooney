@@ -1,9 +1,9 @@
 package com.shun.blog.controller.board;
 
-import java.io.IOException;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -19,21 +19,22 @@ import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.shun.blog.model.board.Board;
 import com.shun.blog.model.board.EntityName;
-import com.shun.blog.model.board.PortfolioName;
 import com.shun.blog.model.common.Paging;
 import com.shun.blog.model.file.FileData;
-import com.shun.blog.model.user.User;
+import com.shun.blog.model.portfolio.PortfolioName;
 import com.shun.blog.service.board.BoardService;
 import com.shun.blog.service.comment.CommentService;
 import com.shun.blog.service.common.CommonService;
+import com.shun.blog.service.file.FileService;
 import com.shun.blog.service.user.UserService;
 
 @Controller
@@ -41,13 +42,16 @@ import com.shun.blog.service.user.UserService;
 public class BoardController {
 
 	@Autowired
-	BoardService bService;
+	BoardService boardService;
 
 	@Autowired
-	UserService uService;
+	UserService userService;
 	
 	@Autowired
-	CommentService cService;
+	CommentService commentService;
+	
+	@Autowired
+	FileService fileService;
 
 	@Autowired
 	CommonService commonService;
@@ -55,69 +59,84 @@ public class BoardController {
 	@Autowired
 	MessageSource messageSource;
 	
-	private static final Logger logger = LoggerFactory.getLogger(BoardController.class);
+	private static final Logger LOG = LoggerFactory.getLogger(BoardController.class);
 
-	private static final String UPLOAD_LOCATION = "/Users/HunSeol/Desktop/shooney/file/";
-
-	@RequestMapping(value = "/{kind}/list", method = RequestMethod.GET)
-	public String allBoardList(ModelMap model, @PathVariable String kind, HttpServletRequest request) {
-		logger.info("TEST : Get Board List of " + kind);
-
-		// 파라미터 호출 및 유효성 검사
-		int cPage = commonService.checkVDInt(request.getParameter("cp"), 1);
-		int sType = commonService.checkVDInt(request.getParameter("sty"), 0);
-		String sText = commonService.checkVDQuestion(request.getParameter("sty"));
-		int sDate = commonService.checkVDInt(request.getParameter("sda"), 0);
-		int limit = commonService.checkVDInt(request.getParameter("li"), 20);
-		String pfName = commonService.checkVDQuestion(request.getParameter("pf"));
-		Paging paging = new Paging(cPage, sType, sText, sDate, limit, kind, pfName);
-		
+	/**
+	 * 게시판 리스트
+	 * 
+	 * @param String portfolioType
+	 * @return String  -view
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/list", method = RequestMethod.GET)
+	public String allBoardList(ModelMap model, HttpServletRequest request, @RequestParam(required=false, name="pf") String portfolioType) {
+		Paging paging=commonService.beforePagingGetData(request);
+		paging.setPortfolioType(portfolioType);
 		// 전체 게시판 갯수 확인
-		int totalCount = bService.getCount(paging);
+		int totalCount = boardService.getCount(paging);
 		paging.setTotalCount(totalCount);
 		commonService.setPaging(paging);
-		List<Board> boards = bService.findAllBoards(paging);
+		List<Board> boards =new ArrayList<>();
+		try {
+			boards = boardService.findAll(paging);
+		} catch (Exception e) {
+			
+		}
 		
 		model.addAttribute("boards", boards);
 		model.addAttribute("paging", paging);
-		model.addAttribute("kind", kind);
 		model.addAttribute("pfNames", PortfolioName.values());
-		return "board/list";
+		return "board/board-list";
 	}
 
-	@RequestMapping(value = { "/{kind}/add" }, method = RequestMethod.GET)
-	public String addBoard(ModelMap model, @PathVariable String kind) {
-		Board board = new Board();
-		model.addAttribute("board", board);
-
+	/**
+	 * 게시판 등록 페이지 이동
+	 * 
+	 * @param -
+	 * @return String  -view
+	 * @throws Exception
+	 */
+	@RequestMapping(value = { "/insert" }, method = RequestMethod.GET)
+	public String addBoard(ModelMap model) {
+		model.addAttribute("board", new Board());
 		model.addAttribute("edit", false);
 		model.addAttribute("enNames", EntityName.values());
 		model.addAttribute("pfNames", PortfolioName.values());
-		model.addAttribute("kind", kind);
-		return "board/add";
+		return "board/board-insert";
 	}
 
-	@RequestMapping(value = { "/{kind}/add" }, method = RequestMethod.POST)
-	public String addBoardDo(@Valid Board board, @Valid FileData fileData, BindingResult result,
-			ModelMap model, @PathVariable String kind, HttpServletRequest req) throws IOException {
+	/**
+	 * 게시판 등록하기
+	 * 
+	 * @param Board board, FileData fileData
+	 * @return String  -view
+	 * @throws Exception
+	 */
+	@RequestMapping(value = { "/insert" }, method = RequestMethod.POST)
+	public String addBoardDo(@Valid Board board, @Valid FileData fileData, BindingResult bindingResult, ModelMap model, HttpServletRequest request, MultipartHttpServletRequest multiRequst) throws Exception {
 		// Board 부분
-		if (result.hasErrors()) {
-			model.addAttribute("board", board);
-			model.addAttribute("edit", false);
-			model.addAttribute("enNames", EntityName.values());
-			model.addAttribute("pfNames", PortfolioName.values());
-			model.addAttribute("kind", kind);
-			return "board/add";
+		model.addAttribute("board", board);
+		model.addAttribute("edit", false);
+		model.addAttribute("enNames", EntityName.values());
+		model.addAttribute("pfNames", PortfolioName.values());
+		
+		String mapping="board/board-insert";
+		if(board.getTitle().length()<5){
+			commonService.validCheckAndSendError(messageSource, bindingResult, request, board.getTitle(), "board", "title", "INVALID-TITLE");
+		} else if(board.getContent().length()<5){
+			commonService.validCheckAndSendError(messageSource, bindingResult, request, board.getContent(), "board", "content", "INVALID-CONTENT");
+		} else if (bindingResult.hasErrors()) {
+			return mapping;
 		}
-
-//		board.setWriter(initializeUser().getNickname());
-		bService.saveBoard(board);
+		
+		board.setCreatedBy(commonService.getAccessUserToModel().getNickname());
+		boardService.insert(board);
 
 //		model.addAttribute("success", "Board " + board.getWriter() + "의 " + board.getTitle() + "성공적으로 등록되었습니다.");
-		model.addAttribute("kind", kind);
+//		model.addAttribute("kind", kind);
 
 		// File Upload 부분
-		logger.info("Fetching files");
+		LOG.info("Fetching files");
 		List<String> fileNames = new ArrayList<String>();
 		// Now do something with file...
 //		for (FileData bucket : fileData.getFiles()) {
@@ -131,31 +150,31 @@ public class BoardController {
 	}
 
 	@RequestMapping(value = { "/{kind}/{id}" }, method = RequestMethod.GET)
-	public String detailBoard(@PathVariable Long id, ModelMap model, @PathVariable String kind, HttpServletRequest request, HttpServletResponse response, Principal principal) {
+	public String detailBoard(@PathVariable Long id, ModelMap model, @PathVariable String kind, HttpServletRequest request, HttpServletResponse response, Principal principal) throws Exception {
 		String strId=String.valueOf(id);
 		
 		if(checkHitCookie(request, response, strId)){
 			Board board=new Board();
 			board.setId(id);;
 			board.setHits(1);
-			bService.updateBoard(board);
+			boardService.update(board);
 		}
 		
-		Board board = bService.findById(id);
+		Board board = boardService.selectById(id);
 		
 		model.addAttribute("board", board);
 		model.addAttribute("edit", false);
 		model.addAttribute("kind", kind);
-		model.addAttribute("accessUser", getAccessUser(principal));
+		commonService.getAccessUserToModel();
 		model.addAttribute("enNames", board.getEntityName());
-		model.addAttribute("pfNames", board.getPfName());
+		model.addAttribute("pfNames", board.getPortfolioType());
 		
-		return "board/detail";
+		return "board/board-detail";
 	}
 
 	@RequestMapping(value = { "/{kind}/modify" }, method = RequestMethod.GET)
 	public String editBoard(@RequestParam(required=true) Long id, ModelMap model, @PathVariable String kind) {
-		Board board = bService.findById(id);
+		Board board = boardService.selectById(id);
 
 //		if (!(board.getWriter().equals(initializeUser().getNickname()))) {
 //			return "redirect:/" + kind + "/r" + id;
@@ -166,7 +185,7 @@ public class BoardController {
 		model.addAttribute("kind", kind);
 		model.addAttribute("enNames", EntityName.values());
 		model.addAttribute("pfNames", PortfolioName.values());
-		return "board/add";
+		return "board/board-insert";
 	}
 
 	@RequestMapping(value = { "/{kind}/modify" }, method = RequestMethod.POST)
@@ -174,14 +193,14 @@ public class BoardController {
 		if (result.hasErrors()) {
 			model.addAttribute("edit", true);
 			model.addAttribute("kind", kind);
-			return "board/add";
+			return "board/board-insert";
 		}
 
 //		if (!(board.getWriter().equals(initializeUser().getNickname()))) {
 //			return "redirect:/" + kind + "/r" + id;
 //		}
 
-		bService.updateBoard(board);
+		boardService.update(board);
 
 //		model.addAttribute("success", "Board " + board.getWriter() + "의 " + board.getTitle() + "성공적으로 수정되었습니다.");
 		model.addAttribute("entity", kind);
@@ -190,25 +209,13 @@ public class BoardController {
 
 	@RequestMapping(value = { "/{kind}/delete" }, method = RequestMethod.GET)
 	public String deleteBoard(@PathVariable String kind, @RequestParam(required=true) Long id) {
-		Board board = bService.findById(id);
+		Board board = boardService.selectById(id);
 //		if (!(board.getWriter().equals(initializeUser().getNickname()))) {
 //			return "redirect:/" + kind + "/r" + id;
 //		}
 //		board.setDelCheck(1);
-		bService.updateBoard(board);
+		boardService.update(board);
 		return "redirect:/" + kind + "/list";
-	}
-
-	// 선언하면 모델값으로 쉽게 넘길 수 있음
-	@ModelAttribute("accessUser")
-	public User getAccessUser(Principal principal) {
-		String accessEmail="";
-		try {
-			accessEmail = principal.getName();	
-		} catch (Exception e) {
-			
-		}
-		return uService.findByEmail(accessEmail);
 	}
 
 	// @RequestMapping(value = { "/{tableName}/detail" }, method =
@@ -280,8 +287,7 @@ public class BoardController {
 	// return "board/detail";
 	// }
 
-	private boolean checkHitCookie(HttpServletRequest request, HttpServletResponse response,
-			String id) {
+	private boolean checkHitCookie(HttpServletRequest request, HttpServletResponse response, String id) {
 		// 쿠키에 담을 값을 가져오기 위함.(uri는 테이블 값을 가져오기 위함 - 3번)
 		boolean validHit = false;
 		String tableName="bh";
@@ -316,5 +322,19 @@ public class BoardController {
 		response.addCookie(cookie);
 		validHit = true;
 		return validHit;
+	}
+	
+	//파일 존재 여부 확인 Method
+	private void fileExistCheck(MultipartHttpServletRequest multiRequst, FileData fileData) throws Exception {
+		Iterator<String> iterator = multiRequst.getFileNames();
+		// 첨부된 파일이 있으면 파일시퀀스 증가하고 가져오기.
+		while (iterator.hasNext()) {
+			MultipartFile multipartFile = multiRequst.getFile(iterator.next());
+			if (multipartFile.isEmpty() == false) {
+				// FILE_ID 넣을 key 값.
+				FileData dbFileData = fileService.selectById(fileData.getFileDataId());
+				fileData.setFileDataId(dbFileData.getFileDataId());
+			}
+		}
 	}
 }

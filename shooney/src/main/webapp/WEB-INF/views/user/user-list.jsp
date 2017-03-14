@@ -4,6 +4,7 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="tag" tagdir="/WEB-INF/tags"%>
+<spring:url value="/resources" var="resources" /><spring:url value="/resources/template" var="template"/><spring:url value="/" var="shooney"/><spring:url value="/board" var="board"/><spring:url value="/project" var="project"/><spring:url value="/portfolio" var="portfolio"/><spring:url value="/myinfo" var="myinfo"/><spring:url value="/admin" var="admin"/><spring:url value="/signup" var="signup"/><spring:url value="/login" var="login"/><spring:url value="/logout" var="logout"/><spring:url value="/it" var="it"/>
 <tag:layout tab="${target}">
 <div class="call-action-v1 bg-color-light">
 	<div class="container">
@@ -66,29 +67,29 @@
 						<td>${user.state}</td>
 						<td><c:forEach items="${user.userProfiles}" var="i">${i.type }<br></c:forEach></td>
 						<td>${user.receiveEmail}</td>
-						<td><a href="${admin }/edit-${user.email}" class="btn btn-default custom-width rounded">Edit</a></td>
+						<td><a href="${admin }/user/modify/${user.email}" class="btn btn-default custom-width rounded">Edit</a></td>
 				        <c:choose>
-				        	<c:when test="${user.state.equals('Active')}">
-				        		<td><a href="${admin }/up-${user.email}?s=d" class="btn-u btn-u-red custom-width rounded confirm">Delete</a></td>
+				        	<c:when test="${user.state.equals('active')}">
+				        		<td><a href="${admin }/user/update/state/${user.email}?type=locked" class="btn-u btn-u-red custom-width rounded confirm">Locked</a></td>
 				        	</c:when>
 				        	<c:otherwise>
-				        		<td><a href="${admin }/up-${user.email}?s=a" class="btn-u btn-u-dark-blue custom-width rounded" id="confirm">Active</a></td>
+				        		<td><a href="${admin }/user/update/state/${user.email}?type=active" class="btn-u btn-u-dark-blue custom-width rounded" id="confirm">Active</a></td>
 				        	</c:otherwise>
 				        </c:choose>
 					</tr>
 				</c:forEach>
 	    		</tbody>
 	    	</table>
-	    	<form action="${admin}/list" class="form-horizontal">
+	    	<form action="${admin}/user/list" class="form-horizontal">
 		   		<div class="text-center">
-		   			<a href="list?cp=${paging.currentPage -10 < 1 ? 1 : paging.currentPage -10}" class="btn-u btn-brd btn-brd-hover btn-u-dark btn-u-block margin-bottom-5">&larr;&larr;</a>
-		   			<a href="list?cp=${paging.currentPage -1 < 1 ? 1 : paging.currentPage -1}" class="btn-u btn-brd btn-brd-hover btn-u-dark btn-u-block margin-bottom-5">&larr;</a>
+		   			<a href="list?cPage=${paging.currentPage -10 < 1 ? 1 : paging.currentPage -10}" class="btn-u btn-brd btn-brd-hover btn-u-dark btn-u-block margin-bottom-5">&larr;&larr;</a>
+		   			<a href="list?cPage=${paging.currentPage -1 < 1 ? 1 : paging.currentPage -1}" class="btn-u btn-brd btn-brd-hover btn-u-dark btn-u-block margin-bottom-5">&larr;</a>
 		   			<c:forEach begin="${paging.blockStartNo }" end="${paging.blockEndNo}" varStatus="status">
-						<a href="list?cp=${status.index }" class="btn-u btn-brd btn-brd-hover btn-u-dark btn-u-block margin-bottom-5" 
+						<a href="list?cPage=${status.index }" class="btn-u btn-brd btn-brd-hover btn-u-dark btn-u-block margin-bottom-5" 
 						<c:if test="${status.index==paging.currentPage }">style="color: Green"</c:if>>${status.index}</a>
 		   			</c:forEach>
-		   			<a href="list?cp=${paging.currentPage +1 > paging.totalPage ? paging.totalPage : paging.currentPage +1}" class="btn-u btn-brd btn-brd-hover btn-u-dark btn-u-block margin-bottom-5">&rarr;</a>
-		   			<a href="list?cp=${paging.currentPage +10 > paging.totalPage ? paging.totalPage : paging.currentPage +10 }" class="btn-u btn-brd btn-brd-hover btn-u-dark btn-u-block margin-bottom-5">&rarr;&rarr;</a>
+		   			<a href="list?cPage=${paging.currentPage +1 > paging.totalPage ? paging.totalPage : paging.currentPage +1}" class="btn-u btn-brd btn-brd-hover btn-u-dark btn-u-block margin-bottom-5">&rarr;</a>
+		   			<a href="list?cPage=${paging.currentPage +10 > paging.totalPage ? paging.totalPage : paging.currentPage +10 }" class="btn-u btn-brd btn-brd-hover btn-u-dark btn-u-block margin-bottom-5">&rarr;&rarr;</a>
 		   		</div>
 	   		</form>
 		</div>

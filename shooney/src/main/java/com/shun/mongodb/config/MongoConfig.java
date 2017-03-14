@@ -14,6 +14,10 @@ import com.mongodb.MongoClient;
 @Configuration
 @EnableMongoRepositories(basePackages = "com.shun.mongodb.model")
 public class MongoConfig extends AbstractMongoConfiguration {
+	@Override
+	public Mongo mongo() throws Exception {
+		return new MongoClient("127.0.0.1", 27017);
+	}
 	
 	@Bean
 	public MongoClient mongoClient() throws Exception {
@@ -36,10 +40,5 @@ public class MongoConfig extends AbstractMongoConfiguration {
 	@Override
 	protected String getDatabaseName() {
 		return "shooney";
-	}
-	
-	@Override
-	public Mongo mongo() throws Exception {
-		return new MongoClient("127.0.0.1",27017);
 	}
 }
