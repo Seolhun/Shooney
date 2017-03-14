@@ -436,6 +436,6 @@ public class CommonServiceImpl implements CommonService {
 	public User getAccessUserToModel() throws Exception {
 		String userEmail=commonService.getPrincipal();
 		LOG.info("return : getAccessUserToModel : {}", userEmail);
-		return userService.findByEmail(userEmail);
+		return userService.selectByEmail(userEmail);
 	}
 }

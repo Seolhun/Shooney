@@ -66,7 +66,7 @@ public class AdminUserController {
 		paging.setTotalCount(totalCount);
 		
 		paging=cService.setPaging(paging);
-		List<User> users = userService.findAllUsers(paging);
+		List<User> users = userService.selectList(paging);
 		
 		model.addAttribute("users", users);
 		model.addAttribute("paging", paging);
@@ -84,7 +84,7 @@ public class AdminUserController {
 	 */
 	@RequestMapping(value = { "/modify/{email}" }, method = RequestMethod.GET)
 	public String editUser(@PathVariable String email, ModelMap model) {
-		User user = userService.findByEmail(email);
+		User user = userService.selectByEmail(email);
 		model.addAttribute("user", user);
 		model.addAttribute("edit", true);
 		return "user/signup";
@@ -128,7 +128,7 @@ public class AdminUserController {
 	 */
 	@RequestMapping(value = { "/update/role/{email}" }, method = RequestMethod.GET)
 	public String updateRoleUser(@PathVariable String email, @RequestParam(required=true) String type) {
-		User user=userService.findByEmail(email);
+		User user=userService.selectByEmail(email);
 		for(UserProfileType userProfileType : UserProfileType.values()){
 			if(type.equals(userProfileType.getType())){
 				user.setState(userProfileType.getType());
@@ -148,7 +148,7 @@ public class AdminUserController {
 	 */
 	@RequestMapping(value = { "/update/state/{email}" }, method = RequestMethod.GET)
 	public String updateStateUser(@PathVariable String email, @RequestParam(required=true) String type) {
-		User user=userService.findByEmail(email);
+		User user=userService.selectByEmail(email);
 		for(CommonState state : CommonState.values()){
 			if(type.equals(state.getState())){
 				user.setState(state.getState());
@@ -186,7 +186,7 @@ public class AdminUserController {
 		for (int i = 0; i < keys.length; i++) {
 			try {
 				Long id = cService.checkVDLong(keys[i], 0);
-				User user = userService.findById(id);
+				User user = userService.selectById(id);
 				//유저 상태 부여				
 				if (stateType != null || stateType != "") {
 					for (CommonState e : CommonState.values()) {

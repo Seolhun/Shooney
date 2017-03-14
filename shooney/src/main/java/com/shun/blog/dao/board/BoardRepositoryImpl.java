@@ -4,8 +4,10 @@ import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.Query;
+import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.criterion.Subqueries;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Repository;
 import com.shun.blog.dao.AbstractDao;
 import com.shun.blog.model.board.Board;
 import com.shun.blog.model.common.Paging;
+import com.shun.blog.model.file.FileData;
 
 @Repository("boardDao")
 public class BoardRepositoryImpl extends AbstractDao<Integer, Board> implements BoardRepository {

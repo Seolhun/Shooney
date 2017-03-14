@@ -5,7 +5,6 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -20,6 +19,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
+import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -73,8 +73,8 @@ public class User implements Serializable {
 	@Column(name = "USER_STATE", length=20, nullable=false)
 	private String state = CommonState.ACTIVE.getState();
 
-	@Fetch(FetchMode.JOIN)
-	@ManyToMany(fetch = FetchType.LAZY, cascade=CascadeType.PERSIST)
+	@Fetch(FetchMode.SELECT)
+	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "TB_USER_PROFILE_REFER", joinColumns = { @JoinColumn(name = "USER_ID") }, inverseJoinColumns = {
 			@JoinColumn(name = "USER_PROFILE_ID") })
 	private Set<UserProfile> userProfiles = new HashSet<UserProfile>();

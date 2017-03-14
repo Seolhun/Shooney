@@ -2,20 +2,16 @@ package com.shun.blog.service.file;
 
 import java.util.List;
 
-import com.shun.blog.model.common.Paging;
 import com.shun.blog.model.file.FileData;
 
 public interface FileService {
+	void insert(FileData fileData);
 
 	FileData selectById(Long id);
 	
-	int getCount(Paging paging);
+	List<FileData> selectList(FileData fileData);
 	
-	List<FileData> findAll(Paging paging);
+	FileData update(FileData fileData);
 
-	void setFile(FileData file);
-
-	void getFile(FileData file);
-
-	void deleteById(Long id);
+	Boolean delete(Long id);
 }

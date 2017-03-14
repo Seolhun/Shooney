@@ -51,7 +51,7 @@
 				<form:form method="POST" modelAttribute="user" class="form-horizontal" >
 					<div class="reg-block">
 						<div>Email<br>
-							<div style="color: blue;">
+							<div class="error">
 								<form:errors path="email" cssClass="error" class="help-inline"/>
 							</div>
 						</div>
@@ -68,7 +68,7 @@
 						</div>
 						
 						<div>Nickname<br>
-							<div style="color: blue;">
+							<div class="error">
 								<form:errors path="nickname" cssClass="error" class="help-inline"/>
 							</div>
 						</div>
@@ -87,7 +87,7 @@
 	
 						<c:if test="${edit }">
 							<div>User Roles<br>
-								<div style="color: blue;">
+								<div class="error">
 									<form:errors path="userProfiles" class="help-inline"/>
 								</div>
 							</div>
@@ -101,7 +101,7 @@
 							<h2>Option</h2>
 						</c:if>
 						<div>Password<br>
-							<div style="color: blue;">
+							<div class="error">
 								<form:errors path="password" cssClass="error" class="help-inline"/>
 							</div>
 						</div>

@@ -106,7 +106,7 @@ public class BoardController {
 	}
 
 	/**
-	 * 게시판 등록하기
+	 * 게시판 등록하기 - 파일업로드
 	 * 
 	 * @param Board board, FileData fileData
 	 * @return String  -view
@@ -120,6 +120,8 @@ public class BoardController {
 		model.addAttribute("enNames", EntityName.values());
 		model.addAttribute("pfNames", PortfolioName.values());
 		
+		fileExistCheck(multiRequst, fileData);
+		
 		String mapping="board/board-insert";
 		if(board.getTitle().length()<5){
 			commonService.validCheckAndSendError(messageSource, bindingResult, request, board.getTitle(), "board", "title", "INVALID-TITLE");
@@ -131,21 +133,6 @@ public class BoardController {
 		
 		board.setCreatedBy(commonService.getAccessUserToModel().getNickname());
 		boardService.insert(board);
-
-//		model.addAttribute("success", "Board " + board.getWriter() + "의 " + board.getTitle() + "성공적으로 등록되었습니다.");
-//		model.addAttribute("kind", kind);
-
-		// File Upload 부분
-		LOG.info("Fetching files");
-		List<String> fileNames = new ArrayList<String>();
-		// Now do something with file...
-//		for (FileData bucket : fileData.getFiles()) {
-//			FileCopyUtils.copy(bucket.getFile().getBytes(),
-//					new File(UPLOAD_LOCATION + bucket.getFile().getOriginalFilename()));
-//			fileNames.add(bucket.getFile().getOriginalFilename());
-//		}
-
-		model.addAttribute("fileNames", fileNames);
 		return "result/success";
 	}
 
@@ -330,6 +317,7 @@ public class BoardController {
 		// 첨부된 파일이 있으면 파일시퀀스 증가하고 가져오기.
 		while (iterator.hasNext()) {
 			MultipartFile multipartFile = multiRequst.getFile(iterator.next());
+			LOG.info("param : file : {}",multipartFile);
 			if (multipartFile.isEmpty() == false) {
 				// FILE_ID 넣을 key 값.
 				FileData dbFileData = fileService.selectById(fileData.getFileDataId());

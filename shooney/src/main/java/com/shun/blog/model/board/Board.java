@@ -17,7 +17,10 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -35,7 +38,7 @@ public class Board implements Serializable {
 	@Column(name = "BOARD_ID")
 	private Long id;
 	
-	@Column(name = "BOARD_IDX", nullable=false)
+	@Column(name = "BOARD_IDX")
 	private Long idx;
 
 	@NotEmpty
@@ -80,9 +83,13 @@ public class Board implements Serializable {
 	@Column(name = "BOARD_DELCHECK", nullable=false)
 	private int delCheck=0;
 	
+	@Fetch(FetchMode.SELECT)
+	@BatchSize(size=5)
 	@OneToMany(mappedBy = "boardInFile", cascade = CascadeType.ALL, fetch=FetchType.LAZY)
 	private Set<FileData> files=new HashSet<>();
 	
+	@Fetch(FetchMode.SELECT)
+	@BatchSize(size=5)
 	@OneToMany(mappedBy = "boardInComment", cascade = CascadeType.ALL, fetch=FetchType.LAZY)
 	private Set<Comment> comments=new HashSet<>();
 }

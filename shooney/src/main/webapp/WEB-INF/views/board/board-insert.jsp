@@ -4,9 +4,7 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="tag" tagdir="/WEB-INF/tags"%>
-<spring:url value="/board" var="bo"/>
-<c:url value="/resources/" var="resources" />
-<c:url value="/resources/template" var="template"/>
+<spring:url value="/board" var="bo"/><spring:url value="/resources/" var="resources" /><spring:url value="/resources/template" var="template"/>
 <tag:layout>
 <div class="call-action-v1 bg-color-light">
 	<div class="container">
@@ -30,6 +28,7 @@
 					<div class="input-group margin-bottom-20">
 						<span class="input-group-addon rounded-left"><i class="icon-user color-green"></i></span>
 						<form:select path="entityName" class="form-control rounded-right" items="${enNames}"/>
+						
 						<span class="input-group-addon rounded-left"><i class="icon-user color-green"></i></span>
 						<form:select path="portfolioType" class="form-control rounded-right" items="${pfNames }"/>
 					</div>
