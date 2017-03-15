@@ -69,8 +69,7 @@ public class UserController {
 	 */
 	@RequestMapping(value = "/signup", method = RequestMethod.GET)
 	public String signup(ModelMap model, HttpServletResponse res, Principal principal) throws Exception {
-		User user = new User();
-		model.addAttribute("user", user);
+		model.addAttribute("user", new User());
 		model.addAttribute("edit", false);
 		model.addAttribute("loggedinuser", commonService.getPrincipal());
 		model.addAttribute("role", UserProfileType.values());
@@ -118,7 +117,6 @@ public class UserController {
 		user.setUserProfiles(upSet);
 		
 		userService.insert(user);
-
 		model.addAttribute("success", "User " + user.getEmail() + " registered successfully");
 		model.addAttribute("loggedinuser", commonService.getPrincipal());
 		return "result/success";

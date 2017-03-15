@@ -11,11 +11,11 @@ import com.shun.blog.model.user.User;
 @Transactional(propagation=Propagation.REQUIRED, transactionManager="txManager", noRollbackFor={NullPointerException.class})
 public interface UserService {
 
-	User findById(Long id);
+	User selectById(Long id);
 
-	User findByEmail(String email);
+	User selectByEmail(String email);
 	
-	User findByNickname(String nickName);
+	User selectByNickname(String nickName);
 
 	void insert(User user);
 
@@ -23,7 +23,7 @@ public interface UserService {
 	
 	void deleteByEmail(String email);
 
-	List<User> findAllUsers(Paging paging);
+	List<User> selectList(Paging paging);
 	
 	int getCount(Paging paging);
 

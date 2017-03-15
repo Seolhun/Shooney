@@ -17,8 +17,6 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import com.shun.blog.model.board.Board;
@@ -34,7 +32,6 @@ public class FileData {
 	@Column(name = "FILE_ID")
 	private Long fileDataId;
 	
-	@Fetch(FetchMode.JOIN)
 	@ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.PERSIST)
 	@JoinColumn(foreignKey = @ForeignKey(name = "FILE_BOARD_FK"), name = "FILE_BOARD_ID", referencedColumnName = "BOARD_ID")
 	private Board boardInFile;

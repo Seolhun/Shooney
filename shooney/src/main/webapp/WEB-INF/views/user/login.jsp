@@ -49,7 +49,7 @@
 				<h2 class="margin-bottom-30">Login To Your Account</h2>
 				<form:form action="${login }">
 					<c:if test="${param.error != null}">
-						<div class="alert alert-danger">
+						<div class="alert alert-danger">as
 							<!-- <p>Invalid username and password.</p> -->
 							<p>${errorMsg }</p>
 						</div>

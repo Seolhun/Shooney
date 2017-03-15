@@ -18,8 +18,6 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -62,7 +60,6 @@ public class Comment implements Serializable {
 	@Column(name = "COMMENT_DELCHECK", nullable=false)
 	private int delCheck=0;
 
-	@Fetch(FetchMode.JOIN)
 	@ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.PERSIST)
 	@JoinColumn(foreignKey = @ForeignKey(name = "COMMENT_BOARD_FK"), name = "COMMENT_BOARD_ID", referencedColumnName = "BOARD_ID", nullable = false)
 	private Board boardInComment;

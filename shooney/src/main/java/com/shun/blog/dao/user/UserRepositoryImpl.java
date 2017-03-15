@@ -19,16 +19,16 @@ import com.shun.blog.model.user.User;
 public class UserRepositoryImpl extends AbstractDao<Integer, User> implements UserRepository {
 	static final Logger LOG = LoggerFactory.getLogger(UserRepositoryImpl.class);
 
-	public User findById(Long id) {
+	public User selectById(Long id) {
 		User user = getByLong(id);
 		if (user != null) {
 			Hibernate.initialize(user.getUserProfiles());
 		}
-		LOG.info("return : findById {}", user);
+		LOG.info("return : selectById {}", user);
 		return user;
 	}
 	@Override
-	public User findByEmail(String email) {
+	public User selectByEmail(String email) {
 		LOG.info("email : {}", email);
 		Criteria crit = createEntityCriteria();
 		crit.add(Restrictions.eq("email", email));
@@ -36,12 +36,12 @@ public class UserRepositoryImpl extends AbstractDao<Integer, User> implements Us
 		if (user != null) {
 			Hibernate.initialize(user.getUserProfiles());
 		}
-		LOG.info("return : findByEmail {}", user);
+		LOG.info("return : selectByEmail {}", user);
 		return user;
 	}
 
 	@Override
-	public User findByNickname(String nickname) {
+	public User selectByNickname(String nickname) {
 		LOG.info("nickname : {}", nickname);
 		Criteria crit = createEntityCriteria();
 		crit.add(Restrictions.eq("nickname", nickname));
@@ -49,14 +49,15 @@ public class UserRepositoryImpl extends AbstractDao<Integer, User> implements Us
 		if (user != null) {
 			Hibernate.initialize(user.getUserProfiles());
 		}
-		LOG.info("return : findByNickname {}", user);
+		LOG.info("return : selectByNickname {}", user);
 		return user;
 	}
 
 	// Criteria는 무엇인가?
 	@Override
 	@SuppressWarnings("unchecked")
-	public List<User> findAllUsers(Paging paging) {
+	public List<User> selectList(Paging paging) {
+		LOG.info("param : selectList : {}",paging.toString());
 		int cPage = paging.getCurrentPage();
 		int sType = paging.getSearchType();
 		String sText = paging.getSearchText();
@@ -74,7 +75,7 @@ public class UserRepositoryImpl extends AbstractDao<Integer, User> implements Us
 			criteria.add(Restrictions.like("nickname", "%" + sText + "%"));
 		} 
 
-		LOG.info("return : findAllUsers {}", users);
+		LOG.info("return : selectAllUsers {}", users);
 		return users;
 	}
 
@@ -89,7 +90,8 @@ public class UserRepositoryImpl extends AbstractDao<Integer, User> implements Us
 	}
 	
 	@Override
-	public void save(User user) {
+	public void insert(User user) {
+		LOG.info("param : insert : {}",user.toString());
 		persist(user);
 	}
 

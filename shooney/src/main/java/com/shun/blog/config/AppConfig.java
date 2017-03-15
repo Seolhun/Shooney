@@ -10,6 +10,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.format.FormatterRegistry;
+import org.springframework.web.multipart.MultipartResolver;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.ViewResolver;
@@ -75,8 +77,9 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 
 	//Multipart Config Part
 	@Bean(name = "multipartResolver")
-	public StandardServletMultipartResolver resolver() {
-		return new StandardServletMultipartResolver();
+	public MultipartResolver resolver() {
+		MultipartResolver multipartResolver=new CommonsMultipartResolver();
+		return multipartResolver;
 	}
 
 	//Dispatcher Servlet Part

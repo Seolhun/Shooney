@@ -2,7 +2,6 @@ package com.shun.blog.service.user;
 
 import java.util.List;
 
-import org.hibernate.annotations.BatchSize;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,21 +27,21 @@ public class UserServiceImpl implements UserService {
 	private static final Logger LOG = LoggerFactory.getLogger(UserServiceImpl.class);
 	
 	@Override
-	public User findById(Long id) {
+	public User selectById(Long id) {
 		LOG.info("param : {}", id);
-		return userRepository.findById(id);
+		return userRepository.selectById(id);
 	}
 	@Override
-	public User findByEmail(String email) {
+	public User selectByEmail(String email) {
 		LOG.info("param : {}", email);
-		User user = userRepository.findByEmail(email);
+		User user = userRepository.selectByEmail(email);
 		return user;
 	}
 	
 	@Override
-	public User findByNickname(String nickname) {
+	public User selectByNickname(String nickname) {
 		LOG.info("param : {}", nickname);
-		User user = userRepository.findByNickname(nickname);
+		User user = userRepository.selectByNickname(nickname);
 		return user;
 	}
 	
@@ -51,15 +50,14 @@ public class UserServiceImpl implements UserService {
 		LOG.info("param : {}", user.toString());
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		user.setState(CommonState.ACTIVE.getState());
-		userRepository.save(user);
+		userRepository.insert(user);
 	}
 	
 	@Override
-	@BatchSize(size=20)
 	@Transactional(rollbackFor=NullPointerException.class)
 	public void update(User user) {
 		LOG.info("param : {}", user.toString());
-		User dbUser = userRepository.findByEmail(user.getEmail());
+		User dbUser = userRepository.selectByEmail(user.getEmail());
 		if (dbUser != null) {
 			if(user.getPassword()!="") {
 				dbUser.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -76,9 +74,9 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
-	public List<User> findAllUsers(Paging paging) {
+	public List<User> selectList(Paging paging) {
 		LOG.info("param : {}", paging.toString());
-		return userRepository.findAllUsers(paging);
+		return userRepository.selectList(paging);
 	}
 	
 	@Override
@@ -89,13 +87,13 @@ public class UserServiceImpl implements UserService {
 	@Override
 	//=> Or 일때 하나만이라도 true이면 true이다., And 일때 하나만이라도 false이면 false이다.
 	public boolean isUserEmailUnique(String email) {
-		User user = findByEmail(email);
+		User user = selectByEmail(email);
 		return (user == null || ((email == null && user.getEmail() != email)));
 	}
 
 	@Override
 	public boolean isUserNicknameUnique(String nickname) {
-		User user = findByNickname(nickname);
+		User user = selectByNickname(nickname);
 		return (user == null || ((nickname == null && user.getNickname() != nickname )));
 	}
 }

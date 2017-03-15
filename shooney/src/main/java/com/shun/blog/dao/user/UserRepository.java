@@ -7,17 +7,17 @@ import com.shun.blog.model.user.User;
 
 public interface UserRepository {
 
-	User findById(Long id);
+	User selectById(Long id);
 	
-	User findByEmail(String email);
+	User selectByEmail(String email);
 	
-	User findByNickname(String nickname);
+	User selectByNickname(String nickname);
 	
-	void save(User user);
+	void insert(User user);
 	
 	void deleteByEmail(String email);
 	
-	List<User> findAllUsers(Paging paging);
+	List<User> selectList(Paging paging);
 	
 	int getCount(Paging paging);
 
