@@ -55,7 +55,7 @@ public class Board implements Serializable {
 	@Column(name = "BOARD_DEPTH", nullable=false)
 	private int depth=0;
 
-	@Column(name = "BOARD_ENTITYNAME", length=30)
+	@Column(name = "BOARD_ENTITY_NAME", length=30)
 	private String entityName;
 
 	@Column(name = "BOARD_PORTFOLIO_TYPE", length=30)
