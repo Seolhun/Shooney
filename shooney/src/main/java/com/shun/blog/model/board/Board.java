@@ -3,12 +3,11 @@ package com.shun.blog.model.board;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -16,6 +15,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.CreationTimestamp;
@@ -23,6 +23,7 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.shun.blog.model.comment.Comment;
 import com.shun.blog.model.file.FileData;
@@ -83,13 +84,16 @@ public class Board implements Serializable {
 	@Column(name = "BOARD_DELCHECK", nullable=false)
 	private int delCheck=0;
 	
-	@Fetch(FetchMode.SELECT)
+	@Fetch(FetchMode.SUBSELECT)
 	@BatchSize(size=5)
-	@OneToMany(mappedBy = "boardInFile", cascade = CascadeType.ALL, fetch=FetchType.LAZY)
-	private Set<FileData> files=new HashSet<>();
+	@OneToMany(mappedBy = "boardInFile")
+	private Set<FileData> fileDataList=new HashSet<>();
 	
-	@Fetch(FetchMode.SELECT)
-	@BatchSize(size=5)
-	@OneToMany(mappedBy = "boardInComment", cascade = CascadeType.ALL, fetch=FetchType.LAZY)
-	private Set<Comment> comments=new HashSet<>();
+	@Fetch(FetchMode.SUBSELECT)
+	@BatchSize(size=10)
+	@OneToMany(mappedBy = "boardInComment")
+	private Set<Comment> commentList=new HashSet<>();
+	
+	@Transient
+	private List<MultipartFile> files;
 }

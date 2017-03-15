@@ -6,6 +6,7 @@ import com.shun.blog.model.common.Paging;
 import com.shun.blog.model.user.User;
 
 public interface UserRepository {
+	void insert(User user);
 
 	User selectById(Long id);
 	
@@ -13,13 +14,12 @@ public interface UserRepository {
 	
 	User selectByNickname(String nickname);
 	
-	void insert(User user);
-	
-	void deleteByEmail(String email);
-	
 	List<User> selectList(Paging paging);
 	
 	int getCount(Paging paging);
-
+	
+	void deleteById(Long id);
+	
+	void deleteByEmail(String email);
 }
 

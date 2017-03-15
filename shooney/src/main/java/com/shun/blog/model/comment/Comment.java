@@ -3,7 +3,6 @@ package com.shun.blog.model.comment;
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -33,6 +32,10 @@ public class Comment implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "COMMENT_ID", nullable = false)
 	private Long id;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(foreignKey = @ForeignKey(name = "COMMENT_BOARD_FK"), name = "COMMENT_BOARD_ID", referencedColumnName = "BOARD_ID", nullable = false)
+	private Board boardInComment;
 
 	@NotEmpty
 	@Column(name = "COMMENT_CONTENT", length=300 ,nullable = false)
@@ -59,9 +62,4 @@ public class Comment implements Serializable {
 	
 	@Column(name = "COMMENT_DELCHECK", nullable=false)
 	private int delCheck=0;
-
-	@ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.PERSIST)
-	@JoinColumn(foreignKey = @ForeignKey(name = "COMMENT_BOARD_FK"), name = "COMMENT_BOARD_ID", referencedColumnName = "BOARD_ID", nullable = false)
-	private Board boardInComment;
-
 }

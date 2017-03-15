@@ -48,8 +48,8 @@ public class BoardServiceImpl implements BoardService {
 	}
 	
 	@Override
-	public List<Board> findAll(Paging paging) {
-		return boardDao.findAll(paging);
+	public List<Board> selectList(Paging paging) {
+		return boardDao.selectList(paging);
 	}
 
 	@Override

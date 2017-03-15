@@ -10,19 +10,20 @@ import com.shun.blog.model.user.User;
 
 @Transactional(propagation=Propagation.REQUIRED, transactionManager="txManager", noRollbackFor={NullPointerException.class})
 public interface UserService {
-
+	void insert(User user);
+	
 	User selectById(Long id);
 
 	User selectByEmail(String email);
 	
 	User selectByNickname(String nickName);
 
-	void insert(User user);
-
 	void update(User user);
 	
+	void deleteById(Long id);
+	
 	void deleteByEmail(String email);
-
+	
 	List<User> selectList(Paging paging);
 	
 	int getCount(Paging paging);

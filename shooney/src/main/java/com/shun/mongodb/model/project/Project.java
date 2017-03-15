@@ -19,7 +19,8 @@ import lombok.Setter;
 public class Project extends BaseEntity implements Serializable {
 
 	@Indexed(unique = true)
-	private String idx;
+//	private String idx;
+	private String id;
 
 	private String title;
 

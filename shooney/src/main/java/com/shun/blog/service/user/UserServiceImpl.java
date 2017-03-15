@@ -16,55 +16,68 @@ import com.shun.blog.model.common.Paging;
 import com.shun.blog.model.user.User;
 
 @Service("userService")
-@Transactional(propagation=Propagation.REQUIRED, transactionManager="txManager", noRollbackFor={NullPointerException.class})
+@Transactional(propagation=Propagation.REQUIRED, transactionManager="txManager")
 public class UserServiceImpl implements UserService {
-	@Autowired
 	private UserRepository userRepository;
-
+	private PasswordEncoder passwordEncoder;;
+	
 	@Autowired
-	private PasswordEncoder passwordEncoder;
+	public UserServiceImpl(PasswordEncoder passwordEncoder, UserRepository userRepository) {
+		this.passwordEncoder = passwordEncoder;
+		this.userRepository=userRepository;
+	}
 	
 	private static final Logger LOG = LoggerFactory.getLogger(UserServiceImpl.class);
 	
 	@Override
+	public void insert(User user) {
+		LOG.info("param : insert : {}", user.toString());
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
+		user.setState(CommonState.ACTIVE.getName());
+		userRepository.insert(user);
+	}
+	
+	@Override
 	public User selectById(Long id) {
-		LOG.info("param : {}", id);
-		return userRepository.selectById(id);
+		LOG.info("param : selectById : {}", id);
+		User user=userRepository.selectById(id);
+		return user;
 	}
 	@Override
 	public User selectByEmail(String email) {
-		LOG.info("param : {}", email);
+		LOG.info("param : selectByEmail : {}", email);
 		User user = userRepository.selectByEmail(email);
 		return user;
 	}
 	
 	@Override
 	public User selectByNickname(String nickname) {
-		LOG.info("param : {}", nickname);
+		LOG.info("param : selectByNickname: {}", nickname);
 		User user = userRepository.selectByNickname(nickname);
 		return user;
 	}
 	
 	@Override
-	public void insert(User user) {
-		LOG.info("param : {}", user.toString());
-		user.setPassword(passwordEncoder.encode(user.getPassword()));
-		user.setState(CommonState.ACTIVE.getState());
-		userRepository.insert(user);
+	public void update(User user) {
+		LOG.info("param : update : {}", user.toString());
+		User dbUser = userRepository.selectByEmail(user.getEmail());
+		if (user != null) {
+			if(user.getPassword()!=null) {
+				dbUser.setPassword(passwordEncoder.encode(user.getPassword()));
+			}
+			if(user.getState()!=null){
+				dbUser.setState(user.getState());	
+			}
+			if(user.getUserProfiles().size()>0){
+				dbUser.setUserProfiles(user.getUserProfiles());		
+			}
+		}
 	}
 	
 	@Override
-	@Transactional(rollbackFor=NullPointerException.class)
-	public void update(User user) {
-		LOG.info("param : {}", user.toString());
-		User dbUser = userRepository.selectByEmail(user.getEmail());
-		if (dbUser != null) {
-			if(user.getPassword()!="") {
-				dbUser.setPassword(passwordEncoder.encode(user.getPassword()));
-			}
-		} 
-		dbUser.setState(user.getState());
-		dbUser.setUserProfiles(user.getUserProfiles());
+	public void deleteById(Long id) {
+		LOG.info("param : deleteById : {}", id);
+		userRepository.deleteById(id);
 	}
 	
 	@Override

@@ -12,7 +12,6 @@ import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
-import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -31,19 +30,19 @@ import com.shun.mongodb.config.MongoConfig;
 @Configuration
 @EnableWebMvc
 @ComponentScan(basePackages = "com.shun")
-@Import({MongoConfig.class})
+@Import({ MongoConfig.class })
 public class AppConfig extends WebMvcConfigurerAdapter {
 
 	@Autowired
 	RoleToUserProfileConverter roleToUserProfileConverter;
-
-	//Resource InterCeptor Error Config Part
+	
+	// Resource InterCeptor Error Config Part
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		registry.addResourceHandler("/resources/**").addResourceLocations("/WEB-INF/resources/");
 	}
 
-	//MessageSource Error Config Part
+	// MessageSource Error Config Part
 	@Bean
 	public MessageSource messageSource() {
 		ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
@@ -52,7 +51,7 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 		return messageSource;
 	}
 
-	//Locale Language Config Part
+	// Locale Language Config Part
 	@Bean
 	public LocaleChangeInterceptor localeChangeInterceptor() {
 		LocaleChangeInterceptor localeChangeInterceptor = new LocaleChangeInterceptor();
@@ -65,24 +64,28 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(localeChangeInterceptor());
 	}
-	
+
 	@Bean(name = "localeResolver")
 	public LocaleResolver sessionLocaleResolver() {
 		// 세션 기준으로 로케일을 설정한다.
 		SessionLocaleResolver localeResolver = new SessionLocaleResolver();
-		// CookieLocaleResolver localeResolver2=new CookieLocaleResolver();
 		localeResolver.setDefaultLocale(new Locale("ko_KR"));
 		return localeResolver;
 	}
 
-	//Multipart Config Part
-	@Bean(name = "multipartResolver")
+	// Multipart Config Part
+	@Bean(name="multipartResolver")
 	public MultipartResolver resolver() {
-		MultipartResolver multipartResolver=new CommonsMultipartResolver();
+		CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
+		multipartResolver.setDefaultEncoding("UTF-8");
+		multipartResolver.setMaxUploadSize(1024 * 1024 * 40); //40M
+		multipartResolver.setMaxUploadSizePerFile(1024 * 1024 * 10);//10M
+		multipartResolver.setResolveLazily(true);
+		multipartResolver.setPreserveFilename(true);
 		return multipartResolver;
 	}
 
-	//Dispatcher Servlet Part
+	// Dispatcher Servlet Part
 	@Bean
 	public ViewResolver viewResolver() {
 		InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();

@@ -1,5 +1,8 @@
 package com.shun.blog.controller.board;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,6 +22,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -29,7 +33,6 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import com.shun.blog.model.board.Board;
 import com.shun.blog.model.board.EntityName;
 import com.shun.blog.model.common.Paging;
-import com.shun.blog.model.file.FileData;
 import com.shun.blog.model.portfolio.PortfolioName;
 import com.shun.blog.service.board.BoardService;
 import com.shun.blog.service.comment.CommentService;
@@ -40,24 +43,25 @@ import com.shun.blog.service.user.UserService;
 @Controller
 @RequestMapping("/board")
 public class BoardController {
-
-	@Autowired
-	BoardService boardService;
-
-	@Autowired
-	UserService userService;
+	private BoardService boardService;
+	private UserService userService;
+	private CommentService commentService;
+	private CommonService commonService;
+	private MessageSource messageSource;
+	private FileService fileService;
+	
+	private static final String FILE_PATH="/Users/hunseol/Desktop/project/shooney/file/";
 	
 	@Autowired
-	CommentService commentService;
-	
-	@Autowired
-	FileService fileService;
-
-	@Autowired
-	CommonService commonService;
-
-	@Autowired
-	MessageSource messageSource;
+	public BoardController(UserService userService, CommentService commentService, BoardService boardService,
+			CommonService commonService, MessageSource messageSource, FileService fileService) {
+		this.userService = userService;
+		this.commentService = commentService;
+		this.boardService = boardService;
+		this.commonService=commonService;
+		this.messageSource=messageSource;
+		this.fileService=fileService;
+	}
 	
 	private static final Logger LOG = LoggerFactory.getLogger(BoardController.class);
 
@@ -70,16 +74,18 @@ public class BoardController {
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public String allBoardList(ModelMap model, HttpServletRequest request, @RequestParam(required=false, name="pf") String portfolioType) {
+		//페이징 세팅 및 파라미터 가져오기.
 		Paging paging=commonService.beforePagingGetData(request);
 		paging.setPortfolioType(portfolioType);
+		
 		// 전체 게시판 갯수 확인
 		int totalCount = boardService.getCount(paging);
 		paging.setTotalCount(totalCount);
 		commonService.setPaging(paging);
 		List<Board> boards =new ArrayList<>();
 		try {
-			boards = boardService.findAll(paging);
-		} catch (Exception e) {
+			boards = boardService.selectList(paging);
+		} catch (NullPointerException e) {
 			
 		}
 		
@@ -96,7 +102,7 @@ public class BoardController {
 	 * @return String  -view
 	 * @throws Exception
 	 */
-	@RequestMapping(value = { "/insert" }, method = RequestMethod.GET)
+	@GetMapping(value={"/insert"})
 	public String addBoard(ModelMap model) {
 		model.addAttribute("board", new Board());
 		model.addAttribute("edit", false);
@@ -112,16 +118,15 @@ public class BoardController {
 	 * @return String  -view
 	 * @throws Exception
 	 */
-	@RequestMapping(value = { "/insert" }, method = RequestMethod.POST)
-	public String addBoardDo(@Valid Board board, @Valid FileData fileData, BindingResult bindingResult, ModelMap model, HttpServletRequest request, MultipartHttpServletRequest multiRequst) throws Exception {
-		// Board 부분
+	@RequestMapping(value = "/insert/file", method = RequestMethod.POST)
+	public String addBoardDo(Board board, BindingResult bindingResult,  ModelMap model, HttpServletRequest request, @RequestParam("files") MultipartFile[] files) throws Exception {
+		//Board 부분
 		model.addAttribute("board", board);
 		model.addAttribute("edit", false);
 		model.addAttribute("enNames", EntityName.values());
 		model.addAttribute("pfNames", PortfolioName.values());
 		
-		fileExistCheck(multiRequst, fileData);
-		
+		//유효성 검사.
 		String mapping="board/board-insert";
 		if(board.getTitle().length()<5){
 			commonService.validCheckAndSendError(messageSource, bindingResult, request, board.getTitle(), "board", "title", "INVALID-TITLE");
@@ -129,6 +134,30 @@ public class BoardController {
 			commonService.validCheckAndSendError(messageSource, bindingResult, request, board.getContent(), "board", "content", "INVALID-CONTENT");
 		} else if (bindingResult.hasErrors()) {
 			return mapping;
+		}
+		
+		for (int i = 0; i < files.length; i++) {
+			MultipartFile file = files[i];
+			try {
+				byte[] bytes = file.getBytes();
+				// Creating the directory to store file
+				String rootPath = FILE_PATH;
+				File dir = new File(rootPath + File.separator + "tmpFiles");
+				if (!dir.exists()){
+					dir.mkdirs();
+				}
+
+				// Create the file on server
+				File serverFile = new File(dir.getAbsolutePath()+ File.separator + file.getOriginalFilename());
+				BufferedOutputStream stream = new BufferedOutputStream(
+						new FileOutputStream(serverFile));
+				stream.write(bytes);
+				stream.close();
+
+				LOG.info("Server File Location={}", serverFile.getAbsolutePath());
+			} catch (Exception e) {
+				
+			}
 		}
 		
 		board.setCreatedBy(commonService.getAccessUserToModel().getNickname());
@@ -312,16 +341,16 @@ public class BoardController {
 	}
 	
 	//파일 존재 여부 확인 Method
-	private void fileExistCheck(MultipartHttpServletRequest multiRequst, FileData fileData) throws Exception {
-		Iterator<String> iterator = multiRequst.getFileNames();
+	private void validFileExist(MultipartHttpServletRequest multipartRequst, Map<String, MultipartFile> fileMap) throws Exception {
+		Iterator<String> iterator = multipartRequst.getFileNames();
 		// 첨부된 파일이 있으면 파일시퀀스 증가하고 가져오기.
 		while (iterator.hasNext()) {
-			MultipartFile multipartFile = multiRequst.getFile(iterator.next());
+			MultipartFile multipartFile = multipartRequst.getFile(iterator.next());
 			LOG.info("param : file : {}",multipartFile);
 			if (multipartFile.isEmpty() == false) {
 				// FILE_ID 넣을 key 값.
-				FileData dbFileData = fileService.selectById(fileData.getFileDataId());
-				fileData.setFileDataId(dbFileData.getFileDataId());
+//				FileData dbFileData = fileService.selectById(fileData.getFileDataId());
+//				fileData.setFileDataId(dbFileData.getFileDataId());
 			}
 		}
 	}

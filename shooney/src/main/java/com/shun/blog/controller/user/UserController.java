@@ -170,7 +170,7 @@ public class UserController {
 	 */
 	@ModelAttribute("roles")
 	public List<UserProfile> initializeProfiles() throws Exception{
-		return userProfileService.findAll();
+		return userProfileService.selectList();
 	}
 
 	private boolean isCurrentAuthenticationAnonymous() {

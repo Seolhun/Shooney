@@ -19,7 +19,7 @@ public interface BoardService {
 
 	void deleteById(Long id);
 
-	List<Board> findAll(Paging paging);
+	List<Board> selectList(Paging paging);
 	
 	int getCount(Paging paging);
 }

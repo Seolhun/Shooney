@@ -27,8 +27,6 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
-import com.shun.blog.model.common.CommonState;
-
 import lombok.Data;
 
 @Entity
@@ -71,10 +69,11 @@ public class User implements Serializable {
 	private int delCheck=0;
 
 	@Column(name = "USER_STATE", length=20, nullable=false)
-	private String state = CommonState.ACTIVE.getState();
+	private String state;
 
+	@BatchSize(size=10)
 	@Fetch(FetchMode.SELECT)
-	@ManyToMany(fetch = FetchType.LAZY)
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "TB_USER_PROFILE_REFER", joinColumns = { @JoinColumn(name = "USER_ID") }, inverseJoinColumns = {
 			@JoinColumn(name = "USER_PROFILE_ID") })
 	private Set<UserProfile> userProfiles = new HashSet<UserProfile>();

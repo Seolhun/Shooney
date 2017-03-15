@@ -13,7 +13,7 @@ import com.shun.blog.dao.AbstractDao;
 import com.shun.blog.model.user.UserAttempts;
 
 @Repository("userAttemptsRepository")
-public class UserAttemptsRepositoryImpl extends AbstractDao<Integer, UserAttempts> implements UserAttemptsRepository {
+public class UserAttemptsRepositoryImpl extends AbstractDao<Long, UserAttempts> implements UserAttemptsRepository {
 	static final Logger log = LoggerFactory.getLogger(UserAttemptsRepositoryImpl.class);
 	
 	@Override

@@ -6,9 +6,9 @@ import com.shun.blog.model.user.UserProfile;
 
 public interface UserProfileRepository {
 
-	List<UserProfile> findAll();
+	List<UserProfile> selectList();
 
-	UserProfile findByType(String type);
+	UserProfile selectByType(String type);
 
-	UserProfile findById(int id);
+	UserProfile selectById(int id);
 }

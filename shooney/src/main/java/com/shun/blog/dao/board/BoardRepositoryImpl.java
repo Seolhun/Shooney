@@ -4,10 +4,8 @@ import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.Query;
-import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
-import org.hibernate.criterion.Subqueries;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -15,16 +13,25 @@ import org.springframework.stereotype.Repository;
 import com.shun.blog.dao.AbstractDao;
 import com.shun.blog.model.board.Board;
 import com.shun.blog.model.common.Paging;
-import com.shun.blog.model.file.FileData;
 
 @Repository("boardDao")
 public class BoardRepositoryImpl extends AbstractDao<Integer, Board> implements BoardRepository {
-
 	static final Logger logger = LoggerFactory.getLogger(BoardRepositoryImpl.class);
 
 	@Override
+	public void insert(Board board) {
+		persist(board);
+	}
+	
+	@Override
+	public Board selectById(Long id) {
+		Board board = getByLong(id);
+		return board;
+	}
+
+	@Override
 	@SuppressWarnings("unchecked")
-	public List<Board> findAll(Paging paging) {
+	public List<Board> selectList(Paging paging) {
 		int cPage = paging.getCurrentPage();
 		int sType = paging.getSearchType();
 		String sText = paging.getSearchText();
@@ -65,17 +72,6 @@ public class BoardRepositoryImpl extends AbstractDao<Integer, Board> implements 
 		}
 		Query query = rawQuery("SELECT COUNT(*) FROM TB_BOARD " + condition + condition2);
 		return ((Number) query.uniqueResult()).intValue();
-	}
-
-	@Override
-	public Board selectById(Long id) {
-		Board board = getByLong(id);
-		return board;
-	}
-
-	@Override
-	public void insert(Board board) {
-		persist(board);
 	}
 
 	@Override

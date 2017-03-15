@@ -27,7 +27,7 @@
 				<select class="select" name="roleType">
 					<option label="-- Role --">
 					<c:forEach items="${userProfile}" var="i">
-						<option value="${i}" onclick="allWork(${i});">${i}</option>
+						<option value="${i}">${i}</option>
 					</c:forEach>
 				</select>
 				<select class="select" name="stateType">
@@ -69,11 +69,11 @@
 						<td>${user.receiveEmail}</td>
 						<td><a href="${admin }/user/modify/${user.email}" class="btn btn-default custom-width rounded">Edit</a></td>
 				        <c:choose>
-				        	<c:when test="${user.state.equals('active')}">
-				        		<td><a href="${admin }/user/update/state/${user.email}?type=locked" class="btn-u btn-u-red custom-width rounded confirm">Locked</a></td>
+				        	<c:when test="${user.state.equals('ACTIVE')}">
+				        		<td><a href="${admin }/user/update/state/${user.email}?type=LOCKED" class="btn-u btn-u-red custom-width rounded confirm">Locked</a></td>
 				        	</c:when>
 				        	<c:otherwise>
-				        		<td><a href="${admin }/user/update/state/${user.email}?type=active" class="btn-u btn-u-dark-blue custom-width rounded" id="confirm">Active</a></td>
+				        		<td><a href="${admin }/user/update/state/${user.email}?type=ACTIVE" class="btn-u btn-u-dark-blue custom-width rounded" id="confirm">Active</a></td>
 				        	</c:otherwise>
 				        </c:choose>
 					</tr>

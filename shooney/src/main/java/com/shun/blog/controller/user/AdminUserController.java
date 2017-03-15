@@ -28,24 +28,21 @@ import com.shun.blog.model.user.User;
 import com.shun.blog.model.user.UserProfile;
 import com.shun.blog.model.user.UserProfileType;
 import com.shun.blog.service.common.CommonService;
-import com.shun.blog.service.user.UserProfileService;
 import com.shun.blog.service.user.UserService;
 
 @Controller
 @RequestMapping(value = "/admin/user")
 public class AdminUserController {
-
+	private UserService userService;
+	private CommonService commonService;
+	private MessageSource messageSource;
+	
 	@Autowired
-	UserService userService;
-
-	@Autowired
-	UserProfileService userProfileService;
-
-	@Autowired
-	MessageSource messageSource;
-
-	@Autowired
-	CommonService cService;
+	public AdminUserController(UserService userService, CommonService commonService, MessageSource messageSource) {
+		this.userService = userService;
+		this.commonService=commonService;
+		this.messageSource=messageSource;
+	}
 
 	private static final Logger LOG = LoggerFactory.getLogger(AdminUserController.class);
 
@@ -59,13 +56,13 @@ public class AdminUserController {
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public String listUsers(ModelMap model, HttpServletRequest request) {
 		//paging Data 가져오기.
-		Paging paging=cService.beforePagingGetData(request);
+		Paging paging=commonService.beforePagingGetData(request);
 
 		// 전체 게시판 갯수 확인
 		int totalCount = userService.getCount(paging);
 		paging.setTotalCount(totalCount);
 		
-		paging=cService.setPaging(paging);
+		paging=commonService.setPaging(paging);
 		List<User> users = userService.selectList(paging);
 		
 		model.addAttribute("users", users);
@@ -99,15 +96,13 @@ public class AdminUserController {
 	 */
 	@RequestMapping(value = { "/modify/{email}" }, method = RequestMethod.POST)
 	public String updateUser(User user, ModelMap model, @PathVariable String email, Principal principal, HttpServletRequest request, BindingResult result) throws Exception{
-		LOG.info("param : {}", user.toString());
-		
 		String mapping = "user/signup";
 		model.addAttribute("edit", true);
-		if(cService.validPattern(user.getEmail(), "email")){
-			cService.validCheckAndSendError(messageSource, result, request, user.getEmail(), "user", "email", "INVALID-EMAIL");
+		if(commonService.validPattern(user.getEmail(), "email")){
+			commonService.validCheckAndSendError(messageSource, result, request, user.getEmail(), "user", "email", "INVALID-EMAIL");
 			return mapping;
-		} else if(cService.validPattern(user.getNickname(), "name")){
-			cService.validCheckAndSendError(messageSource, result, request, user.getNickname(), "user", "nickname", "INVALID-NAME");
+		} else if(commonService.validPattern(user.getNickname(), "name")){
+			commonService.validCheckAndSendError(messageSource, result, request, user.getNickname(), "user", "nickname", "INVALID-NAME");
 			return mapping;
 		} else if (result.hasErrors()) {
 			return mapping;
@@ -150,8 +145,8 @@ public class AdminUserController {
 	public String updateStateUser(@PathVariable String email, @RequestParam(required=true) String type) {
 		User user=userService.selectByEmail(email);
 		for(CommonState state : CommonState.values()){
-			if(type.equals(state.getState())){
-				user.setState(state.getState());
+			if(type.equals(state.getName())){
+				user.setState(state.getName());
 			}
 		}
 		userService.update(user);
@@ -175,41 +170,43 @@ public class AdminUserController {
 		String stateType = "";
 		try {
 			key = request.getParameter("key");
-			stateType = request.getParameter("stateType");
-			roleType = request.getParameter("roleType");
+			stateType = request.getParameter("stateType").trim();
+			roleType = request.getParameter("roleType").trim();
 		} catch (NullPointerException e) {
 			LOG.info("NullPoint Error : Ajax Function");
 		}
 		
-		
 		String[] keys = key.split(",");
 		for (int i = 0; i < keys.length; i++) {
 			try {
-				Long id = cService.checkVDLong(keys[i], 0);
-				User user = userService.selectById(id);
+				Long id = commonService.checkVDLong(keys[i], 0);
+				User user = new User();
+				user.setId(id);
+				
 				//유저 상태 부여				
-				if (stateType != null || stateType != "") {
+				if (stateType != "") {
 					for (CommonState e : CommonState.values()) {
 						if (stateType.equals(e.getName())) {
-							user.setState(e.getState());
+							user.setState(e.getName());
 						}
 					}
 				}
 				
 				//유저 권한 부여
-				if (roleType != null || roleType != "") {
+				if (roleType != "") {
 					for (UserProfileType userProfileType : UserProfileType.values()) {
-						if (roleType.equals(userProfileType.getType())) {
+						if (roleType.equals(userProfileType.getName())) {
 							Set<UserProfile> upSet = new HashSet<>();
-							UserProfile up = new UserProfile();
+							UserProfile userProfile = new UserProfile();
 							
-							up.setId(userProfileType.ordinal() + 1);
-							up.setType(userProfileType.getType());
-							upSet.add(up);
+							userProfile.setId(userProfileType.ordinal() + 1);
+							userProfile.setType(userProfileType.getName());
+							upSet.add(userProfile);
 							user.setUserProfiles(upSet);
 						}
 					}
 				}
+				
 				userService.update(user);
 			} catch (Exception e) {
 				LOG.error("error : Admin User all update Error");
@@ -218,6 +215,7 @@ public class AdminUserController {
 				return ajaxResult;
 			}
 		}
+		
 		ajaxResult.setResult("success");
 		return ajaxResult;
 	}

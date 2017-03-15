@@ -13,20 +13,24 @@ import com.shun.blog.model.user.UserProfile;
 @Repository("userProfileDao")
 public class UserProfileRepositoryImpl extends AbstractDao<Integer, UserProfile> implements UserProfileRepository {
 
-	public UserProfile findById(int id) {
+	@Override
+	public UserProfile selectById(int id) {
 		return getByKey(id);
 	}
 
-	public UserProfile findByType(String type) {
+	@Override
+	public UserProfile selectByType(String type) {
 		Criteria crit = createEntityCriteria();
 		crit.add(Restrictions.eq("type", type));
 		return (UserProfile) crit.uniqueResult();
 	}
 
+	@Override
 	@SuppressWarnings("unchecked")
-	public List<UserProfile> findAll() {
+	public List<UserProfile> selectList() {
 		Criteria crit = createEntityCriteria();
 		crit.addOrder(Order.desc("id"));
 		return (List<UserProfile>) crit.list();
 	}
+
 }
