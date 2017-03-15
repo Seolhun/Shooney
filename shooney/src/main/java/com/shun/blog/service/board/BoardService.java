@@ -13,6 +13,7 @@ public interface BoardService {
 	@Transactional(transactionManager="txManager", noRollbackFor={NullPointerException.class}, readOnly=true)
 	Board selectById(Long id);
 
+	@Transactional(transactionManager="txManager", rollbackFor={Exception.class})
 	void insert(Board board);
 
 	void update(Board board);

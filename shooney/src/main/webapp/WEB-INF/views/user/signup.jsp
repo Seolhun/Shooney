@@ -60,6 +60,7 @@
 							<span class="input-group-addon rounded-left"><i class="icon-envelope color-green"></i></span>
 							<c:choose>
 								<c:when test="${edit}">
+									<form:input path="id" value="${user.id }" type="hidden"/>
 									<form:input path="email" value="${user.email }" type="email" class="form-control rounded-right" placeholder="Your email" disabled="true"/>
 								</c:when>
 								<c:otherwise>

@@ -185,9 +185,9 @@ public class AdminUserController {
 				
 				//유저 상태 부여				
 				if (stateType != "") {
-					for (CommonState e : CommonState.values()) {
-						if (stateType.equals(e.getName())) {
-							user.setState(e.getName());
+					for (CommonState commonState : CommonState.values()) {
+						if (stateType.equals(commonState.getName())) {
+							user.setState(commonState.getName());
 						}
 					}
 				}

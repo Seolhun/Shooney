@@ -23,7 +23,7 @@
 <div class="container margin-bottom-20">
 	<div class="row content">
 		<div class="col-sm-12">
-			<form:form action="${bo }/insert/file" class="form-horizontal" commandName="board" modelAttribute="board" enctype="multipart/form-data">
+			<form:form action="${bo }/insert?${_csrf.parameterName}=${_csrf.token}" class="form-horizontal" commandName="board" modelAttribute="board" enctype="multipart/form-data">
 				<div class="col-sm-4 col-xs-12">
 					<div class="input-group margin-bottom-20">
 						<span class="input-group-addon rounded-left"><i class="icon-user color-green"></i></span>

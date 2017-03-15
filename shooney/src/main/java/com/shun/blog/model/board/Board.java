@@ -1,6 +1,7 @@
 package com.shun.blog.model.board;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -22,7 +23,6 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.shun.blog.model.comment.Comment;
@@ -42,11 +42,9 @@ public class Board implements Serializable {
 	@Column(name = "BOARD_IDX")
 	private Long idx;
 
-	@NotEmpty
 	@Column(name = "BOARD_TITLE",length=150 , nullable = false)
 	private String title;
 
-	@NotEmpty
 	@Column(name = "BOARD_CONTENT", length=300, nullable = false)
 	private String content;
 	
@@ -87,7 +85,7 @@ public class Board implements Serializable {
 	@Fetch(FetchMode.SUBSELECT)
 	@BatchSize(size=5)
 	@OneToMany(mappedBy = "boardInFile")
-	private Set<FileData> fileDataList=new HashSet<>();
+	private List<FileData> fileDataList=new ArrayList<>();
 	
 	@Fetch(FetchMode.SUBSELECT)
 	@BatchSize(size=10)

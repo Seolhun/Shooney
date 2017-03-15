@@ -17,6 +17,12 @@ public class HomeController {
 		return "index";
 	}
 	
+	@RequestMapping(value = "/success", method = RequestMethod.GET)
+	public String success() {
+		LOG.info("where success");
+		return "result/success";
+	}
+	
 	@RequestMapping(value = "/myinfo/pro", method = RequestMethod.GET)
 	public String myInfoProfile() {
 		LOG.info("where myInfoProfile");

@@ -50,6 +50,9 @@ public class FileData {
 	@Column(name = " FILE_TYPE", nullable = false, length = 20)
 	private String fileDataType;
 	
+	@Column(name = " FILE_SIZE", nullable = false, length = 20)
+	private Long fileDataSize;
+	
 	@Column(name = "FILE_CREATED_BY", nullable = false, length = 60)
 	private String fileDataCreatedBy;
 

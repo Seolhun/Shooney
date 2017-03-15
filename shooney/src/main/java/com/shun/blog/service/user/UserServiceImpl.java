@@ -60,9 +60,9 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void update(User user) {
 		LOG.info("param : update : {}", user.toString());
-		User dbUser = userRepository.selectByEmail(user.getEmail());
+		User dbUser = userRepository.selectById(user.getId());
 		if (user != null) {
-			if(user.getPassword()!=null) {
+			if(user.getPassword().length()>=4) {
 				dbUser.setPassword(passwordEncoder.encode(user.getPassword()));
 			}
 			if(user.getState()!=null){

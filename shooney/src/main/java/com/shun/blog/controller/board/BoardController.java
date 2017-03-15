@@ -1,8 +1,6 @@
 package com.shun.blog.controller.board;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
+import java.io.IOException;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import org.apache.tomcat.util.http.fileupload.FileUploadException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,10 +28,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.shun.blog.model.board.Board;
 import com.shun.blog.model.board.EntityName;
 import com.shun.blog.model.common.Paging;
+import com.shun.blog.model.file.FileData;
+import com.shun.blog.model.file.FileNameInvalidException;
+import com.shun.blog.model.file.FileUploadOverException;
 import com.shun.blog.model.portfolio.PortfolioName;
 import com.shun.blog.service.board.BoardService;
 import com.shun.blog.service.comment.CommentService;
@@ -49,8 +52,6 @@ public class BoardController {
 	private CommonService commonService;
 	private MessageSource messageSource;
 	private FileService fileService;
-	
-	private static final String FILE_PATH="/Users/hunseol/Desktop/project/shooney/file/";
 	
 	@Autowired
 	public BoardController(UserService userService, CommentService commentService, BoardService boardService,
@@ -118,15 +119,19 @@ public class BoardController {
 	 * @return String  -view
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/insert/file", method = RequestMethod.POST)
-	public String addBoardDo(Board board, BindingResult bindingResult,  ModelMap model, HttpServletRequest request, @RequestParam("files") MultipartFile[] files) throws Exception {
+	@RequestMapping(value = "/insert", method = RequestMethod.POST)
+	public String insertBoardDo(Board board, FileData fileData , BindingResult bindingResult,  ModelMap model, HttpServletRequest request, 
+			@RequestParam(name="files") MultipartFile[] files, RedirectAttributes redirect) throws Exception {
+		LOG.info("param : insertBoardDo : {}",board.toString());
+		LOG.info("param : insertBoardDo : {}",files.toString());
+		
 		//Board 부분
 		model.addAttribute("board", board);
 		model.addAttribute("edit", false);
 		model.addAttribute("enNames", EntityName.values());
 		model.addAttribute("pfNames", PortfolioName.values());
 		
-		//유효성 검사.
+		//게시판 유효성 검사.
 		String mapping="board/board-insert";
 		if(board.getTitle().length()<5){
 			commonService.validCheckAndSendError(messageSource, bindingResult, request, board.getTitle(), "board", "title", "INVALID-TITLE");
@@ -136,33 +141,28 @@ public class BoardController {
 			return mapping;
 		}
 		
-		for (int i = 0; i < files.length; i++) {
-			MultipartFile file = files[i];
-			try {
-				byte[] bytes = file.getBytes();
-				// Creating the directory to store file
-				String rootPath = FILE_PATH;
-				File dir = new File(rootPath + File.separator + "tmpFiles");
-				if (!dir.exists()){
-					dir.mkdirs();
-				}
-
-				// Create the file on server
-				File serverFile = new File(dir.getAbsolutePath()+ File.separator + file.getOriginalFilename());
-				BufferedOutputStream stream = new BufferedOutputStream(
-						new FileOutputStream(serverFile));
-				stream.write(bytes);
-				stream.close();
-
-				LOG.info("Server File Location={}", serverFile.getAbsolutePath());
-			} catch (Exception e) {
-				
-			}
+		//유저 확인.
+		try {
+			board.setCreatedBy(commonService.getAccessUserToModel().getNickname());	
+		} catch (NullPointerException e) {
+			redirect.addAttribute("error", "anonymousUser");
+			return "redirect:/login";
 		}
 		
-		board.setCreatedBy(commonService.getAccessUserToModel().getNickname());
-		boardService.insert(board);
-		return "result/success";
+		//Catch문을 통한 에러처리 로직필요.
+		try {
+			fileService.insert(board, fileData, files);
+		} catch (FileUploadOverException e) {
+			return mapping;
+		} catch (FileNameInvalidException e) {
+			return mapping;
+		} catch (FileUploadException e) {
+			return mapping;
+		} catch (IOException e) {
+			return mapping;
+		}
+		
+		return "redirect:/success";
 	}
 
 	@RequestMapping(value = { "/{kind}/{id}" }, method = RequestMethod.GET)

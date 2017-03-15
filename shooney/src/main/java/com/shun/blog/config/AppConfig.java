@@ -36,6 +36,10 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 	@Autowired
 	RoleToUserProfileConverter roleToUserProfileConverter;
 	
+	private static final String FILE_PATH="/Users/hunseol/Desktop/project/shooney/file/";
+	private static final int MAX_UPLOAD_SIZE=(1024 * 1024 * 200);
+	private static final int MAX_UPLOAD_SIZE_PER_FILE=(1024 * 1024 * 50);
+	
 	// Resource InterCeptor Error Config Part
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
@@ -78,8 +82,9 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 	public MultipartResolver resolver() {
 		CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
 		multipartResolver.setDefaultEncoding("UTF-8");
-		multipartResolver.setMaxUploadSize(1024 * 1024 * 40); //40M
-		multipartResolver.setMaxUploadSizePerFile(1024 * 1024 * 10);//10M
+		multipartResolver.setMaxUploadSize(MAX_UPLOAD_SIZE); //40M
+		multipartResolver.setMaxUploadSizePerFile(MAX_UPLOAD_SIZE_PER_FILE);//10M
+		multipartResolver.setMaxInMemorySize(MAX_UPLOAD_SIZE * 2);
 		multipartResolver.setResolveLazily(true);
 		multipartResolver.setPreserveFilename(true);
 		return multipartResolver;
