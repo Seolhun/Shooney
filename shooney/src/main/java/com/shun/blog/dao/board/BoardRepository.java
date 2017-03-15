@@ -7,7 +7,7 @@ import com.shun.blog.model.common.Paging;
 
 public interface BoardRepository {
 
-	List<Board> findAll(Paging paging);
+	List<Board> selectList(Paging paging);
 
 	int getCount(Paging paging);
 

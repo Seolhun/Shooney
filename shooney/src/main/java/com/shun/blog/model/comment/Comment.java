@@ -3,7 +3,6 @@ package com.shun.blog.model.comment;
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -17,6 +16,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -28,11 +28,17 @@ import lombok.Data;
 @Entity
 @Table(name = "TB_COMMENT")
 @Data
+@BatchSize(size=10)
 public class Comment implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "COMMENT_ID", nullable = false)
 	private Long id;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(foreignKey = @ForeignKey(name = "COMMENT_BOARD_FK"), name = "COMMENT_BOARD_ID", referencedColumnName = "BOARD_ID", nullable = false)
+	//@JoinColumn(name = "COMMENT_BOARD_ID")
+	private Board boardInComment;
 
 	@NotEmpty
 	@Column(name = "COMMENT_CONTENT", length=300 ,nullable = false)
@@ -59,9 +65,4 @@ public class Comment implements Serializable {
 	
 	@Column(name = "COMMENT_DELCHECK", nullable=false)
 	private int delCheck=0;
-
-	@ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.PERSIST)
-	@JoinColumn(foreignKey = @ForeignKey(name = "COMMENT_BOARD_FK"), name = "COMMENT_BOARD_ID", referencedColumnName = "BOARD_ID", nullable = false)
-	private Board boardInComment;
-
 }

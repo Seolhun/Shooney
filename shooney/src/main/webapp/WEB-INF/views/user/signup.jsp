@@ -14,20 +14,30 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="description" content="Shooney Blog Login">
+	
 	<!-- Favicon -->
 	<link rel="shortcut icon" href="${resources}/img/logo.jpeg" />
+	
 	<!-- Web Fonts -->
 	<link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans:400,300,700&amp;subset=cyrillic,latin">
+	
 	<!-- CSS Global Compulsory -->
 	<link rel="stylesheet" href="${template}/plugins/bootstrap/css/bootstrap.min.css">
 	<link rel="stylesheet" href="${template}/css/style.css">
+	
 	<!-- CSS Implementing Plugins -->
 	<link rel="stylesheet" href="${template}/plugins/animate.css">
 	<link rel="stylesheet" href="${template}/plugins/line-icons/line-icons.css">
 	<link rel="stylesheet" href="${template}/plugins/font-awesome/css/font-awesome.min.css">
 	<link rel="stylesheet" href="${template}/plugins/brand-buttons/brand-buttons.css">
+	
 	<!-- CSS Page Style -->
 	<link rel="stylesheet" href="${template}/css/pages/page_log_reg_v4.css">
+	
+	<!-- CSS Default -->
+	<link rel="stylesheet" href="${resources}/css/app.css">
+	<link rel="stylesheet" href="${resources}/css/header.css">
+	
 	<!-- CSS Theme -->
 	<link rel="stylesheet" href="${template}/css/theme-colors/dark-blue.css" id="style_color">
 </head>

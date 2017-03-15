@@ -4,10 +4,8 @@ import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.Query;
-import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
-import org.hibernate.criterion.Subqueries;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -15,7 +13,6 @@ import org.springframework.stereotype.Repository;
 import com.shun.blog.dao.AbstractDao;
 import com.shun.blog.model.board.Board;
 import com.shun.blog.model.common.Paging;
-import com.shun.blog.model.file.FileData;
 
 @Repository("boardDao")
 public class BoardRepositoryImpl extends AbstractDao<Integer, Board> implements BoardRepository {
@@ -24,7 +21,7 @@ public class BoardRepositoryImpl extends AbstractDao<Integer, Board> implements 
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public List<Board> findAll(Paging paging) {
+	public List<Board> selectList(Paging paging) {
 		int cPage = paging.getCurrentPage();
 		int sType = paging.getSearchType();
 		String sText = paging.getSearchText();
@@ -33,7 +30,8 @@ public class BoardRepositoryImpl extends AbstractDao<Integer, Board> implements 
 		
 		// 검색 로직
 		Criteria criteria = createEntityCriteria()
-				.addOrder(Order.desc("id")).add(Restrictions.eq("delCheck", 0))
+				.addOrder(Order.desc("id"))
+				.add(Restrictions.eq("delCheck", 0))
 				.setFirstResult((cPage - 1) * limit)
 				.setMaxResults(limit).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 
@@ -50,7 +48,7 @@ public class BoardRepositoryImpl extends AbstractDao<Integer, Board> implements 
 		} else if (paging.getSearchDate() != 0 && sType == 4) {
 			criteria.add(Restrictions.like("title", "%" + sText + "%")).add(Restrictions.like("content", "%" + sText + "%"));
 		}
-
+		
 		List<Board> boards = (List<Board>) criteria.list();
 		logger.info("return : {}", boards);
 		return boards;

@@ -1,8 +1,9 @@
 package com.shun.blog.model.file;
 
+import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -15,9 +16,12 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
+import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.shun.blog.model.board.Board;
 
@@ -26,14 +30,16 @@ import lombok.Data;
 @Entity
 @Data
 @Table(name = "TB_FILE_DATA")
-public class FileData {
+@BatchSize(size=5)
+public class FileData implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "FILE_ID")
 	private Long fileDataId;
 	
-	@ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.PERSIST)
-	@JoinColumn(foreignKey = @ForeignKey(name = "FILE_BOARD_FK"), name = "FILE_BOARD_ID", referencedColumnName = "BOARD_ID")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(foreignKey = @ForeignKey(name = "FILE_BOARD_FK"), name = "FILE_BOARD_ID", referencedColumnName = "BOARD_ID", nullable=false)
+	//@JoinColumn(name = "FILE_BOARD_ID")
 	private Board boardInFile;
 
 	@Column(name = "FILE_ORIGIN_NAME", nullable = false, length = 100)
@@ -66,4 +72,7 @@ public class FileData {
 
 	@Column(name = "FILE_DELCHECK", length=5, nullable=false)
 	private int fileDataDelCheck;
+	
+	@Transient
+	private List<MultipartFile> multipartFileList;
 }

@@ -72,13 +72,15 @@ public class BoardController {
 	public String allBoardList(ModelMap model, HttpServletRequest request, @RequestParam(required=false, name="pf") String portfolioType) {
 		Paging paging=commonService.beforePagingGetData(request);
 		paging.setPortfolioType(portfolioType);
+		
 		// 전체 게시판 갯수 확인
 		int totalCount = boardService.getCount(paging);
 		paging.setTotalCount(totalCount);
 		commonService.setPaging(paging);
+		
 		List<Board> boards =new ArrayList<>();
 		try {
-			boards = boardService.findAll(paging);
+			boards = boardService.selectList(paging);
 		} catch (Exception e) {
 			
 		}
@@ -112,14 +114,15 @@ public class BoardController {
 	 * @return String  -view
 	 * @throws Exception
 	 */
-	@RequestMapping(value = { "/insert" }, method = RequestMethod.POST)
-	public String addBoardDo(@Valid Board board, @Valid FileData fileData, BindingResult bindingResult, ModelMap model, HttpServletRequest request, MultipartHttpServletRequest multiRequst) throws Exception {
+	@RequestMapping(value = { "/insert" }, method = RequestMethod.POST, produces="multipart/form-data")
+	public String addBoardDo(@Valid Board board, BindingResult bindingResult, ModelMap model, HttpServletRequest request, MultipartHttpServletRequest multiRequst) throws Exception {
 		// Board 부분
 		model.addAttribute("board", board);
 		model.addAttribute("edit", false);
 		model.addAttribute("enNames", EntityName.values());
 		model.addAttribute("pfNames", PortfolioName.values());
 		
+		FileData fileData=new FileData();
 		fileExistCheck(multiRequst, fileData);
 		
 		String mapping="board/board-insert";
