@@ -1,4 +1,4 @@
-package com.shun.blog.dao.board;
+package com.shun.blog.controller.file;
 
 import java.io.BufferedOutputStream;
 import java.io.File;

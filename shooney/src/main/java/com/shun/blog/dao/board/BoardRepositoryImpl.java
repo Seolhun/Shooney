@@ -3,6 +3,7 @@ package com.shun.blog.dao.board;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
@@ -16,10 +17,14 @@ import com.shun.blog.model.common.Paging;
 
 @Repository("boardDao")
 public class BoardRepositoryImpl extends AbstractDao<Integer, Board> implements BoardRepository {
-	static final Logger logger = LoggerFactory.getLogger(BoardRepositoryImpl.class);
+	static final Logger LOG = LoggerFactory.getLogger(BoardRepositoryImpl.class);
 
 	@Override
 	public void insert(Board board) {
+		//파일이 비어있지않으면.
+		if(board.getFileDataList()!=null){
+			Hibernate.initialize(board.getFileDataList());
+		}
 		persist(board);
 	}
 	
@@ -60,7 +65,7 @@ public class BoardRepositoryImpl extends AbstractDao<Integer, Board> implements 
 		}
 		
 		List<Board> boards = (List<Board>) criteria.list();
-		logger.info("return : {}", boards);
+		LOG.info("return : {}", boards);
 		return boards;
 	}
 
