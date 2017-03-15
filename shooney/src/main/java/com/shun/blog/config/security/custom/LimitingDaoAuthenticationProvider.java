@@ -98,7 +98,7 @@ public class LimitingDaoAuthenticationProvider extends DaoAuthenticationProvider
 				// 5 이상일 경우 계정을 Locked으로 바꾸기.
 				String auth=bCryptPasswordEncoder.encode(dbUser.getEmail());
 				dbUser.setType(1);
-				dbUser.setState(CommonState.LOCKED.getState());
+				dbUser.setState(CommonState.LOCKED.getName());
 				dbUser.setLockedAuth(auth);
 				userService.update(dbUser);
 

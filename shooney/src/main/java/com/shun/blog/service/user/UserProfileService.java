@@ -9,9 +9,9 @@ import com.shun.blog.model.user.UserProfile;
 @Transactional(propagation=Propagation.REQUIRED, transactionManager="txManager", noRollbackFor={NullPointerException.class})
 public interface UserProfileService {
 
-	UserProfile findById(int id);
+	UserProfile selectById(int id);
 
-	UserProfile findByType(String type);
+	UserProfile selectByType(String type);
 
-	List<UserProfile> findAll();
+	List<UserProfile> selectList();
 }

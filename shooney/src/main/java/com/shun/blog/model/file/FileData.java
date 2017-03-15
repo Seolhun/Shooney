@@ -38,8 +38,7 @@ public class FileData implements Serializable {
 	private Long fileDataId;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(foreignKey = @ForeignKey(name = "FILE_BOARD_FK"), name = "FILE_BOARD_ID", referencedColumnName = "BOARD_ID", nullable=false)
-	//@JoinColumn(name = "FILE_BOARD_ID")
+	@JoinColumn(foreignKey = @ForeignKey(name = "FILE_BOARD_FK"), name = "FILE_BOARD_ID", referencedColumnName = "BOARD_ID")
 	private Board boardInFile;
 
 	@Column(name = "FILE_ORIGIN_NAME", nullable = false, length = 100)
@@ -53,6 +52,9 @@ public class FileData implements Serializable {
 
 	@Column(name = " FILE_TYPE", nullable = false, length = 20)
 	private String fileDataType;
+	
+	@Column(name = " FILE_SIZE", nullable = false, length = 20)
+	private Long fileDataSize;
 	
 	@Column(name = "FILE_CREATED_BY", nullable = false, length = 60)
 	private String fileDataCreatedBy;
@@ -74,5 +76,5 @@ public class FileData implements Serializable {
 	private int fileDataDelCheck;
 	
 	@Transient
-	private List<MultipartFile> multipartFileList;
+	private List<MultipartFile> files;
 }

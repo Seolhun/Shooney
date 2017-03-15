@@ -6,14 +6,13 @@ import com.shun.blog.model.board.Board;
 import com.shun.blog.model.common.Paging;
 
 public interface BoardRepository {
-
+	void insert(Board Board);
+	
+	Board selectById(Long id);
+	
 	List<Board> selectList(Paging paging);
 
 	int getCount(Paging paging);
-
-	Board selectById(Long id);
-
-	void insert(Board Board);
 
 	void deleteById(Long id);
 

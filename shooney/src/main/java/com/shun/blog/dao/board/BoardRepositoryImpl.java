@@ -16,8 +16,18 @@ import com.shun.blog.model.common.Paging;
 
 @Repository("boardDao")
 public class BoardRepositoryImpl extends AbstractDao<Integer, Board> implements BoardRepository {
-
 	static final Logger logger = LoggerFactory.getLogger(BoardRepositoryImpl.class);
+
+	@Override
+	public void insert(Board board) {
+		persist(board);
+	}
+	
+	@Override
+	public Board selectById(Long id) {
+		Board board = getByLong(id);
+		return board;
+	}
 
 	@Override
 	@SuppressWarnings("unchecked")
@@ -63,17 +73,6 @@ public class BoardRepositoryImpl extends AbstractDao<Integer, Board> implements 
 		}
 		Query query = rawQuery("SELECT COUNT(*) FROM TB_BOARD " + condition + condition2);
 		return ((Number) query.uniqueResult()).intValue();
-	}
-
-	@Override
-	public Board selectById(Long id) {
-		Board board = getByLong(id);
-		return board;
-	}
-
-	@Override
-	public void insert(Board board) {
-		persist(board);
 	}
 
 	@Override

@@ -30,7 +30,6 @@
 				<a href="list?pf=${i.type}" class="btn-u btn-brd btn-brd-hover btn-u-dark-blue rounded">${i}</a>
 			</c:forEach>
 		</div>
-		
 		<hr>
 		<div class="col-sm-12">
    			<c:choose>

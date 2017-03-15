@@ -6,15 +6,15 @@ public enum CommonState {
 	INACTIVE("inactive"),
 	DELETED("deleted"),
 	LOCKED("locked");
+	//name//Type
+	private String type;
 	
-	private String state;
-	
-	private CommonState(final String state){
-		this.state = state;
+	private CommonState(final String Type){
+		this.type = Type;
 	}
 	
-	public String getState(){
-		return this.state;
+	public String getType(){
+		return this.type;
 	}
 
 	public String getName(){
@@ -23,7 +23,7 @@ public enum CommonState {
 
 	@Override
 	public String toString(){
-		return this.state;
+		return this.type;
 	}
 
 

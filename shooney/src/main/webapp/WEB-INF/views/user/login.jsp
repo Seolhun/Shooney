@@ -4,16 +4,7 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="tag" tagdir="/WEB-INF/tags"%>
-<spring:url value="/resources" var="resources" />
-<spring:url value="/resources/template" var="template"/>
-<spring:url value="/" var="shooney"/>
-<spring:url value="/bo" var="bo"/>
-<spring:url value="/po" var="po"/>
-<spring:url value="/myinfo" var="myinfo"/>
-<spring:url value="/admin" var="admin"/>
-<spring:url value="/signup" var="signup"/>
-<spring:url value="/login" var="login"/>
-<spring:url value="/logout" var="logout"/>
+<spring:url value="/resources" var="resources" /><spring:url value="/resources/template" var="template"/><spring:url value="/" var="shooney"/><spring:url value="/bo" var="bo"/><spring:url value="/po" var="po"/><spring:url value="/myinfo" var="myinfo"/><spring:url value="/admin" var="admin"/><spring:url value="/signup" var="signup"/><spring:url value="/login" var="login"/><spring:url value="/logout" var="logout"/>
 <html lang="en"> 
 <head>
 	<title>SomeThing New | Hooney Blog</title>
@@ -21,7 +12,9 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="description" content="Shooney Blog Login">
-	
+	<meta id="csrfToken" name="csrfToken" content="${_csrf.token}" />
+	<meta id="csrfHeader" name="csrfHeader" content="${_csrf.headerName}" />
+
 	<!-- Favicon -->
 	<link rel="shortcut icon" href="${resources}/img/logo.jpeg" />
 	
@@ -59,7 +52,7 @@
 				<h2 class="margin-bottom-30">Login To Your Account</h2>
 				<form:form action="${login }">
 					<c:if test="${param.error != null}">
-						<div class="alert alert-danger">as
+						<div class="alert alert-danger">
 							<!-- <p>Invalid username and password.</p> -->
 							<p>${errorMsg }</p>
 						</div>

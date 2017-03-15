@@ -134,7 +134,7 @@ public class UserController {
 		if (isCurrentAuthenticationAnonymous()) {
 			if (error != null) {
 				Exception exception = (Exception)request.getSession().getAttribute("SPRING_SECURITY_LAST_EXCEPTION");
-				model.addAttribute("errorMsg", getErrorMessage(exception));
+				model.addAttribute("errorMsg", getErrorMessage(exception, error));
 			}
 			return "user/login";
 		} else {
@@ -170,7 +170,7 @@ public class UserController {
 	 */
 	@ModelAttribute("roles")
 	public List<UserProfile> initializeProfiles() throws Exception{
-		return userProfileService.findAll();
+		return userProfileService.selectList();
 	}
 
 	private boolean isCurrentAuthenticationAnonymous() {
@@ -179,19 +179,22 @@ public class UserController {
 	}
 	
 	// 커스텀 된 로그인 에러 메세지
-	private String getErrorMessage(Exception exception) {
-		String error = "";
+	private String getErrorMessage(Exception exception, String error) {
+		String errorMsg = "";
 		if (exception instanceof LockedException) {
 			//, BindingResult result, HttpServletRequest request, String objectValidValue, String fieldObjectName, String fieldName, String messagePropertyName
 //			commonService.validCheckAndSendError(messageSource, result, request, objectValidValue, fieldObjectName, fieldName, messagePropertyName);
-			error = "현재 계정이 잠겼습니다.";
+			errorMsg = "현재 계정이 잠겼습니다.";
 		} else if (exception instanceof DisabledException) {
 //			commonService.validCheckAndSendError(messageSource, result, request, objectValidValue, fieldObjectName, fieldName, messagePropertyName);
-			error = "현재 계정이 이용 불가능합니다.";
+			errorMsg = "현재 계정이 이용 불가능합니다.";
+		} else if(error.equals("anonymousUser")) {
+//			commonService.validCheckAndSendError(messageSource, result, request, objectValidValue, fieldObjectName, fieldName, messagePropertyName);
+			errorMsg = "로그인이 되어있지 않습니다. 로그인해주세요.";
 		} else {
 //			commonService.validCheckAndSendError(messageSource, result, request, objectValidValue, fieldObjectName, fieldName, messagePropertyName);
-			error = "계정과 비밀번호를 올바르게 입력해주세요,.";
+			errorMsg = "계정과 비밀번호를 올바르게 입력해주세요,.";
 		}
-		return error;
+		return errorMsg;
 	}
 }

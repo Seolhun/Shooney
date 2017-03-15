@@ -16,10 +16,18 @@ import com.shun.blog.model.common.Paging;
 import com.shun.blog.model.user.User;
 
 @Repository
-public class UserRepositoryImpl extends AbstractDao<Integer, User> implements UserRepository {
+public class UserRepositoryImpl extends AbstractDao<Long, User> implements UserRepository {
 	static final Logger LOG = LoggerFactory.getLogger(UserRepositoryImpl.class);
 
+	@Override
+	public void insert(User user) {
+		LOG.info("param : insert : {}",user.toString());
+		persist(user);
+	}
+	
+	@Override
 	public User selectById(Long id) {
+		LOG.info("param : selectById : {}", id);
 		User user = getByLong(id);
 		if (user != null) {
 			Hibernate.initialize(user.getUserProfiles());
@@ -27,9 +35,10 @@ public class UserRepositoryImpl extends AbstractDao<Integer, User> implements Us
 		LOG.info("return : selectById {}", user);
 		return user;
 	}
+	
 	@Override
 	public User selectByEmail(String email) {
-		LOG.info("email : {}", email);
+		LOG.info("param : selectByEmail : {}", email);
 		Criteria crit = createEntityCriteria();
 		crit.add(Restrictions.eq("email", email));
 		User user = (User) crit.uniqueResult();
@@ -42,7 +51,7 @@ public class UserRepositoryImpl extends AbstractDao<Integer, User> implements Us
 
 	@Override
 	public User selectByNickname(String nickname) {
-		LOG.info("nickname : {}", nickname);
+		LOG.info("param : selectByNickname : {}", nickname);
 		Criteria crit = createEntityCriteria();
 		crit.add(Restrictions.eq("nickname", nickname));
 		User user = (User) crit.uniqueResult();
@@ -63,19 +72,19 @@ public class UserRepositoryImpl extends AbstractDao<Integer, User> implements Us
 		String sText = paging.getSearchText();
 		int limit = paging.getLimit();
 
-		// 검색 로직
 		Criteria criteria = createEntityCriteria().addOrder(Order.desc("id"))
 				.setFirstResult((cPage - 1) * limit)
 				.setMaxResults(limit).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 		List<User> users = (List<User>) criteria.list();
 
+		// 검색 로직
 		if (paging.getSearchType() != 0 && sType == 1) {
 			criteria.add(Restrictions.like("email", "%" + sText + "%"));
 		} else if (paging.getSearchType() != 0 && sType == 2) {
 			criteria.add(Restrictions.like("nickname", "%" + sText + "%"));
 		} 
 
-		LOG.info("return : selectAllUsers {}", users);
+		LOG.info("return : selectList {}", users);
 		return users;
 	}
 
@@ -90,12 +99,15 @@ public class UserRepositoryImpl extends AbstractDao<Integer, User> implements Us
 	}
 	
 	@Override
-	public void insert(User user) {
-		LOG.info("param : insert : {}",user.toString());
-		persist(user);
+	public void deleteById(Long id) {
+		User user = getByLong(id);
+		//initialize에 대해서 이해하기.		
+		if (user != null) {
+			Hibernate.initialize(user.getUserProfiles());
+		}
+		delete(user);
 	}
 
-	// Criteria는 무엇인가?
 	@Override
 	public void deleteByEmail(String email) {
 		Criteria crit = createEntityCriteria();
@@ -103,5 +115,4 @@ public class UserRepositoryImpl extends AbstractDao<Integer, User> implements Us
 		User user = (User) crit.uniqueResult();
 		delete(user);
 	}
-
 }

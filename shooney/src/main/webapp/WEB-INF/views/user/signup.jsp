@@ -4,9 +4,7 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="tag" tagdir="/WEB-INF/tags"%>
-<spring:url value="/resources" var="resources" />
-<spring:url value="/resources/template" var="template"/>
-<spring:url value="/" var="shooney"/>
+<spring:url value="/resources" var="resources" /><spring:url value="/resources/template" var="template"/><spring:url value="/" var="shooney"/>
 <html lang="en"> 
 <head>
 	<title>SomeThing New | Hooney Blog</title>
@@ -14,6 +12,8 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="description" content="Shooney Blog Login">
+	<meta id="csrfToken" name="csrfToken" content="${_csrf.token}" />
+	<meta id="csrfHeader" name="csrfHeader" content="${_csrf.headerName}" />
 	
 	<!-- Favicon -->
 	<link rel="shortcut icon" href="${resources}/img/logo.jpeg" />
@@ -69,6 +69,7 @@
 							<span class="input-group-addon rounded-left"><i class="icon-envelope color-green"></i></span>
 							<c:choose>
 								<c:when test="${edit}">
+									<form:input path="id" value="${user.id }" type="hidden"/>
 									<form:input path="email" value="${user.email }" type="email" class="form-control rounded-right" placeholder="Your email" disabled="true"/>
 								</c:when>
 								<c:otherwise>

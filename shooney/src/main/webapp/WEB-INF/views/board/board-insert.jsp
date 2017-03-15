@@ -23,7 +23,7 @@
 <div class="container margin-bottom-20">
 	<div class="row content">
 		<div class="col-sm-12">
-			<form:form method="POST" commandName="board" enctype="multipart/form-data" class="form-horizontal" action="${bo}/insert">
+			<form:form action="${bo }/insert?${_csrf.parameterName}=${_csrf.token}" class="form-horizontal" commandName="board" modelAttribute="board" enctype="multipart/form-data">
 				<div class="col-sm-4 col-xs-12">
 					<div class="input-group margin-bottom-20">
 						<span class="input-group-addon rounded-left"><i class="icon-user color-green"></i></span>
@@ -45,7 +45,7 @@
 				<div class="col-sm-8 col-xs-12">
 					<div class="input-group margin-bottom-20">
 						<span class="input-group-addon rounded-left"><i class="icon-envelope color-green"></i></span>
-						<form:input path="title" type="text" class="form-control rounded-right" placeholder="Board title"/>
+						<form:input type="text" path="title" class="form-control rounded-right" placeholder="Board title"/>
 					</div>
 					<div>
 						<div class="error">
@@ -63,7 +63,7 @@
 					<div class="input-group margin-bottom-20">
 						<span class="input-group-addon rounded-left"><i class="icon-envelope color-green"></i></span>
 					</div>
-					<form:textarea path="content" type="text" class="form-control rounded-right" placeholder="Board content" id="summernote"/>
+					<form:textarea type="text" path="content" class="form-control rounded-right" placeholder="Board content" id="summernote"/>
 					
 					<div>File Upload<br>
 						<div class="error">
@@ -72,19 +72,21 @@
 					</div>
 					<div class="input-group margin-bottom-20">
 						<span class="input-group-addon rounded-left"><i class="icon-picture color-green"></i></span>
-						<input name="files" type="file" class="form-control rounded-right" multiple="multiple" />
+						<form:input type="file" path="files" name="files" class="form-control rounded-right" multiple="multiple" />
 					</div>
 				</div>
 				
 				<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+					<form:button type="submit" class="btn-u btn-u-dark-blue btn-block rounded">
 					<c:choose>
 						<c:when test="${edit }">
-							<button type="submit" value="Update" class="btn-u btn-u-dark-blue btn-block rounded">Edit</button>
+							Edit
 						</c:when>
 						<c:otherwise>
-							<button type="submit" value="Registration" class="btn-u btn-u-dark-blue btn-block rounded">Submit</button>
+							Submit
 						</c:otherwise>
 					</c:choose>	
+					</form:button>
 				</div>
 				<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" >
 					<button type="button" class="btn-u btn-u-dark-orange btn-block rounded" onclick="javascript:history.back();">Cancel</button>
