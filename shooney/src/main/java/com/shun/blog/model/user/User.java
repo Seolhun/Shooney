@@ -71,7 +71,7 @@ public class User implements Serializable {
 	@Column(name = "USER_STATE", length=20, nullable=false)
 	private String state;
 
-	@BatchSize(size=10)
+	@BatchSize(size=2)
 	@Fetch(FetchMode.SELECT)
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "TB_USER_PROFILE_REFER", joinColumns = { @JoinColumn(name = "USER_ID") }, inverseJoinColumns = {

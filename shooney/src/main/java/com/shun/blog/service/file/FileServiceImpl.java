@@ -4,78 +4,82 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.shun.blog.dao.file.FileRepository;
 import com.shun.blog.model.board.Board;
 import com.shun.blog.model.file.FileData;
-import com.shun.blog.model.file.FileNameInvalidException;
 import com.shun.blog.model.file.FileUploadOverException;
 import com.shun.blog.service.board.BoardService;
 
-@Service("fileService")
+@Service
+@Transactional(transactionManager="txManager")
 public class FileServiceImpl implements FileService {
 	private static final Logger LOG = LoggerFactory.getLogger(FileServiceImpl.class);
 	
 	private FileRepository fileRepository;
-	private PasswordEncoder passwordEncoder;
 	private BoardService boardService;
 	
 	@Autowired
-	public FileServiceImpl(PasswordEncoder passwordEncoder, FileRepository fileRepository, BoardService boardService) {
-		this.passwordEncoder = passwordEncoder;
+	public FileServiceImpl(FileRepository fileRepository, BoardService boardService) {
 		this.fileRepository=fileRepository;
 		this.boardService=boardService;
 	}
 	
-//	private static final String FILE_PATH="/Users/hunseol/Desktop/project/shooney/file/";
-	private static final String FILE_PATH="/Users/HunSeol/Desktop/project/shooney/file/";
+	private static final String FILE_PATH="/Users/hunseol/Desktop/project/shooney/file/";
+//	private static final String FILE_PATH="/Users/HunSeol/Desktop/project/shooney/file/";
 	private static final int MAX_UPLOAD_SIZE=(1024 * 1024 * 200);
 	private static final int MAX_UPLOAD_SIZE_PER_FILE=(1024 * 1024 * 50);
 	
 	@Override
+	@Transactional(transactionManager="txManager", rollbackFor={Exception.class, IOException.class})
 	public void insert(Board board, FileData fileData, MultipartFile[] files) throws IOException, Exception {
-		LOG.info("param : insert : {}",fileData.toString());
-		LOG.info("param : insert : {}",files.toString());
 		//유효성 검사.
 		int fileTotalSize=0;
-		List<FileData> fileList=new ArrayList<>();
+		Set<FileData> fileDataList=new HashSet<>();
+		
+		String savedName="";
 		for (int i = 0; i < files.length; i++) {
-			LOG.info("return : MultipartFile getBytes : {}", files[i].getBytes());
-			LOG.info("return : MultipartFile getContentType : {}", files[i].getContentType());
-			LOG.info("return : MultipartFile getOriginalFilename : {}", files[i].getOriginalFilename());
-			LOG.info("return : MultipartFile getName : {}", files[i].getName());
-			LOG.info("return : MultipartFile getSize : {}", files[i].getSize());
-			
-			String originName=files[i].getOriginalFilename();
-			String savedName=passwordEncoder.encode(originName);
-			String fileDataType=files[i].getContentType();
-			Long fileSize= files[i].getSize();
-			
-			String validName[]=originName.split(".");
-			if(files[i].getSize()>MAX_UPLOAD_SIZE_PER_FILE){
-				throw new FileUploadOverException();
-			} else if(validName.length>1){
-				throw new FileNameInvalidException();
+			MultipartFile multipartFile = files[i];
+			if (!multipartFile.isEmpty()) {
+				LOG.info("param : multipartFile index : {}", i);
+				LOG.info("param : MultipartFile getContentType : {}", multipartFile.getContentType());
+				LOG.info("param : MultipartFile getOriginalFilename : {}", multipartFile.getOriginalFilename());
+				LOG.info("param : MultipartFile getName : {}", multipartFile.getName());
+				LOG.info("param : MultipartFile getSize : {}", multipartFile.getSize());
+
+				if(multipartFile.getSize()>MAX_UPLOAD_SIZE_PER_FILE){
+					throw new FileUploadOverException();
+				}
+				
+				//파일이름으로 확장자명과 파일이름 나누기.
+				String originName=multipartFile.getOriginalFilename();
+                String onlyFileExtension = originName.substring(originName.lastIndexOf("."));
+                savedName=getRandomString()+onlyFileExtension;
+                
+				String fileDataType=multipartFile.getContentType();
+				Long fileSize= multipartFile.getSize();
+				fileTotalSize+=multipartFile.getSize();
+				fileData.setFileDataOriginName(originName);
+				fileData.setFileDataSavedName(savedName);
+				fileData.setFileDataSavedPath(FILE_PATH);
+				fileData.setFileDataType(fileDataType);
+				fileData.setFileDataSize(fileSize);
+				fileData.setFileDataCreatedBy(board.getCreatedBy());
+				
+				//리스트에 담는다.
+				fileDataList.add(fileData);
 			}
-			
-			fileTotalSize+=files[i].getSize();
-			fileData.setFileDataOriginName(originName);
-			fileData.setFileDataSavedName(savedName);
-			fileData.setFileDataSavedPath(FILE_PATH);
-			fileData.setFileDataType(fileDataType);
-			fileData.setFileDataSize(fileSize);
-			fileData.setFileDataCreatedBy(board.getCreatedBy());
-			
-			fileList.add(fileData);
 		}
 		
 		//파일 최대 요청용량 초과시 에러처리.
@@ -83,37 +87,35 @@ public class FileServiceImpl implements FileService {
 			throw new FileUploadOverException();
 		}
 		
-		new Thread(){
-			public void run() {
-				for (int i = 0; i < files.length; i++) {	
-					try {
-						byte[] bytes = files[i].getBytes();
-						String rootPath = FILE_PATH;
-						//폴더 없을시 폴더 만들기.
-						File directory = new File(rootPath + File.separator);
-						if (!directory.exists()){
-							directory.mkdirs();
-						}
-						
-						//파일 지정된 폴더에 전송.
-						File serverFile = new File(directory.getAbsolutePath()+ File.separator + fileList.get(i).getFileDataSavedName());
-						BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
-						stream.write(bytes);
-						stream.close();
-						LOG.info("return : Server File Location : {}", serverFile.getAbsolutePath());
-						
-						fileData.setBoardInFile(board);
-						fileRepository.insert(fileData);
-					} catch (Exception e) {
-						
+		//문제 없을 시 진행.		
+		boardService.insert(board);
+		//파일을 나누어 인서트.
+		for (int i = 0; i < files.length; i++) {
+			MultipartFile multipartFile = files[i];
+			if (!multipartFile.isEmpty()) {
+				try {
+					byte[] bytes = multipartFile.getBytes();
+					//폴더 없을시 폴더 만들기.
+					File directory = new File(FILE_PATH);
+					if (!directory.exists()){
+						directory.mkdirs();
 					}
+					
+					File serverFile = new File(directory.getAbsolutePath() +File.separator+ savedName);
+					BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
+					stream.write(bytes);
+					stream.close();
+					LOG.info("return : Server File Location : {}", serverFile.getAbsolutePath());				
+					
+					//게시판을 인서트한 후 파일을 인서트한다.
+					fileData.setBoardInFile(board);
+					fileRepository.insert(fileData);
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
 			}
-		}.start();
-		
-		//문제 없을 시 진행.
-		board.setFileDataList(fileList);
-		boardService.insert(board);
+		}
+	
 	}
 	
 	@Override
@@ -155,4 +157,8 @@ public class FileServiceImpl implements FileService {
 		}
 		return dbFileData;
 	}
+	
+    private String getRandomString(){
+        return UUID.randomUUID().toString().replaceAll("-", "");
+    }
 }

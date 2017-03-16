@@ -48,6 +48,7 @@ public abstract class AbstractDao<PK extends Serializable, T> {
 	//세션에 있는 값으로 지우기.
 	public void delete(T entity) {
 		getSession().delete(entity);
+		clear();
 	}
 	
 	//세션 클리어

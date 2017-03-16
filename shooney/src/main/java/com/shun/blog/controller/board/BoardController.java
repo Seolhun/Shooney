@@ -47,8 +47,8 @@ import com.shun.blog.service.user.UserService;
 @RequestMapping("/board")
 public class BoardController {
 	private BoardService boardService;
-	private UserService userService;
-	private CommentService commentService;
+//	private UserService userService;
+//	private CommentService commentService;
 	private CommonService commonService;
 	private MessageSource messageSource;
 	private FileService fileService;
@@ -56,8 +56,8 @@ public class BoardController {
 	@Autowired
 	public BoardController(UserService userService, CommentService commentService, BoardService boardService,
 			CommonService commonService, MessageSource messageSource, FileService fileService) {
-		this.userService = userService;
-		this.commentService = commentService;
+//		this.userService = userService;
+//		this.commentService = commentService;
 		this.boardService = boardService;
 		this.commonService=commonService;
 		this.messageSource=messageSource;
@@ -121,7 +121,7 @@ public class BoardController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/insert", method = RequestMethod.POST)
-	public String insertBoardDo(Board board, FileData fileData , BindingResult bindingResult,  ModelMap model, HttpServletRequest request, 
+	public String insertBoardDo(Board board, FileData fileData , BindingResult bindingResult,  ModelMap model, HttpServletRequest request, MultipartHttpServletRequest multipartRequest, 
 			@RequestParam(name="files") MultipartFile[] files, RedirectAttributes redirect) throws Exception {
 		LOG.info("param : insertBoardDo : {}",board.toString());
 		LOG.info("param : insertBoardDo : {}",files.toString());
@@ -166,26 +166,31 @@ public class BoardController {
 		return "redirect:/success";
 	}
 
-	@RequestMapping(value = { "/{kind}/{id}" }, method = RequestMethod.GET)
-	public String detailBoard(@PathVariable Long id, ModelMap model, @PathVariable String kind, HttpServletRequest request, HttpServletResponse response, Principal principal) throws Exception {
+	/**
+	 * 게시물 자세히보기, 쿠키로 조회수 늘리기.
+	 * 
+	 * @param Long id
+	 * @return String  -view
+	 * @throws Exception
+	 */
+	@RequestMapping(value = { "/detail/{id}" }, method = RequestMethod.GET)
+	public String detailBoard(@PathVariable Long id, ModelMap model, HttpServletRequest request, HttpServletResponse response, Principal principal) throws Exception {
 		String strId=String.valueOf(id);
 		
+		Board board=new Board();		
 		if(checkHitCookie(request, response, strId)){
-			Board board=new Board();
-			board.setId(id);;
+			board.setBoardId(id);;
 			board.setHits(1);
 			boardService.update(board);
 		}
 		
-		Board board = boardService.selectById(id);
+		board = boardService.selectById(id);
 		
 		model.addAttribute("board", board);
 		model.addAttribute("edit", false);
-		model.addAttribute("kind", kind);
 		commonService.getAccessUserToModel();
 		model.addAttribute("enNames", board.getEntityName());
 		model.addAttribute("pfNames", board.getPortfolioType());
-		
 		return "board/board-detail";
 	}
 
@@ -349,9 +354,7 @@ public class BoardController {
 			MultipartFile multipartFile = multipartRequst.getFile(iterator.next());
 			LOG.info("param : file : {}",multipartFile);
 			if (multipartFile.isEmpty() == false) {
-				// FILE_ID 넣을 key 값.
-//				FileData dbFileData = fileService.selectById(fileData.getFileDataId());
-//				fileData.setFileDataId(dbFileData.getFileDataId());
+				
 			}
 		}
 	}

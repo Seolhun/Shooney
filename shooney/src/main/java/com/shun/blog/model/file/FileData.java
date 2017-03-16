@@ -18,19 +18,19 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
-import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.shun.blog.model.board.Board;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 @Entity
-@Data
 @Table(name = "TB_FILE_DATA")
-@BatchSize(size=5)
 public class FileData implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,7 +38,7 @@ public class FileData implements Serializable {
 	private Long fileDataId;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(foreignKey = @ForeignKey(name = "FILE_BOARD_FK"), name = "FILE_BOARD_ID", referencedColumnName = "BOARD_ID")
+	@JoinColumn(foreignKey = @ForeignKey(name = "FILE_BOARD_FK"), name = "FILE_BOARD_ID", referencedColumnName = "BOARD_ID", nullable = false)
 	private Board boardInFile;
 
 	@Column(name = "FILE_ORIGIN_NAME", nullable = false, length = 100)

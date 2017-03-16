@@ -14,7 +14,7 @@ import com.shun.blog.dao.AbstractDao;
 import com.shun.blog.model.comment.Comment;
 import com.shun.blog.model.common.Paging;
 
-@Repository("commentDao")
+@Repository
 public class CommentRepositoryImpl extends AbstractDao<Integer, Comment> implements CommentRepository {
 
 	static final Logger logger = LoggerFactory.getLogger(CommentRepositoryImpl.class);
@@ -27,10 +27,13 @@ public class CommentRepositoryImpl extends AbstractDao<Integer, Comment> impleme
 		int limit = paging.getLimit();
 
 		// 검색 로직
-		Criteria criteria = createEntityCriteria().addOrder(Order.desc("id")).setFirstResult((cPage - 1) * limit)
-				.setMaxResults(limit).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).add(Restrictions.eq("delCheck", 0))
-				.add(Restrictions.eq("board_id", paging.getId()));
-
+		Criteria criteria = createEntityCriteria()
+				.addOrder(Order.desc("commentId"))
+				.setFirstResult((cPage - 1) * limit)
+				.add(Restrictions.eq("delCheck", 0))
+//				.add(Restrictions.eq("boardInComment", paging.getId()))
+				.setMaxResults(limit).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);		
+		
 		if (paging.getSearchType() != 0 && sType == 2) {
 			criteria.add(Restrictions.like("content", "%" + sText + "%"));
 		} else if (paging.getSearchType() != 0 && sType == 3) {
@@ -47,7 +50,7 @@ public class CommentRepositoryImpl extends AbstractDao<Integer, Comment> impleme
 	@Override
 	public int getCount(Paging paging) {
 		String condition = "";
-		condition = "WHERE board_id="+paging.getId();
+		condition = "WHERE COMMENT_BOARD_ID="+paging.getId();
 		Query query = rawQuery("SELECT COUNT(*) FROM TB_COMMENT " + condition);
 		return ((Number) query.uniqueResult()).intValue();
 	}

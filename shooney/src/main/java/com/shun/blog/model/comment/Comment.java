@@ -16,28 +16,27 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import com.shun.blog.model.board.Board;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "TB_COMMENT")
-@Data
-@BatchSize(size=10)
 public class Comment implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "COMMENT_ID", nullable = false)
-	private Long id;
+	private Long commentId;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(foreignKey = @ForeignKey(name = "COMMENT_BOARD_FK"), name = "COMMENT_BOARD_ID", referencedColumnName = "BOARD_ID", nullable = false)
-	//@JoinColumn(name = "COMMENT_BOARD_ID")
 	private Board boardInComment;
 
 	@NotEmpty

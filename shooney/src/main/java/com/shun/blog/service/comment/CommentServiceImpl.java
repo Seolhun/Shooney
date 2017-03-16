@@ -4,12 +4,14 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.shun.blog.dao.comment.CommentRepository;
 import com.shun.blog.model.comment.Comment;
 import com.shun.blog.model.common.Paging;
 
-@Service("commentService")
+@Service
+@Transactional(transactionManager="txManager")
 public class CommentServiceImpl implements CommentService {
 
 	@Autowired
@@ -25,7 +27,7 @@ public class CommentServiceImpl implements CommentService {
 	}
 	
 	public void updateComment(Comment comment) {
-		Comment entity = commentDao.findById(comment.getId());
+		Comment entity = commentDao.findById(comment.getCommentId());
 		//읽을시 쿠키 읽기
 		if(entity != null){
 			

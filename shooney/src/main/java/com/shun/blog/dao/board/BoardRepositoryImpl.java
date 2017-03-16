@@ -3,7 +3,6 @@ package com.shun.blog.dao.board;
 import java.util.List;
 
 import org.hibernate.Criteria;
-import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
@@ -15,28 +14,27 @@ import com.shun.blog.dao.AbstractDao;
 import com.shun.blog.model.board.Board;
 import com.shun.blog.model.common.Paging;
 
-@Repository("boardDao")
+@Repository
 public class BoardRepositoryImpl extends AbstractDao<Integer, Board> implements BoardRepository {
 	static final Logger LOG = LoggerFactory.getLogger(BoardRepositoryImpl.class);
 
 	@Override
 	public void insert(Board board) {
-		//파일이 비어있지않으면.
-		if(board.getFileDataList()!=null){
-			Hibernate.initialize(board.getFileDataList());
-		}
+		LOG.info("param : insert : {}", board.toString());
 		persist(board);
 	}
 	
 	@Override
 	public Board selectById(Long id) {
 		Board board = getByLong(id);
+		LOG.info("return : selectById : {}", board.toString());
 		return board;
 	}
 
 	@Override
 	@SuppressWarnings("unchecked")
 	public List<Board> selectList(Paging paging) {
+		LOG.info("param : selectList : {}", paging.toString());
 		int cPage = paging.getCurrentPage();
 		int sType = paging.getSearchType();
 		String sText = paging.getSearchText();
@@ -45,7 +43,7 @@ public class BoardRepositoryImpl extends AbstractDao<Integer, Board> implements 
 		
 		// 검색 로직
 		Criteria criteria = createEntityCriteria()
-				.addOrder(Order.desc("id"))
+				.addOrder(Order.desc("boardId"))
 				.add(Restrictions.eq("delCheck", 0))
 				.setFirstResult((cPage - 1) * limit)
 				.setMaxResults(limit).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
@@ -65,12 +63,12 @@ public class BoardRepositoryImpl extends AbstractDao<Integer, Board> implements 
 		}
 		
 		List<Board> boards = (List<Board>) criteria.list();
-		LOG.info("return : {}", boards);
 		return boards;
 	}
 
 	@Override
 	public int getCount(Paging paging) {
+		LOG.info("param : getCount : {}", paging.toString());
 		String condition = "";
 		String condition2 = "";
 		if (paging.getPortfolioType() != null) {
@@ -82,6 +80,7 @@ public class BoardRepositoryImpl extends AbstractDao<Integer, Board> implements 
 
 	@Override
 	public void deleteById(Long id) {
+		LOG.info("param : deleteById : {}", id);
 		Criteria crit = createEntityCriteria();
 		crit.add(Restrictions.eq("id", id));
 		Board board = (Board) crit.uniqueResult();

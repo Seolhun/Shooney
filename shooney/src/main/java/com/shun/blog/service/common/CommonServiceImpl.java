@@ -21,6 +21,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -36,6 +37,7 @@ import com.shun.blog.model.user.User;
 import com.shun.blog.service.user.UserService;
 
 @Service
+@Transactional(transactionManager="txManager")
 public class CommonServiceImpl implements CommonService {
 	static final Logger LOG = LoggerFactory.getLogger(CommonServiceImpl.class);
 	

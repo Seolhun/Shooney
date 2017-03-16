@@ -53,8 +53,8 @@
 				   		<tbody>
 							<c:forEach items="${boards}" var="i">
 								<tr>
-									<td class="width-10 text-center">${i.id}</td>
-									<td class="width-60"><a href="${bo}/${kind}/${i.id}">[ ${i.portfolioType} ] ${i.title}<c:if test="${i.depth>0}">&nbsp;&nbsp;<i class="fa fa-comments">&nbsp;${i.depth}</i></c:if></a></td>
+									<td class="width-10 text-center">${i.boardId}</td>
+									<td class="width-60"><a href="${bo}/detail/${i.boardId}">[ ${i.portfolioType} ] ${i.title}<c:if test="${i.depth>0}">&nbsp;&nbsp;<i class="fa fa-comments">&nbsp;${i.depth}</i></c:if></a></td>
 									<td class="width-10 text-center">${i.createdBy}</td>
 									<td class="width-10 text-center"><fmt:formatDate value="${i.createdDate}" pattern="yy-MM-dd, HH:mm"/></td>
 									<td class="width-5 text-center">${i.hits}</td>
@@ -91,7 +91,7 @@
 			   			<a href="list?cPage=${paging.currentPage -10 < 1 ? 1 : paging.currentPage -10}" class="btn-u btn-brd btn-brd-hover btn-u-dark-blue btn-u-block margin-bottom-5">&larr;&larr;</a>
 			   			<a href="list?cPage=${paging.currentPage -1 < 1 ? 1 : paging.currentPage -1}" class="btn-u btn-brd btn-brd-hover btn-u-dark-blue btn-u-block margin-bottom-5">&larr;</a>
 			   			<c:forEach begin="${paging.blockStartNo }" end="${paging.blockEndNo}" varStatus="status">
-							<a href="${bo}/${kind}/list?cPage=${status.index }" class="btn-u btn-brd btn-brd-hover btn-u-dark-blue btn-u-block margin-bottom-5" 
+							<a href="${bo}/detail/list?cPage=${status.index }" class="btn-u btn-brd btn-brd-hover btn-u-dark-blue btn-u-block margin-bottom-5" 
 							<c:if test="${status.index==paging.currentPage }">style="color : #4765a0"</c:if>>${status.index}</a>
 			   			</c:forEach>
 			   			<a href="list?cPage=${paging.currentPage +1 > paging.totalPage ? paging.totalPage : paging.currentPage +1}" class="btn-u btn-brd btn-brd-hover btn-u-dark-blue btn-u-block margin-bottom-5">&rarr;</a>

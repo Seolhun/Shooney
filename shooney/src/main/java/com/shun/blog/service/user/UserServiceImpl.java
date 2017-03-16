@@ -7,7 +7,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.shun.blog.dao.user.UserRepository;
@@ -16,7 +15,7 @@ import com.shun.blog.model.common.Paging;
 import com.shun.blog.model.user.User;
 
 @Service("userService")
-@Transactional(propagation=Propagation.REQUIRED, transactionManager="txManager")
+@Transactional(transactionManager="txManager")
 public class UserServiceImpl implements UserService {
 	private UserRepository userRepository;
 	private PasswordEncoder passwordEncoder;;

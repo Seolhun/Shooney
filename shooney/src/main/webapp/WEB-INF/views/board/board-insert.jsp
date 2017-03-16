@@ -72,7 +72,7 @@
 					</div>
 					<div class="input-group margin-bottom-20">
 						<span class="input-group-addon rounded-left"><i class="icon-picture color-green"></i></span>
-						<form:input type="file" path="files" name="files" class="form-control rounded-right" multiple="multiple" />
+						<form:input type="file" path="files" class="form-control rounded-right" multiple="multiple" />
 					</div>
 				</div>
 				

@@ -3,8 +3,6 @@ var project="/shooney";
 var csrfHeader=$("meta[name='_csrf_header']").attr("content");
 var	csrfToken=$("meta[name='_csrf']").attr("content");
 
-	
-	
 //댓글달기 버튼 이벤트 
 $('#commentTextarea').click(function(){
 	$("#commentBtn").prop("hidden", false);
@@ -15,9 +13,52 @@ function cancelHidden() {
 }
 
 //게시판 불러올 시 댓글 볼러오기
-window.onload = function() {
-	getCommentsList();
-}
+//$(document).ready(function(){
+//	CommentModule.getCommentList();
+//});
+	
+var CommentModule = (function() {
+	var _getCommentList = function() {
+		var row = "";
+		$.ajax({
+			url : project +"/reply/board/list",
+			timeout : 60000,
+	    	data : {
+	    		'board_id' : board_id
+	    	},
+	    	dataType : "json",
+	    	success : function(response) {
+	    		$("#commentDiv").empty();
+	    		var commentList=response.comments;
+	    		var pagingObject=response.paging;
+	    		commentList.forEach(function(data, status, index) {
+					row+= "<div class='col-sm-3 col-xs-3'><div class='input-group margin-bottom-20'><span class='input-group-addon rounded-left'><i class='icon-user color-green'></i></span><div class='form-control rounded-right' id='commentWriter'>"+data.writer+"</div></div></div>";
+	    			row+="<div class='col-sm-3 col-xs-3'><div class='input-group margin-bottom-20'><span class='input-group-addon rounded-left'><i class='icon-envelope color-green'></i></span><div class='form-control rounded-right'>"+data.likes+"</div></div></div>";
+	    			row+="<div class='col-sm-6 col-xs-6'><div class='input-group margin-bottom-20'><span class='input-group-addon rounded-left'><i class='icon-envelope color-green'></i></span><div class='form-control rounded-right'>"+data.latestDate+"</div></div></div>";
+					row+="<div class='col-sm-12 commentContent-"+data.id+"'><div class='input-group margin-bottom-20'><span class='input-group-addon rounded-left'><i class='icon-envelope color-green'></i></span><div class='form-control rounded-right' id='commentContent' style='height : auto;'>"+data.content+"</div></div></div>";	
+					if(accessUser==data.writer){
+						row+="<div class='col-sm-12 text-right commentContent-"+data.id+"'><button class='btn-u btn-u-dark-blue rounded margin-right-5' onclick='javascript:commentModify("+data.id+");'>Modify</button><button class='btn-u btn-u-red rounded' onclick='javascript:commentDelete("+data.id+");'>Delete</button></div>";
+					}
+					//This part for Modify				
+					row+="<div class='col-sm-12 text-center margin-bottom-20' id='commentModify-"+data.id+"' hidden='true'><textarea name='content' rows='5' cols='auto' style='resize:none;' id='commentModifyTextarea'>"+data.content.replace(/<br\s*\/?>/mg,"\n")+"</textarea><div class='text-right'><button class='btn-u btn-u-default rounded margin-right-5' onclick='modifyCancel("+data.id+");'>Cancel</button><button class='btn-u btn-u-dark-blue rounded' onclick='commentModifySubmit("+data.id+");'>Modify</button></div></div>"
+					row+="<div class='col-sm-12'><hr></div>";					
+					$("#commentDiv").append(row);
+					row = "";
+	    		});
+	    	}, error : function(e){
+				console.log('Error');
+			}//end success
+		});//end ajax
+	}//end function()
+	
+	var getCommentList = function(){
+		_getCommentList();
+	}
+	
+	return {
+		getCommentList : getCommentList
+	}
+})();
 
 $('#commentSubmit').click(function(){
 	var data = {}
@@ -50,38 +91,7 @@ $('#commentSubmit').click(function(){
 	});	
 });// end 
 
-function getCommentsList() {
-	var row = "";
-	$.ajax({
-		url : project +"/reply/board/list",
-		timeout : 60000,
-    	data : {
-    		'board_id' : board_id
-    	},
-    	dataType : "json",
-    	success : function(response) {
-    		$("#commentDiv").empty();
-    		var commentList=response.comments;
-    		var pagingObject=response.paging;
-    		commentList.forEach(function(data, status, index) {
-				row+= "<div class='col-sm-3 col-xs-3'><div class='input-group margin-bottom-20'><span class='input-group-addon rounded-left'><i class='icon-user color-green'></i></span><div class='form-control rounded-right' id='commentWriter'>"+data.writer+"</div></div></div>";
-    			row+="<div class='col-sm-3 col-xs-3'><div class='input-group margin-bottom-20'><span class='input-group-addon rounded-left'><i class='icon-envelope color-green'></i></span><div class='form-control rounded-right'>"+data.likes+"</div></div></div>";
-    			row+="<div class='col-sm-6 col-xs-6'><div class='input-group margin-bottom-20'><span class='input-group-addon rounded-left'><i class='icon-envelope color-green'></i></span><div class='form-control rounded-right'>"+data.latestDate+"</div></div></div>";
-				row+="<div class='col-sm-12 commentContent-"+data.id+"'><div class='input-group margin-bottom-20'><span class='input-group-addon rounded-left'><i class='icon-envelope color-green'></i></span><div class='form-control rounded-right' id='commentContent' style='height : auto;'>"+data.content+"</div></div></div>";	
-				if(accessUser==data.writer){
-					row+="<div class='col-sm-12 text-right commentContent-"+data.id+"'><button class='btn-u btn-u-dark-blue rounded margin-right-5' onclick='javascript:commentModify("+data.id+");'>Modify</button><button class='btn-u btn-u-red rounded' onclick='javascript:commentDelete("+data.id+");'>Delete</button></div>";
-				}
-				//This part for Modify				
-				row+="<div class='col-sm-12 text-center margin-bottom-20' id='commentModify-"+data.id+"' hidden='true'><textarea name='content' rows='5' cols='auto' style='resize:none;' id='commentModifyTextarea'>"+data.content.replace(/<br\s*\/?>/mg,"\n")+"</textarea><div class='text-right'><button class='btn-u btn-u-default rounded margin-right-5' onclick='modifyCancel("+data.id+");'>Cancel</button><button class='btn-u btn-u-dark-blue rounded' onclick='commentModifySubmit("+data.id+");'>Modify</button></div></div>"
-				row+="<div class='col-sm-12'><hr></div>";					
-				$("#commentDiv").append(row);
-				row = "";
-    		});
-    	}, error : function(e){
-			console.log('Error');
-		}//end success
-	});//end ajax
-}//end function()
+
 
 function commentDelete(commentId){
 	var check=confirm("Really?");
