@@ -1,7 +1,10 @@
 package com.shun.mongodb.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.data.mongodb.MongoDbFactory;
 import org.springframework.data.mongodb.config.AbstractMongoConfiguration;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -13,10 +16,15 @@ import com.mongodb.MongoClient;
 
 @Configuration
 @EnableMongoRepositories(basePackages = "com.shun.mongodb.model")
+@PropertySource(value = { "classpath:datasource.properties" })
 public class MongoConfig extends AbstractMongoConfiguration {
+	
+    @Autowired
+    private Environment environment;
+    
 	@Override
 	public Mongo mongo() throws Exception {
-		return new MongoClient("127.0.0.1", 27017);
+		return new MongoClient(environment.getRequiredProperty("mongodb.config.ip"), Integer.parseInt(environment.getRequiredProperty("mongodb.config.port")));
 	}
 	
 	@Bean
@@ -27,7 +35,7 @@ public class MongoConfig extends AbstractMongoConfiguration {
 	
 	@Bean
 	public MongoDbFactory mongoDbFactory() throws Exception {
-		SimpleMongoDbFactory simpleMongoDbFactory=new SimpleMongoDbFactory(mongoClient(), "shooney");
+		SimpleMongoDbFactory simpleMongoDbFactory=new SimpleMongoDbFactory(mongoClient(), environment.getRequiredProperty("mongodb.config.db"));
 		return simpleMongoDbFactory;
 	}
 
@@ -39,6 +47,6 @@ public class MongoConfig extends AbstractMongoConfiguration {
 	
 	@Override
 	protected String getDatabaseName() {
-		return "shooney";
+		return environment.getRequiredProperty("mongodb.config.db");
 	}
 }

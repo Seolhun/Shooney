@@ -4,9 +4,8 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 
 import org.slf4j.Logger;
@@ -36,8 +35,8 @@ public class FileServiceImpl implements FileService {
 		this.boardService=boardService;
 	}
 	
-	private static final String FILE_PATH="/Users/hunseol/Desktop/project/shooney/file/";
-//	private static final String FILE_PATH="/Users/HunSeol/Desktop/project/shooney/file/";
+//	private static final String FILE_PATH="/Users/hunseol/Desktop/project/shooney/file/";
+	private static final String FILE_PATH="/Users/HunSeol/Desktop/project/shooney/file/";
 	private static final int MAX_UPLOAD_SIZE=(1024 * 1024 * 200);
 	private static final int MAX_UPLOAD_SIZE_PER_FILE=(1024 * 1024 * 50);
 	
@@ -46,13 +45,13 @@ public class FileServiceImpl implements FileService {
 	public void insert(Board board, FileData fileData, MultipartFile[] files) throws IOException, Exception {
 		//유효성 검사.
 		int fileTotalSize=0;
-		Set<FileData> fileDataList=new HashSet<>();
+		List<FileData> fileDataList=new ArrayList<>();
 		
-		String savedName="";
-		for (int i = 0; i < files.length; i++) {
+		//MultipartFile에 index 0은 빈값이 온다.(알아보고 처리해야함. 그래서 1로 시작)		
+		for (int i = 1; i < files.length; i++) {
 			MultipartFile multipartFile = files[i];
 			if (!multipartFile.isEmpty()) {
-				LOG.info("param : multipartFile index : {}", i);
+				LOG.info("param : MultipartFile index : {}", i);
 				LOG.info("param : MultipartFile getContentType : {}", multipartFile.getContentType());
 				LOG.info("param : MultipartFile getOriginalFilename : {}", multipartFile.getOriginalFilename());
 				LOG.info("param : MultipartFile getName : {}", multipartFile.getName());
@@ -65,7 +64,7 @@ public class FileServiceImpl implements FileService {
 				//파일이름으로 확장자명과 파일이름 나누기.
 				String originName=multipartFile.getOriginalFilename();
                 String onlyFileExtension = originName.substring(originName.lastIndexOf("."));
-                savedName=getRandomString()+onlyFileExtension;
+                String savedName=getRandomString()+onlyFileExtension;
                 
 				String fileDataType=multipartFile.getContentType();
 				Long fileSize= multipartFile.getSize();
@@ -89,8 +88,8 @@ public class FileServiceImpl implements FileService {
 		
 		//문제 없을 시 진행.		
 		boardService.insert(board);
-		//파일을 나누어 인서트.
-		for (int i = 0; i < files.length; i++) {
+		//MultipartFile에 index 0은 빈값이 온다.(알아보고 처리해야함. 그래서 1로 시작)	
+		for (int i = 1; i < files.length; i++) {
 			MultipartFile multipartFile = files[i];
 			if (!multipartFile.isEmpty()) {
 				try {
@@ -101,14 +100,14 @@ public class FileServiceImpl implements FileService {
 						directory.mkdirs();
 					}
 					
-					File serverFile = new File(directory.getAbsolutePath() +File.separator+ savedName);
+					File serverFile = new File(directory.getAbsolutePath() +File.separator+ fileDataList.get(i-1).getFileDataSavedName());
 					BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
 					stream.write(bytes);
 					stream.close();
 					LOG.info("return : Server File Location : {}", serverFile.getAbsolutePath());				
 					
 					//게시판을 인서트한 후 파일을 인서트한다.
-					fileData.setBoardInFile(board);
+					fileDataList.get(i-1).setBoardInFile(board);
 					fileRepository.insert(fileData);
 				} catch (Exception e) {
 					e.printStackTrace();
