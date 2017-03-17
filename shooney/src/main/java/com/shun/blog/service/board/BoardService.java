@@ -7,15 +7,15 @@ import com.shun.blog.model.common.Paging;
 
 public interface BoardService {
 
-	Board selectById(Long id);
+	Board selectById(Long id) throws Exception;
 
 	void insert(Board board);
 
-	void update(Board board);
+	void update(Board board) throws Exception;
 
 	void deleteById(Long id);
 
-	List<Board> selectList(Paging paging);
+	List<Board> selectList(Paging paging) throws Exception;
 	
-	int getCount(Paging paging);
+	int getCount(Paging paging) throws Exception;
 }

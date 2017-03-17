@@ -89,7 +89,7 @@
 					</form:button>
 				</div>
 				<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" >
-					<button type="button" class="btn-u btn-u-dark-orange btn-block rounded" onclick="javascript:history.back();">Cancel</button>
+					<button type="button" class="btn-u btn-u-orange btn-block rounded" onclick="javascript:history.back();">Cancel</button>
 				</div>
 			</form:form>
 		</div>

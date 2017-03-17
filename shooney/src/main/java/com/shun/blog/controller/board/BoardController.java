@@ -74,7 +74,7 @@ public class BoardController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public String allBoardList(ModelMap model, HttpServletRequest request, @RequestParam(required=false, name="pf") String portfolioType) {
+	public String allBoardList(ModelMap model, HttpServletRequest request, @RequestParam(required=false, name="pf") String portfolioType) throws Exception{
 		//페이징 세팅 및 파라미터 가져오기.
 		Paging paging=commonService.beforePagingGetData(request);
 		paging.setPortfolioType(portfolioType);
@@ -121,8 +121,7 @@ public class BoardController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/insert", method = RequestMethod.POST)
-	public String insertBoardDo(Board board, FileData fileData , BindingResult bindingResult,  ModelMap model, HttpServletRequest request, MultipartHttpServletRequest multipartRequest, 
-			@RequestParam(name="files") MultipartFile[] files, RedirectAttributes redirect) throws Exception {
+	public String insertBoardDo(Board board, BindingResult bindingResult,  ModelMap model, HttpServletRequest request, @RequestParam(name="files") MultipartFile[] files, RedirectAttributes redirect) throws Exception {
 		LOG.info("param : insertBoardDo : {}",board.toString());
 		LOG.info("param : insertBoardDo : {}",files.toString());
 		
@@ -152,14 +151,21 @@ public class BoardController {
 		
 		//Catch문을 통한 에러처리 로직필요.
 		try {
-			fileService.insert(board, fileData, files);
+			FileData fileData=new FileData();
+			fileData.setBoardInFile(board);
+			fileData.setFiles(files);
+			fileService.insert(fileData);
 		} catch (FileUploadOverException e) {
+			e.printStackTrace();
 			return mapping;
 		} catch (FileNameInvalidException e) {
+			e.printStackTrace();
 			return mapping;
 		} catch (FileUploadException e) {
+			e.printStackTrace();
 			return mapping;
 		} catch (IOException e) {
+			e.printStackTrace();
 			return mapping;
 		}
 		
@@ -188,30 +194,29 @@ public class BoardController {
 		
 		model.addAttribute("board", board);
 		model.addAttribute("edit", false);
-		commonService.getAccessUserToModel();
+		model.addAttribute("accessUser", commonService.getAccessUserToModel());
 		model.addAttribute("enNames", board.getEntityName());
 		model.addAttribute("pfNames", board.getPortfolioType());
 		return "board/board-detail";
 	}
 
-	@RequestMapping(value = { "/{kind}/modify" }, method = RequestMethod.GET)
-	public String editBoard(@RequestParam(required=true) Long id, ModelMap model, @PathVariable String kind) {
+	@RequestMapping(value = { "/modify/{id}" }, method = RequestMethod.GET)
+	public String editBoard(@PathVariable Long id, ModelMap model) throws Exception {
 		Board board = boardService.selectById(id);
 
-//		if (!(board.getWriter().equals(initializeUser().getNickname()))) {
-//			return "redirect:/" + kind + "/r" + id;
-//		}
+		if (!(board.getCreatedBy().equals(commonService.getAccessUserToModel().getNickname()))) {
+			return "redirect:/deny";
+		}
 
 		model.addAttribute("board", board);
 		model.addAttribute("edit", true);
-		model.addAttribute("kind", kind);
 		model.addAttribute("enNames", EntityName.values());
 		model.addAttribute("pfNames", PortfolioName.values());
 		return "board/board-insert";
 	}
 
 	@RequestMapping(value = { "/{kind}/modify" }, method = RequestMethod.POST)
-	public String editBoardDo(@Valid Board board, BindingResult result, ModelMap model, @PathVariable String kind) {
+	public String editBoardDo(@Valid Board board, BindingResult result, ModelMap model, @PathVariable String kind) throws Exception{
 		if (result.hasErrors()) {
 			model.addAttribute("edit", true);
 			model.addAttribute("kind", kind);
@@ -230,7 +235,7 @@ public class BoardController {
 	}
 
 	@RequestMapping(value = { "/{kind}/delete" }, method = RequestMethod.GET)
-	public String deleteBoard(@PathVariable String kind, @RequestParam(required=true) Long id) {
+	public String deleteBoard(@PathVariable String kind, @RequestParam(required=true) Long id) throws Exception {
 		Board board = boardService.selectById(id);
 //		if (!(board.getWriter().equals(initializeUser().getNickname()))) {
 //			return "redirect:/" + kind + "/r" + id;

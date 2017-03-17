@@ -16,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.shun.blog.dao.file.FileRepository;
-import com.shun.blog.model.board.Board;
 import com.shun.blog.model.file.FileData;
 import com.shun.blog.model.file.FileUploadOverException;
 import com.shun.blog.service.board.BoardService;
@@ -35,49 +34,55 @@ public class FileServiceImpl implements FileService {
 		this.boardService=boardService;
 	}
 	
-//	private static final String FILE_PATH="/Users/hunseol/Desktop/project/shooney/file/";
-	private static final String FILE_PATH="/Users/HunSeol/Desktop/project/shooney/file/";
+	private static final String FILE_PATH="/Users/hunseol/Desktop/project/shooney/file/";
+//	private static final String FILE_PATH="/Users/HunSeol/Desktop/project/shooney/file/";
 	private static final int MAX_UPLOAD_SIZE=(1024 * 1024 * 200);
 	private static final int MAX_UPLOAD_SIZE_PER_FILE=(1024 * 1024 * 50);
 	
 	@Override
 	@Transactional(transactionManager="txManager", rollbackFor={Exception.class, IOException.class})
-	public void insert(Board board, FileData fileData, MultipartFile[] files) throws IOException, Exception {
+	public void insert(FileData fileData) throws IOException, Exception {
 		//유효성 검사.
 		int fileTotalSize=0;
 		List<FileData> fileDataList=new ArrayList<>();
 		
 		//MultipartFile에 index 0은 빈값이 온다.(알아보고 처리해야함. 그래서 1로 시작)		
-		for (int i = 1; i < files.length; i++) {
-			MultipartFile multipartFile = files[i];
-			if (!multipartFile.isEmpty()) {
-				LOG.info("param : MultipartFile index : {}", i);
-				LOG.info("param : MultipartFile getContentType : {}", multipartFile.getContentType());
-				LOG.info("param : MultipartFile getOriginalFilename : {}", multipartFile.getOriginalFilename());
-				LOG.info("param : MultipartFile getName : {}", multipartFile.getName());
-				LOG.info("param : MultipartFile getSize : {}", multipartFile.getSize());
+		MultipartFile[] files=fileData.getFiles();
+		for (int i = 0; i < files.length; i++) {
+			if (!files[i].isEmpty()) {
+				FileData setfileInfo=new FileData();
+				LOG.info("param : MultipartFile getOriginalFilename : {}", files[i].getOriginalFilename());
 
-				if(multipartFile.getSize()>MAX_UPLOAD_SIZE_PER_FILE){
+				if(files[i].getSize()>MAX_UPLOAD_SIZE_PER_FILE){
 					throw new FileUploadOverException();
 				}
 				
 				//파일이름으로 확장자명과 파일이름 나누기.
-				String originName=multipartFile.getOriginalFilename();
+				String originName=files[i].getOriginalFilename();
                 String onlyFileExtension = originName.substring(originName.lastIndexOf("."));
                 String savedName=getRandomString()+onlyFileExtension;
+                LOG.info("return : getRandomString : {}", savedName);
                 
-				String fileDataType=multipartFile.getContentType();
-				Long fileSize= multipartFile.getSize();
-				fileTotalSize+=multipartFile.getSize();
-				fileData.setFileDataOriginName(originName);
-				fileData.setFileDataSavedName(savedName);
-				fileData.setFileDataSavedPath(FILE_PATH);
-				fileData.setFileDataType(fileDataType);
-				fileData.setFileDataSize(fileSize);
-				fileData.setFileDataCreatedBy(board.getCreatedBy());
+                //파일 속성을 담는다.
+                Long fileSize= files[i].getSize();
+                //총 파일 크기를 계산하기 위한 것.
+				fileTotalSize+=files[i].getSize();
+				
+				byte[] bytes = files[i].getBytes();
+				setfileInfo.setFileByte(bytes);
+				String fileDataType=files[i].getContentType();
+				
+				setfileInfo.setFileDataOriginName(originName);
+				setfileInfo.setFileDataSavedName(savedName);
+				setfileInfo.setFileDataSavedPath(FILE_PATH);
+				setfileInfo.setFileDataType(fileDataType);
+				setfileInfo.setFileDataSize(fileSize);
+				setfileInfo.setFileDataCreatedBy(fileData.getBoardInFile().getCreatedBy());
+				//파일정보에 게시판 정보를 담는다.
+				setfileInfo.setBoardInFile(fileData.getBoardInFile());
 				
 				//리스트에 담는다.
-				fileDataList.add(fileData);
+				fileDataList.add(setfileInfo);
 			}
 		}
 		
@@ -87,34 +92,26 @@ public class FileServiceImpl implements FileService {
 		}
 		
 		//문제 없을 시 진행.		
-		boardService.insert(board);
-		//MultipartFile에 index 0은 빈값이 온다.(알아보고 처리해야함. 그래서 1로 시작)	
-		for (int i = 1; i < files.length; i++) {
-			MultipartFile multipartFile = files[i];
-			if (!multipartFile.isEmpty()) {
-				try {
-					byte[] bytes = multipartFile.getBytes();
-					//폴더 없을시 폴더 만들기.
-					File directory = new File(FILE_PATH);
-					if (!directory.exists()){
-						directory.mkdirs();
-					}
-					
-					File serverFile = new File(directory.getAbsolutePath() +File.separator+ fileDataList.get(i-1).getFileDataSavedName());
-					BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
-					stream.write(bytes);
-					stream.close();
-					LOG.info("return : Server File Location : {}", serverFile.getAbsolutePath());				
-					
-					//게시판을 인서트한 후 파일을 인서트한다.
-					fileDataList.get(i-1).setBoardInFile(board);
-					fileRepository.insert(fileData);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+		boardService.insert(fileData.getBoardInFile());
+		
+		LOG.info("param : fileDataList : {}", fileDataList.toString());
+		for (int j = 0; j < fileDataList.size(); j++) {
+			//폴더 없을시 폴더 만들기.
+			File directory = new File(FILE_PATH);
+			if (!directory.exists()){
+				directory.mkdirs();
 			}
+			
+			File serverFile = new File(directory.getAbsolutePath() +File.separator+ fileDataList.get(j).getFileDataSavedName());
+			BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
+			byte[] bytes = fileDataList.get(j).getFileByte();
+			stream.write(bytes);
+			stream.close();
+			LOG.info("return : Server File Location : {}", serverFile.getAbsolutePath());				
+			
+			//게시판을 인서트한 후 파일을 인서트한다.
+			fileRepository.insert(fileDataList.get(j));
 		}
-	
 	}
 	
 	@Override

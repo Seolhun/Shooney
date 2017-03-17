@@ -61,7 +61,7 @@ public class UserServiceImpl implements UserService {
 		LOG.info("param : update : {}", user.toString());
 		User dbUser = userRepository.selectById(user.getId());
 		if (user != null) {
-			if(user.getPassword().length()>=4) {
+			if(user.getPassword()!=null && user.getPassword().length()>=4) {
 				dbUser.setPassword(passwordEncoder.encode(user.getPassword()));
 			}
 			if(user.getState()!=null){

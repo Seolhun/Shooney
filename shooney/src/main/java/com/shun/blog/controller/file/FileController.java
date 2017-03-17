@@ -46,6 +46,7 @@ public class FileController {
 		String path=fileData.getFileDataSavedPath();
 		String savedFileName=fileData.getFileDataSavedName();
 		String originalFileName=fileData.getFileDataOriginName();
+		LOG.info("param : getFile : {}", path+savedFileName);
 		byte fileByte[] = FileUtils.readFileToByteArray(new File(path+savedFileName));
 		
         if(fileByte.length<1){
@@ -54,6 +55,7 @@ public class FileController {
             OutputStream outputStream = response.getOutputStream();
             outputStream.write(errorMessage.getBytes(Charset.forName("UTF-8")));
             outputStream.close();
+            LOG.info("error : fileByte Length Problem");
             return;
         }
 		

@@ -3,13 +3,10 @@ package com.shun.blog.service.file;
 import java.io.IOException;
 import java.util.List;
 
-import org.springframework.web.multipart.MultipartFile;
-
-import com.shun.blog.model.board.Board;
 import com.shun.blog.model.file.FileData;
 
 public interface FileService {
-	void insert(Board board, FileData fileData, MultipartFile[] files) throws IOException, Exception;
+	void insert(FileData fileData) throws IOException, Exception;
 
 	FileData selectById(Long id);
 	

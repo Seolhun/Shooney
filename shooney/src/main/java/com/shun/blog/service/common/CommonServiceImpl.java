@@ -24,7 +24,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -434,7 +433,6 @@ public class CommonServiceImpl implements CommonService {
 	}
 	
 	@Override
-	@ModelAttribute(name="accessUser")
 	public User getAccessUserToModel() throws Exception {
 		String userEmail=commonService.getPrincipal();
 		LOG.info("return : getAccessUserToModel : {}", userEmail);

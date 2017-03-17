@@ -2,7 +2,6 @@ package com.shun.blog.model.file;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -26,6 +25,7 @@ import com.shun.blog.model.board.Board;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
@@ -76,5 +76,8 @@ public class FileData implements Serializable {
 	private int fileDataDelCheck;
 	
 	@Transient
-	private List<MultipartFile> files;
+	private byte[] fileByte;
+	
+	@Transient
+	private MultipartFile[] files;
 }

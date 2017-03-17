@@ -25,7 +25,7 @@ public class BoardRepositoryImpl extends AbstractDao<Integer, Board> implements 
 	}
 	
 	@Override
-	public Board selectById(Long id) {
+	public Board selectById(Long id) throws Exception{
 		Board board = getByLong(id);
 		LOG.info("return : selectById : {}", board.toString());
 		return board;
@@ -33,7 +33,7 @@ public class BoardRepositoryImpl extends AbstractDao<Integer, Board> implements 
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public List<Board> selectList(Paging paging) {
+	public List<Board> selectList(Paging paging) throws Exception {
 		LOG.info("param : selectList : {}", paging.toString());
 		int cPage = paging.getCurrentPage();
 		int sType = paging.getSearchType();
@@ -67,7 +67,7 @@ public class BoardRepositoryImpl extends AbstractDao<Integer, Board> implements 
 	}
 
 	@Override
-	public int getCount(Paging paging) {
+	public int getCount(Paging paging) throws Exception {
 		LOG.info("param : getCount : {}", paging.toString());
 		String condition = "";
 		String condition2 = "";

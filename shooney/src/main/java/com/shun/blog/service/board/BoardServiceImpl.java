@@ -26,7 +26,7 @@ public class BoardServiceImpl implements BoardService {
 	}
 	
 	@Override
-	public Board selectById(Long id) {
+	public Board selectById(Long id) throws Exception{
 		LOG.info("return : selectById : {}",id);
 		Board board=boardRepository.selectById(id);
 		return board;
@@ -39,7 +39,7 @@ public class BoardServiceImpl implements BoardService {
 	}
 	
 	@Override
-	public void update(Board board) {
+	public void update(Board board) throws Exception{
 		LOG.info("param : update : {}",board.toString());
 		Board entity = boardRepository.selectById(board.getBoardId());
 		//읽을시 쿠키 읽기
@@ -63,13 +63,13 @@ public class BoardServiceImpl implements BoardService {
 	}
 	
 	@Override
-	public List<Board> selectList(Paging paging) {
+	public List<Board> selectList(Paging paging) throws Exception{
 		LOG.info("param : selectList : {}",paging.toString());
 		return boardRepository.selectList(paging);
 	}
 
 	@Override
-	public int getCount(Paging paging) {
+	public int getCount(Paging paging) throws Exception{
 		LOG.info("param : getCount : {}",paging.toString());
 		return boardRepository.getCount(paging);
 	}

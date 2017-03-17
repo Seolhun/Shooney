@@ -25,10 +25,10 @@ import com.shun.mongodb.service.it.ItWorldService;
 @Controller
 @RequestMapping(value = "/itworld")
 public class ItWorldController {
+	private static final Logger LOG = LoggerFactory.getLogger(ItWorldController.class);
+	
 	@Autowired
 	private ItWorldService itWorldService;
-
-	private static final Logger logger = LoggerFactory.getLogger(ItWorldController.class);
 
 	@RequestMapping(value = "/{website}/add", method = RequestMethod.GET)
 	public @ResponseBody String getITworldInfoList(ModelMap model, @PathVariable String website) {
@@ -50,10 +50,10 @@ public class ItWorldController {
 						Element writer = doc.select(".node_source").first();
 						Element content = doc.select(".node_body div").first();
 						Elements tags = doc.select(".node_tags a");
-						logger.error("TEST : " + title.html());
-						logger.error("TEST : " + writer.html());
-						logger.error("TEST : " + i);
-						logger.error("DEF : ----------------------------------------");
+						LOG.error("TEST : " + title.html());
+						LOG.error("TEST : " + writer.html());
+						LOG.error("TEST : " + i);
+						LOG.error("DEF : ----------------------------------------");
 						itWorld.setId(String.valueOf(i-71499));
 						itWorld.setTitle(title.html());
 						itWorld.setWriter(writer.html());
@@ -67,11 +67,11 @@ public class ItWorldController {
 						itWorld.setTags(tagList);
 						itWorldService.saveItWorld(itWorld);
 					} catch (HttpStatusException e) {
-						logger.error("ERROR : HttpStatusException");
+						LOG.error("ERROR : HttpStatusException");
 					} catch (NullPointerException e) {
-						logger.error("ERROR : NullPointerException");
+						LOG.error("ERROR : NullPointerException");
 					} catch (IOException e) {
-						logger.error("ERROR : IOException");
+						LOG.error("ERROR : IOException");
 					}
 				}
 			} 

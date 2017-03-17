@@ -23,6 +23,12 @@ public class HomeController {
 		return "result/success";
 	}
 	
+	@RequestMapping(value = "/deny", method = RequestMethod.GET)
+	public String deny() {
+		LOG.info("where deny");
+		return "result/deny";
+	}
+	
 	@RequestMapping(value = "/myinfo/pro", method = RequestMethod.GET)
 	public String myInfoProfile() {
 		LOG.info("where myInfoProfile");

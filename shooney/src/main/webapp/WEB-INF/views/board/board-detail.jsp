@@ -59,25 +59,35 @@
 			</div>
 		</div>
 		
-		<div class="row">
+		<div class="row margin-bottom-20">
 			<div class="col-sm-12">
 				File List
-				<div class="input-group margin-bottom-20">
-					<span class="input-group-addon rounded-left"><i class="icon-envelope color-green"></i></span>
-					<div class="form-control rounded-right">
-						<c:choose>
-							<c:when test="${fn:length(board.fileDataList)>0}">
-								<c:forEach var="fileData" items="${board.fileDataList}">
-									<input type="hidden" id="${fileData.fileDataId }" value="${fileData.fileDataId }">
-									<a href="${file }/download/${fileData.fileDataId}">${fileData.fileDataOriginName }</a> (${fileData.fileDataSize }kb)
-								</c:forEach>
-							</c:when>
-							<c:otherwise>
-									첨부된 파일이 없습니다.
-							</c:otherwise>
-						</c:choose>
+				<c:forEach var="fileData" items="${board.fileDataList}" varStatus="status">
+					<div class="input-group margin-bottom-5">
+						<span class="input-group-addon rounded-left"><i class="icon-envelope color-green"></i></span>
+						<div class="form-control rounded-right">
+							<c:choose>
+								<c:when test="${fn:length(board.fileDataList)>0}">
+										<div class="col-sm-11">
+											<input type="hidden" id="${fileData.fileDataId }" value="${fileData.fileDataId }">
+											<a href="${file }/download/${fileData.fileDataId}">${fileData.fileDataOriginName }</a> (${fileData.fileDataSize }kb)
+										</div>
+										
+										<c:if test="${status.first}">
+											<div class="col-sm-1">
+												<i class="text-right">
+													더 보기
+												</i>
+											</div>
+										</c:if>
+								</c:when>
+								<c:otherwise>
+										첨부된 파일이 없습니다.
+								</c:otherwise>
+							</c:choose>
+						</div>
 					</div>
-				</div>
+				</c:forEach>
 			</div>
 		</div>
 		
@@ -104,10 +114,10 @@
 			</div>
 			<c:if test="${accessUser.nickname.equals(board.createdBy)}">
 				<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-					<a href="${bo}/${kind}/m${board.boardId}" class="btn-u btn-u-dark-blue btn-block rounded">Modify</a>
+					<a href="${bo}/modify/${board.boardId}" class="btn-u btn-u-dark-blue btn-block rounded">Modify</a>
 				</div>
 				<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-					<a href="${bo}/${kind}/d${board.boardId}" id="confirm" class="btn-u btn-u-default btn-block rounded">Delete</a>
+					<a href="${bo}/delete/${board.boardId}" id="confirm" class="btn-u btn-u-default btn-block rounded">Delete</a>
 				</div>
 			</c:if>
 		</div>
