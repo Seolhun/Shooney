@@ -6,7 +6,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 <%-- <c:choose><c:when test="${language_code eq 'en'}"><spring:eval expression="@text_en" var="text" scope="request" /></c:when><c:otherwise><spring:eval expression="@text_ko" var="text" scope="request" /></c:otherwise></c:choose> --%>
-<spring:url value="/resources" var="resources" /><spring:url value="/resources/template" var="template"/><spring:url value="/" var="shooney"/><spring:url value="/board" var="board"/><spring:url value="/project" var="project"/><spring:url value="/portfolio" var="portfolio"/><spring:url value="/myinfo" var="myinfo"/><spring:url value="/admin" var="admin"/><spring:url value="/signup" var="signup"/><spring:url value="/login" var="login"/><spring:url value="/logout" var="logout"/><spring:url value="/it" var="it"/>
+<spring:url value="/resources" var="resources" /><spring:url value="/resources/template" var="template"/><spring:url value="/" var="shooney"/><spring:url value="/board" var="board"/><spring:url value="/project" var="project"/><spring:url value="/portfolio" var="portfolio"/><spring:url value="/myinfo" var="myinfo"/><spring:url value="/admin" var="admin"/><spring:url value="/signup" var="signup"/><spring:url value="/login" var="login"/><spring:url value="/logout" var="logout"/><spring:url value="/news" var="news"/>
 <!doctype html>
 <html class="no-js" lang="${language_code}">
 <head>
@@ -61,12 +61,12 @@
 			<div id="abovenav">
 				<div class="container">
 					<div class="row" id="aboverow">
-						<div class="col-sm-4 col-xs-4" style="text-align: left">
+						<div class="col-sm-4">
 							<a href="#" class="link-txt" id="head-a"><img src="${resources}/img/lang_ko.png" class="language"> Korean&nbsp;</a>| 
 							<a href="#" class="link-txt" id="head-a"><img src="${resources}/img/lang_en.png" class="language"> English</a>
 						</div>
 
-						<div class="col-sm-8 col-xs-8" style="text-align : right">	
+						<div class="col-sm-8">	
 							<sec:authorize access="isAuthenticated()">
 								<span class="margin-right-10"><b>ID : </b><sec:authentication property="principal.username"/></span>
 								<span class="margin-right-20"><b>Role : </b><sec:authentication property="principal.authorities"/></span>
@@ -94,7 +94,7 @@
 
 						<!-- Navbar Brand -->
 						<div class="navbar-brand">
-							<a href="${shooney}" style="font-size: 16px;">
+							<a class="font-16" href="${shooney}">
 								<%-- <img class="shrink-logo" src="${resources}/img/logo.jpeg" alt="Logo"> --%>
 							</a>
 						</div>
@@ -140,10 +140,9 @@
 								<li class="dropdown">
 									<a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">Portfolio</a>
 									<ul class="dropdown-menu">
-										<li><a href="${project}"><i class="fa fa-columns"></i> Projects</a></li>
-										<li><a href="${portfolio}/item/list"><i class="fa fa-magic"></i> Items</a></li>
-										<li><a href="${portfolio}/music/list"><i class="fa fa-volume-down"></i> Musics(MongoDB, Json, Crawl, Youtube API)</a></li>
-										<li><a href="${it}/itworld/list"><i class="fa fa-tasks"></i>IT</a></li>
+										<li><a href="${portfolio}/music/list"><i class="fa fa-volume-down"></i> Musics(MongoDB, Youtube API, Json, Crawl)</a></li>
+										<li><a href="${news}/list"><i class="fa fa-columns"></i>News</a></li>
+										<li><a href="${project}"><i class="fa fa-tasks"></i> Projects</a></li>
 										
 										<%--										
 										<li><a href="${portfolio}/stomp/list"><i class="fa fa-comments"></i> Stomp(Spring AMQP)</a></li>
@@ -260,7 +259,7 @@
 		</div>
 		<!--=== End Header v6 ===-->
 <!-- ---------------------------------------------------------------------------------------------------------------------------------  -->
-		<div class="doBody" style="min-height: 500px; margin: 40px 0px 0px;" >
+		<div class="doBody">
 		<!-- real Body input place  -->
 			<jsp:doBody/>
 		</div>

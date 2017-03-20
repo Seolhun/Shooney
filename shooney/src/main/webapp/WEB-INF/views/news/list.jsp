@@ -16,7 +16,7 @@
 						business on web and mobile.</p>
 				</div>
 				<div class="call-action-v1-in inner-btn page-scroll">
-					<button class="btn-u btn-brd btn-brd-hover btn-u-dark btn-u-block margin-bottom-5" name="itWorldBtn">Add new ITWorld</button>
+					<button class="btn-u btn-brd btn-brd-hover btn-u-dark btn-u-block margin-bottom-5" name="itWorldBtn">Add News</button>
 				</div>
 			</div>
 		</div>
@@ -38,4 +38,4 @@
 		</div>
 	</div>
 </tag:layout>
-<script type="text/javascript" src="${resources}/js/it.js"></script>
+<script type="text/javascript" src="${resources}/js/news.js"></script>

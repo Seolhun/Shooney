@@ -5,10 +5,10 @@ var	csrfToken=$("meta[name='_csrf']").attr("content");
 
 $("button[name='itWorldBtn']").click(function(){
 	$.ajax({
-		url : project +"/it/itworld/add",
+		url : project +"/it/cio/add",
 		timeout : 60000,
 		success: function(data) {
-			if(data){
+			if(data=="success"){
 				console.log('Success');
 			} else {
 				console.log('Fail');
