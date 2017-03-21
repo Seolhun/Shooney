@@ -80,7 +80,7 @@ public class NewsDataController {
 
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public String moveITworld(ModelMap model, @PathVariable String website) {
-		return "itworld/list";
+		return "news/news-list";
 	}
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)

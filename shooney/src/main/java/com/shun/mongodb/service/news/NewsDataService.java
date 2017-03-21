@@ -8,11 +8,11 @@ public interface NewsDataService {
 	
 	NewsData selectById(String idx);
 	
-	void saveItWorld(NewsData newsData);
+	void insert(NewsData newsData);
 	
-	void updateItWorld(NewsData newsData);
+	void update(NewsData newsData);
 	
-	void deleteItWorldById(String idx);
+	void delete(String idx);
 
 	List<NewsData> selectList(); 
 }
