@@ -5,11 +5,14 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.shun.mongodb.model.news.NewsData;
-import com.shun.mongodb.model.news.NewsDataRepository;
+import com.shun.mongodb.repository.news.NewsDataRepository;
 
 
 @Service
@@ -21,13 +24,26 @@ public class NewsDataServiceImpl implements NewsDataService {
 	private NewsDataRepository newsDataRepository;
 
 	@Override
-	public NewsData selectById(String idx) {
-		return newsDataRepository.selectById(idx);
+	public NewsData findOneById(String id) {
+		LOG.info("param : findOne : ", id);
+		return newsDataRepository.findOne(id);
+	}
+	
+	@Override
+	public void save(NewsData newsData) {
+		newsDataRepository.save(newsData);
+	}
+	
+	@Override
+	public List<NewsData> findByIdx(Long idx) {
+		LOG.info("param : findByIdx : ", idx);
+		return newsDataRepository.findByIdx(idx);
 	}
 
 	@Override
-	public void insert(NewsData newsData) {
-		newsDataRepository.save(newsData);
+	public Page<NewsData> findByIdx(Long idx, Pageable pageable) {
+		LOG.info("param : findByIdx : ", idx);
+		return newsDataRepository.findByIdx(idx, new PageRequest(0, 10));
 	}
 
 	@Override

@@ -88,7 +88,7 @@
 							<span class="input-group-addon rounded-left"><i class="icon-user color-green"></i></span>
 							<c:choose>
 								<c:when test="${edit}">
-									<form:input path="nickname" value="${user.nickname }"  name="nickname" type="text" class="form-control rounded-right" placeholder="NickName" readonly="true"/>
+									<form:input class="form-control rounded-right" path="nickname" value="${user.nickname }"  name="nickname" type="text" placeholder="NickName" readonly="true"/>
 								</c:when>
 								<c:otherwise>
 									<form:input path="nickname" name="nickname" type="text" class="form-control rounded-right" placeholder="NickName"/>

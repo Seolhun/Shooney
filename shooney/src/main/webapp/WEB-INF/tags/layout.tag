@@ -1,59 +1,59 @@
-<%@ tag description="Layout Template" pageEncoding="UTF-8"%>
-<%@ attribute name="tab" required="false" type="java.lang.String"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-
-<%-- <c:choose><c:when test="${language_code eq 'en'}"><spring:eval expression="@text_en" var="text" scope="request" /></c:when><c:otherwise><spring:eval expression="@text_ko" var="text" scope="request" /></c:otherwise></c:choose> --%>
+<%@ tag description="Layout Template" pageEncoding="UTF-8"%><%@ attribute name="tab" required="false" type="java.lang.String"%><%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%><%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%><%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%><%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <spring:url value="/resources" var="resources" /><spring:url value="/resources/template" var="template"/><spring:url value="/" var="shooney"/><spring:url value="/board" var="board"/><spring:url value="/project" var="project"/><spring:url value="/portfolio" var="portfolio"/><spring:url value="/myinfo" var="myinfo"/><spring:url value="/admin" var="admin"/><spring:url value="/signup" var="signup"/><spring:url value="/login" var="login"/><spring:url value="/logout" var="logout"/><spring:url value="/news" var="news"/>
+
 <!doctype html>
-<html class="no-js" lang="${language_code}">
+<html class="no-js" lang="ko">
 <head>
-<meta http-equiv="content-type" content="text/html; charset=utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="keywords" content="Shooney">
-<meta name="description" content="Shooney's Blog">
-<meta id="csrfToken" name="csrfToken" content="${_csrf.token}" />
-<meta id="csrfHeader" name="csrfHeader" content="${_csrf.headerName}" />
+	<meta charset="utf-8">
+	<meta http-equiv="Cache-Control" content="no-cache"/>
+	<meta http-equiv="Expires" content="0"/>
+	<meta http-equiv="Pragma" content="no-cache"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="keywords" content="Shooney">
+	<meta name="description" content="Shooney's Blog">
+	<meta id="csrfToken" name="csrfToken" content="${_csrf.token}" />
+	<meta id="csrfHeader" name="csrfHeader" content="${_csrf.headerName}" />
 
-<title>SomeThing New | Hooney Blog</title>
+	<title>SomeThing New | Hooney Blog</title>
 
-<link rel="shortcut icon" href="${resources}/img/logo.jpeg" />
-
-<!-- Web Fonts -->
-<link rel='stylesheet' type='text/css' href='//fonts.googleapis.com/css?family=Open+Sans:400,300,600&amp;subset=cyrillic,latin'>
-
-<!-- CSS Global Compulsory -->
-<link rel="stylesheet" href="${template}/plugins/bootstrap/css/bootstrap.min.css">
-<link rel="stylesheet" href="${template}/css/style.css">
-
-<!-- CSS Header and Footer -->
-<link rel="stylesheet" href="${template}/css/headers/header-v6.css">
-<link rel="stylesheet" href="${template}/css/footers/footer-v6.css">
-
-<!-- CSS Implementing Plugins -->
-<link rel="stylesheet" href="${template}/plugins/animate.css">
-<link rel="stylesheet" href="${template}/plugins/line-icons/line-icons.css">
-<link rel="stylesheet" href="${template}/plugins/font-awesome/css/font-awesome.min.css">
-<link rel="stylesheet" href="${template}/plugins/fancybox/source/jquery.fancybox.css">
-<link rel="stylesheet" href="${template}/plugins/owl-carousel/owl-carousel/owl.carousel.css">
-<link rel="stylesheet" href="${template}/plugins/master-slider/masterslider/style/masterslider.css">
-<link rel='stylesheet' href="${template}/plugins/master-slider/masterslider/skins/black-2/style.css">
-
-<!-- CSS Pages Style -->
-<link rel="stylesheet" href="${template}/css/pages/page_one.css">
-
-<!-- CSS Default -->
-<link rel="stylesheet" href="${resources}/css/app.css">
-<link rel="stylesheet" href="${resources}/css/header.css">
-
-<!-- CSS Theme -->
-<link rel="stylesheet" href="${template}/css/theme-colors/dark-blue.css" id="style_color">
-<link rel="stylesheet" href="${template}/css/theme-skins/dark.css">
-
-<!-- CSS Customization -->
-<link href="${resources }/summer/summernote.css" rel="stylesheet">
+	<link rel="shortcut icon" href="${resources}/img/logo.jpeg" />
+	
+	<!-- Web Fonts -->
+	<link rel='stylesheet' type='text/css' href='//fonts.googleapis.com/css?family=Open+Sans:400,300,600&amp;subset=cyrillic,latin'>
+	
+	<!-- CSS Global Compulsory -->
+	<link rel="stylesheet" href="${template}/plugins/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" href="${template}/css/style.css">
+	
+	<!-- CSS Header and Footer -->
+	<link rel="stylesheet" href="${template}/css/headers/header-v6.css">
+	<link rel="stylesheet" href="${template}/css/footers/footer-v6.css">
+	
+	<!-- CSS Implementing Plugins -->
+	<link rel="stylesheet" href="${template}/plugins/animate.css">
+	<link rel="stylesheet" href="${template}/plugins/line-icons/line-icons.css">
+	<link rel="stylesheet" href="${template}/plugins/font-awesome/css/font-awesome.min.css">
+	<link rel="stylesheet" href="${template}/plugins/fancybox/source/jquery.fancybox.css">
+	<link rel="stylesheet" href="${template}/plugins/owl-carousel/owl-carousel/owl.carousel.css">
+	<link rel="stylesheet" href="${template}/plugins/master-slider/masterslider/style/masterslider.css">
+	<link rel='stylesheet' href="${template}/plugins/master-slider/masterslider/skins/black-2/style.css">
+	
+	<!-- CSS Pages Style -->
+	<link rel="stylesheet" href="${template}/css/pages/page_one.css">
+	
+	<!-- CSS Default -->
+	<link rel="stylesheet" href="${resources}/css/app.css">
+	<link rel="stylesheet" href="${resources}/css/header.css">
+	
+	<!-- CSS Theme -->
+	<link rel="stylesheet" href="${template}/css/theme-colors/dark-blue.css" id="style_color">
+	<link rel="stylesheet" href="${template}/css/theme-skins/dark.css">
+	
+	<!-- CSS Customization -->
+	<link href="${resources }/summer/summernote.css" rel="stylesheet">
 </head>
 <body class="header-fixed header-fixed-space">
 	<div class="wrapper">
@@ -141,7 +141,7 @@
 									<a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">Portfolio</a>
 									<ul class="dropdown-menu">
 										<li><a href="${portfolio}/music/list"><i class="fa fa-volume-down"></i> Musics(MongoDB, Youtube API, Json, Crawl)</a></li>
-										<li><a href="${news}/list"><i class="fa fa-columns"></i>News</a></li>
+										<li><a href="${news}/list/cio"><i class="fa fa-columns"></i>News</a></li>
 										<li><a href="${project}"><i class="fa fa-tasks"></i> Projects</a></li>
 										
 										<%--										
@@ -259,7 +259,7 @@
 		</div>
 		<!--=== End Header v6 ===-->
 <!-- ---------------------------------------------------------------------------------------------------------------------------------  -->
-		<div class="doBody">
+		<div>
 		<!-- real Body input place  -->
 			<jsp:doBody/>
 		</div>

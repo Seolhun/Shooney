@@ -15,7 +15,7 @@ import com.mongodb.Mongo;
 import com.mongodb.MongoClient;
 
 @Configuration
-@EnableMongoRepositories(basePackages = "com.shun.mongodb.model")
+@EnableMongoRepositories(basePackages = "com.shun.mongodb.repository")
 @PropertySource(value = { "classpath:datasource.properties" })
 public class MongoConfig extends AbstractMongoConfiguration {
 	

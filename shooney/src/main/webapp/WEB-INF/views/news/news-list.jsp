@@ -16,7 +16,8 @@
 						business on web and mobile.</p>
 				</div>
 				<div class="call-action-v1-in inner-btn page-scroll">
-					<button class="btn-u btn-brd btn-brd-hover btn-u-dark btn-u-block margin-bottom-5" name="itWorldBtn">Add News</button>
+					<button class="btn-u btn-u-blue margin-bottom-5" onclick="NewsModule.saveNews();">Save News</button>
+					<button class="btn-u btn-u-orange margin-bottom-5" onclick="NewsModule.stopNews();">Stop News</button>
 				</div>
 			</div>
 		</div>
@@ -24,6 +25,12 @@
 	<!--=== End Call To Action ===-->
 	<div class="container content-xs">
 		<div class="row">
+			<div class="col-sm-12 form-inline">
+				<button class="btn-u btn-u-aqua margin-bottom-5" onclick="NewsModule.getNewsDetail();">Get News</button>
+				<input class="form-control" id="newsNumber">
+				<input class="form-control" id="websiteName" value="${websiteName }">
+			</div>
+			
 			<div class="col-sm-12">
 				<div>
 					${itWorld.id }

@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import com.shun.mongodb.model.BaseEntity;
 
@@ -18,29 +19,40 @@ import lombok.Setter;
 @Setter
 public class NewsData extends BaseEntity implements Serializable {
 	
-	@Indexed(unique = true)
-	private String idx;
-
-	private String newsTitle;
-
-	private String newsContent;
-
-	private List<String> newsTags;
+	@Field(value="NEWS_IDX")
+	@Indexed(unique=false)
+	private Long idx;
 	
-	private Integer newsBoardNo;
+	@Field(value="NEWS_HEADER_IMAGE")
+	private String headerImage;
 	
-	private Integer newsHit;
-
-	private Integer newsLikes;
-
-	private Date newsCreatedDate;
+	@Field(value="NEWS_TITLE")
+	private String title;
 	
-	private String newsCreatedBy;
+	@Field(value="NEWS_CONTENT")
+	private String content;
 
-	private Date newsModifiedDate;
+	@Field(value="NEWS_TAGS")
+	private List<String> tags;
 	
-	private String newsModifiedBy;
+	@Field(value="NEWS_IMAGES")
+	private List<String> images;
+	
+	@Field(value="NEWS_FROM_SOURCE")
+	private String fromSource;
 
-	private Integer newsDelcheck;
+	@Field(value="NEWS_CREATED_DATE")
+	private Date createdDate;
+	
+	@Field(value="NEWS_CREATED_BY")
+	private String createdBy;
 
+	@Field(value="NEWS_MODIFIED_DATE")
+	private Date modifiedDate;
+	
+	@Field(value="news_Modified_By")
+	private String modifiedBy;
+
+	@Field(value="NEWS_DEL_CHECK")
+	private Integer delCheck=0;
 }
