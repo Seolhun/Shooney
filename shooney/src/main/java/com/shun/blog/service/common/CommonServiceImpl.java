@@ -151,22 +151,22 @@ public class CommonServiceImpl implements CommonService {
 		int totalPage=Math.round(totalCount/limit);
 		int totalBlock = totalCount / limit + (totalCount % limit > 0 ? 1 : 0); // 전체
 		int currentBlock = cPage / blockLimit + (cPage % blockLimit > 0 ? 1 : 0);// 현재
-		int blockEndNo = currentBlock * blockLimit;
-		int blockStartNo = blockEndNo - (blockLimit - 1);
+		int blockEndNum = currentBlock * blockLimit;
+		int blockStartNum = blockEndNum - (blockLimit - 1);
 
-		if (blockEndNo > totalBlock) {
-			blockEndNo = totalBlock;
+		if (blockEndNum > totalBlock) {
+			blockEndNum = totalBlock;
 		}
 
-		int prev_cPage = blockStartNo - blockLimit; // << *[이전]*
-		int next_cPage = blockStartNo + blockLimit; // *[다음]* >>
+		int previousPage = blockStartNum - blockLimit; // << *[이전]*
+		int nextPage = blockStartNum + blockLimit; // *[다음]* >>
 
-		if (prev_cPage < 1) {
-			prev_cPage = 1;
+		if (previousPage < 1) {
+			previousPage = 1;
 		}
 
-		if (next_cPage > totalBlock) {
-			next_cPage = totalBlock / blockLimit * blockLimit + 1;
+		if (nextPage > totalBlock) {
+			nextPage = totalBlock / blockLimit * blockLimit + 1;
 		}
 		
 		paging.setTotalPage(totalPage);
@@ -177,10 +177,10 @@ public class CommonServiceImpl implements CommonService {
 		paging.setBlockLimit(blockLimit);
 		paging.setCurrentBlock(currentBlock);
 		paging.setTotalPage(totalBlock);
-		paging.setBlockEndNo(blockEndNo);
-		paging.setBlockStartNo(blockStartNo);
-		paging.setNext_cPage(next_cPage);
-		paging.setPrev_cPage(prev_cPage);
+		paging.setBlockEndNum(blockEndNum);
+		paging.setBlockStartNum(blockStartNum);
+		paging.setNextPage(nextPage);
+		paging.setPreviousPage(previousPage);
 		LOG.info("return : {}", paging.toString());
 		return paging;
 	}

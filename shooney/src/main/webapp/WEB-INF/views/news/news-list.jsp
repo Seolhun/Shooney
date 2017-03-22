@@ -15,28 +15,43 @@
 						뉴스데이터를 MongoDB에 담아 AngularJS로 출력하였습니다.
 					</p>
 				</div>
-				<div class="call-action-v1-in inner-btn page-scroll">
-					<a href="${news }/add/cio"><button class="btn-u btn-u-green margin-bottom-5">Move Save Page</button></a>
-				</div>
+				<sec:authorize access="hasRole('SUPERADMIN')">
+					<div class="call-action-v1-in inner-btn page-scroll">
+						<a href="${news }/add/cio"><button class="btn-u btn-u-green margin-bottom-5">Move Save Page</button></a>
+					</div>
+				</sec:authorize>
 			</div>
 		</div>
 	</div>
 		
 	<!--=== End Call To Action ===-->
 	<div class="container content" data-ng-app="NewsAngularModule" data-ng-controller="NewsAngularController">
-		<div class="row">
-			<div class="col-sm-4" data-ng-repeat="news in newsList">
-				<div class="col-sm-12 margin-bottom-20" data-ng-if="news.headerImage != ''">
-					<img class="newsImage" data-ng-src="{{news.headerImage}}">
-				</div>
-				<div class="col-sm-12 margin-bottom-20">
+		<div class="row margin-bottom-30">
+			<div class="col-sm-4 max-height-400" data-ng-repeat="news in newsList">
+				<div class="col-sm-12 margin-bottom-10">
 					{{news.idx}}
 				</div>
-				<div class="col-sm-12 margin-bottom-20">
+				<div class="col-sm-12 margin-bottom-10">
 					{{news.title}}
+				</div>
+				<div class="col-sm-12 margin-bottom-10" data-ng-if="news.headerImage != ''">
+					<img class="newsImage" data-ng-src="{{news.headerImage}}">
 				</div>
 			</div>
 		</div>
+		
+		<div class="row">
+			<div class="col-sm-12">
+				<div data-ng-model="paging">
+					<button data-ng-click="count = count + 1" data-ng-init="count=0">
+	  					Increment : {{count}}
+					</button>
+				</div>
+				
+			</div>
+		</div>
 	</div>
+	
+	
 </tag:layout>
 <script type="text/javascript" src="${resources}/js/news.js"></script>

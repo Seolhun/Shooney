@@ -2,7 +2,11 @@ package com.shun.mongodb.controller.news;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.jsoup.HttpStatusException;
 import org.jsoup.Jsoup;
@@ -14,6 +18,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +26,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.shun.blog.model.common.AjaxResult;
+import com.shun.blog.model.common.Paging;
+import com.shun.blog.service.common.CommonService;
 import com.shun.mongodb.model.news.NewsData;
 import com.shun.mongodb.service.news.NewsDataService;
 
@@ -29,8 +36,14 @@ import com.shun.mongodb.service.news.NewsDataService;
 public class NewsDataRestController {
 	private static final Logger LOG = LoggerFactory.getLogger(NewsDataRestController.class);
 	
-	@Autowired
 	private NewsDataService newsDataService;
+	private CommonService commonService;
+	
+	@Autowired
+	public NewsDataRestController(NewsDataService newsDataService, CommonService commonService) {
+		this.newsDataService=newsDataService;
+		this.commonService=commonService;
+	}
 
 	@RequestMapping(value = "/save/{website}/{idx}", method = RequestMethod.GET)
 	public AjaxResult saveNews(ModelMap model, @PathVariable String website, @PathVariable Long idx) {
@@ -51,13 +64,27 @@ public class NewsDataRestController {
 	}
 	
 	@RequestMapping(value = "/list-json", method = RequestMethod.GET)
-	public Page<NewsData> getNewsListData(ModelMap model) {
+	public Map<String, Object> getNewsListData(ModelMap model, HttpServletRequest request) {
 		LOG.info("where : getNewsListData");
+		//Paging		
+		Paging paging=new Paging();
+		int limit=commonService.checkVDInt(request.getParameter("limit"), 15);
+		int startNum=commonService.checkVDInt(request.getParameter("startNum"), 0);
+		int lastNum=limit;
+		if(startNum!=0){
+			lastNum=limit*startNum;
+			startNum--;	
+		}
+		paging.setStartNum(startNum);
+		paging.setLastNum(lastNum);
 		
-		PageRequest pageRequest=new PageRequest(0, 20);
+		PageRequest pageRequest=new PageRequest(startNum, lastNum, Direction.DESC, "NEWS_IDX");
 		Page<NewsData> newsDatas=newsDataService.findAll(pageRequest);
-//		List<NewsData> newsDatas=newsDataService.findAll();
-		return newsDatas;
+		
+		Map<String, Object> resultMap=new HashMap<>();
+		resultMap.put("newsDatas", newsDatas);
+		resultMap.put("paging", paging);
+		return resultMap;
 	}
 
 	@RequestMapping(value = "/detail/{id}", method = RequestMethod.GET)

@@ -11,15 +11,17 @@
 		<div class="container">
 			<div class="call-action-v1-box">
 				<div class="call-action-v1-in">
-					<p>Unify creative technology company providing key digital
-						services and focused on helping our clients to build a successful
-						business on web and mobile.</p>
+					<p>
+						뉴스데이터를 MongoDB에 담기 위한 크롤링 기능 페이지입니다.
+					</p>
 				</div>
-				<div class="call-action-v1-in inner-btn page-scroll">
-					<a href="${news}/list"><button class="btn-u btn-u-green margin-bottom-5">Move News List</button></a>
-					<button class="btn-u btn-u-blue margin-bottom-5" onclick="NewsModule.saveNews();">Save News</button>
-					<button class="btn-u btn-u-orange margin-bottom-5" onclick="NewsModule.stopNews();">Stop News</button>
-				</div>
+				<sec:authorize access="hasRole('SUPERADMIN')">
+					<div class="call-action-v1-in inner-btn page-scroll">
+						<a href="${news}/list"><button class="btn-u btn-u-green margin-bottom-5">Move News List</button></a>
+						<button class="btn-u btn-u-blue margin-bottom-5" onclick="NewsModule.saveNews();">Save News</button>
+						<button class="btn-u btn-u-orange margin-bottom-5" onclick="NewsModule.stopNews();">Stop News</button>
+					</div>
+				</sec:authorize>
 			</div>
 		</div>
 	</div>

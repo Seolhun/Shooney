@@ -6,7 +6,13 @@ var	csrfToken=$("#csrfToken").attr("content");
 /* AJAX 통신 처리 */
 var NewsAngularModule = angular.module('NewsAngularModule', []);
 NewsAngularModule.controller('NewsAngularController', function ($scope, $http) {
-    $http({
+//	$(document).ajaxStart(function () {
+//	    $(".loadingImg1").show();
+//	}).ajaxStop(function () {
+//		$(".loadingImg1").hide();
+//	});
+	
+	$http({
 		method : 'GET', // 방식
 		url : root +"/news/list-json", /* 통신할 URL */
 		headers : {
@@ -15,13 +21,16 @@ NewsAngularModule.controller('NewsAngularController', function ($scope, $http) {
 		}
     }).then(function (response){
     	console.log("Success");
+    	var responseData=response.data;
     	
-    	//mongodb result
-    	var responseData=response.data.content;
-    	$scope.newsList=responseData;
+    	var newsList=responseData.newsDatas.content;
+    	var paging=responseData.paging;
+    	
+    	$scope.newsList=newsList;
+    	$scope.paging=paging;
     	
     	//Ajax결과 출력    	
-    	responseData.forEach(function(data, index, status){
+    	newsList.forEach(function(data, index, status){
 //    		console.log(data);
     	})
     	
