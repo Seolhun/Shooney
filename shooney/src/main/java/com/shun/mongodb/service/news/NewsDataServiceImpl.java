@@ -6,7 +6,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,28 +21,28 @@ public class NewsDataServiceImpl implements NewsDataService {
 	
 	@Autowired(required=true)
 	private NewsDataRepository newsDataRepository;
-
-	@Override
-	public NewsData findOneById(String id) {
-		LOG.info("param : findOne : ", id);
-		return newsDataRepository.findOne(id);
-	}
 	
 	@Override
 	public void save(NewsData newsData) {
 		newsDataRepository.save(newsData);
 	}
+
+	@Override
+	public NewsData findById(String id) {
+		LOG.info("param : findOne : ", id);
+		return newsDataRepository.findOne(id);
+	}
 	
 	@Override
-	public List<NewsData> findByIdx(Long idx) {
+	public NewsData findByIdx(Long idx) {
 		LOG.info("param : findByIdx : ", idx);
 		return newsDataRepository.findByIdx(idx);
 	}
-
+	
 	@Override
-	public Page<NewsData> findByIdx(Long idx, Pageable pageable) {
-		LOG.info("param : findByIdx : ", idx);
-		return newsDataRepository.findByIdx(idx, new PageRequest(0, 10));
+	public Page<NewsData> findAll(Pageable pageable) {
+		LOG.info("param : findAll : ", pageable.toString());
+		return newsDataRepository.findAll(pageable);
 	}
 
 	@Override
@@ -60,7 +59,6 @@ public class NewsDataServiceImpl implements NewsDataService {
 
 	@Override
 	public List<NewsData> selectList() {
-		// TODO Auto-generated method stub
-		return null;
+		return newsDataRepository.findAll();
 	}
 }

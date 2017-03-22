@@ -3,7 +3,6 @@
  * 
  */
 
-
 var width=840;
 var height=475;
 var ambilight; //youtube

@@ -1,6 +1,5 @@
 <%@ tag description="Layout Template" pageEncoding="UTF-8"%><%@ attribute name="tab" required="false" type="java.lang.String"%><%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%><%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%><%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%><%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<spring:url value="/resources" var="resources" /><spring:url value="/resources/template" var="template"/><spring:url value="/" var="shooney"/><spring:url value="/board" var="board"/><spring:url value="/project" var="project"/><spring:url value="/portfolio" var="portfolio"/><spring:url value="/myinfo" var="myinfo"/><spring:url value="/admin" var="admin"/><spring:url value="/signup" var="signup"/><spring:url value="/login" var="login"/><spring:url value="/logout" var="logout"/><spring:url value="/news" var="news"/>
-
+<spring:url value="/" var="shooney"/><spring:url value="/resources" var="resources" /><spring:url value="/resources/template" var="template"/><spring:url value="/webjars" var="webjars" /><spring:url value="/board" var="board"/><spring:url value="/project" var="project"/><spring:url value="/portfolio" var="portfolio"/><spring:url value="/myinfo" var="myinfo"/><spring:url value="/admin" var="admin"/><spring:url value="/signup" var="signup"/><spring:url value="/login" var="login"/><spring:url value="/logout" var="logout"/><spring:url value="/news" var="news"/>
 <!doctype html>
 <html class="no-js" lang="ko">
 <head>
@@ -14,8 +13,8 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="keywords" content="Shooney">
 	<meta name="description" content="Shooney's Blog">
-	<meta id="csrfToken" name="csrfToken" content="${_csrf.token}" />
-	<meta id="csrfHeader" name="csrfHeader" content="${_csrf.headerName}" />
+	<meta id="csrfToken" name="csrfToken" content="${_csrf.token}"/>
+	<meta id="csrfHeader" name="csrfHeader" content="${_csrf.headerName}"/>
 
 	<title>SomeThing New | Hooney Blog</title>
 
@@ -47,6 +46,7 @@
 	<!-- CSS Default -->
 	<link rel="stylesheet" href="${resources}/css/app.css">
 	<link rel="stylesheet" href="${resources}/css/header.css">
+	<link rel="stylesheet" href="${resources}/css/hooney.css">
 	
 	<!-- CSS Theme -->
 	<link rel="stylesheet" href="${template}/css/theme-colors/dark-blue.css" id="style_color">
@@ -141,7 +141,7 @@
 									<a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">Portfolio</a>
 									<ul class="dropdown-menu">
 										<li><a href="${portfolio}/music/list"><i class="fa fa-volume-down"></i> Musics(MongoDB, Youtube API, Json, Crawl)</a></li>
-										<li><a href="${news}/list/cio"><i class="fa fa-columns"></i>News</a></li>
+										<li><a href="${news}/list"><i class="fa fa-columns"></i>News</a></li>
 										<li><a href="${project}"><i class="fa fa-tasks"></i> Projects</a></li>
 										
 										<%--										
@@ -259,8 +259,9 @@
 		</div>
 		<!--=== End Header v6 ===-->
 <!-- ---------------------------------------------------------------------------------------------------------------------------------  -->
-		<div>
+
 		<!-- real Body input place  -->
+		<div>
 			<jsp:doBody/>
 		</div>
 <!-- ---------------------------------------------------------------------------------------------------------------------------------  -->
@@ -380,6 +381,9 @@
 		<script type="text/javascript" src="${template}/plugins/jquery/jquery.min.js"></script>
 		<script type="text/javascript" src="${template}/plugins/jquery/jquery-migrate.min.js"></script>
 		<script type="text/javascript" src="${template}/plugins/bootstrap/js/bootstrap.min.js"></script>
+		
+		<script type="text/javascript" src="${webjars}/angular/1.6.3/angular.min.js"></script>
+		<script type="text/javascript" src="${webjars}/angular-sanitize/1.6.3/angular-sanitize.min.js"></script>
 		
 		<!-- Custom & Functional JS -->
 		<script type="text/javascript" src="${resources }/summer/summernote.js"></script>

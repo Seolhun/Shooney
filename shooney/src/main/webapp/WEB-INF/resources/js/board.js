@@ -1,7 +1,7 @@
 /* Write here your custom javascript codes */
-var project="/shooney";
-var csrfHeader=$("meta[name='_csrf_header']").attr("content");
-var	csrfToken=$("meta[name='_csrf']").attr("content");
+var root="/shooney";
+var csrfHeader=$("#csrfHeader").attr("content");
+var	csrfToken=$("#csrfToken").attr("content");
 
 //댓글달기 버튼 이벤트 
 $('#commentTextarea').click(function(){
@@ -21,7 +21,7 @@ var CommentModule = (function() {
 	var _getCommentList = function() {
 		var row = "";
 		$.ajax({
-			url : project +"/reply/board/list",
+			url : root +"/reply/board/list",
 			timeout : 60000,
 	    	data : {
 	    		'board_id' : board_id
@@ -66,7 +66,7 @@ $('#commentSubmit').click(function(){
 	data["board_id"] = document.getElementById("board_id").innerHTML;
 	data["csrfToken"] = csrfToken;
 	$.ajax({
-		url : project +"/reply/board/add",
+		url : root +"/reply/board/add",
 		type : 'POST',
 		timeout : 60000,
 		data: JSON.stringify(data),	
@@ -100,7 +100,7 @@ function commentDelete(commentId){
 		var writer= document.getElementById("commentWriter").innerHTML;
 		var content= document.getElementById("commentContent").innerHTML;
 		$.ajax({
-			url : project +"/reply/board/delete/"+id,
+			url : root +"/reply/board/delete/"+id,
 			type : 'GET',
 			timeout : 60000,
 			data : {
@@ -139,7 +139,7 @@ function commentModifySubmit(commentId){
 	var content= document.getElementById("commentModifyTextarea").value;
 //	var content= inputContent.replace(/\n/g, '<br/>');
 	$.ajax({
-		url : project +"/reply/board/modify/"+id,
+		url : root +"/reply/board/modify/"+id,
 		type : 'GET',
 		timeout : 60000,
 		data : {

@@ -1,7 +1,7 @@
 /* Write here your custom javascript codes */
-var project="/shooney";
-var csrfHeader=document.getElementById("csrfHeader").content;
-var csrfToken=document.getElementById("csrfToken").content;
+var root="/shooney";
+var csrfHeader=$("#csrfHeader").attr("content");
+var	csrfToken=$("#csrfToken").attr("content");
 
 //회원관리 전체작업용
 $(function() {
@@ -69,7 +69,7 @@ $(function() {
 		var defaultFailStateMsg = "Fail : User is " + stateMsg + "\n";
 		var defaultFailRoleMsg = "Fail : User is " + roleMsg + "\n";
 		$.ajax({
-			url : project+"/admin/user/all/update",
+			url : root+"/admin/user/all/update",
 			type : 'GET',
 			timeout: 60000,
 			data : {

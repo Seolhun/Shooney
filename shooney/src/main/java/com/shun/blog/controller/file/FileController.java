@@ -50,12 +50,11 @@ public class FileController {
 		byte fileByte[] = FileUtils.readFileToByteArray(new File(path+savedFileName));
 		
         if(fileByte.length<1){
+        	LOG.info("error : fileByte Length Problem");
             String errorMessage = "Sorry. The file you are looking for does not exist";
-            System.out.println(errorMessage);
             OutputStream outputStream = response.getOutputStream();
             outputStream.write(errorMessage.getBytes(Charset.forName("UTF-8")));
             outputStream.close();
-            LOG.info("error : fileByte Length Problem");
             return;
         }
 		
@@ -65,7 +64,6 @@ public class FileController {
 		response.setHeader("Content-Disposition", String.format("inline; filename=\"" + originalFileName+"\""));
 		response.setHeader("Content-Transfer-Encoding", "binary");
 		response.getOutputStream().write(fileByte);
-		
 		response.getOutputStream().flush();
 		response.getOutputStream().close();
 	}

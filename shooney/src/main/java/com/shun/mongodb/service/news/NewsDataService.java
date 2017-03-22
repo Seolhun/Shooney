@@ -9,13 +9,13 @@ import com.shun.mongodb.model.news.NewsData;
 
 public interface NewsDataService {
 	
-	NewsData findOneById(String id);
-	
-	List<NewsData> findByIdx(Long idx);
-
-    Page<NewsData> findByIdx(Long idx, Pageable pageable);
-	
 	void save(NewsData newsData);
+	
+	NewsData findById(String id);
+	
+	NewsData findByIdx(Long idx);
+
+	Page<NewsData> findAll(Pageable pageable);
 	
 	void update(NewsData newsData);
 	

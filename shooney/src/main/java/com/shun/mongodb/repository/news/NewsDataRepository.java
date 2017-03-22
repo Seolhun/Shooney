@@ -4,15 +4,17 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 import com.shun.mongodb.model.news.NewsData;
 
 @Repository
-public interface NewsDataRepository extends PagingAndSortingRepository<NewsData, String> {
+public interface NewsDataRepository extends MongoRepository<NewsData, String> {
 
-	List<NewsData> findByIdx(Long idx);
+	NewsData findByIdx(Long idx);
 
-    Page<NewsData> findByIdx(Long idx, Pageable pageable);
+    List<NewsData> findAll();
+    
+    Page<NewsData> findAll(Pageable pageable);
 }

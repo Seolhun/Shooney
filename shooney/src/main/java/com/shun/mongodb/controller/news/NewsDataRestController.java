@@ -12,6 +12,8 @@ import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,7 +33,8 @@ public class NewsDataRestController {
 	private NewsDataService newsDataService;
 
 	@RequestMapping(value = "/save/{website}/{idx}", method = RequestMethod.GET)
-	public AjaxResult getITworldInfoList(ModelMap model, @PathVariable String website, @PathVariable Long idx) {
+	public AjaxResult saveNews(ModelMap model, @PathVariable String website, @PathVariable Long idx) {
+		LOG.info("where : saveNews");
 		AjaxResult result=new AjaxResult();
 		getNewsThread(website, idx).start();
 		
@@ -41,22 +44,33 @@ public class NewsDataRestController {
 	
 	@RequestMapping(value = "/stop", method = RequestMethod.GET)
 	public AjaxResult stopThreadNews(AjaxResult ajaxResult) {
+		LOG.info("where : stopThreadNews");
 		stopNewsThread();
 		ajaxResult.setResult("success");
 		return ajaxResult;
 	}
+	
+	@RequestMapping(value = "/list-json", method = RequestMethod.GET)
+	public Page<NewsData> getNewsListData(ModelMap model) {
+		LOG.info("where : getNewsListData");
+		
+		PageRequest pageRequest=new PageRequest(0, 20);
+		Page<NewsData> newsDatas=newsDataService.findAll(pageRequest);
+//		List<NewsData> newsDatas=newsDataService.findAll();
+		return newsDatas;
+	}
 
 	@RequestMapping(value = "/detail/{id}", method = RequestMethod.GET)
-	public NewsData getNews2(ModelMap model, @PathVariable String id) {
+	public NewsData getNewsDetail(ModelMap model, @PathVariable String id) {
 		LOG.info("where : moveNewsList");
-		NewsData newsData=newsDataService.findOneById(id);
+		NewsData newsData=newsDataService.findById(id);
 		return newsData;
 	}
 	
 	@RequestMapping(value = "/detail2/{idx}", method = RequestMethod.GET)
-	public List<NewsData> getNews2(ModelMap model, @PathVariable Long idx) {
+	public NewsData getNews2(ModelMap model, @PathVariable Long idx) {
 		LOG.info("where : moveNewsList");
-		List<NewsData> newsData2=newsDataService.findByIdx(idx);
+		NewsData newsData2=newsDataService.findByIdx(idx);
 		return newsData2;
 	}
 	

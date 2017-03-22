@@ -11,30 +11,37 @@
 		<div class="container">
 			<div class="call-action-v1-box">
 				<div class="call-action-v1-in">
-					<p>
-						뉴스데이터를 MongoDB에 담아 AngularJS로 출력하였습니다.
-					</p>
+					<p>Unify creative technology company providing key digital
+						services and focused on helping our clients to build a successful
+						business on web and mobile.</p>
 				</div>
 				<div class="call-action-v1-in inner-btn page-scroll">
-					<a href="${news }/add/cio"><button class="btn-u btn-u-green margin-bottom-5">Move Save Page</button></a>
+					<a href="${news}/list"><button class="btn-u btn-u-green margin-bottom-5">Move News List</button></a>
+					<button class="btn-u btn-u-blue margin-bottom-5" onclick="NewsModule.saveNews();">Save News</button>
+					<button class="btn-u btn-u-orange margin-bottom-5" onclick="NewsModule.stopNews();">Stop News</button>
 				</div>
 			</div>
 		</div>
 	</div>
-		
 	<!--=== End Call To Action ===-->
-	<div class="container content" data-ng-app="NewsAngularModule" data-ng-controller="NewsAngularController">
+	<div class="container content-xs">
 		<div class="row">
-			<div class="col-sm-4" data-ng-repeat="news in newsList">
-				<div class="col-sm-12 margin-bottom-20" data-ng-if="news.headerImage != ''">
-					<img class="newsImage" data-ng-src="{{news.headerImage}}">
+			<div class="col-sm-12 form-inline">
+				<button class="btn-u btn-u-aqua margin-bottom-5" onclick="NewsModule.getNewsDetail();">Get News</button>
+				<input class="form-control" id="newsNumber" placeholder="ex)3100000">
+				<input class="form-control" id="websiteName" value="${websiteName }" placeholder="ex)cio">
+			</div>
+			
+			<div class="col-sm-12">
+				<div>
+					${itWorld.id }
 				</div>
-				<div class="col-sm-12 margin-bottom-20">
-					{{news.idx}}
+				<div>
+					${itWorld.title }
 				</div>
-				<div class="col-sm-12 margin-bottom-20">
-					{{news.title}}
-				</div>
+				<div>
+					${itWorld.content }
+				</div>			
 			</div>
 		</div>
 	</div>
