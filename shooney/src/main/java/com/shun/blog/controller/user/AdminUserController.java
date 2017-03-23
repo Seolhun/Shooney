@@ -69,7 +69,7 @@ public class AdminUserController {
 		model.addAttribute("paging", paging);
 		model.addAttribute("userProfile", UserProfileType.values());
 		model.addAttribute("state", CommonState.values());
-		return "user/user-list";
+		return "user/admin-user-list";
 	}
 
 	/**

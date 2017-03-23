@@ -27,6 +27,15 @@
 	<!--=== End Call To Action ===-->
 	<div class="container content" data-ng-app="NewsAngularModule" data-ng-controller="NewsAngularController">
 		<div class="row margin-bottom-30">
+		<!-- 
+			$index	number	iterator offset of the repeated element (0..length-1)
+			$first	boolean	true if the repeated element is first in the iterator.
+			$middle	boolean	true if the repeated element is between the first and last in the iterator.
+			$last	boolean	true if the repeated element is last in the iterator.
+			$even	boolean	true if the iterator position $index is even (otherwise false).
+			$odd
+			<div ng-repeat="n in [42, 42, 43, 43] track by $index">
+		-->
 			<div class="col-sm-4 max-height-400" data-ng-repeat="news in newsList">
 				<div class="col-sm-12 margin-bottom-10">
 					{{news.idx}}
@@ -46,8 +55,22 @@
 					<button data-ng-click="count = count + 1" data-ng-init="count=0">
 	  					Increment : {{count}}
 					</button>
+					<p data-ng-bind-template="{{paging.startNum}}"></p>
+					<p data-ng-bind-template="{{paging.lastNum}}"></p>
+					
+			    	<ul>
+				        <li data-ng-repeat="item in data | startFrom:paging.startNum*paging.limit | limitTo:pageSize">
+				            {{item}}
+				        </li>
+				    </ul>
+				    <button data-ng-disabled="currentPage == 0" data-ng-click="currentPage=currentPage-1">
+				        Previous
+				    </button>
+				    	{{currentPage+1}}/{{numberOfPages()}}
+				    <button data-ng-disabled="currentPage >= data.length/pageSize - 1" data-ng-click="currentPage=currentPage+1">
+				        Next
+				    </button>
 				</div>
-				
 			</div>
 		</div>
 	</div>

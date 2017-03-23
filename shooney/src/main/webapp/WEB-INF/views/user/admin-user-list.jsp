@@ -84,7 +84,7 @@
 		   		<div class="text-center">
 		   			<a href="list?cPage=${paging.currentPage -10 < 1 ? 1 : paging.currentPage -10}" class="btn-u btn-brd btn-brd-hover btn-u-dark btn-u-block margin-bottom-5">&larr;&larr;</a>
 		   			<a href="list?cPage=${paging.currentPage -1 < 1 ? 1 : paging.currentPage -1}" class="btn-u btn-brd btn-brd-hover btn-u-dark btn-u-block margin-bottom-5">&larr;</a>
-		   			<c:forEach begin="${paging.blockStartNo }" end="${paging.blockEndNo}" varStatus="status">
+		   			<c:forEach begin="${paging.blockStartNum }" end="${paging.blockEndNum}" varStatus="status">
 						<a href="list?cPage=${status.index }" class="btn-u btn-brd btn-brd-hover btn-u-dark btn-u-block margin-bottom-5" 
 						<c:if test="${status.index==paging.currentPage }">style="color: Green"</c:if>>${status.index}</a>
 		   			</c:forEach>

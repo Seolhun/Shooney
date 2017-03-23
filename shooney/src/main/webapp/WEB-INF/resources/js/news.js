@@ -6,37 +6,55 @@ var	csrfToken=$("#csrfToken").attr("content");
 /* AJAX 통신 처리 */
 var NewsAngularModule = angular.module('NewsAngularModule', []);
 NewsAngularModule.controller('NewsAngularController', function ($scope, $http) {
-//	$(document).ajaxStart(function () {
-//	    $(".loadingImg1").show();
-//	}).ajaxStop(function () {
-//		$(".loadingImg1").hide();
-//	});
+	getNewsList();
+	pagination($scope);
 	
-	$http({
-		method : 'GET', // 방식
-		url : root +"/news/list-json", /* 통신할 URL */
-		headers : {
-			"Content-Type" : "application/json; charset=utf-8",
-			csrfHeader : csrfToken
+	function getNewsList(){
+		$http({
+			method : 'GET', // 방식
+			url : root +"/news/list-json", /* 통신할 URL */
+			headers : {
+				"Content-Type" : "application/json; charset=utf-8",
+				csrfHeader : csrfToken
+			}
+	    }).then(function (response){
+	    	console.log("Success");
+	    	var responseData=response.data;
+	    	
+	    	var newsList=responseData.newsDatas.content;
+	    	var paging=responseData.paging;
+	    	
+	    	$scope.newsList=newsList;
+	    	$scope.paging=paging;
+	    	
+	    	//Ajax결과 출력    	
+	    	newsList.forEach(function(data, index, status){
+//	    		console.log(data);
+	    	})
+	    	
+	    },function (error){
+	    	console.log("Error"+error);
+	    });
+	}
+	
+	function pagination($scope) {
+		$scope.currentPage = 0;
+		$scope.pageSize = 10;
+		$scope.data = [];
+		$scope.numberOfPages = function() {
+			return Math.ceil($scope.data.length / $scope.pageSize);
 		}
-    }).then(function (response){
-    	console.log("Success");
-    	var responseData=response.data;
-    	
-    	var newsList=responseData.newsDatas.content;
-    	var paging=responseData.paging;
-    	
-    	$scope.newsList=newsList;
-    	$scope.paging=paging;
-    	
-    	//Ajax결과 출력    	
-    	newsList.forEach(function(data, index, status){
-//    		console.log(data);
-    	})
-    	
-    },function (error){
-    	console.log("Error"+error);
-    });
+		for (var i = 0; i < 45; i++) {
+			$scope.data.push("Item " + i);
+		}
+	}
+	
+	//We already have a limitTo filter built-in to angular,
+	//let's make a startFrom filter
+	function startFrom(input, start) {
+        start = +start; //parse to int
+        return input.slice(start);
+	}
 });
 
 var NewsModule=(function(){
