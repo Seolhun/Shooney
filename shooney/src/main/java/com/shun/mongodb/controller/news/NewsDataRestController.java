@@ -29,6 +29,7 @@ import com.shun.blog.model.common.AjaxResult;
 import com.shun.blog.model.common.Paging;
 import com.shun.blog.service.common.CommonService;
 import com.shun.mongodb.model.news.NewsData;
+import com.shun.mongodb.model.news.NewsWebSite;
 import com.shun.mongodb.service.news.NewsDataService;
 
 @RestController
@@ -45,11 +46,12 @@ public class NewsDataRestController {
 		this.commonService=commonService;
 	}
 
-	@RequestMapping(value = "/save/{website}/{idx}", method = RequestMethod.GET)
-	public AjaxResult saveNews(ModelMap model, @PathVariable String website, @PathVariable Long idx) {
+	@RequestMapping(value = "/save/{idx}", method = RequestMethod.GET)
+	public AjaxResult saveNews(ModelMap model, @PathVariable Long idx) {
 		LOG.info("where : saveNews");
 		AjaxResult result=new AjaxResult();
-		getNewsThread(website, idx).start();
+		
+		getNewsThread(idx).start();
 		
 		result.setResult("success");
 		return result;
@@ -110,21 +112,42 @@ public class NewsDataRestController {
 //		return newsData3;
 //	}
 	
-	private Thread getNewsThread(String websiteName, Long startNumber){
-		Thread thread=new Thread("getNewsThread"){
+	private Thread getNewsThread(Long startNumber){
+		Thread thread=new Thread(){
 			public void run() {
 //				for (int i = 3100000; i<= 3182689; i++) {
-				for (Long i = startNumber; i<= 3182689; i++) {
+				for (Long i = startNumber; i< 310000; i++) {
 					// 리스트 가져오기
+					for (NewsWebSite newsWebSite : NewsWebSite.values()) {
+						String address=newsWebSite.getWebAddress();
+						String webSiteName=newsWebSite.name();
+						LOG.info("return : NewsWebSite : {}",newsWebSite);
+						LOG.info("return : NewsWebSite : {}",address);
+						LOG.info("return : NewsWebSite : {}",webSiteName);
+					}
+					
 					try {
-						Document doc = Jsoup.connect("http://www.cio.com/article/"+i).timeout(8000)
-								.userAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.95 Safari/537.36")
-								.ignoreHttpErrors(true).get();
+						String webSiteName="";
+						String address="";
 						
-						//404일때 돌아간다.
+						Document doc=null;
+						for (NewsWebSite newsWebSite : NewsWebSite.values()) {
+							address=newsWebSite.getWebAddress();
+							webSiteName=newsWebSite.name();
+							doc = Jsoup.connect(address+i).timeout(8000).userAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.95 Safari/537.36").ignoreHttpErrors(true).get();
+							LOG.info("return : NewsWebSite : {}",newsWebSite);
+							LOG.info("return : NewsWebSite : {}",address);
+							LOG.info("return : NewsWebSite : {}",webSiteName);
+							//하나라도 신문기사가 있으면 포문을 종료시키고 넘어간다.
+							if (doc != null)
+								break;
+						}
+						
+						//모두 돌았는데도 404일때 신문기사가 없으므로 돌아간다.(계속진행 시킨다.)
 						if (doc == null) {
 							continue;
 						}
+						
 						NewsData newsData=new NewsData();
 						String newsTitle=doc.getElementsByTag("title").html();
 						String newsWriter=doc.select("meta[name=author]").attr("content");
@@ -144,7 +167,7 @@ public class NewsDataRestController {
 						LOG.error("return newsHeadImage: " + newsHeadImage);
 						LOG.error("return newsContent: " + newsContent);
 						LOG.error("return newsSource : " + newsSource);
-						newsData.setId(websiteName+"_"+i);
+						newsData.setId(webSiteName+"_"+i);
 						newsData.setIdx(i);
 						newsData.setTitle(newsTitle);
 						newsData.setCreatedBy(newsWriter);
@@ -184,6 +207,6 @@ public class NewsDataRestController {
 		Thread thread = Thread.currentThread();
 		String name = thread.getName();
 		System.out.println("현재 쓰레드 이름 : " + name);
-		thread.interrupt();
+		thread.run();
 	}
 }

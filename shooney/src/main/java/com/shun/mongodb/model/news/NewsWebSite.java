@@ -1,5 +1,10 @@
 package com.shun.mongodb.model.news;
 public enum NewsWebSite {
+//	TECHHIVE("http://www.techhive.com/article/"),
+	PCWORLD("http://www.pcworld.com/article/"),
+	NETWORKWORLD("http://www.networkworld.com/article/"),
+	COMPUTERWORLD("http://www.computerworld.com/article/"),
+	INFOWORLD("http://www.infoworld.com/article/"),
 	CIO("http://www.cio.com/article/");
 	
 	private String webAddress;
