@@ -29,7 +29,7 @@
 	<div class="container content-xs">
 		<div class="row">
 			<div class="col-sm-12 form-inline">
-				<button class="btn-u btn-u-aqua margin-bottom-5" onclick="NewsModule.getNewsDetail();">Get News</button>
+				<button class="btn-u btn-u-aqua margin-bottom-5">Get News</button>
 				<input class="form-control" id="newsNumber" placeholder="ex)3100000">
 				<input class="form-control" id="websiteName" value="${websiteName }" placeholder="ex)cio">
 			</div>

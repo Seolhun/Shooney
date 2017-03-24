@@ -4,7 +4,7 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="tag" tagdir="/WEB-INF/tags"%>
-<spring:url value="/resources/" var="resources" /><spring:url value="/resources/template" var="template" /><spring:url value="/webjars" var="webjars" /><spring:url value="/news" var="news" />
+<spring:url value="/resources/" var="resources" /><spring:url value="/resources/template" var="template" /><spring:url value="/webjars" var="webjars" /><spring:url value="/news" var="news" /><spring:url value="/admin" var="admin" />
 <tag:layout tab="${target}">
 	<!--=== Call To Action ===-->
 	<div class="call-action-v1 bg-color-light">
@@ -17,7 +17,7 @@
 				</div>
 				<sec:authorize access="hasRole('SUPERADMIN')">
 					<div class="call-action-v1-in inner-btn page-scroll">
-						<a href="${news }/add/cio"><button class="btn-u btn-u-green margin-bottom-5">Move Save Page</button></a>
+						<a href="${admin }/news/add/cio"><button class="btn-u btn-u-green margin-bottom-5">Move Save Page</button></a>
 					</div>
 				</sec:authorize>
 			</div>
@@ -57,7 +57,7 @@
 					</button>
 					<p data-ng-bind-template="{{paging.startNum}}"></p>
 					<p data-ng-bind-template="{{paging.lastNum}}"></p>
-					
+					<!-- 
 			    	<ul>
 				        <li data-ng-repeat="item in data | startFrom:paging.startNum*paging.limit | limitTo:pageSize">
 				            {{item}}
@@ -70,6 +70,7 @@
 				    <button data-ng-disabled="currentPage >= data.length/pageSize - 1" data-ng-click="currentPage=currentPage+1">
 				        Next
 				    </button>
+				     -->
 				</div>
 			</div>
 		</div>
