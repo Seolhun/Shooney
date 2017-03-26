@@ -17,6 +17,8 @@ public interface NewsDataService {
 
 	Page<NewsData> findAll(Pageable pageable);
 	
+	long count();
+	
 	void update(NewsData newsData);
 	
 	void delete(String id);

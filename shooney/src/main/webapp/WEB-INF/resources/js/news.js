@@ -3,6 +3,7 @@ var root="/shooney";
 var csrfHeader=$("#csrfHeader").attr("content");
 var	csrfToken=$("#csrfToken").attr("content");
 
+
 /* AJAX 통신 처리 */
 var NewsAngularModule = angular.module('NewsAngularModule', []);
 NewsAngularModule.controller('NewsAngularController', function ($scope, $http) {

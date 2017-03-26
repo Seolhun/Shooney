@@ -60,13 +60,13 @@
 					<p data-ng-bind-template="{{paging.lastNum}}"></p>
 					<div>
 						<ul>
-							<li data-ng-repeat="item in data | startFrom:paging.startNum*paging.limit | limitTo:pageSize">
+							<li data-ng-repeat="item in data | startFrom:paging.startNum*paging.limit | limitTo:paging.totalCount">
 								{{item}}
 							</li>
 						</ul>
-						<button data-ng-disabled="currentPage == 0" data-ng-click="currentPage=currentPage-1">Previous</button>
-							{{currentPage+1}}/{{numberOfPages()}}
-						<button data-ng-disabled="currentPage >= data.length/pageSize - 1" data-ng-click="currentPage=currentPage+1">Next</button>
+						<button data-ng-disabled="currentPage == 0" data-ng-click="startNum=startNum-1">Previous</button>
+							{{paging.startNum+1}}/{{paging.lastNum}}
+						<button data-ng-disabled="startNum >= (paging.totalCount/paging.limit)" data-ng-click="startNum=startNum+1">Next</button>
 					</div>
 				</div>
 			</div>

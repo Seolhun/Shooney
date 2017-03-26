@@ -44,6 +44,11 @@ public class NewsDataServiceImpl implements NewsDataService {
 		LOG.info("param : findAll : ", pageable.toString());
 		return newsDataRepository.findAll(pageable);
 	}
+	
+	@Override
+	public long count() {
+		return newsDataRepository.count();
+	}
 
 	@Override
 	public void update(NewsData newsData) {

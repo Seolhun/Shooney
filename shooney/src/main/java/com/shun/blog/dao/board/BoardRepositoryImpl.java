@@ -59,7 +59,7 @@ public class BoardRepositoryImpl extends AbstractDao<Integer, Board> implements 
 		}
 
 		//검색어 이용.
-		if(sText.length()>0){
+		if(sText!=""){
 			if (sType == 1) {
 				criteria.add(Restrictions.like("title", "%" + sText + "%"));
 			} else if (paging.getSearchDate() != 0 && sType == 2) {
@@ -92,7 +92,7 @@ public class BoardRepositoryImpl extends AbstractDao<Integer, Board> implements 
 		}
 
 		//검색어 이용.
-		if(sText.length()>0){
+		if(sText!=""){
 			if (sType == 1) {
 				criteria.add(Restrictions.like("title", "%" + sText + "%"));
 			} else if (paging.getSearchDate() != 0 && sType == 2) {

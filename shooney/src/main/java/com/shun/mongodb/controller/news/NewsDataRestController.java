@@ -80,7 +80,11 @@ public class NewsDataRestController {
 		paging.setStartNum(startNum);
 		paging.setLastNum(lastNum);
 		
-		PageRequest pageRequest=new PageRequest(startNum, lastNum, Direction.DESC, "NEWS_IDX");
+		// 전체 게시판 갯수 확인
+		long totalCount = newsDataService.count();
+		paging.setTotalCount((int)totalCount);
+		
+		PageRequest pageRequest=new PageRequest(paging.getStartNum(), paging.getLastNum(), Direction.DESC, "NEWS_IDX");
 		Page<NewsData> newsDatas=newsDataService.findAll(pageRequest);
 		
 		Map<String, Object> resultMap=new HashMap<>();
