@@ -317,6 +317,10 @@ public class CommonServiceImpl implements CommonService {
 		int sDate = paging.getSearchDate();
 
 		int totalPage=(int)Math.ceil(totalCount/limit);
+		if(totalPage==0){
+			totalPage=1;
+		}
+		
 		int totalBlock = totalCount / limit + (totalCount % limit > 0 ? 1 : 0); // 전체
 		int currentBlock = cPage / blockLimit + (cPage % blockLimit > 0 ? 1 : 0);// 현재
 		int blockEndNum = currentBlock * blockLimit;

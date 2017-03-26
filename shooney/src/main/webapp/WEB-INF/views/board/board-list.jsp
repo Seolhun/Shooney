@@ -80,8 +80,8 @@
 								</optgroup>
 							</select>
 							<select class="select" name="sType">
-								<optgroup label="#검색 옵션">
-									<option>검색 옵션</option>
+								<optgroup label="검색 옵션">
+									<option># 검색 옵션</option>
 									<option value="1" <c:if test="${paging.searchType==1}">selected='selected'</c:if>>Subject</option>
 									<option value="2" <c:if test="${paging.searchType==2}">selected='selected'</c:if>>Content</option>
 									<option value="3" <c:if test="${paging.searchType==3}">selected='selected'</c:if>>Writer</option>

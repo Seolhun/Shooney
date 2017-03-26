@@ -59,15 +59,18 @@ public class BoardRepositoryImpl extends AbstractDao<Integer, Board> implements 
 		}
 
 		//검색어 이용.
-		if (sType == 1) {
-			criteria.add(Restrictions.like("title", "%" + sText + "%"));
-		} else if (paging.getSearchDate() != 0 && sType == 2) {
-			criteria.add(Restrictions.like("content", "%" + sText + "%"));
-		} else if (paging.getSearchDate() != 0 && sType == 3) {
-			criteria.add(Restrictions.like("createdBy", "%" + sText + "%"));
-		} else if (paging.getSearchDate() != 0 && sType == 4) {
-			criteria.add(Restrictions.like("title", "%" + sText + "%")).add(Restrictions.like("content", "%" + sText + "%"));
+		if(sText.length()>0){
+			if (sType == 1) {
+				criteria.add(Restrictions.like("title", "%" + sText + "%"));
+			} else if (paging.getSearchDate() != 0 && sType == 2) {
+				criteria.add(Restrictions.like("content", "%" + sText + "%"));
+			} else if (paging.getSearchDate() != 0 && sType == 3) {
+				criteria.add(Restrictions.like("createdBy", "%" + sText + "%"));
+			} else if (paging.getSearchDate() != 0 && sType == 4) {
+				criteria.add(Restrictions.like("title", "%" + sText + "%")).add(Restrictions.like("content", "%" + sText + "%"));
+			}	
 		}
+		
 		
 		List<Board> boards = (List<Board>) criteria.list();
 		return boards;
@@ -89,14 +92,16 @@ public class BoardRepositoryImpl extends AbstractDao<Integer, Board> implements 
 		}
 
 		//검색어 이용.
-		if (sType == 1) {
-			criteria.add(Restrictions.like("title", "%" + sText + "%"));
-		} else if (paging.getSearchDate() != 0 && sType == 2) {
-			criteria.add(Restrictions.like("content", "%" + sText + "%"));
-		} else if (paging.getSearchDate() != 0 && sType == 3) {
-			criteria.add(Restrictions.like("createdBy", "%" + sText + "%"));
-		} else if (paging.getSearchDate() != 0 && sType == 4) {
-			criteria.add(Restrictions.like("title", "%" + sText + "%")).add(Restrictions.like("content", "%" + sText + "%"));
+		if(sText.length()>0){
+			if (sType == 1) {
+				criteria.add(Restrictions.like("title", "%" + sText + "%"));
+			} else if (paging.getSearchDate() != 0 && sType == 2) {
+				criteria.add(Restrictions.like("content", "%" + sText + "%"));
+			} else if (paging.getSearchDate() != 0 && sType == 3) {
+				criteria.add(Restrictions.like("createdBy", "%" + sText + "%"));
+			} else if (paging.getSearchDate() != 0 && sType == 4) {
+				criteria.add(Restrictions.like("title", "%" + sText + "%")).add(Restrictions.like("content", "%" + sText + "%"));
+			}	
 		}
 		
 		Integer totalResult = ((Number)criteria.setProjection(Projections.rowCount()).uniqueResult()).intValue();
