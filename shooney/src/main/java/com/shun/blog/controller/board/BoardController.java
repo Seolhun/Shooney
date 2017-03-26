@@ -82,7 +82,8 @@ public class BoardController {
 		// 전체 게시판 갯수 확인
 		int totalCount = boardService.getCount(paging);
 		paging.setTotalCount(totalCount);
-		commonService.setPaging(paging);
+		
+		commonService.setAndValidationPaging(paging);
 		
 		List<Board> boards =new ArrayList<>();
 		try {

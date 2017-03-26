@@ -3,6 +3,40 @@ var root="/shooney";
 var csrfHeader=$("#csrfHeader").attr("content");
 var	csrfToken=$("#csrfToken").attr("content");
 
+
+/* AJAX 통신 처리 */
+var NewsAngularModule = angular.module('NewsAngularModule', []);
+NewsAngularModule.controller('NewsAngularController', function ($scope, $http) {
+	getNewsList();
+	
+	function getNewsList(){
+		$http({
+			method : 'GET', // 방식
+			url : root +"/news/list-json", /* 통신할 URL */
+			headers : {
+				"Content-Type" : "application/json; charset=utf-8",
+				csrfHeader : csrfToken
+			}
+	    }).then(function (response){
+	    	console.log("Success");
+	    	var responseData=response.data;
+	    	
+	    	var newsList=responseData.newsDatas.content;
+	    	var paging=responseData.paging;
+	    	
+	    	$scope.newsList=newsList;
+	    	$scope.paging=paging;
+	    	
+	    	//Ajax결과 출력    	
+	    	newsList.forEach(function(data, index, status){
+//	    		console.log(data);
+	    	})
+	    },function (error){
+	    	console.log("Error"+error);
+	    });
+	}
+});
+
 var NewsModule=(function(){
 	var _saveNews = function() {
 		var newsNumber=$("#newsNumber").val();
@@ -88,36 +122,3 @@ var NewsModule=(function(){
 		getNewsDetail : getNewsDetail
 	};
 })();
-
-/* AJAX 통신 처리 */
-var NewsAngularModule = angular.module('NewsAngularModule', []);
-NewsAngularModule.controller('NewsAngularController', function ($scope, $http) {
-	getNewsList();
-	
-	function getNewsList(){
-		$http({
-			method : 'GET', // 방식
-			url : root +"/news/list-json", /* 통신할 URL */
-			headers : {
-				"Content-Type" : "application/json; charset=utf-8",
-				csrfHeader : csrfToken
-			}
-	    }).then(function (response){
-	    	console.log("Success");
-	    	var responseData=response.data;
-	    	
-	    	var newsList=responseData.newsDatas.content;
-	    	var paging=responseData.paging;
-	    	
-	    	$scope.newsList=newsList;
-	    	$scope.paging=paging;
-	    	
-	    	//Ajax결과 출력    	
-	    	newsList.forEach(function(data, index, status){
-//	    		console.log(data);
-	    	})
-	    },function (error){
-	    	console.log("Error"+error);
-	    });
-	}
-});

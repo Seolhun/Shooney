@@ -1,5 +1,5 @@
 <%@ tag description="Layout Template" pageEncoding="UTF-8"%><%@ attribute name="tab" required="false" type="java.lang.String"%><%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%><%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%><%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%><%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<spring:url value="/" var="shooney"/><spring:url value="/resources" var="resources" /><spring:url value="/resources/template" var="template"/><spring:url value="/webjars" var="webjars" /><spring:url value="/board" var="board"/><spring:url value="/project" var="project"/><spring:url value="/portfolio" var="portfolio"/><spring:url value="/myinfo" var="myinfo"/><spring:url value="/admin" var="admin"/><spring:url value="/signup" var="signup"/><spring:url value="/login" var="login"/><spring:url value="/logout" var="logout"/><spring:url value="/news" var="news"/>
+<spring:url value="/" var="shooney"/><spring:url value="/resources" var="resources" /><spring:url value="/resources/template" var="template"/><spring:url value="/webjars" var="webjars" /><spring:url value="/board" var="board"/><spring:url value="/project" var="project"/><spring:url value="/portfolio" var="portfolio"/><spring:url value="/myinfo" var="myinfo"/><spring:url value="/admin" var="admin"/><spring:url value="/signup" var="signup"/><spring:url value="/login" var="login"/><spring:url value="/logout" var="logout"/><spring:url value="/news" var="news"/><spring:url value="/admin" var="admin" />
 <!doctype html>
 <html class="no-js" lang="ko">
 <head>
@@ -142,8 +142,6 @@
 									<ul class="dropdown-menu">
 										<li><a href="${portfolio}/music/list"><i class="fa fa-volume-down"></i> Musics(MongoDB, Youtube API, Json, Crawl)</a></li>
 										<li><a href="${news}/list"><i class="fa fa-columns"></i>News</a></li>
-										<li><a href="${project}"><i class="fa fa-tasks"></i> Projects</a></li>
-										
 										<%--										
 										<li><a href="${portfolio}/stomp/list"><i class="fa fa-comments"></i> Stomp(Spring AMQP)</a></li>
 										<li><a href="shortcode_typo_grid.html"><i class="fa fa-align-justify"></i> Big Data(Spark)</a></li>

@@ -86,20 +86,14 @@ public class CommentController {
 	@RequestMapping(value = "/reply/board/list", method = {RequestMethod.GET}, produces = "application/json; charset=utf8")
 	public @ResponseBody String getCommentsList(@RequestParam Long board_id, HttpServletRequest request, ModelMap model) throws JsonProcessingException {
 		//댓글 가져오기
-		int cPage = commonService.checkVDInt(request.getParameter("cp"), 1);
-		int sType = commonService.checkVDInt(request.getParameter("sty"), 0);
-		String question = commonService.checkVDQuestion(request.getParameter("sty"));
-		int sDate = commonService.checkVDInt(request.getParameter("sda"), 0);
-		int limit = commonService.checkVDInt(request.getParameter("li"), 5);
-		String pfName = commonService.checkVDQuestion(request.getParameter("pf"));
-		Paging paging = new Paging(cPage, sType, question, sDate, limit, pfName);
+		Paging paging = commonService.beforePagingGetData(request);
 		paging.setId(board_id);
 
 		// 전체 게시판 갯수 확인
 		int totalCount = commentService.getCount(paging);
-		
 		paging.setTotalCount(totalCount);
-		commonService.setPaging(paging);
+		
+		commonService.setAndValidationPaging(paging);
 		
 		List<Comment> comments=commentService.findAllComments(paging);
 		

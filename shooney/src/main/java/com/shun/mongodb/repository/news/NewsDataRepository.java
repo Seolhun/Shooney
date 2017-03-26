@@ -14,6 +14,8 @@ public interface NewsDataRepository extends MongoRepository<NewsData, String> {
 
 	NewsData findByIdx(Long idx);
 
+	long count();
+	
     List<NewsData> findAll();
     
     Page<NewsData> findAll(Pageable pageable);

@@ -29,9 +29,6 @@ public interface CommonService {
 	//검색어 유효성 검사하기.
 	String checkVDQuestion(String question);
 	
-	//리스트 페이징하기.
-	Paging setPaging(Paging paging);
-	
 	//JsonData를 VO에 매핑하기.
 	ObjectMapper setJSONMapper() throws JsonProcessingException;
 	
@@ -41,10 +38,6 @@ public interface CommonService {
 	//User IP를 가져오기.	
 	String getUserIP();
 
-//	void sendMessageToUser(String toUser, String primaryKey, HttpServletRequest request, Principal principal) throws Exception;
-//	
-//	void saveWhatIDid(String primaryKey, HttpServletRequest request, Principal principal) throws Exception;
-//	
 	//Encode SHA256
 	String buildSHA256(String str);
 	
@@ -59,6 +52,9 @@ public interface CommonService {
 	
 	//로그인된 유저 이메일로 유저 가져오기.(null처리 가능)
 	String getPrincipal() throws Exception;
+	
+	//리스트 페이징하기.
+	void setAndValidationPaging(Paging paging);
 	
 	//페이징 전에 페이징 데이터 가져오
 	Paging beforePagingGetData(HttpServletRequest request);

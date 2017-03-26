@@ -57,12 +57,12 @@ public class AdminUserController {
 	public String listUsers(ModelMap model, HttpServletRequest request) {
 		//paging Data 가져오기.
 		Paging paging=commonService.beforePagingGetData(request);
-
+		commonService.setAndValidationPaging(paging);
+		
 		// 전체 게시판 갯수 확인
 		int totalCount = userService.getCount(paging);
 		paging.setTotalCount(totalCount);
 		
-		paging=commonService.setPaging(paging);
 		List<User> users = userService.selectList(paging);
 		
 		model.addAttribute("users", users);

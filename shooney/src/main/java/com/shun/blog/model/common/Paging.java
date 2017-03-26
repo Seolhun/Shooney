@@ -36,6 +36,7 @@ public class Paging {
 	// 총 페이지 갯수
 	private int totalPage;
 	
+	
 	// 총 페이지 블록 수
 	private int totalBlock;
 	// 페이지 블록 제한 수
