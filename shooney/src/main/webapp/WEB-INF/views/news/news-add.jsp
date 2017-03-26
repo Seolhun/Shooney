@@ -29,19 +29,10 @@
 	<div class="container content-xs">
 		<div class="row">
 			<div class="col-sm-12 form-inline">
-				<input class="form-control" id="newsNumber" placeholder="ex)3100000">
-			</div>
-			
-			<div class="col-sm-12">
-				<div>
-					${itWorld.id }
-				</div>
-				<div>
-					${itWorld.title }
-				</div>
-				<div>
-					${itWorld.content }
-				</div>			
+				<button onclick="prompt('Press Ctrl + C, then Enter to copy to clipboard','copy me')">Click to Copy</button>
+				<button id="copyBtn">Click to Copy2</button>
+				
+				<input class="form-control" id="newsNumber" placeholder="ex)3100000" value="2000000">
 			</div>
 		</div>
 	</div>

@@ -45,7 +45,6 @@ public class NewsDataRestController {
 		this.newsDataService=newsDataService;
 		this.commonService=commonService;
 	}
-
 	@RequestMapping(value = "/save/{idx}", method = RequestMethod.GET)
 	public AjaxResult saveNews(ModelMap model, @PathVariable Long idx) {
 		LOG.info("where : saveNews");
@@ -96,13 +95,6 @@ public class NewsDataRestController {
 		return newsData;
 	}
 	
-	@RequestMapping(value = "/detail2/{idx}", method = RequestMethod.GET)
-	public NewsData getNews2(ModelMap model, @PathVariable Long idx) {
-		LOG.info("where : moveNewsList");
-		NewsData newsData2=newsDataService.findByIdx(idx);
-		return newsData2;
-	}
-	
 	//페이지가 가능하나, 현재 적용 불가능(실력부족)
 //	@RequestMapping(value = "/detail3/{idx}", method = RequestMethod.GET)
 //	public Page<NewsData> getNews3(ModelMap model, @PathVariable Integer idx, Pageable pageable) {
@@ -115,6 +107,7 @@ public class NewsDataRestController {
 	private Thread getNewsThread(Long startNumber){
 		Thread thread=new Thread(){
 			public void run() {
+				LOG.info("return : getNewsThread : Message");
 //				for (int i = 3100000; i<= 3182689; i++) {
 				for (Long i = startNumber; i< 310000; i++) {
 					// 리스트 가져오기
@@ -209,4 +202,5 @@ public class NewsDataRestController {
 		System.out.println("현재 쓰레드 이름 : " + name);
 		thread.run();
 	}
-}
+
+	}

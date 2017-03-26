@@ -18,7 +18,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class NewsData extends BaseEntity implements Serializable {
-	
 	@Field(value="NEWS_IDX")
 	@Indexed(unique=false)
 	private Long idx;
