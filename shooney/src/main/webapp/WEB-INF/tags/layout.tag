@@ -142,8 +142,6 @@
 									<ul class="dropdown-menu">
 										<li><a href="${portfolio}/music/list"><i class="fa fa-volume-down"></i> Musics(MongoDB, Youtube API, Json, Crawl)</a></li>
 										<li><a href="${news}/list"><i class="fa fa-columns"></i>News</a></li>
-										<li><a href="${project}"><i class="fa fa-tasks"></i> Projects</a></li>
-										
 										<%--										
 										<li><a href="${portfolio}/stomp/list"><i class="fa fa-comments"></i> Stomp(Spring AMQP)</a></li>
 										<li><a href="shortcode_typo_grid.html"><i class="fa fa-align-justify"></i> Big Data(Spark)</a></li>

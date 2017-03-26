@@ -21,7 +21,8 @@ import com.shun.blog.service.user.UserAttemptsService;
 import com.shun.blog.service.user.UserService;
 
 public class LimitingDaoAuthenticationProvider extends DaoAuthenticationProvider {
-	static final Logger log = LoggerFactory.getLogger(LimitingDaoAuthenticationProvider.class);
+	static final Logger LOG = LoggerFactory.getLogger(LimitingDaoAuthenticationProvider.class);
+	
 	@Autowired
 	UserService userService;
 	
@@ -45,7 +46,7 @@ public class LimitingDaoAuthenticationProvider extends DaoAuthenticationProvider
 			User user = userService.selectByEmail(authentication.getName());
 //			String ip = commonService.getUserIP();
 			String ip ="127.0.0.1";
-			log.info("param : "+user.toString());
+			LOG.info("param : "+user.toString());
 			
 			// 로그인 성공 플래그 넣기
 			UserAttempts userAttempts = new UserAttempts(user.getEmail(), 0 , ip, 0);
@@ -72,7 +73,7 @@ public class LimitingDaoAuthenticationProvider extends DaoAuthenticationProvider
 
 	// attemp 테이블에 몇번 시도했는지를 넣고, 5회 이상이 되면 state를 locked으로 변경하면 된다.
 	private void insertFailAttempts(String username) throws BadCredentialsException{
-		log.info("param - username : {} "+username.toString());
+		LOG.info("param - username : {} "+username.toString());
 		
 		// 로그인하는 아이디 값으로 유저정보를 담아온다.
 		User dbUser = userService.selectByEmail(username);
@@ -106,7 +107,7 @@ public class LimitingDaoAuthenticationProvider extends DaoAuthenticationProvider
 				try {
 					commonService.sendEmailLockingUser(dbUser.getEmail(), dbUser.getNickname(), auth, "http://localhost:9000/user/unlock", auth.substring(0,10));
 				} catch (IOException e) {
-					log.info("Sending Email is Error");
+					LOG.info("Sending Email is Error");
 				}
 				throw new LockedException("5회 이상 비밀번호를 틀려 회원 계정이 잠겼습니다!! 이메일로 확인하세요.");
 			}

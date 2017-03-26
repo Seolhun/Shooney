@@ -49,7 +49,8 @@
 			</div>
 		</div>
 		
-		<div class="row">
+		<!-- Paging Part -->
+		<div class="row text-center">
 			<div class="col-sm-12">
 				<div data-ng-model="paging">
 					<button data-ng-click="count = count + 1" data-ng-init="count=0">
@@ -57,20 +58,16 @@
 					</button>
 					<p data-ng-bind-template="{{paging.startNum}}"></p>
 					<p data-ng-bind-template="{{paging.lastNum}}"></p>
-					<!-- 
-			    	<ul>
-				        <li data-ng-repeat="item in data | startFrom:paging.startNum*paging.limit | limitTo:pageSize">
-				            {{item}}
-				        </li>
-				    </ul>
-				    <button data-ng-disabled="currentPage == 0" data-ng-click="currentPage=currentPage-1">
-				        Previous
-				    </button>
-				    	{{currentPage+1}}/{{numberOfPages()}}
-				    <button data-ng-disabled="currentPage >= data.length/pageSize - 1" data-ng-click="currentPage=currentPage+1">
-				        Next
-				    </button>
-				     -->
+					<div>
+						<ul>
+							<li data-ng-repeat="item in data | startFrom:paging.startNum*paging.limit | limitTo:pageSize">
+								{{item}}
+							</li>
+						</ul>
+						<button data-ng-disabled="currentPage == 0" data-ng-click="currentPage=currentPage-1">Previous</button>
+							{{currentPage+1}}/{{numberOfPages()}}
+						<button data-ng-disabled="currentPage >= data.length/pageSize - 1" data-ng-click="currentPage=currentPage+1">Next</button>
+					</div>
 				</div>
 			</div>
 		</div>

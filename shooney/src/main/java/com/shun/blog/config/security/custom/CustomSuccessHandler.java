@@ -8,6 +8,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.DefaultRedirectStrategy;
@@ -15,15 +17,15 @@ import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 
 public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
-
+	static final Logger LOG = LoggerFactory.getLogger(CustomSuccessHandler.class);
+	
 	private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
 	@Override
-	protected void handle(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
-			throws IOException {
+	protected void handle(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
 		String targetUrl = determineTargetUrl(authentication);
 		if (response.isCommitted()) {
-			System.out.println("Can't redirect");
+			LOG.info("Can't redirect");
 			return;
 		}
 		redirectStrategy.sendRedirect(request, response, targetUrl);
@@ -37,18 +39,11 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 			roles.add(a.getAuthority());
 		}
 
-		if (isPLAYER(roles)) {
-			url = "/";
-		} else if (isCAPTAIN(roles)) {
-			url = "/";
-		} else if (isAdmin(roles)) {
-			url = "/";
-		} else if (isSuperAdmin(roles)) {
+		if (isSuperAdmin(roles)) {
 			url = "/admin/user/list";
 		} else {
 			url = "/";
 		}
-
 		return url;
 	}
 
@@ -58,27 +53,6 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
 	protected RedirectStrategy getRedirectStrategy() {
 		return redirectStrategy;
-	}
-
-	private boolean isCAPTAIN(List<String> roles) {
-		if (roles.contains("ROLE_CAPTAIN")) {
-			return true;
-		}
-		return false;
-	}
-
-	private boolean isAdmin(List<String> roles) {
-		if (roles.contains("ROLE_ADMIN")) {
-			return true;
-		}
-		return false;
-	}
-
-	private boolean isPLAYER(List<String> roles) {
-		if (roles.contains("ROLE_PLAYER")) {
-			return true;
-		}
-		return false;
 	}
 
 	private boolean isSuperAdmin(List<String> roles) {

@@ -19,6 +19,7 @@ import org.springframework.security.web.authentication.rememberme.PersistentToke
 import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
+import com.shun.blog.config.security.custom.AjaxSessionFilter;
 import com.shun.blog.config.security.custom.CustomSuccessHandler;
 import com.shun.blog.config.security.custom.LimitingDaoAuthenticationProvider;
 
@@ -103,5 +104,11 @@ public class SecurityAppConfig extends WebSecurityConfigurerAdapter {
 	@Bean
 	public CustomSuccessHandler customSuccessHandler(){
 		return new CustomSuccessHandler();
+	}
+	
+	//로그인 성공시
+	@Bean(value="ajaxFilter")
+	public AjaxSessionFilter ajaxSessionFilter(){
+		return new AjaxSessionFilter();
 	}
 }

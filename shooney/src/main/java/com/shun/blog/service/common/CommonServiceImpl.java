@@ -138,54 +138,6 @@ public class CommonServiceImpl implements CommonService {
 	}
 
 	@Override
-	public Paging setPaging(Paging paging) {
-		int blockLimit = 10; // 페이지 당 보여줄 블록 번호 limit
-		// [1],[2],[3],[4],[5],[6],[7],[8],[9],[10]
-		int totalCount = paging.getTotalCount();
-		int limit = paging.getLimit();
-		int cPage = paging.getCurrentPage();
-		int sType = paging.getSearchType();
-		String sText = paging.getSearchText();
-		int sDate = paging.getSearchDate();
-
-		int totalPage=Math.round(totalCount/limit);
-		int totalBlock = totalCount / limit + (totalCount % limit > 0 ? 1 : 0); // 전체
-		int currentBlock = cPage / blockLimit + (cPage % blockLimit > 0 ? 1 : 0);// 현재
-		int blockEndNum = currentBlock * blockLimit;
-		int blockStartNum = blockEndNum - (blockLimit - 1);
-
-		if (blockEndNum > totalBlock) {
-			blockEndNum = totalBlock;
-		}
-
-		int previousPage = blockStartNum - blockLimit; // << *[이전]*
-		int nextPage = blockStartNum + blockLimit; // *[다음]* >>
-
-		if (previousPage < 1) {
-			previousPage = 1;
-		}
-
-		if (nextPage > totalBlock) {
-			nextPage = totalBlock / blockLimit * blockLimit + 1;
-		}
-		
-		paging.setTotalPage(totalPage);
-		paging.setSearchType(sType);
-		paging.setSearchDate(sDate);
-		paging.setSearchText(sText);
-		paging.setCurrentPage(cPage);
-		paging.setBlockLimit(blockLimit);
-		paging.setCurrentBlock(currentBlock);
-		paging.setTotalPage(totalBlock);
-		paging.setBlockEndNum(blockEndNum);
-		paging.setBlockStartNum(blockStartNum);
-		paging.setNextPage(nextPage);
-		paging.setPreviousPage(previousPage);
-		LOG.info("return : {}", paging.toString());
-		return paging;
-	}
-
-	@Override
 	public ObjectMapper setJSONMapper() throws JsonProcessingException {
 		ObjectMapper mapper = new ObjectMapper(); // create once, reuse. Thank
 		// Mapping에 실패했을 때도 그냥 실행할 수 있게 하기.
@@ -227,85 +179,6 @@ public class CommonServiceImpl implements CommonService {
 		return ip;
 	}
 	
-//	/**
-//	 * 자기 기록시 타인에게 메세지 남기기.(아직 미구현 상태)
-//	 * @param MessageData, String primaryKey, String toUser
-//	 * @return
-//	 * @throws Exception
-//	 */
-//	@Override
-//	@MessageMapping("/whisper")
-//	public void sendMessageToUser(String toUser, String primaryKey, HttpServletRequest request, Principal principal) throws Exception {
-//		String logUser=principal.getName();
-//		messageData.setMessageCreatedBy(logUser);
-//		messageData.setMessageToUser(toUser);
-//		messageData.setMessageKeyValue(primaryKey);
-//		String uri=request.getRequestURI();
-//		messageData.setMessageFromUri(uri);
-//		messageData.setMessageContent(toUser+"님의 글에"+logUser+ "님의 글이 달렸습니다.");
-//
-//		//시간계산 로직.
-//		
-//		logger.info("param sendMessageToUser : {}", messageData.toString());
-//		logger.info("param toUser : {}", toUser);
-//		
-//		messageService.insertMessageData(messageData);
-//		messaging.convertAndSendToUser(toUser, "/queue/whisper-message", messageData);
-//	}
-//	
-//	/**
-//	 * 알림 메세지에 자기기록 남기기.
-//	 * @param MessageData, String primaryKey
-//	 * @return
-//	 * @throws Exception
-//	 */
-//	@Override
-//	@MessageMapping("/whisper")
-//	public void saveWhatIDid(String primaryKey, HttpServletRequest request, Principal principal) throws Exception {
-//		//이동해야 할 데이터의 PK값.
-//		messageData.setMessageKeyValue(primaryKey);
-//		
-//		//로그인 한 유저(기록을 남겨야 할 유저)
-//		String logUser=principal.getName();
-//		messageData.setMessageCreatedBy(logUser);
-//		//메세지를 보내야 할 유저(다른 메소드에서 바뀔 수 있게 만든 것뿐)
-//		messageData.setMessageToUser(logUser);
-//		//POST메세지가 발생한 URI
-//		String fromUri=request.getRequestURI();
-//		messageData.setMessageFromUri(fromUri);
-//		String[] uri=fromUri.split("/");		
-//		String messageUri="";
-//		String toMoveUri="";
-//		//	ex) /tunner/board/notice/insert
-//		//	[0] "" : [1] tunner : [2] board : [3]notice
-//		switch (uri[2]) {
-//		case "board": messageUri="게시판";
-//			//Split Uri를 재결합한다.(이동 할 페이지로) - 2까지가 기본 Page의 Mapping공통된 속성.
-//			for (int i = 0; i <= 2; i++) {
-//				String defaultParam="/";
-//				toMoveUri+=defaultParam+uri[i];
-//			}
-//			messageData.setMessageToMoveUri(toMoveUri);
-//			//게시판 타입데이터.
-//			messageData.setMessageParamType(uri[3]);
-//			break;
-//		case "survey": messageUri="설문지";
-//			break;
-//		case "diagnosis": messageUri="진단";
-//			break;
-////		default:
-////			break;
-//		}
-//		messageData.setMessageContent(logUser+"님께서 "+messageUri+"에 새글을 등록하셨습니다.");
-//
-//		//시간계산 로직.
-//		logger.info("param sendMessageToUser : {}", messageData.toString());
-//		logger.info("param toUser : {}", logUser);
-//		
-//		messageService.insertMessageData(messageData);
-//		messaging.convertAndSendToUser(logUser, "/queue/whisper-message", messageData);
-//	}
-
 	@Override
 	public String buildSHA256(String str) {
 		try {
@@ -431,6 +304,53 @@ public class CommonServiceImpl implements CommonService {
 		Paging paging = new Paging(currentPage, searchType, searchText, searchDate, limit);
 		return paging;
 	}
+	
+	@Override
+	public void setAndValidationPaging(Paging paging) {
+		int blockLimit = 10; // 페이지 당 보여줄 블록 번호 limit
+		// [1],[2],[3],[4],[5],[6],[7],[8],[9],[10]
+		int totalCount = paging.getTotalCount();
+		int limit = paging.getLimit();
+		int cPage = paging.getCurrentPage();
+		int sType = paging.getSearchType();
+		String sText = paging.getSearchText();
+		int sDate = paging.getSearchDate();
+
+		int totalPage=(int)Math.ceil(totalCount/limit);
+		int totalBlock = totalCount / limit + (totalCount % limit > 0 ? 1 : 0); // 전체
+		int currentBlock = cPage / blockLimit + (cPage % blockLimit > 0 ? 1 : 0);// 현재
+		int blockEndNum = currentBlock * blockLimit;
+		int blockStartNum = blockEndNum - (blockLimit - 1);
+
+		if (blockEndNum > totalBlock) {
+			blockEndNum = totalBlock;
+		}
+
+		int previousPage = blockStartNum - blockLimit; // << *[이전]*
+		int nextPage = blockStartNum + blockLimit; // *[다음]* >>
+
+		if (previousPage < 1) {
+			previousPage = 1;
+		}
+
+		if (nextPage > totalBlock) {
+			nextPage = totalBlock / blockLimit * blockLimit + 1;
+		}
+		paging.setTotalPage(totalPage);
+		paging.setSearchType(sType);
+		paging.setSearchDate(sDate);
+		paging.setSearchText(sText);
+		paging.setCurrentPage(cPage);
+		paging.setBlockLimit(blockLimit);
+		paging.setCurrentBlock(currentBlock);
+		paging.setTotalBlock(totalBlock);
+		paging.setBlockEndNum(blockEndNum);
+		paging.setBlockStartNum(blockStartNum);
+		paging.setNextPage(nextPage);
+		paging.setPreviousPage(previousPage);
+		LOG.info("return : setAndValidationPaging {}", paging.toString());
+	}
+
 	
 	@Override
 	public User getAccessUserToModel() throws Exception {
