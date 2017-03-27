@@ -27,6 +27,10 @@ NewsAngularModule.controller('NewsAngularController', function ($scope, $http) {
 	    	$scope.newsList=newsList;
 	    	$scope.paging=paging;
 	    	
+		    $scope.numberOfPages=function(){
+		        return Math.ceil(paging.totalCount/paging.limit);                
+		    }
+		    
 	    	//Ajax결과 출력    	
 	    	newsList.forEach(function(data, index, status){
 //	    		console.log(data);
@@ -35,6 +39,16 @@ NewsAngularModule.controller('NewsAngularController', function ($scope, $http) {
 	    	console.log("Error"+error);
 	    });
 	}
+	    
+	//We already have a limitTo filter built-in to angular,
+	//let's make a startFrom filter
+	NewsAngularModule.filter('startFrom', function() {
+	    return function(input, start) {
+	        start = +start; //parse to int
+	        return input.slice(start);
+	    }
+	});
+	
 });
 
 var NewsModule=(function(){

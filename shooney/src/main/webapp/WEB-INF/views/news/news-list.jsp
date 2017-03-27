@@ -53,21 +53,27 @@
 		<div class="row text-center">
 			<div class="col-sm-12">
 				<div data-ng-model="paging">
-					<button data-ng-click="count = count + 1" data-ng-init="count=0">
-	  					Increment : {{count}}
-					</button>
-					<p data-ng-bind-template="{{paging.startNum}}"></p>
-					<p data-ng-bind-template="{{paging.lastNum}}"></p>
-					<div>
-						<ul>
-							<li data-ng-repeat="item in data | startFrom:paging.startNum*paging.limit | limitTo:paging.totalCount">
-								{{item}}
-							</li>
-						</ul>
-						<button data-ng-disabled="currentPage == 0" data-ng-click="startNum=startNum-1">Previous</button>
-							{{paging.startNum+1}}/{{paging.lastNum}}
-						<button data-ng-disabled="startNum >= (paging.totalCount/paging.limit)" data-ng-click="startNum=startNum+1">Next</button>
+					<div class="form-inline">
+						<input data-ng-model="q" id="search" class="form-control" placeholder="Filter text">
+						<select data-ng-model="pageSize" id="pageSize" class="form-control">
+							<option value="5">5</option>
+							<option value="10">10</option>
+							<option value="15">15</option>
+							<option value="20">20</option>
+						</select>
 					</div>
+					<div class="form-inline">
+						<button class="btn-u btn-u-blue" data-ng-disabled="paging.startNum == 0" data-ng-click="paging.startNum=paging.startNum-1">Previous</button>
+						<!-- 
+						<ul>
+							<li data-ng-repeat="news in newsList | filter:q | startFrom : (paging.startNum * paging.limit) | limitTo : paging.limit">
+								{{news}}
+							</li>
+						</ul>							
+						 -->
+						<button class="btn-u btn-u-blue" data-ng-disabled="paging.startNum >= getData().length/pageSize - 1" data-ng-click="paging.startNum=paging.startNum+1">Next</button>
+					</div>
+					<p>{{paging.startNum+1}}/{{numberOfPages()}}</p>
 				</div>
 			</div>
 		</div>

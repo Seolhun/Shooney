@@ -76,6 +76,7 @@ public class NewsDataRestController {
 			lastNum=limit*startNum;
 			startNum--;	
 		}
+		paging.setLimit(limit);
 		paging.setStartNum(startNum);
 		paging.setLastNum(lastNum);
 		
