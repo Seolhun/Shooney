@@ -31,8 +31,6 @@ var	csrfToken=$("#csrfToken").attr("content");
 			}
 			newsCtrl.getNewsList(page);
 			
-			console.log("newsCtrl.paging",newsCtrl.paging);
-			
 			//function GetPager(totalCount, currentPage, limit)
 			newsCtrl.pager = PagerService.GetPager(28227, page);
 		}

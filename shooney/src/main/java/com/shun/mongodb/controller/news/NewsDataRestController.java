@@ -82,7 +82,7 @@ public class NewsDataRestController {
 		long totalCount = newsDataService.count();
 		paging.setTotalCount((int)totalCount);
 		
-		PageRequest pageRequest=new PageRequest(paging.getCurrentPage(), paging.getLimit(), Direction.ASC, "NEWS_IDX");
+		PageRequest pageRequest=new PageRequest(paging.getCurrentPage(), paging.getLimit(), Direction.DESC, "NEWS_IDX");
 		Page<NewsData> newsDatas=newsDataService.findAll(pageRequest);
 		
 		Map<String, Object> resultMap=new HashMap<>();

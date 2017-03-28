@@ -24,28 +24,21 @@
 		</div>
 	</div>
 		
-	<!-- 
-		$index	number	iterator offset of the repeated element (0..length-1)
-		$first	boolean	true if the repeated element is first in the iterator.
-		$middle	boolean	true if the repeated element is between the first and last in the iterator.
-		$last	boolean	true if the repeated element is last in the iterator.
-		$even	boolean	true if the iterator position $index is even (otherwise false).
-		$odd
-		<div ng-repeat="n in [42, 42, 43, 43] track by $index">
-	-->
 	<!--=== End Call To Action ===-->
 	<div class="container" data-ng-app="NewsAngularApp">
 		<div class="content"  data-ng-controller="NewsAngularController as newsCtrl">
 			<div class="row margin-bottom-30">
-				<div class="col-sm-4 max-height-400" data-ng-repeat="news in newsCtrl.newsList | filter:q">
-					<div class="col-sm-12 margin-bottom-10">
-						{{news.idx}}
-					</div>
-					<div class="col-sm-12 margin-bottom-10">
-						{{news.title}}
-					</div>
-					<div class="col-sm-12 margin-bottom-10" data-ng-if="news.headerImage != ''">
-						<img class="newsImage" data-ng-src="{{news.headerImage}}">
+				<div class="col-sm-4" data-ng-repeat="news in newsCtrl.newsList | filter:searcText" data-ng-click="newsCtrl.moveDetail(news.idx)">
+					<div class="max-height-400 margin-bottom-30 newsDiv">
+						<div class="col-sm-12 margin-bottom-10">
+							{{news.idx}}
+						</div>
+						<div class="col-sm-12 margin-bottom-10">
+							{{news.title}}
+						</div>
+						<div class="col-sm-12 margin-bottom-10" data-ng-if="news.headerImage != ''">
+							<img class="newsImage" data-ng-src="{{news.headerImage}}">
+						</div>
 					</div>
 				</div>
 			</div>
@@ -54,7 +47,7 @@
 			<div class="row text-center">
 				<div class="col-sm-12">
 					<div class="form-inline">
-						<input class="form-control" data-ng-model="q" id="search" placeholder="Filter text">
+						<input class="form-control" data-ng-model="searcText" id="search" placeholder="Filter text">
 						<select data-ng-model="pageSize" id="pageSize" class="form-control">
 							<option value="5">5</option>
 							<option value="10">10</option>
