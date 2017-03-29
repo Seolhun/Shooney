@@ -77,6 +77,31 @@
 				</div>
 			</div>
 		</div>
+
+		<!-- 
+		<div class="row text-center">
+			<div class="col-sm-12">
+				pager
+				<ul data-ng-if="vm.pager.pages.length" class="pagination">
+					<li data-ng-class="{disabled:vm.pager.currentPage === 1}">
+						<a data-ng-click="vm.setPage(1)">First</a>
+					</li>
+					<li data-ng-class="{disabled:vm.pager.currentPage === 1}">
+						<a data-ng-click="vm.setPage(vm.pager.currentPage - 1)">Previous</a>
+					</li>
+					<li data-ng-repeat="page in vm.pager.pages" data-ng-class="{active:vm.pager.currentPage === page}">
+						<a data-ng-click="vm.setPage(page)">{{page}}</a>
+					</li>
+					<li data-ng-class="{disabled:vm.pager.currentPage === vm.pager.totalPages}">
+						<a data-ng-click="vm.setPage(vm.pager.currentPage + 1)">Next</a>
+					</li>
+					<li data-ng-class="{disabled:vm.pager.currentPage === vm.pager.totalPages}">
+						<a data-ng-click="vm.setPage(vm.pager.totalPages)">Last</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+		 -->
 	</div>
 </tag:layout>
 <script type="text/javascript" src="${resources}/js/news.js"></script>
