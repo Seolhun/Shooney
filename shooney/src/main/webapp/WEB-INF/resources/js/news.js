@@ -30,9 +30,7 @@ var	csrfToken=$("#csrfToken").attr("content");
 				return;
 			}
 			newsCtrl.getNewsList(page);
-			
 			//function GetPager(totalCount, currentPage, limit)
-			newsCtrl.pager = PagerService.GetPager(28227, page);
 		}
         
 		function getNewsList(currentPage) {
@@ -57,8 +55,8 @@ var	csrfToken=$("#csrfToken").attr("content");
 				var paging = response.data.paging;
 				var newsList = responseData.newsDatas.content;
 				
-				newsCtrl.paging=paging;
 				newsCtrl.newsList=newsList;
+				newsCtrl.pager = PagerService.GetPager(paging.totalCount, currentPage);
 				
 //				// Ajax결과 출력
 //				newsList.forEach(function(data, index, status) {
@@ -85,7 +83,7 @@ var	csrfToken=$("#csrfToken").attr("content");
 			limit = limit || 15;
 
 			// calculate total pages
-			var totalPages = Math.ceil(totalCount / limit);
+			var totalPages = Math.ceil(totalCount / limit) -1;
 
 			var startPage, endPage;
 			if (totalPages <= 10) {
