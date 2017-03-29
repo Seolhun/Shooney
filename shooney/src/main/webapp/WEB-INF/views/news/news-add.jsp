@@ -29,8 +29,7 @@
 	<div class="container content-xs">
 		<div class="row">
 			<div class="col-sm-12 form-inline">
-				<button onclick="prompt('Press Ctrl + C, then Enter to copy to clipboard','copy me')">Click to Copy</button>
-				<button id="copyBtn">Click to Copy2</button>
+				<button class="btn-u btn-u-aqua" onclick="prompt('Press Ctrl + C, then Enter to copy to clipboard','copy me')">Click to Copy</button>
 				
 				<input class="form-control" id="newsNumber" placeholder="ex)3100000" value="2000000">
 			</div>

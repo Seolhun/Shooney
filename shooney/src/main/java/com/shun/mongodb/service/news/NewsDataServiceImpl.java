@@ -24,24 +24,25 @@ public class NewsDataServiceImpl implements NewsDataService {
 	
 	@Override
 	public void save(NewsData newsData) {
+		LOG.info("param : save : {}", newsData.toString());
 		newsDataRepository.save(newsData);
 	}
 
 	@Override
 	public NewsData findById(String id) {
-		LOG.info("param : findOne : ", id);
+		LOG.info("param : findOne : {}", id);
 		return newsDataRepository.findOne(id);
 	}
 	
 	@Override
 	public NewsData findByIdx(Long idx) {
-		LOG.info("param : findByIdx : ", idx);
+		LOG.info("param : findByIdx : {}", idx);
 		return newsDataRepository.findByIdx(idx);
 	}
 	
 	@Override
 	public Page<NewsData> findAll(Pageable pageable) {
-		LOG.info("param : findAll : ", pageable.toString());
+		LOG.info("param : findAll : {}", pageable.toString());
 		return newsDataRepository.findAll(pageable);
 	}
 	

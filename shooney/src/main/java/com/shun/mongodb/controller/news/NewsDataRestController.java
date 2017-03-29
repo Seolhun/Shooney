@@ -66,25 +66,23 @@ public class NewsDataRestController {
 	
 	@RequestMapping(value = "/list-json", method = RequestMethod.GET)
 	public Map<String, Object> getNewsListData(ModelMap model, HttpServletRequest request) {
-		LOG.info("where : getNewsListData");
-		//Paging		
+		//Paging
 		Paging paging=new Paging();
 		int limit=commonService.checkVDInt(request.getParameter("limit"), 15);
-		int startNum=commonService.checkVDInt(request.getParameter("startNum"), 0);
-		int lastNum=limit;
-		if(startNum!=0){
-			lastNum=limit*startNum;
-			startNum--;	
+		int currentPage=commonService.checkVDInt(request.getParameter("currentPage"), 0);
+		
+		if(currentPage<=0){
+			currentPage=0;
 		}
+		
 		paging.setLimit(limit);
-		paging.setStartNum(startNum);
-		paging.setLastNum(lastNum);
+		paging.setCurrentPage(currentPage);
 		
 		// 전체 게시판 갯수 확인
 		long totalCount = newsDataService.count();
 		paging.setTotalCount((int)totalCount);
 		
-		PageRequest pageRequest=new PageRequest(paging.getStartNum(), paging.getLastNum(), Direction.DESC, "NEWS_IDX");
+		PageRequest pageRequest=new PageRequest(paging.getCurrentPage(), paging.getLimit(), Direction.DESC, "NEWS_IDX");
 		Page<NewsData> newsDatas=newsDataService.findAll(pageRequest);
 		
 		Map<String, Object> resultMap=new HashMap<>();

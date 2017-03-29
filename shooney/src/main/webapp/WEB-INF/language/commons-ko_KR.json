@@ -1,0 +1,51 @@
+{
+	"common": {
+		"no": "번호",
+		"title": "제목",
+		"name": "이름",
+		"birth": "생년월일",
+		"gender": "성별",
+		"eamil": "이메일",
+		"type": "유형",
+		"need": "필요",
+		"notneed": "불필요",
+		"add": "추가",
+		"detail": "자세히",
+		"yes": "예",
+		"cancel": "취소",
+		"nono" : "아니오",
+		"sure" : "확실하신가요?"
+	},
+	"survey": {
+		"this": "설문",
+		"request": "설문지 요청",
+		"cancel": "설문지 취소",
+		"successRequest": "설문지가 성공적으로 요청되었습니다.",
+		
+		"parentsAgree": "부모님 동의",
+		"group": {
+			"head" : "설문지 그룹 이름을 입력해주세요.",
+			"placeholder" : "그룹 이름",
+			"removeSuccess" : "그룹 삭제가 완료되었습니다.",
+			"removeFail" : "그룹 삭제가 실패되었습니다.",
+			"invalid" : {
+				"empty" : "공백은 입력이 불가능합니다.",
+				"korean" : "한글과 영어 숫자 외에 입력이 불가능합니다.(최대 10자)",
+				"duplicate" : "중복되었습니다.",
+				"privilege" : "그룹 삭제 권한이 없습니다."
+			}
+		}
+	},
+	"patient": {
+		"email": "환자 이메일"
+	},
+	"diagnosis": {
+		
+	}, 
+	"ajax": {
+		"invalid": {
+			"auth" : "인증에 실패 했습니다. 로그인 페이지로 이동합니다.",
+			"session" : "세션이 만료가 되었습니다. 로그인 페이지로 이동합니다."
+		}	
+	}
+}
