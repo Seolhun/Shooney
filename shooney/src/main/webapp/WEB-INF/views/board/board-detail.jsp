@@ -6,7 +6,7 @@
 <%@ taglib prefix="tag" tagdir="/WEB-INF/tags"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<spring:url value="/board" var="bo"/><spring:url value="/file" var="file"/><spring:url value="/resources/" var="resources" /><spring:url value="/resources/template" var="template"/>
+<spring:url value="/board" var="bo"/><spring:url value="/file" var="file"/><spring:url value="/resources" var="resources" /><spring:url value="/resources/template" var="template"/>
 <tag:layout>
 <div class="call-action-v1 bg-color-light margin-bottom-20">
 	<div class="container">
@@ -132,7 +132,7 @@
 			<div class="col-sm-12 text-center margin-bottom-20">
 				<textarea name="content" rows="5" cols="auto" id="commentTextarea"></textarea>
 				<div class="text-right" id="commentBtn" hidden="true">
-					<button class="btn-u btn-u-default rounded" onclick="cancelHidden();">Cancel</button>
+					<button class="btn-u btn-u-default rounded" onclick="CommentService.cancelHidden();">Cancel</button>
 					<button class="btn-u btn-u-dark-blue rounded" id="commentSubmit">Submit</button>
 				</div>
 			</div>

@@ -1,7 +1,5 @@
 package com.shun.blog.config;
 
-import java.util.Locale;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
@@ -19,8 +17,8 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
-import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 
@@ -59,7 +57,6 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 	@Bean
 	public LocaleChangeInterceptor localeChangeInterceptor() {
 		LocaleChangeInterceptor localeChangeInterceptor = new LocaleChangeInterceptor();
-		// request로 넘어오는 language parameter를 받아서 locale로 설정한다.
 		localeChangeInterceptor.setParamName("language");
 		return localeChangeInterceptor;
 	}
@@ -69,11 +66,10 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 		registry.addInterceptor(localeChangeInterceptor());
 	}
 
-	@Bean(name = "localeResolver")
-	public LocaleResolver sessionLocaleResolver() {
-		// 세션 기준으로 로케일을 설정한다.
-		SessionLocaleResolver localeResolver = new SessionLocaleResolver();
-		localeResolver.setDefaultLocale(new Locale("ko_KR"));
+	//Locale Resolver
+	@Bean
+	public LocaleResolver localeResolver() {
+		LocaleResolver localeResolver=new AcceptHeaderLocaleResolver();
 		return localeResolver;
 	}
 
