@@ -1,7 +1,12 @@
-<%@ tag description="Layout Template" pageEncoding="UTF-8"%><%@ attribute name="tab" required="false" type="java.lang.String"%><%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%><%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%><%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%><%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ tag description="Layout Template" pageEncoding="UTF-8"%>
+<%@ attribute name="tab" required="false" type="java.lang.String"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <spring:url value="/" var="shooney"/><spring:url value="/resources" var="resources" /><spring:url value="/resources/template" var="template"/><spring:url value="/webjars" var="webjars" /><spring:url value="/board" var="board"/><spring:url value="/project" var="project"/><spring:url value="/portfolio" var="portfolio"/><spring:url value="/myinfo" var="myinfo"/><spring:url value="/admin" var="admin"/><spring:url value="/signup" var="signup"/><spring:url value="/login" var="login"/><spring:url value="/logout" var="logout"/><spring:url value="/news" var="news"/><spring:url value="/admin" var="admin" />
 <!doctype html>
-<html class="no-js" lang="ko">
+<html lang="ko">
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="Cache-Control" content="no-cache"/>
@@ -9,10 +14,10 @@
 	<meta http-equiv="Pragma" content="no-cache"/>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8">
-	
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="keywords" content="Shooney">
+	<meta name="keywords" content="Shooney, Blog, News, Music">
 	<meta name="description" content="Shooney's Blog">
+	<meta name="author" content="Shooney">
 	<meta id="csrfToken" name="csrfToken" content="${_csrf.token}"/>
 	<meta id="csrfHeader" name="csrfHeader" content="${_csrf.headerName}"/>
 
@@ -54,15 +59,26 @@
 	<!-- CSS Customization -->
 	<link href="${resources }/vendor/summer/summernote.css" rel="stylesheet">
 </head>
-<body class="header-fixed header-fixed-space">
+<body class="header-fixed header-fixed-space translation">
 	<div class="wrapper">
 		<div class="header-v6 header-classic-white header-sticky">
 			<div id="abovenav">
 				<div class="container">
 					<div class="row" id="aboverow">
 						<div class="col-sm-4">
-							<span class="margin-right-10"><a class="link-txt" id="head-a" href="javascript:void(0);" onclick="changeLang('ko_KR');"><img src="${resources}/img/lang_ko.png" class="language"> Korean&nbsp;</a>|</span> 
-							<span class="margin-right-10"><a class="link-txt" id="head-a" href="javascript:void(0);" onclick="changeLang('en_US');"><img src="${resources}/img/lang_en.png" class="language"> English</a></span>
+							<span class="margin-right-10">
+								<a class="link-txt" id="head-a" href="javascript:void(0);" onclick="changeLang('ko_KR');">
+									<img src="${resources}/img/lang_ko.png" class="language">
+									<span>Korean</span>
+								</a>
+							</span> 
+							<span>&nbsp;|&nbsp;</span>
+							<span class="margin-right-10">
+								<a class="link-txt" id="head-a" href="javascript:void(0);" onclick="changeLang('en_US');">
+									<img src="${resources}/img/lang_en.png" class="language">
+									<span>English</span>
+								</a>
+							</span>
 						</div>
 						<div class="col-sm-8">
 							<div class="text-right">
@@ -170,7 +186,9 @@
 <!-- ---------------------------------------------------------------------------------------------------------------------------------  -->
 		<!-- real Body input place  -->
 		<div>
+		
 			<jsp:doBody/>
+			
 		</div>
 <!-- ---------------------------------------------------------------------------------------------------------------------------------  -->
 		<!--=== Footer v6 ===-->
@@ -180,7 +198,9 @@
 					<div class="row">
 						<!-- About Us -->
 						<div class="col-md-4 col-sm-4 col-xs-4">
-							<div class="heading-footer"><h2>About Hi-Cord</h2></div>
+							<div class="heading-footer">
+								<h2>About Hi-Cord</h2>
+							</div>
 							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis blandit ut metus a commodo. Pellentesque congue tellus sed enim sollicitudin, id blandit mauris eleifend.</p>
 						</div>
 						<!-- End About Us -->
@@ -288,27 +308,23 @@
 		<!-- JS Global Compulsory -->
 		<script type="text/javascript" src="${webjars}/jquery/2.2.4/jquery.min.js" ></script>
 		<script type="text/javascript" src="${template}/plugins/jquery/jquery-migrate.min.js"></script>
-		
-		<!-- Language JS -->
-		<script type="text/javascript" src="${resources}/vendor/i18next/i18next.min.js" ></script>
+		<script type="text/javascript" src="${webjars}/angular/1.6.3/angular.min.js"></script>
+		<script type="text/javascript" src="${webjars}/angular-sanitize/1.6.3/angular-sanitize.min.js"></script>
 		
 		<!-- Boostrap Library JS  -->
 		<script type="text/javascript" src="${webjars}/bootstrap/3.3.6/js/bootstrap.min.js" ></script>
 		<script type="text/javascript" src="${webjars}/bootstrap/3.3.6/js/tooltip.js"></script>
 		<script type="text/javascript" src="${resources}/vendor/bootstrap/bootstrap-confirmation.min.js"></script>
 
-		<!-- Common Message : Stomp JS -->
-		<script src="${resources }/js/common/common-lang.js" type="text/javascript"></script>
-		
-		<script type="text/javascript" src="${webjars}/angular/1.6.3/angular.min.js"></script>
-		<script type="text/javascript" src="${webjars}/angular-sanitize/1.6.3/angular-sanitize.min.js"></script>
-		
 		<!-- Custom & Functional JS -->
 		<script type="text/javascript" src="${resources }/vendor/summer/summernote.js"></script>
 		<script type="text/javascript" src="${resources}/js/custom.js"></script>
 		
-		<!-- JS Implementing Plugins -->
-		<script type="text/javascript" src="${template}/plugins/counter/jquery.counterup.min.js"></script>
+		<!-- Common Function JS -->
+		<!-- Language JS -->
+		<script type="text/javascript" src="${resources}/vendor/i18next/i18next.min.js" ></script>
+		<script type="text/javascript" src="${resources }/js/common/common-lang.js"></script>		
+		<script type="text/javascript" src="${resources }/js/common/common-function.js"></script>
 		
 		<!-- For Slide Js -->
 		<script type="text/javascript" src="${template}/plugins/master-slider/masterslider/jquery.easing.min.js"></script>
@@ -317,6 +333,9 @@
 		<script type="text/javascript" src="${template}/plugins/counter/waypoints.min.js"></script>
 		<script type="text/javascript" src="${template}/js/plugins/fancy-box.js"></script>
 		<script type="text/javascript" src="${template}/plugins/fancybox/source/jquery.fancybox.pack.js"></script>
+		
+		<!-- JS Implementing Plugins -->
+		<script type="text/javascript" src="${template}/plugins/counter/jquery.counterup.min.js"></script>
 		
 		<!-- JS Page Level -->
 		<script type="text/javascript" src="${template}/js/app.js"></script>

@@ -1,10 +1,11 @@
-var root = "/tunner";
-var csrfToken=$("#csrfToken").val();
-var csrfHeader=$("#csrfHeader").val();
+var csrfHeader=$("#csrfHeader").attr("content");
+var	csrfToken=$("#csrfToken").attr("content");
+var thisRoot="/shooney";
+var thisHost=window.location.host;
+var thisPort=window.location.port;
 
 $.i18n.init({
     useLocalStorage: false,
-    localStorageExpirationTime: 86400000, // in ms, COMMON 1 week
     preload : ["ko_KR","en_US"],
     supportedLngs: ["ko_KR","en_US"],
     fallbackLng: 'ko_KR',
@@ -15,19 +16,19 @@ $.i18n.init({
 	detectLngQS: 'setLng',
 	selectorAttr: 'data-lang',
     debug: true,
-    cookieName: 'i18next',
-    useCookie: true,
+//    cookieName: 'i18next',
+//    useCookie: true,
     useLocalStorage: true,
-    localStorageExpirationTime: 60*60*24*7*365,
-    resGetPath: '/tunner/language/__ns__-__lng__.json'
-}, function () {
+    localStorageExpirationTime: 60*1000,
+    resGetPath: thisRoot+'/resources/language/__ns__-__lng__.json'
+}, function (err, t) {
     $('.translation').i18n();
 });
-
 
 var changeLang = function (lang) {
     $.i18n.setLng(lang);
     $('.translation').i18n();
+    location.reload();
 }
 
 /*

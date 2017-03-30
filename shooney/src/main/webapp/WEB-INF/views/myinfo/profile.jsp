@@ -4,7 +4,7 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="tag" tagdir="/WEB-INF/tags"%>
-<spring:url value="/resources/" var="resources" />
+<spring:url value="/resources" var="resources" />
 <spring:url value="/resources/template" var="template"/>
 <spring:url value="/myinfo" var="myinfo"/>
 <spring:url value="/po" var="po"/>

@@ -3,8 +3,7 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="tag" tagdir="/WEB-INF/tags"%>
-<spring:url value="/resources/" var="resources" />
-<spring:url value="/resources/template" var="template"/>
+<spring:url value="/resources" var="resources" /><spring:url value="/resources/template" var="template"/>
 <tag:layout>
 		<!--=== Slider ===-->
 		<div class="ms-layers-template">
@@ -157,6 +156,26 @@
 	</div>
 	<!--=== End Call To Action ===-->
 
+	<script type="text/ng-template" id="embedded.home.html">
+    	<h1> Home </h1>
+    	{{greeting}}
+	</script>
+	<script type="text/ng-template" id="embedded.about.html">
+    	<h1> About </h1>
+    	{{content}}
+	</script>
+	<div class="content"  data-ng-controller="HomeController">
+		<div>
+			<div id="navigation">
+				<a href="#/home">Home</a>
+				<a href="#/about">About</a>
+			</div>
+			
+			<div ng-view></div>
+		</div>
+	</div>
+
+
 	<!--=== Carallax Counter v1 ===-->
 	<div class="parallax-counter-v1 parallaxBg" style="background-position: 50% 20px;">
 		<div class="container">
@@ -195,3 +214,4 @@
 	</div>
 	<!--=== End Carallax Counter v1 ===-->
 </tag:layout>
+<script type="text/javascript" src="${resources}/js/index.js"></script>

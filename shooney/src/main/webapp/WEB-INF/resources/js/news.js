@@ -1,15 +1,14 @@
 /* Write here your custom javascript codes */
-var root="/shooney";
 var csrfHeader=$("#csrfHeader").attr("content");
 var	csrfToken=$("#csrfToken").attr("content");
+var thisRoot="/shooney";
+var thisHost=window.location.host;
+var thisPort=window.location.port;
 
 /* AJAX 통신 처리 */
 (function() {
 	'use strict';
-	angular
-		.module('NewsAngularApp', [])
-		.factory('PagerService', PagerService)
-		.controller('NewsAngularController', NewsAngularController);
+	var NewsAngularApp=angular.module('NewsAngularApp', []).factory('PagerService', PagerService).controller('NewsAngularController', NewsAngularController);
 	
 	//News Angular Controller
 	function NewsAngularController(PagerService, $scope, $http) {
@@ -36,7 +35,7 @@ var	csrfToken=$("#csrfToken").attr("content");
 		function getNewsList(currentPage) {
 			$http({
 				method : 'GET', // 방식
-				url : root + "/news/list-json", /* 통신할 URL */
+				url : thisRoot + "/news/list-json", /* 통신할 URL */
 				timeout : 600000,
 				contentType : 'application/json',
 				params : {
@@ -141,7 +140,7 @@ var NewsModule=(function(){
 	var _saveNews = function() {
 		var newsNumber=$("#newsNumber").val();
 		$.ajax({
-			url : root +"/news/save/"+newsNumber,
+			url : thisRoot +"/news/save/"+newsNumber,
 			timeout : 60000,
 			beforeSend: function(xhr) {
                  xhr.setRequestHeader("Accept", "application/json");
@@ -166,7 +165,7 @@ var NewsModule=(function(){
 	
 	var _stopNews = function() {
 		$.ajax({
-			url : root +"/news/stop",
+			url : thisRoot +"/news/stop",
 			timeout : 60000,
 			beforeSend: function(xhr) {
                  xhr.setRequestHeader("Accept", "application/json");
@@ -193,7 +192,7 @@ var NewsModule=(function(){
 		var newsNumber=$("#newsNumber").val();
 		console.log("newsNumber : "+newsNumber);
 		$.ajax({
-			url : root +"/news/detail/"+newsNumber,
+			url : thisRoot +"/news/detail/"+newsNumber,
 			timeout : 60000,
 			beforeSend: function(xhr) {
                  xhr.setRequestHeader("Accept", "application/json");

@@ -23,7 +23,7 @@
 			</div>
 		</div>
 	</div>
-		
+
 	<!--=== End Call To Action ===-->
 	<div class="container" data-ng-app="NewsAngularApp">
 		<div class="content"  data-ng-controller="NewsAngularController as newsCtrl">
