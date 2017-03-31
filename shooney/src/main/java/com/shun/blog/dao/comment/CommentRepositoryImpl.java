@@ -10,12 +10,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
-import com.shun.blog.dao.AbstractDao;
+import com.shun.blog.dao.AbstractRepository;
 import com.shun.blog.model.comment.Comment;
 import com.shun.blog.model.common.Paging;
 
 @Repository
-public class CommentRepositoryImpl extends AbstractDao<Integer, Comment> implements CommentRepository {
+public class CommentRepositoryImpl extends AbstractRepository<Integer, Comment> implements CommentRepository {
 
 	static final Logger logger = LoggerFactory.getLogger(CommentRepositoryImpl.class);
 

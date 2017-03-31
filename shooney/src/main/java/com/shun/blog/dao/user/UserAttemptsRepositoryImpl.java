@@ -9,11 +9,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
-import com.shun.blog.dao.AbstractDao;
+import com.shun.blog.dao.AbstractRepository;
 import com.shun.blog.model.user.UserAttempts;
 
 @Repository("userAttemptsRepository")
-public class UserAttemptsRepositoryImpl extends AbstractDao<Long, UserAttempts> implements UserAttemptsRepository {
+public class UserAttemptsRepositoryImpl extends AbstractRepository<Long, UserAttempts> implements UserAttemptsRepository {
 	static final Logger log = LoggerFactory.getLogger(UserAttemptsRepositoryImpl.class);
 	
 	@Override

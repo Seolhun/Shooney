@@ -7,11 +7,11 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
-import com.shun.blog.dao.AbstractDao;
+import com.shun.blog.dao.AbstractRepository;
 import com.shun.blog.model.user.UserProfile;
 
 @Repository("userProfileDao")
-public class UserProfileRepositoryImpl extends AbstractDao<Integer, UserProfile> implements UserProfileRepository {
+public class UserProfileRepositoryImpl extends AbstractRepository<Integer, UserProfile> implements UserProfileRepository {
 
 	@Override
 	public UserProfile selectById(int id) {

@@ -9,11 +9,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
-import com.shun.blog.dao.AbstractDao;
+import com.shun.blog.dao.AbstractRepository;
 import com.shun.blog.model.portfolio.music.Music;
 
 @Repository("musicDao")
-public class MusicDaoImpl extends AbstractDao<Integer, Music> implements MusicDao {
+public class MusicDaoImpl extends AbstractRepository<Integer, Music> implements MusicDao {
 
 	static final Logger logger = LoggerFactory.getLogger(MusicDaoImpl.class);
 	

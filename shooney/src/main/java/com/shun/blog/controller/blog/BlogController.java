@@ -1,4 +1,4 @@
-package com.shun.blog.controller.board;
+package com.shun.blog.controller.blog;
 
 import java.io.IOException;
 import java.security.Principal;
@@ -30,23 +30,23 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.shun.blog.model.board.Board;
-import com.shun.blog.model.board.EntityName;
+import com.shun.blog.model.blog.Blog;
+import com.shun.blog.model.blog.EntityName;
 import com.shun.blog.model.common.Paging;
 import com.shun.blog.model.file.FileData;
 import com.shun.blog.model.file.FileNameInvalidException;
 import com.shun.blog.model.file.FileUploadOverException;
 import com.shun.blog.model.portfolio.PortfolioName;
-import com.shun.blog.service.board.BoardService;
+import com.shun.blog.service.blog.BlogService;
 import com.shun.blog.service.comment.CommentService;
 import com.shun.blog.service.common.CommonService;
 import com.shun.blog.service.file.FileService;
 import com.shun.blog.service.user.UserService;
 
 @Controller
-@RequestMapping("/board")
-public class BoardController {
-	private BoardService boardService;
+@RequestMapping("/blog")
+public class BlogController {
+	private BlogService blogService;
 //	private UserService userService;
 //	private CommentService commentService;
 	private CommonService commonService;
@@ -54,17 +54,17 @@ public class BoardController {
 	private FileService fileService;
 	
 	@Autowired
-	public BoardController(UserService userService, CommentService commentService, BoardService boardService,
+	public BlogController(UserService userService, CommentService commentService, BlogService blogService,
 			CommonService commonService, MessageSource messageSource, FileService fileService) {
 //		this.userService = userService;
 //		this.commentService = commentService;
-		this.boardService = boardService;
+		this.blogService = blogService;
 		this.commonService=commonService;
 		this.messageSource=messageSource;
 		this.fileService=fileService;
 	}
 	
-	private static final Logger LOG = LoggerFactory.getLogger(BoardController.class);
+	private static final Logger LOG = LoggerFactory.getLogger(BlogController.class);
 
 	/**
 	 * 게시판 리스트
@@ -74,28 +74,28 @@ public class BoardController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public String allBoardList(ModelMap model, HttpServletRequest request, @RequestParam(required=false, name="pf") String portfolioType) throws Exception{
+	public String allBlogList(ModelMap model, HttpServletRequest request, @RequestParam(required=false, name="pf") String portfolioType) throws Exception{
 		//페이징 세팅 및 파라미터 가져오기.
 		Paging paging=commonService.beforePagingGetData(request);
 		paging.setPortfolioType(portfolioType);
 		
 		// 전체 게시판 갯수 확인
-		int totalCount = boardService.getCount(paging);
+		int totalCount = blogService.getCount(paging);
 		paging.setTotalCount(totalCount);
 		
 		commonService.setAndValidationPaging(paging);
 		
-		List<Board> boards =new ArrayList<>();
+		List<Blog> blogs =new ArrayList<>();
 		try {
-			boards = boardService.selectList(paging);
+			blogs = blogService.selectList(paging);
 		} catch (NullPointerException e) {
 			
 		}
 		
-		model.addAttribute("boards", boards);
+		model.addAttribute("blogs", blogs);
 		model.addAttribute("paging", paging);
 		model.addAttribute("pfNames", PortfolioName.values());
-		return "board/board-list";
+		return "blog/blog-list";
 	}
 
 	/**
@@ -106,45 +106,45 @@ public class BoardController {
 	 * @throws Exception
 	 */
 	@GetMapping(value={"/insert"})
-	public String addBoard(ModelMap model) {
-		model.addAttribute("board", new Board());
+	public String addBlog(ModelMap model) {
+		model.addAttribute("blog", new Blog());
 		model.addAttribute("edit", false);
 		model.addAttribute("enNames", EntityName.values());
 		model.addAttribute("pfNames", PortfolioName.values());
-		return "board/board-insert";
+		return "blog/blog-insert";
 	}
 
 	/**
 	 * 게시판 등록하기 - 파일업로드
 	 * 
-	 * @param Board board, FileData fileData
+	 * @param Blog blog, FileData fileData
 	 * @return String  -view
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/insert", method = RequestMethod.POST)
-	public String insertBoardDo(Board board, BindingResult bindingResult,  ModelMap model, HttpServletRequest request, @RequestParam(name="files") MultipartFile[] files, RedirectAttributes redirect) throws Exception {
-		LOG.info("param : insertBoardDo : {}",board.toString());
-		LOG.info("param : insertBoardDo : {}",files.toString());
+	public String insertBlogDo(Blog blog, BindingResult bindingResult,  ModelMap model, HttpServletRequest request, @RequestParam(name="files") MultipartFile[] files, RedirectAttributes redirect) throws Exception {
+		LOG.info("param : insertBlogDo : {}",blog.toString());
+		LOG.info("param : insertBlogDo : {}",files.toString());
 		
-		//Board 부분
-		model.addAttribute("board", board);
+		//Blog 부분
+		model.addAttribute("blog", blog);
 		model.addAttribute("edit", false);
 		model.addAttribute("enNames", EntityName.values());
 		model.addAttribute("pfNames", PortfolioName.values());
 		
 		//게시판 유효성 검사.
-		String mapping="board/board-insert";
-		if(board.getTitle().length()<5){
-			commonService.validCheckAndSendError(messageSource, bindingResult, request, board.getTitle(), "board", "title", "INVALID-TITLE");
-		} else if(board.getContent().length()<5){
-			commonService.validCheckAndSendError(messageSource, bindingResult, request, board.getContent(), "board", "content", "INVALID-CONTENT");
+		String mapping="blog/blog-insert";
+		if(blog.getTitle().length()<5){
+			commonService.validCheckAndSendError(messageSource, bindingResult, request, blog.getTitle(), "blog", "title", "INVALID-TITLE");
+		} else if(blog.getContent().length()<5){
+			commonService.validCheckAndSendError(messageSource, bindingResult, request, blog.getContent(), "blog", "content", "INVALID-CONTENT");
 		} else if (bindingResult.hasErrors()) {
 			return mapping;
 		}
 		
 		//유저 확인.
 		try {
-			board.setCreatedBy(commonService.getAccessUserToModel().getNickname());	
+			blog.setCreatedBy(commonService.getAccessUserToModel().getNickname());	
 		} catch (NullPointerException e) {
 			redirect.addAttribute("error", "anonymousUser");
 			return "redirect:/login";
@@ -153,7 +153,7 @@ public class BoardController {
 		//Catch문을 통한 에러처리 로직필요.
 		try {
 			FileData fileData=new FileData();
-			fileData.setBoardInFile(board);
+			fileData.setBlogInFile(blog);
 			fileData.setFiles(files);
 			fileService.insert(fileData);
 		} catch (FileUploadOverException e) {
@@ -181,93 +181,93 @@ public class BoardController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = { "/detail/{id}" }, method = RequestMethod.GET)
-	public String detailBoard(@PathVariable Long id, ModelMap model, HttpServletRequest request, HttpServletResponse response, Principal principal) throws Exception {
+	public String detailBlog(@PathVariable Long id, ModelMap model, HttpServletRequest request, HttpServletResponse response, Principal principal) throws Exception {
 		String strId=String.valueOf(id);
 		
-		Board board=new Board();		
+		Blog blog=new Blog();		
 		if(checkHitCookie(request, response, strId)){
-			board.setBoardId(id);;
-			board.setHits(1);
-			boardService.update(board);
+			blog.setBlogId(id);;
+			blog.setHits(1);
+			blogService.update(blog);
 		}
 		
-		board = boardService.selectById(id);
+		blog = blogService.selectById(id);
 		
-		model.addAttribute("board", board);
+		model.addAttribute("blog", blog);
 		model.addAttribute("edit", false);
 		model.addAttribute("accessUser", commonService.getAccessUserToModel());
-		model.addAttribute("enNames", board.getEntityName());
-		model.addAttribute("pfNames", board.getPortfolioType());
-		return "board/board-detail";
+		model.addAttribute("enNames", blog.getEntityName());
+		model.addAttribute("pfNames", blog.getPortfolioType());
+		return "blog/blog-detail";
 	}
 
 	@RequestMapping(value = { "/modify/{id}" }, method = RequestMethod.GET)
-	public String editBoard(@PathVariable Long id, ModelMap model) throws Exception {
-		Board board = boardService.selectById(id);
+	public String editBlog(@PathVariable Long id, ModelMap model) throws Exception {
+		Blog blog = blogService.selectById(id);
 
-		if (!(board.getCreatedBy().equals(commonService.getAccessUserToModel().getNickname()))) {
+		if (!(blog.getCreatedBy().equals(commonService.getAccessUserToModel().getNickname()))) {
 			return "redirect:/deny";
 		}
 
-		model.addAttribute("board", board);
+		model.addAttribute("blog", blog);
 		model.addAttribute("edit", true);
 		model.addAttribute("enNames", EntityName.values());
 		model.addAttribute("pfNames", PortfolioName.values());
-		return "board/board-insert";
+		return "blog/blog-insert";
 	}
 
 	@RequestMapping(value = { "/{kind}/modify" }, method = RequestMethod.POST)
-	public String editBoardDo(@Valid Board board, BindingResult result, ModelMap model, @PathVariable String kind) throws Exception{
+	public String editBlogDo(@Valid Blog blog, BindingResult result, ModelMap model, @PathVariable String kind) throws Exception{
 		if (result.hasErrors()) {
 			model.addAttribute("edit", true);
 			model.addAttribute("kind", kind);
-			return "board/board-insert";
+			return "blog/blog-insert";
 		}
 
-//		if (!(board.getWriter().equals(initializeUser().getNickname()))) {
+//		if (!(blog.getWriter().equals(initializeUser().getNickname()))) {
 //			return "redirect:/" + kind + "/r" + id;
 //		}
 
-		boardService.update(board);
+		blogService.update(blog);
 
-//		model.addAttribute("success", "Board " + board.getWriter() + "의 " + board.getTitle() + "성공적으로 수정되었습니다.");
+//		model.addAttribute("success", "Blog " + blog.getWriter() + "의 " + blog.getTitle() + "성공적으로 수정되었습니다.");
 		model.addAttribute("entity", kind);
 		return "result/success";
 	}
 
 	@RequestMapping(value = { "/{kind}/delete" }, method = RequestMethod.GET)
-	public String deleteBoard(@PathVariable String kind, @RequestParam(required=true) Long id) throws Exception {
-		Board board = boardService.selectById(id);
-//		if (!(board.getWriter().equals(initializeUser().getNickname()))) {
+	public String deleteBlog(@PathVariable String kind, @RequestParam(required=true) Long id) throws Exception {
+		Blog blog = blogService.selectById(id);
+//		if (!(blog.getWriter().equals(initializeUser().getNickname()))) {
 //			return "redirect:/" + kind + "/r" + id;
 //		}
-//		board.setDelCheck(1);
-		boardService.update(board);
+//		blog.setDelCheck(1);
+		blogService.update(blog);
 		return "redirect:/" + kind + "/list";
 	}
 
 	// @RequestMapping(value = { "/{tableName}/detail" }, method =
 	// RequestMethod.GET)
-	// public String getBoardDetail(ModelMap model, HttpServletRequest request,
+	// public String getBlogDetail(ModelMap model, HttpServletRequest request,
 	// HttpServletResponse response, @PathVariable String tableName,
 	// @RequestParam int id) throws Exception {
 	// // RequestMethod.GET일 때의 기본언어 설정
 	// Language language = commonFn.setLanguageData(text_ko, text_en, request);
-	// String target = "Board";
+	// String target = "Blog";
 	// String targetName = "common.main.information";
 	// commonFn.setDefaultSetting(model, language, target, targetName);
 	//
-	// Board board = new Board();
-	// board.setId(id);
+	// Blog blog = new Blog();
+	// blog.setId(id);
 	// // 조회수 증가
-	// if (checkHitCookie(board, request, response)) {
-	// board.setTableName(tableName);
-	// bDao.updateData(board, 2);
+	// if (checkHitCookie(blog, request, response)) {
+	// blog.setTableName(tableName);
+	// bDao.updateData(blog, 2);
 	// }
 	//
 	// // 불러올 게시물 설정
-	// board.setTableName(tableName);
-	// board = bDao.getDetailbyKey(board);
+	// blog.setTableName(tableName);
+	// blog = bDao.getDetailbyKey(blog);
 	//
 	// // 불러올 댓글 페이징 설정
 	// Paging paging = new Paging();
@@ -278,10 +278,10 @@ public class BoardController {
 	// paging.setQuestion(rawQuestion);
 	//
 	// // 총 페이지 가져오기.
-	// int totalCount = bDao.getTotalReplyCount(board, paging);
+	// int totalCount = bDao.getTotalReplyCount(blog, paging);
 	// paging.setTotalPage(totalCount);
 	// setPaging(paging);
-	// board.setReplyList(bDao.getAllReply(board, paging));
+	// blog.setReplyList(bDao.getAllReply(blog, paging));
 	//
 	// int reno = commonFn.checkVDInt(request.getParameter("reno"), 0);
 	// if (reno > 0) {
@@ -311,8 +311,8 @@ public class BoardController {
 	// model.addAttribute("logUser", logUser);
 	// model.addAttribute("paging", paging);
 	// model.addAttribute("tableName", tableName);
-	// model.addAttribute("board", board);
-	// return "board/detail";
+	// model.addAttribute("blog", blog);
+	// return "blog/detail";
 	// }
 
 	private boolean checkHitCookie(HttpServletRequest request, HttpServletResponse response, String id) {

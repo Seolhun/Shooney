@@ -3,33 +3,6 @@
 	margin-right: 10px;
 }
 
-.survey-select {
-	width: 80%;
-	height: 34px;
-	padding: 6px 12px;
-	font-size: 14px;
-	line-height: 1.42857143;
-	color: #555;
-	background-color: #fff;
-	background-image: none;
-	border: 1px solid #ccc;
-	border-radius: 4px;
-	margin-right: 10px;
-}
-
-.survey-value {
-	width: 10%;
-	height: 34px;
-	padding: 6px 12px;
-	font-size: 14px;
-	line-height: 1.42857143;
-	color: #555;
-	background-color: #fff;
-	background-image: none;
-	border: 1px solid #ccc;
-	border-radius: 4px;
-}
-
 hr {
 	margin: 30px 0;
 }
@@ -522,7 +495,6 @@ h3.heading-xs {
 /* 	border-color: #bbb; */
 /* 	box-shadow: 0 0 2px #c9c9c9; */
 /* } */
-
 .form-spacing .form-control {
 	margin-bottom: 15px;
 }
@@ -2250,7 +2222,7 @@ img.image-md {
 }
 
 .max-height-400 {
-height: 400px;
+	height: 400px;
 }
 
 .max-height-450 {
@@ -3079,7 +3051,11 @@ opacity
 
 
 
+
+
 :
+
+
 
 
 
@@ -3094,7 +3070,11 @@ transform
 
 
 
+
+
 :translateY(36px)
+
+
 
 
 
@@ -3109,7 +3089,11 @@ transform
 
 
 
+
+
 :translateY(36px)
+
+
 
 
 
@@ -3132,7 +3116,11 @@ opacity
 
 
 
+
+
 :
+
+
 
 
 
@@ -3147,7 +3135,11 @@ transform
 
 
 
+
+
 :translateY(36px)
+
+
 
 
 
@@ -3162,7 +3154,11 @@ transform
 
 
 
+
+
 :translateY(36px)
+
+
 
 
 
@@ -3261,4 +3257,76 @@ div#addBindingGroupModal {
 
 .inline {
 	display: inline;
+}
+
+.width-5 {
+	width: 5%;
+}
+
+.width-10 {
+	width: 10%;
+}
+
+.width-15 {
+	width: 15%;
+}
+
+.width-20 {
+	width: 20%;
+}
+
+.width-25 {
+	width: 25%;
+}
+
+.width-30 {
+	width: 30%;
+}
+
+.width-35 {
+	width: 35%;
+}
+
+.width-40 {
+	width: 40%;
+}
+
+.width-45 {
+	width: 45%;
+}
+
+.width-50 {
+	width: 50%;
+}
+
+.width-55 {
+	width: 55%;
+}
+
+.width-60 {
+	width: 60%;
+}
+
+.width-65 {
+	width: 65%;
+}
+
+.width-70 {
+	width: 70%;
+}
+
+.grid-border {
+	border: solid 1px black;
+}
+
+.error-red {
+	font-size: 14px;
+	font-weight: 400;
+	color: red;
+}
+
+.error-blue {
+	font-size: 14px;
+	font-weight: 400;
+	color: blue;
 }

@@ -10,11 +10,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
-import com.shun.blog.dao.AbstractDao;
+import com.shun.blog.dao.AbstractRepository;
 import com.shun.blog.model.file.FileData;
 
 @Repository
-public class FileRepositoryImpl extends AbstractDao<Long, FileData> implements FileRepository {
+public class FileRepositoryImpl extends AbstractRepository<Long, FileData> implements FileRepository {
 	static final Logger log = LoggerFactory.getLogger(FileRepositoryImpl.class);
 
 	@Override

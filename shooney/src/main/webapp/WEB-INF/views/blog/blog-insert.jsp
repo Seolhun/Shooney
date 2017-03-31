@@ -4,17 +4,17 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="tag" tagdir="/WEB-INF/tags"%>
-<spring:url value="/board" var="bo"/><spring:url value="/resources" var="resources" /><spring:url value="/resources/template" var="template"/>
+<spring:url value="/blog" var="blo"/><spring:url value="/file" var="file"/><spring:url value="/resources" var="resources" /><spring:url value="/resources/template" var="template"/>
 <tag:layout>
 <div class="call-action-v1 bg-color-light">
 	<div class="container">
 		<div class="call-action-v1-box">
 			<c:choose>
 				<c:when test="${edit }">
-					<h2>Modify board</h2>			
+					<h2>Modify blog</h2>			
 				</c:when>
 				<c:otherwise>
-					<h2>Create new board</h2>
+					<h2>Create new blog</h2>
 				</c:otherwise>
 			</c:choose>
 		</div>
@@ -23,7 +23,7 @@
 <div class="container margin-bottom-20">
 	<div class="row content">
 		<div class="col-sm-12">
-			<form:form action="${bo }/insert?${_csrf.parameterName}=${_csrf.token}" class="form-horizontal" commandName="board" modelAttribute="board" enctype="multipart/form-data" acceptCharset="UTF-8">
+			<form:form action="${blo }/insert?${_csrf.parameterName}=${_csrf.token}" class="form-horizontal" commandName="blog" modelAttribute="blog" enctype="multipart/form-data" acceptCharset="UTF-8">
 				<div class="col-sm-4 col-xs-12">
 					<div class="input-group margin-bottom-20">
 						<span class="input-group-addon rounded-left"><i class="icon-user color-green"></i></span>
@@ -96,5 +96,6 @@
 	</div>
  </div>
 </tag:layout>
+
 <!-- Custom & Functional JS -->
-<script type="text/javascript" src="${resources}/js/board.js"></script>
+<script type="text/javascript" src="${resources}/js/blog.js"></script>

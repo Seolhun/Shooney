@@ -20,7 +20,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.validator.constraints.NotEmpty;
 
-import com.shun.blog.model.board.Board;
+import com.shun.blog.model.blog.Blog;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -36,8 +36,8 @@ public class Comment implements Serializable {
 	private Long commentId;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(foreignKey = @ForeignKey(name = "COMMENT_BOARD_FK"), name = "COMMENT_BOARD_ID", referencedColumnName = "BOARD_ID", nullable = false)
-	private Board boardInComment;
+	@JoinColumn(foreignKey = @ForeignKey(name = "COMMENT_BLOG_FK"), name = "COMMENT_BLOG_ID", referencedColumnName = "BLOG_ID", nullable = false)
+	private Blog blogInComment;
 
 	@NotEmpty
 	@Column(name = "COMMENT_CONTENT", length=300 ,nullable = false)
@@ -47,10 +47,10 @@ public class Comment implements Serializable {
 	private int likes=0;
 	
 	@Column(name = "COMMENT_CREATED_BY", nullable = false, length = 60)
-	private String boardCreatedBy;
+	private String createdBy;
 
 	@Column(name = "COMMENT_MODIFIED_BY", length = 60)
-	private String boardModifiedBy;
+	private String modifiedBy;
 
 	@CreationTimestamp
 	@Temporal(TemporalType.TIMESTAMP)

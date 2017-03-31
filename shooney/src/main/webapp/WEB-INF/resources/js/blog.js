@@ -19,10 +19,10 @@ var CommentService = (function() {
 	var _getCommentList = function() {
 		var row = "";
 		$.ajax({
-			url : root +"/reply/board/list",
+			url : root +"/reply/blog/list",
 			timeout : 60000,
 	    	data : {
-	    		'board_id' : board_id
+	    		'blog_id' : blog_id
 	    	},
 	    	dataType : "json",
 	    	success : function(response) {
@@ -61,7 +61,7 @@ var CommentService = (function() {
 			var writer= document.getElementById("commentWriter").innerHTML;
 			var content= document.getElementById("commentContent").innerHTML;
 			$.ajax({
-				url : root +"/reply/board/delete/"+id,
+				url : root +"/reply/blog/delete/"+id,
 				type : 'GET',
 				timeout : 60000,
 				data : {
@@ -100,7 +100,7 @@ var CommentService = (function() {
 		var content= document.getElementById("commentModifyTextarea").value;
 //		var content= inputContent.replace(/\n/g, '<br/>');
 		$.ajax({
-			url : root +"/reply/board/modify/"+id,
+			url : root +"/reply/blog/modify/"+id,
 			type : 'GET',
 			timeout : 60000,
 			data : {
@@ -138,10 +138,10 @@ var CommentService = (function() {
 $('#commentSubmit').click(function(){
 	var data = {}
 	data["content"] = document.getElementById("commentTextarea").value;
-	data["board_id"] = document.getElementById("board_id").innerHTML;
+	data["blog_id"] = document.getElementById("blog_id").innerHTML;
 	data["csrfToken"] = csrfToken;
 	$.ajax({
-		url : root +"/reply/board/add",
+		url : root +"/reply/blog/add",
 		type : 'POST',
 		timeout : 60000,
 		data: JSON.stringify(data),	

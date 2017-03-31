@@ -18,7 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.shun.blog.dao.file.FileRepository;
 import com.shun.blog.model.file.FileData;
 import com.shun.blog.model.file.FileUploadOverException;
-import com.shun.blog.service.board.BoardService;
+import com.shun.blog.service.blog.BlogService;
 
 @Service
 @Transactional(transactionManager="txManager")
@@ -26,10 +26,10 @@ public class FileServiceImpl implements FileService {
 	private static final Logger LOG = LoggerFactory.getLogger(FileServiceImpl.class);
 	
 	private FileRepository fileRepository;
-	private BoardService boardService;
+	private BlogService boardService;
 	
 	@Autowired
-	public FileServiceImpl(FileRepository fileRepository, BoardService boardService) {
+	public FileServiceImpl(FileRepository fileRepository, BlogService boardService) {
 		this.fileRepository=fileRepository;
 		this.boardService=boardService;
 	}
@@ -77,9 +77,9 @@ public class FileServiceImpl implements FileService {
 				setfileInfo.setFileDataSavedPath(FILE_PATH);
 				setfileInfo.setFileDataType(fileDataType);
 				setfileInfo.setFileDataSize(fileSize);
-				setfileInfo.setFileDataCreatedBy(fileData.getBoardInFile().getCreatedBy());
+				setfileInfo.setFileDataCreatedBy(fileData.getBlogInFile().getCreatedBy());
 				//파일정보에 게시판 정보를 담는다.
-				setfileInfo.setBoardInFile(fileData.getBoardInFile());
+				setfileInfo.setBlogInFile(fileData.getBlogInFile());
 				
 				//리스트에 담는다.
 				fileDataList.add(setfileInfo);
@@ -92,7 +92,7 @@ public class FileServiceImpl implements FileService {
 		}
 		
 		//문제 없을 시 진행.		
-		boardService.insert(fileData.getBoardInFile());
+		boardService.insert(fileData.getBlogInFile());
 		
 		LOG.info("param : fileDataList : {}", fileDataList.toString());
 		for (int j = 0; j < fileDataList.size(); j++) {

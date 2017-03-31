@@ -6,6 +6,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<spring:url value="/blog" var="blo"/><spring:url value="/file" var="file"/><spring:url value="/resources" var="resources" /><spring:url value="/resources/template" var="template"/>
 <tag:layout tab="${target}">
 <div class="call-action-v1 bg-color-light">
 	<div class="container">
@@ -32,7 +33,7 @@
 		<hr>
 		<div class="col-sm-12">
    			<c:choose>
-  				<c:when test="${fn:length(boards)<1}">
+  				<c:when test="${fn:length(blogs)<1}">
   					<div class="font-24 text-center margin-bottom-30">
   						${param.pf } 게시물이 없습니다.
   					</div>
@@ -50,10 +51,10 @@
 							</tr>
 				    	</thead>
 				   		<tbody>
-							<c:forEach items="${boards}" var="i">
+							<c:forEach items="${blogs}" var="i">
 								<tr>
-									<td class="width-10 text-center">${i.boardId}</td>
-									<td class="width-60"><a href="detail/${i.boardId}">[ ${i.portfolioType} ] ${i.title}<c:if test="${i.depth>0}">&nbsp;&nbsp;<i class="fa fa-comments">&nbsp;${i.depth}</i></c:if></a></td>
+									<td class="width-10 text-center">${i.blogId}</td>
+									<td class="width-60"><a href="detail/${i.blogId}">[ ${i.portfolioType} ] ${i.title}<c:if test="${i.depth>0}">&nbsp;&nbsp;<i class="fa fa-comments">&nbsp;${i.depth}</i></c:if></a></td>
 									<td class="width-10 text-center">${i.createdBy}</td>
 									<td class="width-10 text-center"><fmt:formatDate value="${i.createdDate}" pattern="yy-MM-dd, HH:mm"/></td>
 									<td class="width-5 text-center">${i.hits}</td>
@@ -113,3 +114,4 @@
 	</div> 
 </div>
 </tag:layout>
+<script type="text/javascript" src="${resources}/js/blog.js"></script>

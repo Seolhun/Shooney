@@ -21,7 +21,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.shun.blog.model.board.Board;
+import com.shun.blog.model.blog.Blog;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -38,8 +38,8 @@ public class FileData implements Serializable {
 	private Long fileDataId;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(foreignKey = @ForeignKey(name = "FILE_BOARD_FK"), name = "FILE_BOARD_ID", referencedColumnName = "BOARD_ID", nullable = false)
-	private Board boardInFile;
+	@JoinColumn(foreignKey = @ForeignKey(name = "FILE_BLOG_FK"), name = "FILE_BLOG_ID", referencedColumnName = "BLOG_ID", nullable = false)
+	private Blog blogInFile;
 
 	@Column(name = "FILE_ORIGIN_NAME", nullable = false, length = 100)
 	private String fileDataOriginName;

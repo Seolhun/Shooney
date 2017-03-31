@@ -4,7 +4,20 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<spring:url value="/" var="shooney"/><spring:url value="/resources" var="resources" /><spring:url value="/resources/template" var="template"/><spring:url value="/webjars" var="webjars" /><spring:url value="/board" var="board"/><spring:url value="/project" var="project"/><spring:url value="/portfolio" var="portfolio"/><spring:url value="/myinfo" var="myinfo"/><spring:url value="/admin" var="admin"/><spring:url value="/signup" var="signup"/><spring:url value="/login" var="login"/><spring:url value="/logout" var="logout"/><spring:url value="/news" var="news"/><spring:url value="/admin" var="admin" />
+<spring:url value="/" var="shooney"/>
+<spring:url value="/resources" var="resources" />
+<spring:url value="/resources/template" var="template"/>
+<spring:url value="/webjars" var="webjars" />
+<spring:url value="/blog" var="blog"/>
+<spring:url value="/project" var="project"/>
+<spring:url value="/portfolio" var="portfolio"/>
+<spring:url value="/myinfo" var="myinfo"/>
+<spring:url value="/admin" var="admin"/>
+<spring:url value="/signup" var="signup"/>
+<spring:url value="/login" var="login"/>
+<spring:url value="/logout" var="logout"/>
+<spring:url value="/news" var="news"/>
+<spring:url value="/admin" var="admin" />
 <!doctype html>
 <html lang="ko">
 <head>
@@ -152,7 +165,7 @@
 								<li><a href="${shooney}" class="dropdown-toggle">Home</a></li>
 								<!-- End Home -->
 
-								<li><a href="${board }/list" class="dropdown-toggle">Board</a></li>
+								<li><a href="${blog }/list" class="dropdown-toggle">Blog</a></li>
 								
 								<!-- Shortcodes -->
 								<!-- <li class="dropdown mega-menu-fullwidth"> -->
@@ -169,9 +182,9 @@
 								<li class="dropdown">
 									<a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">My Info</a>
 									<ul class="dropdown-menu">
-										<li><a href="${myinfo}/pro"><i class="fa fa-asterisk"></i> Profile</a></li>
-										<li><a href="${myinfo}/ati"><i class="fa fa-asterisk"></i> Attitude</a></li>
-										<li><a href="${myinfo}/goal"><i class="fa fa-asterisk"></i> Goal</a></li>
+										<li><a href="${myinfo}/pro"><i class="glyphicon glyphicon-zoom-in"></i> Profile</a></li>
+										<li><a href="${myinfo}/ati"><i class="glyphicon glyphicon-apple"></i> Attitude</a></li>
+										<li><a href="${myinfo}/goal"><i class="glyphicon glyphicon-eye-open"></i> Goal</a></li>
 									</ul>
 								</li>
 								<!-- End Blog -->
@@ -197,46 +210,46 @@
 				<div class="container">
 					<div class="row">
 						<!-- About Us -->
-						<div class="col-md-4 col-sm-4 col-xs-4">
+						<div class="col-md-4">
 							<div class="heading-footer">
 								<h2>About Hi-Cord</h2>
 							</div>
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis blandit ut metus a commodo. Pellentesque congue tellus sed enim sollicitudin, id blandit mauris eleifend.</p>
+							<p data-lang="commons:footer.s1">
+								
+							</p>
 						</div>
 						<!-- End About Us -->
 
-						<!-- Useful Links -->
-						<div class="col-md-4 col-sm-4 col-xs-4">
-							<div class="heading-footer"><h2>Useful Links</h2></div>
-							<ul class="list-unstyled footer-link-list">
-								<li><a href="${about }">About Me</a></li>
-								<li><a href="${portfolio}/music/list">Portfolio</a></li>
-								<li><a href="${board}/freeboard/list">Community</a></li>
-								<li><a href="${contact}">Contact Us</a></li>
-							</ul>
-						</div>
-						<!-- End Useful Links -->
-
 						<!-- Contacts -->
-						<div class="col-md-4 col-sm-4 col-xs-4">
+						<div class="col-md-8">
 							<div class="heading-footer"><h2>Contacts</h2></div>
-							<ul class="list-unstyled contacts">
-								<li>
-									<i class="radius-3x fa fa-map-marker"></i>
-									Korea<br>
-									Yeonsugoo, Incheon 
-								</li>
-								<li>
-									<i class="radius-3x fa fa-phone"></i>
-									(+82)11 2902 4829<br>
-									(+82)11 2902 4829
-								</li>
-								<li>
-									<i class="radius-3x fa fa-globe"></i>
-									<a href="#">shun10114@gmail.com</a><br>
-									<a href="#">www.shooney.com</a>
-								</li>
-							</ul>
+							<div class="col-sm-4">
+								<ul class="list-unstyled contacts">
+									<li>
+										<i class="radius-3x fa fa-map-marker"></i>
+										Korea<br>
+										Yeonsugoo, Incheon 
+									</li>
+								</ul>
+							</div>
+							<div class="col-sm-4">
+								<ul class="list-unstyled contacts">
+									<li>
+										<i class="radius-3x fa fa-phone"></i>
+										(+82)11 2902 4829<br>
+										(+82)11 2902 4829
+									</li>
+								</ul>
+							</div>
+							<div class="col-sm-4">
+								<ul class="list-unstyled contacts">
+									<li>
+										<i class="radius-3x fa fa-globe"></i>
+										<a href="mailto:shun10114@gmail.com">shun10114@gmail.com</a><br>
+										<a href="https://www.hi-cord.com">www.hi-cord.com</a>
+									</li>
+								</ul>
+							</div>
 						</div>
 						<!-- End Contacts -->
 					</div>
