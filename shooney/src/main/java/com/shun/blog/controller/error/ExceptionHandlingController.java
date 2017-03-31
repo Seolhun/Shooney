@@ -22,24 +22,14 @@ public class ExceptionHandlingController {
 
 	@ResponseStatus(value = HttpStatus.NOT_FOUND, reason = "No such Order") // 404
 	public class OrderNotFoundException extends RuntimeException {
-		// ...
+
 	}
 
 	@ControllerAdvice
-	class GlobalControllerExceptionHandler {
-		@ResponseStatus(HttpStatus.CONFLICT) // 409
-		@ExceptionHandler(DataIntegrityViolationException.class)
-		public void handleConflict() {
-			// Nothing to do
-		}
-	}
-	
-	@ControllerAdvice
 	class GlobalDefaultExceptionHandler {
-	  public static final String DEFAULT_ERROR_VIEW = "result/error";
-	  @ExceptionHandler(value = Exception.class)
-	  public ModelAndView
-	  defaultErrorHandler(HttpServletRequest req, Exception e) throws Exception {
+		final String DEFAULT_ERROR_VIEW = "result/error";
+		@ExceptionHandler(value = Exception.class)
+	  public ModelAndView defaultErrorHandler(HttpServletRequest req, Exception e) throws Exception {
 	    // If the exception is annotated with @ResponseStatus rethrow it and let
 	    // the framework handle it - like the OrderNotFoundException example
 	    // at the start of this post.
@@ -47,6 +37,8 @@ public class ExceptionHandlingController {
 	    if (AnnotationUtils.findAnnotation(e.getClass(), ResponseStatus.class) != null)
 	      throw e;
 
+	    LOG.info("return : Error happened. {}",  e.getClass().getName());
+	    
 	    // Otherwise setup and send the user to a default error-view.
 	    ModelAndView mav = new ModelAndView();
 	    mav.addObject("exception", e);
@@ -61,6 +53,15 @@ public class ExceptionHandlingController {
 	@ExceptionHandler(DataIntegrityViolationException.class)
 	public void conflict() {
 		// Nothing to do
+	}
+	
+	@ControllerAdvice
+	class GlobalControllerExceptionHandler {
+		@ResponseStatus(HttpStatus.CONFLICT) // 409
+		@ExceptionHandler(DataIntegrityViolationException.class)
+		public void handleConflict() {
+			// Nothing to do
+		}
 	}
 
 	// Specify name of a specific view that will be used to display the error:
