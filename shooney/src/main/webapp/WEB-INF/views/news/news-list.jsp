@@ -28,13 +28,19 @@
 	<div class="container" data-ng-app="NewsAngularApp">
 		<div class="content"  data-ng-controller="NewsAngularController as newsCtrl">
 			<div class="row margin-bottom-30">
-				<div class="col-sm-4" data-ng-repeat="news in newsCtrl.newsList | filter:searcText" data-ng-click="newsCtrl.moveDetail(news.idx)">
-					<div class="max-height-400 margin-bottom-30 newsDiv">
+				<div class="col-sm-4" data-ng-repeat="news in newsCtrl.newsList | filter:searcText">
+					<div class="max-height-450 margin-bottom-30 newsDiv" data-ng-click="newsCtrl.MoveDetail(news.id)">
 						<div class="col-sm-12 margin-bottom-10">
-							{{news.idx}}
+							id : {{news.id}}
 						</div>
 						<div class="col-sm-12 margin-bottom-10">
-							{{news.title}}
+							No : {{news.idx}}
+						</div>
+						<div class="col-sm-12 margin-bottom-10">
+							Title : {{news.title}}
+						</div>
+						<div class="col-sm-12 margin-bottom-10">
+							Writer : {{news.createdBy}}
 						</div>
 						<div class="col-sm-12 margin-bottom-10" data-ng-if="news.headerImage != ''">
 							<img class="newsImage" data-ng-src="{{news.headerImage}}">
@@ -46,7 +52,7 @@
 			<!-- Paging Part -->
 			<div class="row text-center">
 				<div class="col-sm-12">
-					<div class="form-inline">
+					<div class="form-inline margin-bottom-10">
 						<input class="form-control" data-ng-model="searcText" id="search" placeholder="Filter text">
 						<select data-ng-model="pageSize" id="pageSize" class="form-control">
 							<option value="5">5</option>
@@ -55,6 +61,7 @@
 							<option value="20">20</option>
 						</select>
 					</div>
+					
 					<div class="form-inline">
 						<button class="btn-u btn-u-blue" data-ng-disabled="newsCtrl.pager.currentPage <= 1" data-ng-click="newsCtrl.setPage(1)">First</button>
 						<button class="btn-u btn-u-blue" data-ng-disabled="newsCtrl.pager.currentPage <= 10" data-ng-click="newsCtrl.setPage(newsCtrl.pager.currentPage + 10)">Previous</button>
