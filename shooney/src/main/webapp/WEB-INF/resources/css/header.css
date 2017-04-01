@@ -61,10 +61,6 @@ textarea {
 	min-height: 50px;
 }
 
-#board-content {
-	min-height: 600px;
-}
-
 .select {
 	height: 34px;
 	padding: 6px 12px;

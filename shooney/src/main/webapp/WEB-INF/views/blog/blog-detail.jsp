@@ -6,7 +6,7 @@
 <%@ taglib prefix="tag" tagdir="/WEB-INF/tags"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<spring:url value="/board" var="bo"/><spring:url value="/file" var="file"/><spring:url value="/resources" var="resources" /><spring:url value="/resources/template" var="template"/>
+<spring:url value="/blog" var="blo"/><spring:url value="/file" var="file"/><spring:url value="/resources" var="resources" /><spring:url value="/resources/template" var="template"/>
 <tag:layout>
 <div class="call-action-v1 bg-color-light margin-bottom-20">
 	<div class="container">
@@ -22,7 +22,7 @@
 				No
 				<div class="input-group margin-bottom-20">
 					<span class="input-group-addon rounded-left"><i class="icon-envelope color-green"></i></span>
-					<div class="form-control rounded-right" id="board_id">${board.boardId }</div>
+					<div class="form-control rounded-right" id="blog_id">${blog.blogId }</div>
 				</div>
 			</div>
 			<!--  
@@ -30,7 +30,7 @@
 				Portfolio Type
 				<div class="input-group margin-bottom-20">
 					<span class="input-group-addon rounded-left"><i class="icon-user color-green"></i></span>
-					<div class="form-control rounded-right" id="board_entityname">${board.entityName }</div>
+					<div class="form-control rounded-right" id="blog_entityname">${blog.entityName }</div>
 				</div>
 			</div>
 			-->
@@ -38,7 +38,7 @@
 				Portfolio Type
 				<div class="input-group margin-bottom-20">
 					<span class="input-group-addon rounded-left"><i class="icon-envelope color-green"></i></span>
-					<div class="form-control rounded-right">${board.portfolioType }</div>
+					<div class="form-control rounded-right">${blog.portfolioType }</div>
 				</div>
 			</div>
 			
@@ -46,7 +46,7 @@
 				Hits
 				<div class="input-group margin-bottom-20">
 					<span class="input-group-addon rounded-left"><i class="icon-envelope color-green"></i></span>
-					<div class="form-control rounded-right">${board.hits }</div>
+					<div class="form-control rounded-right">${blog.hits }</div>
 				</div>
 			</div>
 			
@@ -54,7 +54,7 @@
 				Like
 				<div class="input-group margin-bottom-20">
 					<span class="input-group-addon rounded-left"><i class="icon-envelope color-green"></i></span>
-					<div class="form-control rounded-right">${board.likes }</div>
+					<div class="form-control rounded-right">${blog.likes }</div>
 				</div>
 			</div>
 		</div>
@@ -62,12 +62,12 @@
 		<div class="row margin-bottom-20">
 			<div class="col-sm-12">
 				File List
-				<c:forEach var="fileData" items="${board.fileDataList}" varStatus="status">
+				<c:forEach var="fileData" items="${blog.fileDataList}" varStatus="status">
 					<div class="input-group margin-bottom-5">
 						<span class="input-group-addon rounded-left"><i class="icon-envelope color-green"></i></span>
 						<div class="form-control rounded-right">
 							<c:choose>
-								<c:when test="${fn:length(board.fileDataList)>0}">
+								<c:when test="${fn:length(blog.fileDataList)>0}">
 										<div class="col-sm-11">
 											<input type="hidden" id="${fileData.fileDataId }" value="${fileData.fileDataId }">
 											<a href="${file }/download/${fileData.fileDataId}">${fileData.fileDataOriginName }</a> (${fileData.fileDataSize }kb)
@@ -96,7 +96,7 @@
 				Title
 				<div class="input-group margin-bottom-20">
 					<span class="input-group-addon rounded-left"><i class="icon-user color-green"></i></span>
-					<div class="form-control rounded-right">${board.title }</div>
+					<div class="form-control rounded-right">${blog.title }</div>
 				</div>
 			</div>
 			
@@ -104,20 +104,20 @@
 				<div>Content<br>
 					<div class="input-group margin-bottom-20">
 						<span class="input-group-addon rounded-left"><i class="icon-envelope color-green"></i></span>
-						<div class="form-control rounded-right" id="board-content">${board.content }</div>
+						<div class="form-control rounded-right" id="blog-content">${blog.content }</div>
 					</div>
 				</div>					
 			</div>
 			
 			<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-				<a href="${bo}/${kind}/list" class="btn-u btn-u-blue btn-block rounded">List</a>
+				<a href="${blo}/${kind}/list" class="btn-u btn-u-blue btn-block rounded">List</a>
 			</div>
-			<c:if test="${accessUser.nickname.equals(board.createdBy)}">
+			<c:if test="${accessUser.nickname.equals(blog.createdBy)}">
 				<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-					<a href="${bo}/modify/${board.boardId}" class="btn-u btn-u-dark-blue btn-block rounded">Modify</a>
+					<a href="${blo}/modify/${blog.blogId}" class="btn-u btn-u-dark-blue btn-block rounded">Modify</a>
 				</div>
 				<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-					<a href="${bo}/delete/${board.boardId}" id="confirm" class="btn-u btn-u-default btn-block rounded">Delete</a>
+					<a href="${blo}/delete/${blog.blogId}" id="confirm" class="btn-u btn-u-default btn-block rounded">Delete</a>
 				</div>
 			</c:if>
 		</div>
@@ -192,9 +192,10 @@
  </div>
 </tag:layout>
 <script>
-	var kind="${board.entityName}";
-	var board_id="${board.boardId }";
+	var kind="${blog.entityName}";
+	var blog_id="${blog.blogId }";
 	var accessUser="${accessUser.nickname}";
 </script>
+
 <!-- Custom & Functional JS -->
-<script type="text/javascript" src="${resources}/js/board.js"></script>
+<script type="text/javascript" src="${resources}/js/blog.js"></script>

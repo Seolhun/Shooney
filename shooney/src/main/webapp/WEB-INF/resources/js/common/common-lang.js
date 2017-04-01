@@ -5,22 +5,20 @@ var thisHost=window.location.host;
 var thisPort=window.location.port;
 
 $.i18n.init({
-    useLocalStorage: false,
-    preload : ["ko_KR","en_US"],
-    supportedLngs: ["ko_KR","en_US"],
-    fallbackLng: 'ko_KR',
-    fallbackNS: ['commons'],
-    ns: {
-        namespaces: ['commons']
-	},
+	load: ["en_US", "ko_KR"],	
+    fallbackLng: ["en_US", "ko_KR"],
+    ns: "commons",
+	resGetPath: thisRoot+'/resources/language/__lng__-__ns__.json',
 	detectLngQS: 'setLng',
 	selectorAttr: 'data-lang',
-    debug: true,
-//    cookieName: 'i18next',
-//    useCookie: true,
+    cookieName: 'i18next',
+    useCookie: true,
     useLocalStorage: true,
-    localStorageExpirationTime: 60*1000,
-    resGetPath: thisRoot+'/resources/language/__ns__-__lng__.json'
+    debug : true,
+    
+    //ms = 1s/1000 : 1000*60*60*24 1일
+//    localStorageExpirationTime: 1000*60*60*24
+    localStorageExpirationTime: 1000*60
 }, function (err, t) {
     $('.translation').i18n();
 });

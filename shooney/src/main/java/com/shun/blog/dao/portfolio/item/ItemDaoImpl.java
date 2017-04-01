@@ -9,11 +9,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
-import com.shun.blog.dao.AbstractDao;
+import com.shun.blog.dao.AbstractRepository;
 import com.shun.blog.model.portfolio.item.Monster;
 
 @Repository("itemDao")
-public class ItemDaoImpl extends AbstractDao<Integer, Monster> implements ItemDao {
+public class ItemDaoImpl extends AbstractRepository<Integer, Monster> implements ItemDao {
 
 	static final Logger logger = LoggerFactory.getLogger(ItemDaoImpl.class);
 	

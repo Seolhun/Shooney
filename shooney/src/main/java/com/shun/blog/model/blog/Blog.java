@@ -1,4 +1,4 @@
-package com.shun.blog.model.board;
+package com.shun.blog.model.blog;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -27,61 +27,61 @@ import com.shun.blog.model.file.FileData;
 import lombok.Data;
 
 @Entity
-@Table(name = "TB_BOARD")
+@Table(name = "TB_BLOG")
 @Data
-public class Board implements Serializable {
+public class Blog implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "BOARD_ID")
-	private Long boardId;
+	@Column(name = "BLOG_ID")
+	private Long blogId;
 	
-	@Column(name = "BOARD_IDX")
+	@Column(name = "BLOG_IDX")
 	private Long idx;
 
-	@Column(name = "BOARD_TITLE",length=150 , nullable = false)
+	@Column(name = "BLOG_TITLE",length=150 , nullable = false)
 	private String title;
 
-	@Column(name = "BOARD_CONTENT", length=300, nullable = false)
+	@Column(name = "BLOG_CONTENT", length=300, nullable = false)
 	private String content;
 	
-	@Column(name = "BOARD_HITS", nullable=false)
+	@Column(name = "BLOG_HITS", nullable=false)
 	private int hits=0;
 
-	@Column(name = "BOARD_LIKES", nullable=false)
+	@Column(name = "BLOG_LIKES", nullable=false)
 	private int likes=0;
 
-	@Column(name = "BOARD_DEPTH", nullable=false)
+	@Column(name = "BLOG_DEPTH", nullable=false)
 	private int depth=0;
 
-	@Column(name = "BOARD_ENTITY_NAME", length=30)
+	@Column(name = "BLOG_ENTITY_NAME", length=30)
 	private String entityName;
 
-	@Column(name = "BOARD_PORTFOLIO_TYPE", length=30)
+	@Column(name = "BLOG_PORTFOLIO_TYPE", length=30)
 	private String portfolioType;
 	
-	@Column(name = "BOARD_CREATED_BY", nullable = false, length = 60)
+	@Column(name = "BLOG_CREATED_BY", nullable = false, length = 60)
 	private String createdBy;
 
-	@Column(name = "BOARD_MODIFIED_BY", length = 60)
+	@Column(name = "BLOG_MODIFIED_BY", length = 60)
 	private String modifiedBy;
 
 	@CreationTimestamp
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "BOARD_CREATED_DATE")
+	@Column(name = "BLOG_CREATED_DATE")
 	private Date createdDate;
 
 	@UpdateTimestamp
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "BOARD_MODIFIED_DATE")
+	@Column(name = "BLOG_MODIFIED_DATE")
 	private Date modifiedDate;
 	
-	@Column(name = "BOARD_DELCHECK", nullable=false)
+	@Column(name = "BLOG_DELCHECK", nullable=false)
 	private int delCheck=0;
 	
-	@OneToMany(mappedBy = "boardInFile", fetch=FetchType.LAZY)
+	@OneToMany(mappedBy = "blogInFile", fetch=FetchType.LAZY)
 	private List<FileData> fileDataList=new ArrayList<>();
 	
-	@OneToMany(mappedBy = "boardInComment", fetch=FetchType.LAZY)
+	@OneToMany(mappedBy = "blogInComment", fetch=FetchType.LAZY)
 	private List<Comment> commentList=new ArrayList<>();
 	
 	@Transient

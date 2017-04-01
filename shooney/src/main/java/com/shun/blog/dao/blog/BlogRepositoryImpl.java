@@ -1,4 +1,4 @@
-package com.shun.blog.dao.board;
+package com.shun.blog.dao.blog;
 
 import java.util.List;
 
@@ -10,30 +10,30 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
-import com.shun.blog.dao.AbstractDao;
-import com.shun.blog.model.board.Board;
+import com.shun.blog.dao.AbstractRepository;
+import com.shun.blog.model.blog.Blog;
 import com.shun.blog.model.common.Paging;
 
 @Repository
-public class BoardRepositoryImpl extends AbstractDao<Integer, Board> implements BoardRepository {
-	static final Logger LOG = LoggerFactory.getLogger(BoardRepositoryImpl.class);
+public class BlogRepositoryImpl extends AbstractRepository<Integer, Blog> implements BlogRepository {
+	static final Logger LOG = LoggerFactory.getLogger(BlogRepositoryImpl.class);
 
 	@Override
-	public void insert(Board board) {
-		LOG.info("param : insert : {}", board.toString());
-		persist(board);
+	public void insert(Blog blog) {
+		LOG.info("param : insert : {}", blog.toString());
+		persist(blog);
 	}
 	
 	@Override
-	public Board selectById(Long id) throws Exception{
-		Board board = getByLong(id);
-		LOG.info("return : selectById : {}", board.toString());
-		return board;
+	public Blog selectById(Long id) throws Exception{
+		Blog blog = getByLong(id);
+		LOG.info("return : selectById : {}", blog.toString());
+		return blog;
 	}
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public List<Board> selectList(Paging paging) throws Exception {
+	public List<Blog> selectList(Paging paging) throws Exception {
 		LOG.info("param : selectList : {}", paging.toString());
 		int cPage = paging.getCurrentPage();
 		int sType = paging.getSearchType();
@@ -44,7 +44,7 @@ public class BoardRepositoryImpl extends AbstractDao<Integer, Board> implements 
 		
 		// 검색 로직
 		Criteria criteria = createEntityCriteria()
-				.addOrder(Order.desc("boardId"))
+				.addOrder(Order.desc("blogId"))
 				.add(Restrictions.eq("delCheck", 0))
 				.setFirstResult((cPage - 1) * limit)
 				.setMaxResults(limit).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
@@ -72,8 +72,8 @@ public class BoardRepositoryImpl extends AbstractDao<Integer, Board> implements 
 		}
 		
 		
-		List<Board> boards = (List<Board>) criteria.list();
-		return boards;
+		List<Blog> blogs = (List<Blog>) criteria.list();
+		return blogs;
 	}
 	
 	@Override
@@ -126,7 +126,7 @@ public class BoardRepositoryImpl extends AbstractDao<Integer, Board> implements 
 		LOG.info("param : deleteById : {}", id);
 		Criteria crit = createEntityCriteria();
 		crit.add(Restrictions.eq("id", id));
-		Board board = (Board) crit.uniqueResult();
-		delete(board);
+		Blog blog = (Blog) crit.uniqueResult();
+		delete(blog);
 	}
 }
