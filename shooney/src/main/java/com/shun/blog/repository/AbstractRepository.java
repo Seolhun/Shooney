@@ -1,4 +1,4 @@
-package com.shun.blog.dao;
+package com.shun.blog.repository;
 
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;

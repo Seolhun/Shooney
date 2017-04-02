@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.shun.blog.dao.portfolio.music.MusicDao;
+import com.shun.blog.repository.portfolio.music.MusicRepository;
 import com.shun.blog.model.portfolio.music.Music;
 
 
@@ -15,7 +15,7 @@ import com.shun.blog.model.portfolio.music.Music;
 public class MusicServiceImpl implements MusicService {
 
 	@Autowired
-	private MusicDao dao;
+	private MusicRepository dao;
 
 	public Music findById(Long id) {
 		return dao.findById(id);

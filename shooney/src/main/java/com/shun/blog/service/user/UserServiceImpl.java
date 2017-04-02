@@ -9,7 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.shun.blog.dao.user.UserRepository;
+import com.shun.blog.repository.user.UserRepository;
 import com.shun.blog.model.common.CommonState;
 import com.shun.blog.model.common.Paging;
 import com.shun.blog.model.user.User;

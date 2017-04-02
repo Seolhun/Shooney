@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.shun.blog.dao.file.FileRepository;
+import com.shun.blog.repository.file.FileRepository;
 import com.shun.blog.model.file.FileData;
 import com.shun.blog.model.file.FileUploadOverException;
 import com.shun.blog.service.blog.BlogService;

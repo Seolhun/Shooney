@@ -1,4 +1,4 @@
-package com.shun.blog.dao.portfolio.music;
+package com.shun.blog.repository.portfolio.music;
 
 import java.util.List;
 
@@ -9,13 +9,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
-import com.shun.blog.dao.AbstractRepository;
 import com.shun.blog.model.portfolio.music.Music;
+import com.shun.blog.repository.AbstractRepository;
 
-@Repository("musicDao")
-public class MusicDaoImpl extends AbstractRepository<Integer, Music> implements MusicDao {
+@Repository
+public class MusicRepositoryImpl extends AbstractRepository<Integer, Music> implements MusicRepository {
 
-	static final Logger logger = LoggerFactory.getLogger(MusicDaoImpl.class);
+	static final Logger logger = LoggerFactory.getLogger(MusicRepositoryImpl.class);
 	
 	public Music findById(Long id) {
 		Music music = getByLong(id);

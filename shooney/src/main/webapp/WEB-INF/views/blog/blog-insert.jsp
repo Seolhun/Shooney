@@ -21,42 +21,50 @@
 	</div>
 </div>
 <div class="container margin-bottom-20">
-	<div class="row content">
-		<div class="col-sm-12">
-			<form:form action="${blo }/insert?${_csrf.parameterName}=${_csrf.token}" class="form-horizontal" commandName="blog" modelAttribute="blog" enctype="multipart/form-data" acceptCharset="UTF-8">
-				<div class="col-sm-4 col-xs-12">
+	<div class="content">
+		<form:form action="${blo }/insert?${_csrf.parameterName}=${_csrf.token}" class="form-horizontal" commandName="blog" enctype="multipart/form-data" acceptCharset="UTF-8">
+			<div class="row">
+				<div class="col-sm-3 col-xs-12">
+					<div>Entity Name
+						<div class="error-blue">
+							<form:errors path="entityName" class="help-inline"/>
+						</div>
+					</div>
 					<div class="input-group margin-bottom-20">
 						<span class="input-group-addon rounded-left"><i class="icon-user color-green"></i></span>
 						<form:select path="entityName" class="form-control rounded-right" items="${enNames}"/>
-						
-						<span class="input-group-addon rounded-left"><i class="icon-user color-green"></i></span>
-						<form:select path="portfolioType" class="form-control rounded-right" items="${pfNames }"/>
-					</div>
-					<div>
-						<div class="error">
-							<form:errors path="entityName" class="help-inline"/>
-						</div>
-						<div class="error">
+					</div>						
+				</div>
+				
+				<div class="col-sm-3 col-xs-12">
+					<div>Portfolio Name
+						<div class="error-blue">
 							<form:errors path="portfolioType" class="help-inline"/>
 						</div>
 					</div>
+					<div class="input-group">
+						<span class="input-group-addon rounded-left"><i class="icon-user color-green"></i></span>
+						<form:select path="portfolioType" class="form-control rounded-right" items="${pfNames }"/>
+					</div>
+					
 				</div>
 					
-				<div class="col-sm-8 col-xs-12">
+				<div class="col-sm-6 col-xs-12">
+					<div>Title<br>
+						<div class="error-blue">
+							<form:errors path="title" class="help-inline"/>
+						</div>
+					</div>
 					<div class="input-group margin-bottom-20">
 						<span class="input-group-addon rounded-left"><i class="icon-envelope color-green"></i></span>
 						<form:input type="text" path="title" class="form-control rounded-right" placeholder="Board title"/>
 					</div>
-					<div>
-						<div class="error">
-							<form:errors path="title" class="help-inline"/>
-						</div>
-					</div>
 				</div>
-				
+			</div>
+			<div class="row">
 				<div class="col-sm-12 col-xs-12">
 					<div>Content<br>
-						<div class="error">
+						<div class="error-blue">
 							<form:errors path="content" class="help-inline"/>
 						</div>
 					</div>
@@ -66,7 +74,7 @@
 					<form:textarea type="text" path="content" class="form-control rounded-right" placeholder="Board content" id="summernote"/>
 					
 					<div>File Upload<br>
-						<div class="error">
+						<div class="error-blue">
 							<form:errors path="files" class="help-inline"/>
 						</div>
 					</div>
@@ -75,7 +83,8 @@
 						<form:input type="file" path="files" id="files" class="form-control rounded-right" multiple="multiple" />
 					</div>
 				</div>
-				
+			</div>
+			<div class="row">
 				<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 					<form:button type="submit" class="btn-u btn-u-dark-blue btn-block rounded">
 					<c:choose>
@@ -91,8 +100,8 @@
 				<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" >
 					<button type="button" class="btn-u btn-u-orange btn-block rounded" onclick="javascript:history.back();">Cancel</button>
 				</div>
-			</form:form>
-		</div>
+			</div>
+		</form:form>
 	</div>
  </div>
 </tag:layout>

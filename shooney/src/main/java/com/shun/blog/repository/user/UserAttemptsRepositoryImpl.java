@@ -1,4 +1,4 @@
-package com.shun.blog.dao.user;
+package com.shun.blog.repository.user;
 
 import java.util.List;
 
@@ -9,10 +9,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
-import com.shun.blog.dao.AbstractRepository;
 import com.shun.blog.model.user.UserAttempts;
+import com.shun.blog.repository.AbstractRepository;
 
-@Repository("userAttemptsRepository")
+@Repository
 public class UserAttemptsRepositoryImpl extends AbstractRepository<Long, UserAttempts> implements UserAttemptsRepository {
 	static final Logger log = LoggerFactory.getLogger(UserAttemptsRepositoryImpl.class);
 	

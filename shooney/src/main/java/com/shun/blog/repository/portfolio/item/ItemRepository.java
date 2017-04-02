@@ -1,10 +1,10 @@
-package com.shun.blog.dao.portfolio.item;
+package com.shun.blog.repository.portfolio.item;
 
 import java.util.List;
 
 import com.shun.blog.model.portfolio.item.Monster;
 
-public interface ItemDao {
+public interface ItemRepository {
 
 	Monster findById(int Id);
 

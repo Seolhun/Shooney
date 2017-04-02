@@ -1,4 +1,4 @@
-package com.shun.blog.dao.user;
+package com.shun.blog.repository.user;
 
 import java.util.List;
 

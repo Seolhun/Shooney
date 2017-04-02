@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.shun.blog.dao.comment.CommentRepository;
+import com.shun.blog.repository.comment.CommentRepository;
 import com.shun.blog.model.comment.Comment;
 import com.shun.blog.model.common.Paging;
 
@@ -15,19 +15,19 @@ import com.shun.blog.model.common.Paging;
 public class CommentServiceImpl implements CommentService {
 
 	@Autowired
-	private CommentRepository commentDao;
+	private CommentRepository commentRepository;
 	
 	
 	public Comment findById(Long id) {
-		return commentDao.findById(id);
+		return commentRepository.findById(id);
 	}
 
 	public void saveComment(Comment Comment) {
-		commentDao.saveComment(Comment);
+		commentRepository.saveComment(Comment);
 	}
 	
 	public void updateComment(Comment comment) {
-		Comment entity = commentDao.findById(comment.getCommentId());
+		Comment entity = commentRepository.findById(comment.getCommentId());
 		//읽을시 쿠키 읽기
 		if(entity != null){
 			
@@ -36,16 +36,16 @@ public class CommentServiceImpl implements CommentService {
 
 	@Override
 	public void deleteUserById(Long id) {
-		commentDao.deleteCommentById(id);
+		commentRepository.deleteCommentById(id);
 	}
 	
 	@Override
 	public List<Comment> findAllComments(Paging paging) {
-		return commentDao.findAllComments(paging);
+		return commentRepository.findAllComments(paging);
 	}
 
 	@Override
 	public int getCount(Paging paging) {
-		return commentDao.getCount(paging);
+		return commentRepository.getCount(paging);
 	}
 }

@@ -1,4 +1,4 @@
-package com.shun.blog.dao.user;
+package com.shun.blog.repository.user;
 
 import java.util.List;
 
@@ -11,9 +11,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
-import com.shun.blog.dao.AbstractRepository;
 import com.shun.blog.model.common.Paging;
 import com.shun.blog.model.user.User;
+import com.shun.blog.repository.AbstractRepository;
 
 @Repository
 public class UserRepositoryImpl extends AbstractRepository<Long, User> implements UserRepository {

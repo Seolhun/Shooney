@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.shun.blog.dao.blog.BlogRepository;
+import com.shun.blog.repository.blog.BlogRepository;
 import com.shun.blog.model.blog.Blog;
 import com.shun.blog.model.common.Paging;
 
