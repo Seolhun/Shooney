@@ -27,6 +27,11 @@ public class MongoConfig extends AbstractMongoConfiguration {
 		return new MongoClient(environment.getRequiredProperty("mongodb.config.ip"), Integer.parseInt(environment.getRequiredProperty("mongodb.config.port")));
 	}
 	
+	@Override
+	protected String getDatabaseName() {
+		return environment.getRequiredProperty("mongodb.config.db");
+	}
+	
 	@Bean
 	public MongoClient mongoClient() throws Exception {
 		MongoClient mongoClient=new MongoClient();
@@ -35,6 +40,13 @@ public class MongoConfig extends AbstractMongoConfiguration {
 	
 	@Bean
 	public MongoDbFactory mongoDbFactory() throws Exception {
+//	    // Set credentials      
+//	    MongoCredential credential = MongoCredential.createCredential(environment.getRequiredProperty("mongodb.config.user"), environment.getRequiredProperty("mongodb.config.db"), environment.getRequiredProperty("mongodb.config.pwd").toCharArray());
+//	    ServerAddress serverAddress = new ServerAddress(environment.getRequiredProperty("mongodb.config.ip"), Integer.parseInt(environment.getRequiredProperty("mongodb.config.port")));
+//
+//	    // Mongo Client
+//	    MongoClient mongoClient = new MongoClient(serverAddress,Arrays.asList(credential)); 
+		
 		SimpleMongoDbFactory simpleMongoDbFactory=new SimpleMongoDbFactory(mongoClient(), environment.getRequiredProperty("mongodb.config.db"));
 		return simpleMongoDbFactory;
 	}
@@ -43,10 +55,5 @@ public class MongoConfig extends AbstractMongoConfiguration {
 	public MongoTemplate mongoTemplate() throws Exception {
 		MongoTemplate mongoTemplate=new MongoTemplate(mongoDbFactory());
 		return mongoTemplate;
-	}
-	
-	@Override
-	protected String getDatabaseName() {
-		return environment.getRequiredProperty("mongodb.config.db");
 	}
 }
