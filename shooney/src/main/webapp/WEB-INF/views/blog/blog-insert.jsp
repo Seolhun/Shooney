@@ -22,7 +22,7 @@
 </div>
 <div class="container margin-bottom-20">
 	<div class="content">
-		<form:form action="${blo }/insert?${_csrf.parameterName}=${_csrf.token}" class="form-horizontal" commandName="blog" enctype="multipart/form-data" acceptCharset="UTF-8">
+		<form:form action="${blo }/insert?${_csrf.parameterName}=${_csrf.token}" class="form-horizontal" commandName="blog" enctype="multipart/form-data">
 			<div class="row">
 				<div class="col-sm-3 col-xs-12">
 					<div>Entity Name
