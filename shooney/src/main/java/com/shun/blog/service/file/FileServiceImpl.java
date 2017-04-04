@@ -34,8 +34,8 @@ public class FileServiceImpl implements FileService {
 		this.boardService=boardService;
 	}
 	
-	private static final String FILE_PATH="/Users/hunseol/Desktop/project/shooney/file/";
-//	private static final String FILE_PATH="/opt/tomcat/files/";
+//	private static final String FILE_PATH="/Users/hunseol/Desktop/project/shooney/file/";
+	private static final String FILE_PATH="/opt/tomcat/files/";
 	private static final int MAX_UPLOAD_SIZE=(1024 * 1024 * 200);
 	private static final int MAX_UPLOAD_SIZE_PER_FILE=(1024 * 1024 * 50);
 	

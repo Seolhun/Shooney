@@ -123,9 +123,6 @@ public class BlogController {
 	 */
 	@RequestMapping(value = "/insert", method = RequestMethod.POST)
 	public String insertBlogDo(Blog blog, BindingResult bindingResult,  ModelMap model, HttpServletRequest request, @RequestParam(name="files") MultipartFile[] files, RedirectAttributes redirect) throws Exception {
-		LOG.info("param : insertBlogDo : {}",blog.toString());
-		LOG.info("param : insertBlogDo : {}",files.toString());
-		
 		//Blog 부분
 		model.addAttribute("blog", blog);
 		model.addAttribute("edit", false);
