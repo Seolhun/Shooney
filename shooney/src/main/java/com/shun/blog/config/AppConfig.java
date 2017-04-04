@@ -81,8 +81,6 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 		multipartResolver.setMaxUploadSize(MAX_UPLOAD_SIZE); //40M
 		multipartResolver.setMaxUploadSizePerFile(MAX_UPLOAD_SIZE_PER_FILE);//10M
 		multipartResolver.setMaxInMemorySize(MAX_UPLOAD_SIZE * 2);
-		multipartResolver.setResolveLazily(true);
-		multipartResolver.setPreserveFilename(true);
 		return multipartResolver;
 	}
 

@@ -11,8 +11,8 @@ $('#commentTextarea').click(function(){
 // 게시판 불러올 시 댓글 볼러오기
 $(document).ready(function(){
 	// CommentService.getCommentList();
-	
 	CommonService.checkFileBeforeUpload("files");
+	
 });
 	
 var CommentService = (function() {

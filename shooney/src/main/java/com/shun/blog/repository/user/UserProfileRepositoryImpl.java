@@ -1,4 +1,4 @@
-package com.shun.blog.dao.user;
+package com.shun.blog.repository.user;
 
 import java.util.List;
 
@@ -7,10 +7,10 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
-import com.shun.blog.dao.AbstractRepository;
 import com.shun.blog.model.user.UserProfile;
+import com.shun.blog.repository.AbstractRepository;
 
-@Repository("userProfileDao")
+@Repository
 public class UserProfileRepositoryImpl extends AbstractRepository<Integer, UserProfile> implements UserProfileRepository {
 
 	@Override

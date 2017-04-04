@@ -172,8 +172,8 @@
 								<li class="dropdown">
 									<a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">Portfolio</a>
 									<ul class="dropdown-menu">
-										<li><a href="${portfolio}/music/list"><i class="fa fa-volume-down"></i> Musics(MongoDB, Youtube API, Json, Crawl)</a></li>
 										<li><a href="${news}/list"><i class="fa fa-columns"></i>News</a></li>
+										<li><a href="${portfolio}/music/list"><i class="fa fa-volume-down"></i> Musics</a></li>
 									</ul>
 								</li>
 								<!-- End Shortcodes -->

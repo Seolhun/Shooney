@@ -23,17 +23,19 @@ var CommonService = (function() {
 	//File Info & Validation Check 
 	var checkFileBeforeUpload=function(htmlTagId){
 		var files = document.getElementById(htmlTagId);
-		// binds to onchange event of the input field
-		files.addEventListener('change', function() {
-			//this.files[0].size gets the size of your file.
-			console.log("files", this.files.length);
-			for(var i=0;i<this.files.length;i++){
-				console.log("size", this.files[i].size);
-				console.log("size", this.files[i].name);
-				console.log("size", this.files[i].type);
-				console.log("size", this.files[i].lastModifiedDate);
-			}
-		});		
+		if(files!=null){
+			// binds to onchange event of the input field
+			files.addEventListener('change', function() {
+				//this.files[0].size gets the size of your file.
+				console.log("files", this.files.length);
+				for(var i=0;i<this.files.length;i++){
+					console.log("size", this.files[i].size);
+					console.log("size", this.files[i].name);
+					console.log("size", this.files[i].type);
+					console.log("size", this.files[i].lastModifiedDate);
+				}
+			});	
+		}
 	}
 	
 	var allCheck=function(){

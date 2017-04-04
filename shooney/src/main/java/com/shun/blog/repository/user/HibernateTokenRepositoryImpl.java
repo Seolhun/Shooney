@@ -1,4 +1,4 @@
-package com.shun.blog.dao.user;
+package com.shun.blog.repository.user;
 
 import java.util.Date;
 
@@ -11,10 +11,10 @@ import org.springframework.security.web.authentication.rememberme.PersistentToke
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.shun.blog.dao.AbstractRepository;
 import com.shun.blog.model.user.PersistentLogin;
+import com.shun.blog.repository.AbstractRepository;
 
-@Repository("tokenRepositoryDao")
+@Repository
 @Transactional
 public class HibernateTokenRepositoryImpl extends AbstractRepository<String, PersistentLogin> implements PersistentTokenRepository {
 	static final Logger logger = LoggerFactory.getLogger(HibernateTokenRepositoryImpl.class);

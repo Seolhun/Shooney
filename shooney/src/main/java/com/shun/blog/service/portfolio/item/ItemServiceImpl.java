@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.shun.blog.dao.portfolio.item.ItemDao;
+import com.shun.blog.repository.portfolio.item.ItemRepository;
 import com.shun.blog.model.portfolio.item.Monster;
 
 @Service("itemService")
@@ -14,7 +14,7 @@ import com.shun.blog.model.portfolio.item.Monster;
 public class ItemServiceImpl implements ItemService {
 
 	@Autowired
-	private ItemDao dao;
+	private ItemRepository dao;
 
 	public Monster findById(int Id) {
 		return dao.findById(Id);

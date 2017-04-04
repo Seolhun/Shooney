@@ -1,4 +1,4 @@
-package com.shun.blog.dao.portfolio.item;
+package com.shun.blog.repository.portfolio.item;
 
 import java.util.List;
 
@@ -9,13 +9,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
-import com.shun.blog.dao.AbstractRepository;
 import com.shun.blog.model.portfolio.item.Monster;
+import com.shun.blog.repository.AbstractRepository;
 
-@Repository("itemDao")
-public class ItemDaoImpl extends AbstractRepository<Integer, Monster> implements ItemDao {
+@Repository
+public class ItemRepositoryImpl extends AbstractRepository<Integer, Monster> implements ItemRepository {
 
-	static final Logger logger = LoggerFactory.getLogger(ItemDaoImpl.class);
+	static final Logger logger = LoggerFactory.getLogger(ItemRepositoryImpl.class);
 	
 	public Monster findById(int Id) {
 		Monster item = getByKey(Id);

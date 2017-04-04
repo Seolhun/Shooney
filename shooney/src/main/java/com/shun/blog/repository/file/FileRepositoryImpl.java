@@ -1,4 +1,4 @@
-package com.shun.blog.dao.file;
+package com.shun.blog.repository.file;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,8 +10,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
-import com.shun.blog.dao.AbstractRepository;
 import com.shun.blog.model.file.FileData;
+import com.shun.blog.repository.AbstractRepository;
 
 @Repository
 public class FileRepositoryImpl extends AbstractRepository<Long, FileData> implements FileRepository {

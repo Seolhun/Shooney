@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.shun.blog.dao.user.UserProfileRepository;
+import com.shun.blog.repository.user.UserProfileRepository;
 import com.shun.blog.model.user.UserProfile;
 
 @Service
@@ -14,20 +14,20 @@ import com.shun.blog.model.user.UserProfile;
 public class UserProfileServiceImpl implements UserProfileService {
 
 	@Autowired
-	UserProfileRepository dao;
+	UserProfileRepository userProfileRepository;
 
 	@Override
 	public UserProfile selectById(int id) {
-		return dao.selectById(id);
+		return userProfileRepository.selectById(id);
 	}
 
 	@Override
 	public UserProfile selectByType(String type) {
-		return dao.selectByType(type);
+		return userProfileRepository.selectByType(type);
 	}
 
 	@Override
 	public List<UserProfile> selectList() {
-		return dao.selectList();
+		return userProfileRepository.selectList();
 	}
 }

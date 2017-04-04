@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.shun.blog.dao.file.FileRepository;
+import com.shun.blog.repository.file.FileRepository;
 import com.shun.blog.model.file.FileData;
 import com.shun.blog.model.file.FileUploadOverException;
 import com.shun.blog.service.blog.BlogService;
@@ -34,8 +34,8 @@ public class FileServiceImpl implements FileService {
 		this.boardService=boardService;
 	}
 	
-//	private static final String FILE_PATH="/Users/hunseol/Desktop/project/shooney/file/";
-	private static final String FILE_PATH="/opt/tomcat/files/";
+	private static final String FILE_PATH="/Users/hunseol/Desktop/project/shooney/file/";
+//	private static final String FILE_PATH="/opt/tomcat/files/";
 	private static final int MAX_UPLOAD_SIZE=(1024 * 1024 * 200);
 	private static final int MAX_UPLOAD_SIZE_PER_FILE=(1024 * 1024 * 50);
 	

@@ -91,10 +91,12 @@ public class NewsDataRestController {
 		return resultMap;
 	}
 
-	@RequestMapping(value = "/detail/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/detail-json/{id}", method = RequestMethod.GET)
 	public NewsData getNewsDetail(ModelMap model, @PathVariable String id) {
 		LOG.info("where : moveNewsList");
-		NewsData newsData=newsDataService.findById(id);
+		NewsData newsData=new NewsData();
+		newsData=newsDataService.findById(id);
+		
 		return newsData;
 	}
 	

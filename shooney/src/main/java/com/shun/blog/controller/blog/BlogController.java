@@ -129,6 +129,7 @@ public class BlogController {
 		//Blog 부분
 		model.addAttribute("blog", blog);
 		model.addAttribute("edit", false);
+		//Entity Name과 PortfolioName은 변동이 생길 수 있기 때문에 후에 디비로 바꾼다.
 		model.addAttribute("enNames", EntityName.values());
 		model.addAttribute("pfNames", PortfolioName.values());
 		
@@ -136,8 +137,10 @@ public class BlogController {
 		String mapping="blog/blog-insert";
 		if(blog.getTitle().length()<5){
 			commonService.validCheckAndSendError(messageSource, bindingResult, request, blog.getTitle(), "blog", "title", "INVALID-TITLE");
-		} else if(blog.getContent().length()<5){
+			return mapping;
+		} else if(blog.getContent().replaceAll("<p>", "").replaceAll("</p>","").length()<5){
 			commonService.validCheckAndSendError(messageSource, bindingResult, request, blog.getContent(), "blog", "content", "INVALID-CONTENT");
+			return mapping;
 		} else if (bindingResult.hasErrors()) {
 			return mapping;
 		}

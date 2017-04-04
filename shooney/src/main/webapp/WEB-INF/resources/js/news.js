@@ -8,18 +8,22 @@ var thisPort=window.location.port;
 /* AJAX 통신 처리 */
 (function() {
 	'use strict';
-	var NewsAngularApp=angular.module('NewsAngularApp', []).factory('PagerService', PagerService).controller('NewsAngularController', NewsAngularController);
+	var NewsAngularApp=angular.module('NewsAngularApp', [])
+		.factory('PagerService', PagerService)
+		.controller('NewsAngularController', NewsAngularController);
 	
 	//News Angular Controller
-	function NewsAngularController(PagerService, $scope, $http) {
+	function NewsAngularController(PagerService, $scope, $http, $location) {
 		var newsCtrl = this;
 		newsCtrl.pager = {};
 		newsCtrl.setPage = setPage;
 		newsCtrl.getNewsList=getNewsList;
+		newsCtrl.MoveDetail=MoveDetail;
 		
 		// initialize to page 1
-		initController();
-		function initController() {
+		initPageCtrl();
+		
+		function initPageCtrl() {
 			newsCtrl.setPage(0);
 		}
 		
@@ -48,15 +52,18 @@ var thisPort=window.location.port;
 					csrfHeader : csrfToken
 				}
 			}).then(function(response) {
-				console.log("Success");
-				var responseData = response.data;
-				
-				var paging = response.data.paging;
-				var newsList = responseData.newsDatas.content;
-				
-				newsCtrl.newsList=newsList;
-				newsCtrl.pager = PagerService.GetPager(paging.totalCount, currentPage);
-				
+				if (response['status'] == '200') {
+					console.log("Success", response['status']);	
+					var responseData = response.data;
+					
+					var paging = response.data.paging;
+					var newsList = responseData.newsDatas.content;
+					
+					newsCtrl.newsList=newsList;
+					newsCtrl.pager = PagerService.GetPager(paging.totalCount, currentPage);
+				} else {
+					console.log("Fail", response['status']);
+				}
 //				// Ajax결과 출력
 //				newsList.forEach(function(data, index, status) {
 //					 console.log(index);
@@ -65,7 +72,40 @@ var thisPort=window.location.port;
 				console.log("Error" + error);
 			});
 		}
+		
+		function MoveDetail(newsId, $location){
+			if(newsId==null){
+				return;
+			}
+			$http({
+				method : 'GET', // 방식
+				url : thisRoot + "/news/detail-json/"+newsId, /* 통신할 URL */
+				timeout : 600000,
+				contentType : 'application/json',
+				params : {
+					"id" : newsId
+				},
+				responseType : 'json',
+				headers : {
+					"Content-Type" : "application/json; charset=utf-8",
+		            "Accept" : "application/json",
+					csrfHeader : csrfToken
+				}
+			}).then(function(response) {
+				if (response['status'] == '200') {
+					console.log("Success", response['status']);	
+					var newsData = response.data;
+					console.log("newsData", newsData);
+					newsCtrl.newsData=newsData;
+				} else {
+					console.log("Fail", response['status']);
+				}
+			}, function(error) {
+				console.log("Error" + error);
+			});
+		}
 	}
+	
 
 	function PagerService() {
 		// service definition

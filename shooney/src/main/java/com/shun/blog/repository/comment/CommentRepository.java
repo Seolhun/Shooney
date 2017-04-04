@@ -1,4 +1,4 @@
-package com.shun.blog.dao.comment;
+package com.shun.blog.repository.comment;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.shun.blog.dao.blog;
+package com.shun.blog.repository.blog;
 
 import java.util.List;
 
@@ -10,9 +10,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
-import com.shun.blog.dao.AbstractRepository;
 import com.shun.blog.model.blog.Blog;
 import com.shun.blog.model.common.Paging;
+import com.shun.blog.repository.AbstractRepository;
 
 @Repository
 public class BlogRepositoryImpl extends AbstractRepository<Integer, Blog> implements BlogRepository {
