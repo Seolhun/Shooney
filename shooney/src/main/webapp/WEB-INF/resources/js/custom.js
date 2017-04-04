@@ -21,15 +21,3 @@ $('#summernote').summernote({
 	dialogsFade: true
 });
 
-$(function() {
-	// 최상단 체크박스 클릭
-	$("#allCheck").click(function() {
-		if ($("#allCheck").prop("checked")) {
-			// input태그의 name이 chk인 태그들을 찾아서 checked옵션을 true로 정의
-			$("input[name=check]").prop("checked", true);
-		} else {
-			// input태그의 name이 chk인 태그들을 찾아서 checked옵션을 false로 정의
-			$("input[name=check]").prop("checked", false);
-		}
-	})
-});

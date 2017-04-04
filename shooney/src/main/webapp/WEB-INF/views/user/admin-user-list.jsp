@@ -41,7 +41,7 @@
 			<table class="table table-hover">
 	    		<thead>
 		      		<tr>
-		      			<th><input type="checkbox" id="allCheck"></th>
+		      			<th><input type="checkbox" onclick="CommonService.allCheck()"></th>
 				        <th>No.</th>
 				        <th>Email.</th>
 				        <th>Nickname.</th>
@@ -60,7 +60,7 @@
 	    		<tbody>
 				<c:forEach items="${users}" var="user">
 					<tr>
-						<td><input type="checkbox" name="check" value="${user.id}"></td>
+						<td><input type="checkbox" name="oneCheck" value="${user.id}"></td>
 						<td>${user.id}</td>
 						<td>${user.email}</td>
 						<td>${user.nickname}</td>
