@@ -11,37 +11,38 @@ import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.shun.blog.repository.file.FileRepository;
 import com.shun.blog.model.file.FileData;
 import com.shun.blog.model.file.FileUploadOverException;
-import com.shun.blog.service.blog.BlogService;
+import com.shun.blog.repository.file.FileRepository;
 
 @Service
 @Transactional(transactionManager="txManager")
+@PropertySource(value = { "classpath:datasource.properties" })
 public class FileServiceImpl implements FileService {
 	private static final Logger LOG = LoggerFactory.getLogger(FileServiceImpl.class);
 	
 	private FileRepository fileRepository;
-	private BlogService boardService;
 	
 	@Autowired
-	public FileServiceImpl(FileRepository fileRepository, BlogService boardService) {
+	public FileServiceImpl(FileRepository fileRepository) {
 		this.fileRepository=fileRepository;
-		this.boardService=boardService;
 	}
 	
-//	private static final String FILE_PATH="/Users/hunseol/Desktop/project/shooney/file/";
-	private static final String FILE_PATH="/opt/tomcat/files/";
+	private static final String FILE_PATH="/Users/hunseol/Desktop/project/shooney/file/";
+//	private static final String FILE_PATH="/opt/tomcat/files/";
 	private static final int MAX_UPLOAD_SIZE=(1024 * 1024 * 200);
 	private static final int MAX_UPLOAD_SIZE_PER_FILE=(1024 * 1024 * 50);
 	
 	@Override
 	@Transactional(transactionManager="txManager", rollbackFor={Exception.class, IOException.class})
 	public void insert(FileData fileData) throws IOException, Exception {
+		LOG.info("param : insert {}", fileData.toString());
+		
 		//유효성 검사.
 		int fileTotalSize=0;
 		List<FileData> fileDataList=new ArrayList<>();
@@ -51,8 +52,6 @@ public class FileServiceImpl implements FileService {
 		for (int i = 0; i < files.length; i++) {
 			if (!files[i].isEmpty()) {
 				FileData setfileInfo=new FileData();
-				LOG.info("param : MultipartFile getOriginalFilename : {}", files[i].getOriginalFilename());
-
 				if(files[i].getSize()>MAX_UPLOAD_SIZE_PER_FILE){
 					throw new FileUploadOverException();
 				}
@@ -61,7 +60,6 @@ public class FileServiceImpl implements FileService {
 				String originName=files[i].getOriginalFilename();
                 String onlyFileExtension = originName.substring(originName.lastIndexOf("."));
                 String savedName=getRandomString()+onlyFileExtension;
-                LOG.info("return : getRandomString : {}", savedName);
                 
                 //파일 속성을 담는다.
                 Long fileSize= files[i].getSize();
@@ -91,10 +89,6 @@ public class FileServiceImpl implements FileService {
 			throw new FileUploadOverException();
 		}
 		
-		//문제 없을 시 진행.		
-		boardService.insert(fileData.getBlogInFile());
-		
-		LOG.info("param : fileDataList : {}", fileDataList.toString());
 		for (int j = 0; j < fileDataList.size(); j++) {
 			//폴더 없을시 폴더 만들기.
 			File directory = new File(FILE_PATH);
@@ -107,7 +101,6 @@ public class FileServiceImpl implements FileService {
 			byte[] bytes = fileDataList.get(j).getFileByte();
 			stream.write(bytes);
 			stream.close();
-			LOG.info("return : Server File Location : {}", serverFile.getAbsolutePath());				
 			
 			//게시판을 인서트한 후 파일을 인서트한다.
 			fileRepository.insert(fileDataList.get(j));
@@ -119,7 +112,6 @@ public class FileServiceImpl implements FileService {
 		LOG.info("param : "+id.toString());
 		
 		FileData fileData=fileRepository.selectById(id);
-		LOG.info("return : "+fileData.toString());
 		return fileData;
 	}
 
@@ -128,7 +120,6 @@ public class FileServiceImpl implements FileService {
 		LOG.info("param : "+fileData.toString());
 		
 		List<FileData> fileDataList = fileRepository.selectList(fileData);
-		LOG.info("return : "+fileDataList.toString());
 		return fileDataList;
 	}
 
@@ -147,9 +138,8 @@ public class FileServiceImpl implements FileService {
 	public FileData update(FileData fileData) {
 		LOG.info("param : "+fileData.toString());
 		FileData dbFileData = fileRepository.selectById(fileData.getFileDataId());
-		LOG.info("return : "+dbFileData);
 		if (dbFileData != null) {
-			dbFileData.setFileDataOriginName(fileData.getFileDataOriginName());
+			dbFileData=fileData;
 		}
 		return dbFileData;
 	}

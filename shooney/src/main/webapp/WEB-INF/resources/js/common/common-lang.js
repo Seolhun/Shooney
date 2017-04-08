@@ -20,6 +20,9 @@ $.i18n.init({
 //    localStorageExpirationTime: 1000*60*60*24
     localStorageExpirationTime: 1000*60
 }, function (err, t) {
+	if(!($.i18n.options.lng=="en_US" || $.i18n.options.lng=="ko_KR")){
+		$.i18n.setLng("ko_KR");	
+	}
     $('.translation').i18n();
 });
 

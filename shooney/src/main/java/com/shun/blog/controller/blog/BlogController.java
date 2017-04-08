@@ -18,6 +18,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -122,11 +123,10 @@ public class BlogController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/insert", method = RequestMethod.POST)
-	public String insertBlogDo(Blog blog, BindingResult bindingResult,  ModelMap model, HttpServletRequest request, @RequestParam(name="files") MultipartFile[] files, RedirectAttributes redirect) throws Exception {
+	public String insertBlogDo(Blog blog, @RequestParam(name="files") MultipartFile[] files, BindingResult bindingResult,  ModelMap model, HttpServletRequest request, RedirectAttributes redirect) throws Exception {
 		//Blog 부분
 		model.addAttribute("blog", blog);
 		model.addAttribute("edit", false);
-		//Entity Name과 PortfolioName은 변동이 생길 수 있기 때문에 후에 디비로 바꾼다.
 		model.addAttribute("enNames", EntityName.values());
 		model.addAttribute("pfNames", PortfolioName.values());
 		
@@ -155,6 +155,8 @@ public class BlogController {
 			FileData fileData=new FileData();
 			fileData.setBlogInFile(blog);
 			fileData.setFiles(files);
+			
+			blogService.insert(blog);			
 			fileService.insert(fileData);
 		} catch (FileUploadOverException e) {
 			e.printStackTrace();
@@ -192,7 +194,6 @@ public class BlogController {
 		}
 		
 		blog = blogService.selectById(id);
-		
 		model.addAttribute("blog", blog);
 		model.addAttribute("edit", false);
 		model.addAttribute("accessUser", commonService.getAccessUserToModel());
@@ -201,10 +202,16 @@ public class BlogController {
 		return "blog/blog-detail";
 	}
 
+	/**
+	 * 게시판 리스트
+	 * 
+	 * @param @PathVariable Long id
+	 * @return String  -view
+	 * @throws Exception
+	 */
 	@RequestMapping(value = { "/modify/{id}" }, method = RequestMethod.GET)
 	public String editBlog(@PathVariable Long id, ModelMap model) throws Exception {
 		Blog blog = blogService.selectById(id);
-
 		if (!(blog.getCreatedBy().equals(commonService.getAccessUserToModel().getNickname()))) {
 			return "redirect:/deny";
 		}
@@ -213,107 +220,34 @@ public class BlogController {
 		model.addAttribute("edit", true);
 		model.addAttribute("enNames", EntityName.values());
 		model.addAttribute("pfNames", PortfolioName.values());
-		return "blog/blog-insert";
+		return "blog/blog-modify";
 	}
 
-	@RequestMapping(value = { "/{kind}/modify" }, method = RequestMethod.POST)
-	public String editBlogDo(@Valid Blog blog, BindingResult result, ModelMap model, @PathVariable String kind) throws Exception{
-		if (result.hasErrors()) {
-			model.addAttribute("edit", true);
-			model.addAttribute("kind", kind);
-			return "blog/blog-insert";
+	@RequestMapping(value = { "/modify/{id}" }, method = RequestMethod.POST)
+	public String editBlogDo(@Valid Blog blog, BindingResult result, @PathVariable Long id, ModelMap model) throws Exception{
+		Blog dbBlog = blogService.selectById(id);
+		if (!(dbBlog.getCreatedBy().equals(commonService.getAccessUserToModel().getNickname()))) {
+			return "redirect:/deny";
+		} else if (result.hasErrors()) {
+			return "blog/blog-modify";
 		}
 
-//		if (!(blog.getWriter().equals(initializeUser().getNickname()))) {
-//			return "redirect:/" + kind + "/r" + id;
-//		}
-
 		blogService.update(blog);
-
-//		model.addAttribute("success", "Blog " + blog.getWriter() + "의 " + blog.getTitle() + "성공적으로 수정되었습니다.");
-		model.addAttribute("entity", kind);
+		model.addAttribute("success", "Blog " + blog.getCreatedBy() + "의 " + blog.getTitle() + "성공적으로 수정되었습니다.");
 		return "result/success";
 	}
 
-	@RequestMapping(value = { "/{kind}/delete" }, method = RequestMethod.GET)
-	public String deleteBlog(@PathVariable String kind, @RequestParam(required=true) Long id) throws Exception {
-		Blog blog = blogService.selectById(id);
-//		if (!(blog.getWriter().equals(initializeUser().getNickname()))) {
-//			return "redirect:/" + kind + "/r" + id;
-//		}
-//		blog.setDelCheck(1);
-		blogService.update(blog);
-		return "redirect:/" + kind + "/list";
+	@RequestMapping(value = { "/delete/{id}" }, method = RequestMethod.GET)
+	public String deleteBlog(@PathVariable Long id, Authentication auth) throws Exception {
+		Blog dbBlog = blogService.selectById(id);
+		if (!(dbBlog.getCreatedBy().equals(commonService.getAccessUserToModel().getNickname())) || !(commonService.getLoginAuthValidation(auth, "ROLE_SUPERADMIN"))) {
+			return "redirect:/deny";
+		} 
+		
+		dbBlog.setDelCheck(1);
+		blogService.update(dbBlog);
+		return "redirect:/blog/list";
 	}
-
-	// @RequestMapping(value = { "/{tableName}/detail" }, method =
-	// RequestMethod.GET)
-	// public String getBlogDetail(ModelMap model, HttpServletRequest request,
-	// HttpServletResponse response, @PathVariable String tableName,
-	// @RequestParam int id) throws Exception {
-	// // RequestMethod.GET일 때의 기본언어 설정
-	// Language language = commonFn.setLanguageData(text_ko, text_en, request);
-	// String target = "Blog";
-	// String targetName = "common.main.information";
-	// commonFn.setDefaultSetting(model, language, target, targetName);
-	//
-	// Blog blog = new Blog();
-	// blog.setId(id);
-	// // 조회수 증가
-	// if (checkHitCookie(blog, request, response)) {
-	// blog.setTableName(tableName);
-	// bDao.updateData(blog, 2);
-	// }
-	//
-	// // 불러올 게시물 설정
-	// blog.setTableName(tableName);
-	// blog = bDao.getDetailbyKey(blog);
-	//
-	// // 불러올 댓글 페이징 설정
-	// Paging paging = new Paging();
-	// paging.setTableName(tableName);
-	// paging.setLimit(commonFn.checkVDInt(request.getParameter("limit"), 5));
-	// paging.setcPage(commonFn.checkVDInt(request.getParameter("cPage"), 1));
-	// String rawQuestion = request.getParameter("sText");
-	// paging.setQuestion(rawQuestion);
-	//
-	// // 총 페이지 가져오기.
-	// int totalCount = bDao.getTotalReplyCount(blog, paging);
-	// paging.setTotalPage(totalCount);
-	// setPaging(paging);
-	// blog.setReplyList(bDao.getAllReply(blog, paging));
-	//
-	// int reno = commonFn.checkVDInt(request.getParameter("reno"), 0);
-	// if (reno > 0) {
-	// Reply reply=new Reply();
-	// reply.setId(reno);
-	// reply=bDao.getReply(reply);
-	// model.addAttribute("modifyReply", reply);
-	// }
-	//
-	// // 리다이렉트를 통해 온 에러메시지를 확인하는 곳.
-	// try {
-	// String error = request.getParameter("error");
-	// if (error != null ) {
-	// model.addAttribute("error", error);
-	// }
-	//
-	// String replyError = request.getParameter("replyError");
-	// if (replyError != null) {
-	// model.addAttribute("replyError", replyError);
-	// }
-	// } catch (NullPointerException e) {
-	// //e.printStackTrace();
-	// }
-	// String logUser=commonFn.getPrincipal();
-	// Reply reply=new Reply();
-	// model.addAttribute("reply", reply);
-	// model.addAttribute("logUser", logUser);
-	// model.addAttribute("paging", paging);
-	// model.addAttribute("tableName", tableName);
-	// model.addAttribute("blog", blog);
-	// return "blog/detail";
-	// }
 
 	private boolean checkHitCookie(HttpServletRequest request, HttpServletResponse response, String id) {
 		// 쿠키에 담을 값을 가져오기 위함.(uri는 테이블 값을 가져오기 위함 - 3번)

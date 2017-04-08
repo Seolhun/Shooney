@@ -9,9 +9,9 @@ public interface BlogService {
 
 	Blog selectById(Long id) throws Exception;
 
-	void insert(Blog board);
+	void insert(Blog blog);
 
-	void update(Blog board) throws Exception;
+	void update(Blog blog) throws Exception;
 
 	void deleteById(Long id);
 

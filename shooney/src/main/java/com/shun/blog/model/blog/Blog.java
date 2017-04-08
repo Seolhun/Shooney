@@ -1,7 +1,6 @@
 package com.shun.blog.model.blog;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -37,7 +36,7 @@ public class Blog implements Serializable {
 	
 	@Column(name = "BLOG_IDX")
 	private Long idx;
-
+	
 	@Column(name = "BLOG_TITLE",length=150 , nullable = false)
 	private String title;
 
@@ -79,10 +78,10 @@ public class Blog implements Serializable {
 	private int delCheck=0;
 	
 	@OneToMany(mappedBy = "blogInFile", fetch=FetchType.LAZY)
-	private List<FileData> fileDataList=new ArrayList<>();
+	private List<FileData> fileDataList;
 	
 	@OneToMany(mappedBy = "blogInComment", fetch=FetchType.LAZY)
-	private List<Comment> commentList=new ArrayList<>();
+	private List<Comment> commentList;
 	
 	@Transient
 	private List<MultipartFile> files;

@@ -20,21 +20,18 @@ public class BlogRepositoryImpl extends AbstractRepository<Integer, Blog> implem
 
 	@Override
 	public void insert(Blog blog) {
-		LOG.info("param : insert : {}", blog.toString());
 		persist(blog);
 	}
 	
 	@Override
 	public Blog selectById(Long id) throws Exception{
 		Blog blog = getByLong(id);
-		LOG.info("return : selectById : {}", blog.toString());
 		return blog;
 	}
 
 	@Override
 	@SuppressWarnings("unchecked")
 	public List<Blog> selectList(Paging paging) throws Exception {
-		LOG.info("param : selectList : {}", paging.toString());
 		int cPage = paging.getCurrentPage();
 		int sType = paging.getSearchType();
 		int sDate = paging.getSearchDate();
@@ -78,7 +75,6 @@ public class BlogRepositoryImpl extends AbstractRepository<Integer, Blog> implem
 	
 	@Override
 	public int getCount(Paging paging) throws Exception {
-		LOG.info("param : getCount : {}", paging.toString());
 		int sType = paging.getSearchType();
 		int sDate = paging.getSearchDate();
 		String sText = paging.getSearchText();
@@ -105,25 +101,11 @@ public class BlogRepositoryImpl extends AbstractRepository<Integer, Blog> implem
 		}
 		
 		Integer totalResult = ((Number)criteria.setProjection(Projections.rowCount()).uniqueResult()).intValue();
-		LOG.info("param : getCount : {}", totalResult);
 		return totalResult;
 	}
 
-//	@Override
-//	public int getCount(Paging paging) throws Exception {
-//		LOG.info("param : getCount : {}", paging.toString());
-//		String condition = "";
-//		String condition2 = "";
-//		if (paging.getPortfolioType() != null) {
-//			condition2 = " WHERE BOARD_PORTFOLIO_TYPE='" + paging.getPortfolioType().toLowerCase() + "'";
-//		}
-//		Query query = rawQuery("SELECT COUNT(*) FROM TB_BOARD " + condition + condition2);
-//		return ((Number) query.uniqueResult()).intValue();
-//	}
-
 	@Override
 	public void deleteById(Long id) {
-		LOG.info("param : deleteById : {}", id);
 		Criteria crit = createEntityCriteria();
 		crit.add(Restrictions.eq("id", id));
 		Blog blog = (Blog) crit.uniqueResult();

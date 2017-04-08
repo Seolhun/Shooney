@@ -9,13 +9,13 @@
 <div class="call-action-v1 bg-color-light">
 	<div class="container">
 		<div class="call-action-v1-box">
-			<h2>Create new blog</h2>
+			<h2>Modify blog</h2>			
 		</div>
 	</div>
 </div>
 <div class="container margin-bottom-20">
 	<div class="content">
-		<form:form action="${blo }/insert?${_csrf.parameterName}=${_csrf.token}" class="form-horizontal" commandName="blog" enctype="multipart/form-data">
+		<form:form action="${blo }/update/${blog.blogId }?${_csrf.parameterName}=${_csrf.token}" class="form-horizontal" commandName="blog" enctype="multipart/form-data">
 			<div class="row">
 				<div class="col-sm-3 col-xs-12">
 					<div>Entity Name
@@ -54,6 +54,27 @@
 					</div>
 				</div>
 			</div>
+			
+			<div class="row">
+				<div class="col-sm-12 col-xs-12">
+					<div>File Upload<br>
+						<div class="error-blue">
+							<form:errors path="files" class="help-inline"/>
+						</div>
+					</div>
+					<div class="input-group margin-bottom-20">
+						<span class="input-group-addon rounded-left"><i class="icon-picture color-green"></i></span>
+						<form:input type="file" path="files" id="files" class="form-control rounded-right" multiple="multiple" />
+					</div>
+					<div class="input-group margin-bottom-20">
+						<c:forEach items="${blog.fileDataList}" var="i">
+							${i.fileDataOriginName}
+							${i.fileDataSavedPath}
+							<form:input type="file" path="fileDataList" id="files" class="form-control rounded-right" multiple="multiple" />
+						</c:forEach>
+					</div>
+				</div>
+			</div>
 			<div class="row">
 				<div class="col-sm-12 col-xs-12">
 					<div>Content<br>
@@ -65,22 +86,12 @@
 						<span class="input-group-addon rounded-left"><i class="icon-envelope color-green"></i></span>
 					</div>
 					<form:textarea type="text" path="content" class="form-control rounded-right" placeholder="Board content" id="summernote"/>
-					
-					<div>File Upload<br>
-						<div class="error-blue">
-							<form:errors path="files" class="help-inline"/>
-						</div>
-					</div>
-					<div class="input-group margin-bottom-20">
-						<span class="input-group-addon rounded-left"><i class="icon-picture color-green"></i></span>
-						<form:input type="file" path="files" id="files" class="form-control rounded-right" multiple="multiple" />
-					</div>
 				</div>
 			</div>
 			<div class="row">
 				<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 					<form:button type="submit" class="btn-u btn-u-dark-blue btn-block rounded">
-						Submit
+						Edit
 					</form:button>
 				</div>
 				<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" >

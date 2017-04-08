@@ -7,7 +7,7 @@
 <spring:url value="/resources" var="resources" /><spring:url value="/resources/template" var="template"/><spring:url value="/" var="shooney"/>
 <html lang="en"> 
 <head>
-	<title>SomeThing New | Hooney Blog</title>
+	<title>SomeThing New | Shooney Blog</title>
 	<!-- Meta -->
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">

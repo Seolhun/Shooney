@@ -114,7 +114,7 @@ public class NewsDataRestController {
 			public void run() {
 				LOG.info("return : getNewsThread : Message");
 //				for (int i = 3100000; i<= 3182689; i++) {
-				for (Long i = startNumber; i< 310000; i++) {
+				for (Long i = startNumber; i< 3100000; i++) {
 					// 리스트 가져오기
 					for (NewsWebSite newsWebSite : NewsWebSite.values()) {
 						String address=newsWebSite.getWebAddress();

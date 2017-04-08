@@ -202,15 +202,15 @@ public class CommonServiceImpl implements CommonService {
 		boolean valid=false;
 		try {
 			for (GrantedAuthority authority: auth.getAuthorities()) {
+				LOG.info("return : getLoginAuthValidation = "+authority.getAuthority());
 				String authName=authority.getAuthority();
 				if(authName.equals(authNameYouWant)){
 					valid=true;
 				}
 			}	
 		} catch (NullPointerException e) {
-			LOG.error("ERROR NullPointException - getLoginAuthValidation = "+valid);
+			LOG.error("Error NullPointException - getLoginAuthValidation = "+valid);
 		}
-		LOG.info("TEST : getLoginAuthValidation = "+valid);
 		return valid;
 	}
 	
@@ -355,11 +355,18 @@ public class CommonServiceImpl implements CommonService {
 		LOG.info("return : setAndValidationPaging {}", paging.toString());
 	}
 
-	
+	/**
+	 * 로그인 된 인원 DB정보 가쟈오기.
+	 * 
+	 * @param String userEmail
+	 * @return User user
+	 * @throws Exception
+	 */	
 	@Override
 	public User getAccessUserToModel() throws Exception {
 		String userEmail=commonService.getPrincipal();
 		LOG.info("return : getAccessUserToModel : {}", userEmail);
 		return userService.selectByEmail(userEmail);
 	}
+	
 }

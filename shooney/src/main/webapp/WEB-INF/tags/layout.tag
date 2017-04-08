@@ -34,7 +34,7 @@
 	<meta id="csrfToken" name="csrfToken" content="${_csrf.token}"/>
 	<meta id="csrfHeader" name="csrfHeader" content="${_csrf.headerName}"/>
 
-	<title>SomeThing New | Hooney Blog</title>
+	<title>SomeThing New | Shooney Blog</title>
 
 	<link rel="shortcut icon" href="${resources}/img/logo.jpeg" />
 	
