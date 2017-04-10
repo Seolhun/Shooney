@@ -15,7 +15,7 @@ import com.shun.blog.model.common.Paging;
 import com.shun.blog.repository.AbstractRepository;
 
 @Repository
-public class BlogRepositoryImpl extends AbstractRepository<Integer, Blog> implements BlogRepository {
+public class BlogRepositoryImpl extends AbstractRepository<Long, Blog> implements BlogRepository {
 	static final Logger LOG = LoggerFactory.getLogger(BlogRepositoryImpl.class);
 
 	@Override

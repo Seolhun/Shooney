@@ -58,7 +58,7 @@ public class Blog implements Serializable {
 	@Column(name = "BLOG_PORTFOLIO_TYPE", length=30)
 	private String portfolioType;
 	
-	@Column(name = "BLOG_CREATED_BY", nullable = false, length = 60)
+	@Column(name = "BLOG_CREATED_BY", length = 60, nullable = false)
 	private String createdBy;
 
 	@Column(name = "BLOG_MODIFIED_BY", length = 60)

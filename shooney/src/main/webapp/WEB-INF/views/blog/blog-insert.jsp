@@ -75,6 +75,9 @@
 						<span class="input-group-addon rounded-left"><i class="icon-picture color-green"></i></span>
 						<form:input type="file" path="files" id="files" class="form-control rounded-right" multiple="multiple" />
 					</div>
+					<div id="fileInfoDiv">
+					
+					</div>
 				</div>
 			</div>
 			<div class="row">

@@ -1,9 +1,9 @@
 <%@ tag description="Layout Template" pageEncoding="UTF-8"%>
-<%@ attribute name="tab" required="false" type="java.lang.String"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ attribute name="tab" required="false" type="java.lang.String"%>
 <spring:url value="/" var="shooney"/>
 <spring:url value="/resources" var="resources" />
 <spring:url value="/resources/template" var="template"/>
@@ -331,7 +331,7 @@
 
 		<!-- Custom & Functional JS -->
 		<script type="text/javascript" src="${resources }/vendor/summer/summernote.js"></script>
-		<script type="text/javascript" src="${resources}/js/custom.js"></script>
+		<script type="text/javascript" src="${resources}/js/summernote.js"></script>
 		
 		<!-- Common Function JS -->
 		<!-- Language JS -->

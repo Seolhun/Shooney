@@ -15,10 +15,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.hibernate.validator.constraints.NotEmpty;
 
 import com.shun.blog.model.blog.Blog;
 
@@ -36,10 +36,12 @@ public class Comment implements Serializable {
 	private Long commentId;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(foreignKey = @ForeignKey(name = "COMMENT_BLOG_FK"), name = "COMMENT_BLOG_ID", referencedColumnName = "BLOG_ID", nullable = false)
+	@JoinColumn(foreignKey = @ForeignKey(name = "COMMENT_BLOG_FK"), name = "COMMENT_BLOG_ID", referencedColumnName = "BLOG_ID")
 	private Blog blogInComment;
+	
+	@Column(name = "COMMENT_ENTITY_NAME", length=20, nullable = false)
+	private String entityName;
 
-	@NotEmpty
 	@Column(name = "COMMENT_CONTENT", length=300 ,nullable = false)
 	private String content;
 
@@ -64,4 +66,7 @@ public class Comment implements Serializable {
 	
 	@Column(name = "COMMENT_DELCHECK", nullable=false)
 	private int delCheck=0;
+	
+	@Transient
+	private Long blogId;
 }

@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="tag" tagdir="/WEB-INF/tags"%>
 <spring:url value="/" var="shooney"/><spring:url value="/resources" var="resources" /><spring:url value="/resources/template" var="template"/><spring:url value="/webjars" var="webjars" /><spring:url value="/board" var="board"/><spring:url value="/project" var="project"/><spring:url value="/portfolio" var="portfolio"/><spring:url value="/myinfo" var="myinfo"/><spring:url value="/admin" var="admin"/><spring:url value="/signup" var="signup"/><spring:url value="/login" var="login"/><spring:url value="/logout" var="logout"/><spring:url value="/news" var="news"/><spring:url value="/admin" var="admin" />
 <tag:layout>
@@ -152,9 +153,13 @@
 				<div class="call-action-v1-in">
 					<p>Unify creative technology company providing key digital services and focused on helping our clients to build a successful business on web and mobile.</p>
 				</div>
-				<div class="call-action-v1-in inner-btn page-scroll">
-					<a href="#portfolio" class="btn-u btn-brd btn-brd-hover btn-u-dark btn-u-block">REGISTER TODAY</a>
-				</div>
+				<sec:authorize access="isAuthenticated()">
+					<sec:authorize access="hasRole('SUPERADMIN')">
+						<div class="call-action-v1-in inner-btn page-scroll">
+							<a href="#portfolio" class="btn-u btn-brd btn-brd-hover btn-u-dark btn-u-block">REGISTER TODAY</a>
+						</div>
+					</sec:authorize>
+				</sec:authorize>
 			</div>
 		</div>
 	</div>
@@ -171,14 +176,14 @@
 			<div class="col-sm-12">
 				<p class="font-26b">앞으로 업데이트 될 내용</p>
 				<h4>일정 : 2017.04.29</h4>
-				<h5>기본적인 블로그 기능과 파일 서비스</h5>
-				<h5>접속 된 유저 아이피를 통한 카운트 기능 구현 에정</h5>
-				<h5>웹 크롤링 데이터 확대 및 통계/분석 기능. => 30만 뉴스데이터 분석을 통한 핫 이슈 단어 랭크내기.</h5>
+				<h5>1. 접속 된 유저 아이피를 통한 카운트 기능 구현 에정 - interceptor</h5>
+				<h5>2. 웹 크롤링 Image 주소를 통해 파일업로드해서 이미지 받기. - Crawl 로직추가하기.</h5>
+				<h5>3. 웹 크롤링 데이터 확대 및 통계/분석 기능. => 30만 뉴스데이터 분석을 통한 핫 이슈 단어 랭크내기</h5>
 				<br>
 				<h4>일정 : 2017.05.28</h4>
-				<h5>Spring WebSocket을 적용하여 알림 기능 구현 예정(알림 기능을 Spring Stomp + Sock.Js로 구현 할 예정)</h5>  
-				<h5>Spring Social을 통해 자신이 올린 포트폴리오 등에 대한 정보를 공유할 수 있는 기능.</h5>
-				<h5>Cache를 통한 속도 최적화(Redis)</h5>
+					<h5>1. Spring WebSocket을 적용하여 알림 기능 구현 예정(알림 기능을 Spring Stomp + Sock.Js로 구현 할 예정)</h5>  
+					<h5>2. Spring Social을 통해 자신이 올린 포트폴리오 등에 대한 정보를 공유할 수 있는 기능.</h5>
+					<h5>3. Cache를 통한 속도 최적화(Redis) - 연결 완료.</h5>
 			</div>
 		</div>
 	</div>

@@ -14,10 +14,7 @@ $.i18n.init({
     cookieName: 'i18next',
     useCookie: true,
     useLocalStorage: true,
-    debug : true,
-    
-    //ms = 1s/1000 : 1000*60*60*24 1일
-//    localStorageExpirationTime: 1000*60*60*24
+//    debug : true,
     localStorageExpirationTime: 1000*60
 }, function (err, t) {
 	if(!($.i18n.options.lng=="en_US" || $.i18n.options.lng=="ko_KR")){

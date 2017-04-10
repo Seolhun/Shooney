@@ -22,7 +22,8 @@
 				No
 				<div class="input-group margin-bottom-20">
 					<span class="input-group-addon rounded-left"><i class="icon-envelope color-green"></i></span>
-					<div class="form-control rounded-right" id="blog_id">${blog.blogId }</div>
+					<input type="hidden" id="blogId" value="${blog.blogId }">
+					<div class="form-control rounded-right">${blog.blogId }</div>
 				</div>
 			</div>
 			<!--  
@@ -133,7 +134,7 @@
 				<textarea name="content" rows="5" cols="auto" id="commentTextarea"></textarea>
 				<div class="text-right" id="commentBtn" hidden="true">
 					<button class="btn-u btn-u-default rounded" onclick="CommentService.cancelHidden();">Cancel</button>
-					<button class="btn-u btn-u-dark-blue rounded" id="commentSubmit">Submit</button>
+					<button class="btn-u btn-u-dark-blue rounded" onclick="CommentService.commentSubmit();">Submit</button>
 				</div>
 			</div>
 			
@@ -191,11 +192,6 @@
 	</div>
  </div>
 </tag:layout>
-<script>
-	var kind="${blog.entityName}";
-	var blog_id="${blog.blogId }";
-	var accessUser="${accessUser.nickname}";
-</script>
-
 <!-- Custom & Functional JS -->
 <script type="text/javascript" src="${resources}/js/blog.js"></script>
+<script type="text/javascript" src="${resources}/js/comment.js"></script>

@@ -6,16 +6,15 @@ import com.shun.blog.model.comment.Comment;
 import com.shun.blog.model.common.Paging;
 
 public interface CommentService {
+	Comment findById(Long id) throws Exception;
 
-	Comment findById(Long id);
+	void saveComment(Comment comment) throws Exception;
+	
+	List<Comment> findAllComments(Paging paging) throws Exception;
+	
+	int getCount(Paging paging) throws Exception;
 
-	void saveComment(Comment comment);
-
-	void updateComment(Comment comment);
+	void updateComment(Comment comment) throws Exception;
 
 	void deleteUserById(Long id);
-
-	List<Comment> findAllComments(Paging paging);
-	
-	int getCount(Paging paging);
 }

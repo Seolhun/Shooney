@@ -4,11 +4,45 @@ var csrfHeader=$("#csrfHeader").attr("content");
 var	csrfToken=$("#csrfToken").attr("content");
 
 var CommonService = (function() {
-	var _alertConfirm=function(message){
+	//File Info & Validation Check 
+	var checkFileBeforeUpload=function(htmlTagId){
+		var files = document.getElementById(htmlTagId), fileName, fileType;
+		if(files!=null){
+			files.addEventListener('change', function() {
+				var fileTotal=0;
+				$("#fileInfoDiv").empty();
+				for(var i=0;i<this.files.length;i++){
+					fileTotal+=this.files[i].size;
+					if(this.files[i].size>50000000){
+						alert("파일용량 초과입니다.");
+						document.getElementById(htmlTagId).value="";
+						$("#fileInfoDiv").empty();
+						return;
+					} else if(fileTotal>200000000){
+						alert("파일용량 초과입니다.");
+						document.getElementById(htmlTagId).value="";
+						$("#fileInfoDiv").empty();
+						return;
+					}
+					fileName=this.files[i].name;
+					fileType=this.files[i].type;
+					var html=
+						"<div class='margin-bottom-20'>" +
+							"<span class='margin-right-20'>파일이름 : "+fileName+"</span>" +
+							"<span class='margin-right-20'>파일형식 : "+fileType+"</span>" +
+							"<button class='btn-u btn-u-red' onclick='CommonService.checkFileBeforeUpload.fileCancel();' type='button'>&times;</button>"+
+						"</div>";
+					$("#fileInfoDiv").append(html);
+				}
+			});	
+		}
+	}
+	
+	var alertConfirm=function(message){
 	    return (!confirm(message));
 	}
 	
-	var _validAllCheckedParam=function(){
+	var validAllCheckedParam=function(){
 		var params=[];
 		$("input[name=oneCheck]:checked").each(function(index) {
 			params.push($(this).val());
@@ -18,24 +52,6 @@ var CommonService = (function() {
 			swal("","아무것도 체크가 되어있지 않습니다.");
 		}			
 		return params;
-	}
-	
-	//File Info & Validation Check 
-	var checkFileBeforeUpload=function(htmlTagId){
-		var files = document.getElementById(htmlTagId);
-		if(files!=null){
-			// binds to onchange event of the input field
-			files.addEventListener('change', function() {
-				//this.files[0].size gets the size of your file.
-				console.log("files", this.files.length);
-				for(var i=0;i<this.files.length;i++){
-					console.log("size", this.files[i].size);
-					console.log("size", this.files[i].name);
-					console.log("size", this.files[i].type);
-					console.log("size", this.files[i].lastModifiedDate);
-				}
-			});	
-		}
 	}
 	
 	var allCheck=function(){
@@ -68,6 +84,8 @@ var CommonService = (function() {
 	
 	return {
 		allCheck : allCheck,
+		alertConfirm : alertConfirm,
+		validAllCheckedParam : validAllCheckedParam,
 		selectDomCopy : selectDomCopy,
 		checkFileBeforeUpload : checkFileBeforeUpload
 	}

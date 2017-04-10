@@ -18,7 +18,7 @@ public class CommentServiceImpl implements CommentService {
 	private CommentRepository commentRepository;
 	
 	
-	public Comment findById(Long id) {
+	public Comment findById(Long id) throws Exception{
 		return commentRepository.findById(id);
 	}
 
@@ -26,26 +26,26 @@ public class CommentServiceImpl implements CommentService {
 		commentRepository.saveComment(Comment);
 	}
 	
-	public void updateComment(Comment comment) {
-		Comment entity = commentRepository.findById(comment.getCommentId());
+	@Override
+	public List<Comment> findAllComments(Paging paging) throws Exception{
+		return commentRepository.findAllComments(paging);
+	}
+
+	@Override
+	public int getCount(Paging paging) throws Exception{
+		return commentRepository.getCount(paging);
+	}
+	
+	public void updateComment(Comment comment) throws Exception{
+		Comment dbComment = commentRepository.findById(comment.getCommentId());
 		//읽을시 쿠키 읽기
-		if(entity != null){
-			
+		if(dbComment != null){
+			dbComment=comment;
 		}
 	}
 
 	@Override
 	public void deleteUserById(Long id) {
 		commentRepository.deleteCommentById(id);
-	}
-	
-	@Override
-	public List<Comment> findAllComments(Paging paging) {
-		return commentRepository.findAllComments(paging);
-	}
-
-	@Override
-	public int getCount(Paging paging) {
-		return commentRepository.getCount(paging);
 	}
 }

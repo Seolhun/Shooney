@@ -1,9 +1,7 @@
 package com.shun.blog.controller.comment;
 
 import java.security.Principal;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -19,14 +17,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
+import com.shun.blog.model.blog.Blog;
 import com.shun.blog.model.comment.Comment;
+import com.shun.blog.model.common.AjaxResult;
 import com.shun.blog.model.common.Paging;
 import com.shun.blog.service.comment.CommentService;
 import com.shun.blog.service.common.CommonService;
 import com.shun.blog.service.user.UserService;
 
 @Controller
+@RequestMapping(value = "/reply")
 public class CommentController {
 	@Autowired
 	CommentService commentService;
@@ -37,27 +37,63 @@ public class CommentController {
 	@Autowired
 	CommonService commonService;
 
-	private static final Logger logger = LoggerFactory.getLogger(CommentController.class);
+	private static final Logger LOG = LoggerFactory.getLogger(CommentController.class);
 	
-	@RequestMapping(value = "/reply/board/add", method = {RequestMethod.POST}, produces = "application/json; charset=utf8")
-	public @ResponseBody String addBoardComment(@RequestBody Comment comment) {
-		try {
-//			comment.setWriter(initializeUser().getNickname());
-			String content=comment.getContent();
-			if(content==null || content.length()<1){
-				return "false";
-			}
-		} catch (NullPointerException e) {
-			logger.error("Fail to get login user information ");
-		}
-		comment.setContent(comment.getContent().replaceAll("\n", "<br/>"));
-		commentService.saveComment(comment);
-		return "true";
+	
+	@RequestMapping(value = "/{entity}/list", method = RequestMethod.GET)
+	@ResponseBody
+	public List<Comment> getCommentsList(@PathVariable String entity, HttpServletRequest request, ModelMap model) throws Exception {
+		//댓글 가져오기
+		Long blogId=commonService.checkVDLong(request.getParameter("blogId"),0);
+		Paging paging = commonService.beforePagingGetData(request);
+		paging.setId(blogId);
+
+		// 전체 댓글 갯수 확인.
+		int totalCount = commentService.getCount(paging);
+		paging.setTotalCount(totalCount);
+		
+		// 전체 댓글 출력. 
+		commonService.setAndValidationPaging(paging);
+		List<Comment> comments=commentService.findAllComments(paging);
+		return comments;
 	}
 	
-	@RequestMapping(value = "/reply/board/delete/{id}", method = {RequestMethod.GET})
+	@RequestMapping(value = "/{entity}/insert", method = {RequestMethod.POST}, produces = "application/json")
 	@ResponseBody
-	public String deleteBoardComment(HttpServletRequest reqeust, Comment comment, @PathVariable Long id, Principal principal) {
+	public AjaxResult addBoardComment(@RequestBody Comment comment, @PathVariable String entity, AjaxResult ajaxResult) throws Exception {
+		Blog blog=new Blog();
+		Long blogId=comment.getBlogId();
+		blog.setBlogId(blogId);	
+		try {
+			String content=comment.getContent();
+			
+			//유효성체크.
+			ajaxResult.setResult("false");
+			if(content==null || content.length()<1){
+				return ajaxResult;
+			} else if(blogId<1){
+				return ajaxResult;
+			}
+			
+			//유저가 로그인하지 않았을 경우. 페이지 이동시켜야함.
+			comment.setCreatedBy(commonService.getAccessUserToModel().getNickname());
+			
+		} catch (NullPointerException e) {
+			LOG.error("Fail to get login user information ");
+		}
+		
+		comment.setEntityName(entity);
+		comment.setContent(comment.getContent().replaceAll("\n", "<br/>"));
+		comment.setBlogInComment(blog);
+		commentService.saveComment(comment);
+		
+		ajaxResult.setResult("success");
+		return ajaxResult;
+	}
+	
+	@RequestMapping(value = "/{entity}/delete/{commentId}", method = {RequestMethod.GET})
+	@ResponseBody
+	public String deleteBoardComment(HttpServletRequest reqeust, Comment comment, @PathVariable String entity, @PathVariable Long commentId, Principal principal) throws Exception{
 		String writer=reqeust.getParameter("writer");
 		String accessUser=principal.getName();
 		if(!accessUser.equals(writer)){
@@ -70,8 +106,8 @@ public class CommentController {
 		return "true";
 	}
 	
-	@RequestMapping(value = "/reply/board/modify/{id}", method = {RequestMethod.GET})
-	public @ResponseBody String modifyBoardComment(HttpServletRequest reqeust, Comment comment, @PathVariable Long id, Principal principal) {
+	@RequestMapping(value = "/board/modify/{id}", method = {RequestMethod.GET})
+	public @ResponseBody String modifyBoardComment(HttpServletRequest reqeust, Comment comment, @PathVariable Long id, Principal principal) throws Exception{
 		String writer=reqeust.getParameter("writer");
 		String accessUser=principal.getName();
 		if(!accessUser.equals(writer)){
@@ -82,29 +118,7 @@ public class CommentController {
 		commentService.updateComment(comment);
 		return "true";
 	}
-	
-	@RequestMapping(value = "/reply/board/list", method = {RequestMethod.GET}, produces = "application/json; charset=utf8")
-	public @ResponseBody String getCommentsList(@RequestParam Long board_id, HttpServletRequest request, ModelMap model) throws JsonProcessingException {
-		//댓글 가져오기
-		Paging paging = commonService.beforePagingGetData(request);
-		paging.setId(board_id);
 
-		// 전체 게시판 갯수 확인
-		int totalCount = commentService.getCount(paging);
-		paging.setTotalCount(totalCount);
-		
-		commonService.setAndValidationPaging(paging);
-		
-		List<Comment> comments=commentService.findAllComments(paging);
-		
-		Map<String, Object> jsonObject = new HashMap<String, Object>();
-		
-		jsonObject.put("paging", paging);
-		jsonObject.put("comments", comments);
-		
-		String result=commonService.getJSONData(jsonObject);
-		return result;
-	}
 
 //	@RequestMapping(value = "/board/{hospitalAlias}/{boardType}/{path}/commentListJSON", method = RequestMethod.GET, produces = "application/json; charset=utf8")
 //	public @ResponseBody String setCommentListJSON(ModelMap model, HttpServletRequest request, HttpServletResponse response, @PathVariable("path") int path, @PathVariable("hospitalAlias") String hospitalAlias,

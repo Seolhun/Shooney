@@ -32,7 +32,6 @@ public class BlogServiceImpl implements BlogService {
 	public Blog selectById(Long id) throws Exception{
 		LOG.info("param : selectById {}", id);
 		Blog blog=blogRepository.selectById(id);
-		
 		List<FileData> fileList=fileRepository.selectListByBlog(blog);
 		if(fileList!=null){
 			blog.setFileDataList(fileList);	
