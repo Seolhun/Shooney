@@ -138,7 +138,6 @@
 				</div>
 			</div>
 			
-			<%-- <c:if test="${!empty comments}"> --%>
 			<div class="col-sm-12" id="commentDiv">
 				<%-- 
 				<c:forEach items="${comments}" var="i">

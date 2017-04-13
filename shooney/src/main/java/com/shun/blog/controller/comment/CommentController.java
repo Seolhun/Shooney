@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.shun.blog.model.blog.Blog;
@@ -40,13 +39,12 @@ public class CommentController {
 	private static final Logger LOG = LoggerFactory.getLogger(CommentController.class);
 	
 	
-	@RequestMapping(value = "/{entity}/list", method = RequestMethod.GET)
+	@RequestMapping(value = "/{entity}/list", method = RequestMethod.POST)
 	@ResponseBody
-	public List<Comment> getCommentsList(@PathVariable String entity, HttpServletRequest request, ModelMap model) throws Exception {
+	public List<Comment> getCommentsList(@RequestBody Comment comment, @PathVariable String entity, HttpServletRequest request, ModelMap model) throws Exception {
 		//댓글 가져오기
-		Long blogId=commonService.checkVDLong(request.getParameter("blogId"),0);
 		Paging paging = commonService.beforePagingGetData(request);
-		paging.setId(blogId);
+		paging.setId(comment.getBlogId());
 
 		// 전체 댓글 갯수 확인.
 		int totalCount = commentService.getCount(paging);
@@ -55,6 +53,8 @@ public class CommentController {
 		// 전체 댓글 출력. 
 		commonService.setAndValidationPaging(paging);
 		List<Comment> comments=commentService.findAllComments(paging);
+		
+		LOG.info("return : comments = {}", comments.toString());
 		return comments;
 	}
 	

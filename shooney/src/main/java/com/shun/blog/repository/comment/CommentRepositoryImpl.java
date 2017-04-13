@@ -3,6 +3,7 @@ package com.shun.blog.repository.comment;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.Hibernate;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
@@ -17,8 +18,7 @@ import com.shun.blog.repository.AbstractRepository;
 
 @Repository
 public class CommentRepositoryImpl extends AbstractRepository<Long, Comment> implements CommentRepository {
-
-	static final Logger logger = LoggerFactory.getLogger(CommentRepositoryImpl.class);
+	static final Logger LOG = LoggerFactory.getLogger(CommentRepositoryImpl.class);
 	
 	@Override
 	public Comment findById(Long id) {
@@ -35,12 +35,15 @@ public class CommentRepositoryImpl extends AbstractRepository<Long, Comment> imp
 	public List<Comment> findAllComments(Paging paging) {
 		int cPage = paging.getCurrentPage();
 		int sType = paging.getSearchType();
+		int sDate = paging.getSearchDate();
 		String sText = paging.getSearchText();
 		int limit = paging.getLimit();
 		
 		Blog blog=new Blog();
 		blog.setBlogId(paging.getId());
 
+		LOG.info("param : comments = {}",paging.toString());
+		
 		// 검색 로직
 		Criteria criteria = createEntityCriteria()
 				.addOrder(Order.desc("commentId"))

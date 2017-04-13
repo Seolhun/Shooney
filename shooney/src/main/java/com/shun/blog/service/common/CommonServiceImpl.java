@@ -352,7 +352,6 @@ public class CommonServiceImpl implements CommonService {
 		paging.setBlockStartNum(blockStartNum);
 		paging.setNextPage(nextPage);
 		paging.setPreviousPage(previousPage);
-		LOG.info("return : setAndValidationPaging {}", paging.toString());
 	}
 
 	/**

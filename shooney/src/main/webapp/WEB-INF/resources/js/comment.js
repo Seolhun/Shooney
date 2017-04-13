@@ -11,16 +11,15 @@ $(document).ready(function(){
 
 var CommentService = (function() {
 	var commentSubmit=function(){
-		var data = {}
+		var object = {}
 		var blogId=$("#blogId").val();
-		data["content"] = document.getElementById("commentTextarea").value;
-		data["blogId"] = blogId;
-		data["csrfToken"] = csrfToken;
+		object["content"] = document.getElementById("commentTextarea").value;
+		object["blogId"] = blogId;
 		$.ajax({
 			url : root +"/reply/blog/insert",
 			type : 'POST',
 			timeout : 60000,
-			data: JSON.stringify(data),	
+			data: JSON.stringify(object),	
 			dataType : "json",
 			beforeSend: function(xhr) {
 			    xhr.setRequestHeader("Accept", "application/json");
@@ -43,13 +42,16 @@ var CommentService = (function() {
 	}
 
 	var _getCommentList = function() {
+		var object = {}
 		var blogId=$("#blogId").val();
+		object["blogId"] = blogId;
 		$.ajax({
 			url : root +"/reply/blog/list",
+			type : 'POST',
 			timeout : 60000,
-	    	data : {
-	    		'blogId' : blogId
-	    	},
+			data: JSON.stringify(object),	
+			dataType : "json",
+			data: JSON.stringify(object),
 	    	dataType : "json",
 	    	beforeSend: function(xhr) {
 			    xhr.setRequestHeader("Accept", "application/json");

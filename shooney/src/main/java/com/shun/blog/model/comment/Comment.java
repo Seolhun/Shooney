@@ -22,11 +22,9 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import com.shun.blog.model.blog.Blog;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter
-@Setter
+@Data
 @Entity
 @Table(name = "TB_COMMENT")
 public class Comment implements Serializable {
