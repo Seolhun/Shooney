@@ -21,6 +21,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import com.shun.blog.model.blog.Blog;
+import com.shun.blog.model.common.Paging;
 
 import lombok.Data;
 
@@ -33,8 +34,8 @@ public class Comment implements Serializable {
 	@Column(name = "COMMENT_ID", nullable = false)
 	private Long commentId;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(foreignKey = @ForeignKey(name = "COMMENT_BLOG_FK"), name = "COMMENT_BLOG_ID", referencedColumnName = "BLOG_ID")
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(foreignKey = @ForeignKey(name = "COMMENT_BLOG_FK"), name = "COMMENT_BLOG_ID", referencedColumnName = "BLOG_ID", nullable=false)
 	private Blog blogInComment;
 	
 	@Column(name = "COMMENT_ENTITY_NAME", length=20, nullable = false)
@@ -66,5 +67,5 @@ public class Comment implements Serializable {
 	private int delCheck=0;
 	
 	@Transient
-	private Long blogId;
+	private Paging paging;
 }

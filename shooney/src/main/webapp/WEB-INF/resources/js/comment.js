@@ -42,16 +42,14 @@ var CommentService = (function() {
 	}
 
 	var _getCommentList = function() {
-		var object = {}
 		var blogId=$("#blogId").val();
-		object["blogId"] = blogId;
 		$.ajax({
 			url : root +"/reply/blog/list",
-			type : 'POST',
+			type : 'GET',
 			timeout : 60000,
-			data: JSON.stringify(object),	
-			dataType : "json",
-			data: JSON.stringify(object),
+			data: {
+				blogId : blogId
+			},	
 	    	dataType : "json",
 	    	beforeSend: function(xhr) {
 			    xhr.setRequestHeader("Accept", "application/json");

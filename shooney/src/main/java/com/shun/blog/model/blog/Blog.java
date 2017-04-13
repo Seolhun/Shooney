@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -77,10 +78,10 @@ public class Blog implements Serializable {
 	@Column(name = "BLOG_DELCHECK", nullable=false)
 	private int delCheck=0;
 	
-	@OneToMany(mappedBy = "blogInFile", fetch=FetchType.LAZY)
+	@OneToMany(mappedBy = "blogInFile", fetch=FetchType.LAZY, cascade=CascadeType.ALL)
 	private List<FileData> fileDataList;
 	
-	@OneToMany(mappedBy = "blogInComment", fetch=FetchType.LAZY)
+	@OneToMany(mappedBy = "blogInComment", fetch=FetchType.LAZY, cascade=CascadeType.ALL)
 	private List<Comment> commentList;
 	
 	@Transient

@@ -10,7 +10,7 @@ public interface CommentService {
 
 	void saveComment(Comment comment) throws Exception;
 	
-	List<Comment> findAllComments(Paging paging) throws Exception;
+	List<Comment> findAllComments(Comment comment) throws Exception;
 	
 	int getCount(Paging paging) throws Exception;
 

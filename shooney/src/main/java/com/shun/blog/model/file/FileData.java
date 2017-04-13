@@ -36,8 +36,8 @@ public class FileData implements Serializable {
 	@Column(name = "FILE_ID")
 	private Long fileDataId;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(foreignKey = @ForeignKey(name = "FILE_BLOG_FK"), name = "FILE_BLOG_ID", referencedColumnName = "BLOG_ID")
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(foreignKey = @ForeignKey(name = "FILE_BLOG_FK"), name = "FILE_BLOG_ID", referencedColumnName = "BLOG_ID", nullable=false)
 	private Blog blogInFile;
 
 	@Column(name = "FILE_ORIGIN_NAME", nullable = false, length = 100)

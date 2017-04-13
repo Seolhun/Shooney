@@ -39,20 +39,33 @@ public class CommentController {
 	private static final Logger LOG = LoggerFactory.getLogger(CommentController.class);
 	
 	
-	@RequestMapping(value = "/{entity}/list", method = RequestMethod.POST)
+	/**
+	 * 게시판 등록 페이지 이동
+	 * 
+	 * @param Comment comment
+	 * @return List<Comment>
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/{entity}/list", method = RequestMethod.GET)
 	@ResponseBody
-	public List<Comment> getCommentsList(@RequestBody Comment comment, @PathVariable String entity, HttpServletRequest request, ModelMap model) throws Exception {
-		//댓글 가져오기
+	public List<Comment> getCommentsList(Comment comment, @PathVariable String entity, HttpServletRequest request, ModelMap model) throws Exception {
+		LOG.info("param : comment : {}",comment.toString());
+		
+		//댓글위한 해당 블로그 값 넣기.
+		Long blogId=commonService.checkVDLong(request.getParameter("blogId"), 0);
 		Paging paging = commonService.beforePagingGetData(request);
-		paging.setId(comment.getBlogId());
+		
+		Blog blog=new Blog();
+		blog.setBlogId(blogId);
+		comment.setBlogInComment(blog);
 
 		// 전체 댓글 갯수 확인.
 		int totalCount = commentService.getCount(paging);
 		paging.setTotalCount(totalCount);
-		
-		// 전체 댓글 출력. 
 		commonService.setAndValidationPaging(paging);
-		List<Comment> comments=commentService.findAllComments(paging);
+		
+		comment.setPaging(paging);
+		List<Comment> comments=commentService.findAllComments(comment);
 		
 		LOG.info("return : comments = {}", comments.toString());
 		return comments;
@@ -60,9 +73,8 @@ public class CommentController {
 	
 	@RequestMapping(value = "/{entity}/insert", method = {RequestMethod.POST}, produces = "application/json")
 	@ResponseBody
-	public AjaxResult addBoardComment(@RequestBody Comment comment, @PathVariable String entity, AjaxResult ajaxResult) throws Exception {
+	public AjaxResult addBoardComment(@RequestBody Long blogId, Comment comment, @PathVariable String entity, AjaxResult ajaxResult) throws Exception {
 		Blog blog=new Blog();
-		Long blogId=comment.getBlogId();
 		blog.setBlogId(blogId);	
 		try {
 			String content=comment.getContent();

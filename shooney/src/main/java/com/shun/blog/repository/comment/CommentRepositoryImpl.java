@@ -3,7 +3,6 @@ package com.shun.blog.repository.comment;
 import java.util.List;
 
 import org.hibernate.Criteria;
-import org.hibernate.Hibernate;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
@@ -32,38 +31,33 @@ public class CommentRepositoryImpl extends AbstractRepository<Long, Comment> imp
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Comment> findAllComments(Paging paging) {
-		int cPage = paging.getCurrentPage();
-		int sType = paging.getSearchType();
-		int sDate = paging.getSearchDate();
-		String sText = paging.getSearchText();
-		int limit = paging.getLimit();
-		
-		Blog blog=new Blog();
-		blog.setBlogId(paging.getId());
-
-		LOG.info("param : comments = {}",paging.toString());
+	public List<Comment> findAllComments(Comment comment) {
+		int cPage = comment.getPaging().getCurrentPage();
+		int sType = comment.getPaging().getSearchType();
+		int sDate = comment.getPaging().getSearchDate();
+		String sText = comment.getPaging().getSearchText();
+		int limit = comment.getPaging().getLimit();
 		
 		// 검색 로직
 		Criteria criteria = createEntityCriteria()
 				.addOrder(Order.desc("commentId"))
 				.setFirstResult((cPage - 1) * limit)
 				.add(Restrictions.eq("delCheck", 0))
-				.add(Restrictions.eq("blogInComment", blog))
+				.add(Restrictions.eq("blogInComment", comment.getBlogInComment()))
 				.setMaxResults(limit).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);		
 		
 		if(sText!=""){
-			if (paging.getSearchType() != 0 && sType == 2) {
+			if (sType != 0 && sType == 2) {
 				criteria.add(Restrictions.like("content", "%" + sText + "%"));
-			} else if (paging.getSearchType() != 0 && sType == 3) {
+			} else if (sType != 0 && sType == 3) {
 				criteria.add(Restrictions.like("writer", "%" + sText + "%"));
-			} else if (paging.getSearchType() != 0 && sType == 4) {
+			} else if (sType != 0 && sType == 4) {
 				criteria.add(Restrictions.like("content", "%" + sText + "%"));
 			}
 		}
 		
-		List<Comment> comment = (List<Comment>)criteria.list();
-		return comment;
+		List<Comment> comments = (List<Comment>) criteria.list();
+		return comments;
 	}
 	
 	@Override
