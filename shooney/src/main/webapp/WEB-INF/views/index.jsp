@@ -151,7 +151,7 @@
 		<div class="container">
 			<div class="call-action-v1-box">
 				<div class="call-action-v1-in">
-					<p>Unify creative technology company providing key digital services and focused on helping our clients to build a successful business on web and mobile.</p>
+					<p> Spring Boot, JPA(Hibernate), MariaDB, MongoDB, Redis, JQuery, AngularJS, Bootstrap, Mavenm, Nginx, Tomcat</p>
 				</div>
 				<sec:authorize access="isAuthenticated()">
 					<sec:authorize access="hasRole('SUPERADMIN')">
