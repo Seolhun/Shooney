@@ -3,7 +3,6 @@ package com.shun.blog.service.comment;
 import java.util.List;
 
 import com.shun.blog.model.comment.Comment;
-import com.shun.blog.model.common.Paging;
 
 public interface CommentService {
 	Comment findById(Long id) throws Exception;
@@ -12,7 +11,7 @@ public interface CommentService {
 	
 	List<Comment> findAllComments(Comment comment) throws Exception;
 	
-	int getCount(Paging paging) throws Exception;
+	int getCount(Comment comment) throws Exception;
 
 	void updateComment(Comment comment) throws Exception;
 

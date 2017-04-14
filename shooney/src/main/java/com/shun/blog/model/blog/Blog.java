@@ -4,10 +4,8 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -21,14 +19,15 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.shun.blog.model.comment.Comment;
 import com.shun.blog.model.file.FileData;
 
 import lombok.Data;
-
+@Data
 @Entity
 @Table(name = "TB_BLOG")
-@Data
+@JsonIgnoreProperties(ignoreUnknown=true)
 public class Blog implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,6 +36,12 @@ public class Blog implements Serializable {
 	
 	@Column(name = "BLOG_IDX")
 	private Long idx;
+	
+	@OneToMany(mappedBy = "blogInFile")
+	private List<FileData> fileDataList;
+	
+	@OneToMany(mappedBy = "blogInComment")
+	private List<Comment> commentList;
 	
 	@Column(name = "BLOG_TITLE",length=150 , nullable = false)
 	private String title;
@@ -78,12 +83,14 @@ public class Blog implements Serializable {
 	@Column(name = "BLOG_DELCHECK", nullable=false)
 	private int delCheck=0;
 	
-	@OneToMany(mappedBy = "blogInFile", fetch=FetchType.LAZY, cascade=CascadeType.ALL)
-	private List<FileData> fileDataList;
-	
-	@OneToMany(mappedBy = "blogInComment", fetch=FetchType.LAZY, cascade=CascadeType.ALL)
-	private List<Comment> commentList;
-	
 	@Transient
 	private List<MultipartFile> files;
+	
+	public Blog(){
+		
+	}
+
+	public Blog(Long blogId){
+		this.blogId=blogId;
+	}
 }

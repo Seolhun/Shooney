@@ -10,9 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
-import com.shun.blog.model.blog.Blog;
 import com.shun.blog.model.comment.Comment;
-import com.shun.blog.model.common.Paging;
 import com.shun.blog.repository.AbstractRepository;
 
 @Repository
@@ -20,14 +18,14 @@ public class CommentRepositoryImpl extends AbstractRepository<Long, Comment> imp
 	static final Logger LOG = LoggerFactory.getLogger(CommentRepositoryImpl.class);
 	
 	@Override
+	public void saveComment(Comment comment) {
+		persist(comment);
+	}
+	
+	@Override
 	public Comment findById(Long id) {
 		Comment comment = getByLong(id);
 		return comment;
-	}
-
-	@Override
-	public void saveComment(Comment comment) {
-		persist(comment);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -57,23 +55,23 @@ public class CommentRepositoryImpl extends AbstractRepository<Long, Comment> imp
 		}
 		
 		List<Comment> comments = (List<Comment>) criteria.list();
+		for (Comment comment2 : comments) {
+			
+		}
 		return comments;
 	}
 	
 	@Override
-	public int getCount(Paging paging) throws Exception {
-		int sType = paging.getSearchType();
-		int sDate = paging.getSearchDate();
-		String sText = paging.getSearchText();
-		
-		Blog blog=new Blog();
-		blog.setBlogId(paging.getId());
+	public int getCount(Comment comment) throws Exception {
+		int sType = comment.getPaging().getSearchType();
+		int sDate = comment.getPaging().getSearchDate();
+		String sText = comment.getPaging().getSearchText();
 		
 		// 검색 로직
 		Criteria criteria = createEntityCriteria()
+				.addOrder(Order.desc("commentId"))
 				.add(Restrictions.eq("delCheck", 0))
-				.add(Restrictions.eq("blogInComment", blog));
-		
+				.add(Restrictions.eq("blogInComment", comment.getBlogInComment()));
 				
 		//날짜 이용.
 		if(sDate != 0){
@@ -82,11 +80,11 @@ public class CommentRepositoryImpl extends AbstractRepository<Long, Comment> imp
 
 		//검색어 이용.
 		if(sText!=""){
-			if (paging.getSearchType() != 0 && sType == 2) {
+			if (comment.getPaging().getSearchType() != 0 && sType == 2) {
 				criteria.add(Restrictions.like("content", "%" + sText + "%"));
-			} else if (paging.getSearchType() != 0 && sType == 3) {
+			} else if (comment.getPaging().getSearchType() != 0 && sType == 3) {
 				criteria.add(Restrictions.like("writer", "%" + sText + "%"));
-			} else if (paging.getSearchType() != 0 && sType == 4) {
+			} else if (comment.getPaging().getSearchType() != 0 && sType == 4) {
 				criteria.add(Restrictions.like("content", "%" + sText + "%"));
 			}
 		}

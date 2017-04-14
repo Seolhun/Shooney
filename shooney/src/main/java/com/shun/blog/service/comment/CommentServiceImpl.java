@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.shun.blog.model.comment.Comment;
-import com.shun.blog.model.common.Paging;
 import com.shun.blog.repository.comment.CommentRepository;
 
 @Service
@@ -17,11 +16,12 @@ public class CommentServiceImpl implements CommentService {
 	@Autowired
 	private CommentRepository commentRepository;
 	
-	
+	@Override
 	public Comment findById(Long id) throws Exception{
 		return commentRepository.findById(id);
 	}
 
+	@Override
 	public void saveComment(Comment Comment) {
 		commentRepository.saveComment(Comment);
 	}
@@ -32,10 +32,11 @@ public class CommentServiceImpl implements CommentService {
 	}
 
 	@Override
-	public int getCount(Paging paging) throws Exception{
-		return commentRepository.getCount(paging);
+	public int getCount(Comment comment) throws Exception{
+		return commentRepository.getCount(comment);
 	}
 	
+	@Override
 	public void updateComment(Comment comment) throws Exception{
 		Comment dbComment = commentRepository.findById(comment.getCommentId());
 		//읽을시 쿠키 읽기

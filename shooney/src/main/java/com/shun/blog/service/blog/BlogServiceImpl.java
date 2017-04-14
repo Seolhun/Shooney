@@ -29,6 +29,12 @@ public class BlogServiceImpl implements BlogService {
 	}
 	
 	@Override
+	public void insert(Blog blog) {
+		LOG.info("param : insert {}", blog.toString());
+		blogRepository.insert(blog);
+	}
+	
+	@Override
 	public Blog selectById(Long id) throws Exception{
 		LOG.info("param : selectById {}", id);
 		Blog blog=blogRepository.selectById(id);
@@ -38,13 +44,19 @@ public class BlogServiceImpl implements BlogService {
 		}
 		return blog;
 	}
-
+	
 	@Override
-	public void insert(Blog blog) {
-		LOG.info("param : insert {}", blog.toString());
-		blogRepository.insert(blog);
+	public int getCount(Paging paging) throws Exception{
+		LOG.info("param : selectList {}", paging.toString());
+		return blogRepository.getCount(paging);
 	}
 	
+	@Override
+	public List<Blog> selectList(Paging paging) throws Exception{
+		LOG.info("param : selectList {}", paging.toString());
+		return blogRepository.selectList(paging);
+	}
+
 	@Override
 	public void update(Blog blog) throws Exception{
 		LOG.info("param : update {}", blog.toString());
@@ -67,17 +79,5 @@ public class BlogServiceImpl implements BlogService {
 	public void deleteById(Long id) {
 		LOG.info("param : deleteById {}", id);
 		blogRepository.deleteById(id);
-	}
-	
-	@Override
-	public List<Blog> selectList(Paging paging) throws Exception{
-		LOG.info("param : selectList {}", paging.toString());
-		return blogRepository.selectList(paging);
-	}
-
-	@Override
-	public int getCount(Paging paging) throws Exception{
-		LOG.info("param : selectList {}", paging.toString());
-		return blogRepository.getCount(paging);
 	}
 }

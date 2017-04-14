@@ -20,6 +20,7 @@ import javax.persistence.Transient;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.shun.blog.model.blog.Blog;
 import com.shun.blog.model.common.Paging;
 
@@ -28,13 +29,14 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "TB_COMMENT")
+@JsonIgnoreProperties(ignoreUnknown=true)
 public class Comment implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "COMMENT_ID", nullable = false)
 	private Long commentId;
 	
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(foreignKey = @ForeignKey(name = "COMMENT_BLOG_FK"), name = "COMMENT_BLOG_ID", referencedColumnName = "BLOG_ID", nullable=false)
 	private Blog blogInComment;
 	

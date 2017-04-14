@@ -6,16 +6,6 @@ textarea {
 	padding: 3px;
 }
 
-.text-right{
-	text-align: right;
-	margin-right: 20px;
-}
-
-.text-left{
-	text-align: left;
-	margin-left: 20px;
-}
-
 .language {
 	height: 20px;
 	width: 20px;

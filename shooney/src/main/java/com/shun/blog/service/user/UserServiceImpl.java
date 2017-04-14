@@ -2,17 +2,15 @@ package com.shun.blog.service.user;
 
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.shun.blog.repository.user.UserRepository;
 import com.shun.blog.model.common.CommonState;
 import com.shun.blog.model.common.Paging;
 import com.shun.blog.model.user.User;
+import com.shun.blog.repository.user.UserRepository;
 
 @Service("userService")
 @Transactional(transactionManager="txManager")
@@ -26,11 +24,8 @@ public class UserServiceImpl implements UserService {
 		this.userRepository=userRepository;
 	}
 	
-	private static final Logger LOG = LoggerFactory.getLogger(UserServiceImpl.class);
-	
 	@Override
 	public void insert(User user) {
-		LOG.info("param : insert : {}", user.toString());
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		user.setState(CommonState.ACTIVE.getName());
 		userRepository.insert(user);
@@ -38,27 +33,23 @@ public class UserServiceImpl implements UserService {
 	
 	@Override
 	public User selectById(Long id) {
-		LOG.info("param : selectById : {}", id);
 		User user=userRepository.selectById(id);
 		return user;
 	}
 	@Override
 	public User selectByEmail(String email) {
-		LOG.info("param : selectByEmail : {}", email);
 		User user = userRepository.selectByEmail(email);
 		return user;
 	}
 	
 	@Override
 	public User selectByNickname(String nickname) {
-		LOG.info("param : selectByNickname: {}", nickname);
 		User user = userRepository.selectByNickname(nickname);
 		return user;
 	}
 	
 	@Override
 	public void update(User user) {
-		LOG.info("param : update : {}", user.toString());
 		User dbUser = userRepository.selectById(user.getId());
 		if (user != null) {
 			if(user.getPassword()!=null && user.getPassword().length()>=4) {
@@ -75,19 +66,16 @@ public class UserServiceImpl implements UserService {
 	
 	@Override
 	public void deleteById(Long id) {
-		LOG.info("param : deleteById : {}", id);
 		userRepository.deleteById(id);
 	}
 	
 	@Override
 	public void deleteByEmail(String email) {
-		LOG.info("param : {}", email);
 		userRepository.deleteByEmail(email);
 	}
 	
 	@Override
 	public List<User> selectList(Paging paging) {
-		LOG.info("param : {}", paging.toString());
 		return userRepository.selectList(paging);
 	}
 	

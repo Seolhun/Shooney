@@ -57,7 +57,7 @@ public interface CommonService {
 	void setAndValidationPaging(Paging paging);
 	
 	//페이징 전에 페이징 데이터 가져오
-	Paging beforePagingGetData(HttpServletRequest request);
+	Paging beforeGetPaging(HttpServletRequest request);
 	
 	//현재 접속한 유저로 유저정보 가져오기.
 	User getAccessUserToModel() throws Exception;

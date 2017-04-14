@@ -295,7 +295,7 @@ public class CommonServiceImpl implements CommonService {
 	
 	// 파라미터 호출 및 유효성 검사
 	@Override
-	public Paging beforePagingGetData(HttpServletRequest request) {
+	public Paging beforeGetPaging(HttpServletRequest request) {
 		int currentPage = commonService.checkVDInt(request.getParameter("cPage"), 1);
 		int searchType = commonService.checkVDInt(request.getParameter("sType"), 0);
 		String searchText = commonService.checkVDQuestion(request.getParameter("sText"));

@@ -48,8 +48,6 @@ import com.shun.blog.service.user.UserService;
 @RequestMapping("/blog")
 public class BlogController {
 	private BlogService blogService;
-//	private UserService userService;
-//	private CommentService commentService;
 	private CommonService commonService;
 	private MessageSource messageSource;
 	private FileService fileService;
@@ -57,8 +55,6 @@ public class BlogController {
 	@Autowired
 	public BlogController(UserService userService, CommentService commentService, BlogService blogService,
 			CommonService commonService, MessageSource messageSource, FileService fileService) {
-//		this.userService = userService;
-//		this.commentService = commentService;
 		this.blogService = blogService;
 		this.commonService=commonService;
 		this.messageSource=messageSource;
@@ -77,7 +73,7 @@ public class BlogController {
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public String allBlogList(ModelMap model, HttpServletRequest request, @RequestParam(required=false, name="pf") String portfolioType) throws Exception{
 		//페이징 세팅 및 파라미터 가져오기.
-		Paging paging=commonService.beforePagingGetData(request);
+		Paging paging=commonService.beforeGetPaging(request);
 		paging.setPortfolioType(portfolioType);
 		
 		// 전체 게시판 갯수 확인

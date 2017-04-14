@@ -21,6 +21,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.shun.blog.model.blog.Blog;
 
 import lombok.Getter;
@@ -30,14 +31,15 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "TB_FILE_DATA")
+@JsonIgnoreProperties(ignoreUnknown=true)
 public class FileData implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "FILE_ID")
 	private Long fileDataId;
 	
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(foreignKey = @ForeignKey(name = "FILE_BLOG_FK"), name = "FILE_BLOG_ID", referencedColumnName = "BLOG_ID", nullable=false)
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(foreignKey = @ForeignKey(name = "FILE_BLOG_FK"), name = "FILE_BLOG_ID", referencedColumnName = "BLOG_ID")
 	private Blog blogInFile;
 
 	@Column(name = "FILE_ORIGIN_NAME", nullable = false, length = 100)

@@ -56,7 +56,7 @@ public class AdminUserController {
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public String listUsers(ModelMap model, HttpServletRequest request) {
 		//paging Data 가져오기.
-		Paging paging=commonService.beforePagingGetData(request);
+		Paging paging=commonService.beforeGetPaging(request);
 		commonService.setAndValidationPaging(paging);
 		
 		// 전체 게시판 갯수 확인

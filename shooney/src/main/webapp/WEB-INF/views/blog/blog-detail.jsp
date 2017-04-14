@@ -69,18 +69,18 @@
 						<div class="form-control rounded-right">
 							<c:choose>
 								<c:when test="${fn:length(blog.fileDataList)>0}">
-										<div class="col-sm-11">
-											<input type="hidden" id="${fileData.fileDataId }" value="${fileData.fileDataId }">
+									<div class="row">
+										<input type="hidden" id="${fileData.fileDataId }" value="${fileData.fileDataId }">
+										<div class="col-sm-9">
 											<a href="${file }/download/${fileData.fileDataId}">${fileData.fileDataOriginName }</a> (${fileData.fileDataSize }kb)
 										</div>
 										
 										<c:if test="${status.first}">
-											<div class="col-sm-1">
-												<i class="text-right">
-													더 보기
-												</i>
+											<div class="col-sm-3 text-right">
+												더 보기
 											</div>
 										</c:if>
+									</div>
 								</c:when>
 								<c:otherwise>
 										첨부된 파일이 없습니다.

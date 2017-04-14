@@ -1,7 +1,6 @@
 package com.shun.blog.controller.comment;
 
 import java.security.Principal;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -9,99 +8,28 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.shun.blog.model.blog.Blog;
 import com.shun.blog.model.comment.Comment;
-import com.shun.blog.model.common.AjaxResult;
-import com.shun.blog.model.common.Paging;
 import com.shun.blog.service.comment.CommentService;
 import com.shun.blog.service.common.CommonService;
-import com.shun.blog.service.user.UserService;
 
 @Controller
-@RequestMapping(value = "/reply")
+@RequestMapping(value = "/reply", produces = "application/json")
 public class CommentController {
+	private CommonService commonService;
+	private CommentService commentService;;
+	
 	@Autowired
-	CommentService commentService;
-
-	@Autowired
-	UserService userService;
-
-	@Autowired
-	CommonService commonService;
+	public CommentController(CommentService commentService, CommonService commonService) {
+		this.commonService=commonService;
+		this.commentService=commentService;
+	}
 
 	private static final Logger LOG = LoggerFactory.getLogger(CommentController.class);
-	
-	
-	/**
-	 * 게시판 등록 페이지 이동
-	 * 
-	 * @param Comment comment
-	 * @return List<Comment>
-	 * @throws Exception
-	 */
-	@RequestMapping(value = "/{entity}/list", method = RequestMethod.GET)
-	@ResponseBody
-	public List<Comment> getCommentsList(Comment comment, @PathVariable String entity, HttpServletRequest request, ModelMap model) throws Exception {
-		LOG.info("param : comment : {}",comment.toString());
-		
-		//댓글위한 해당 블로그 값 넣기.
-		Long blogId=commonService.checkVDLong(request.getParameter("blogId"), 0);
-		Paging paging = commonService.beforePagingGetData(request);
-		
-		Blog blog=new Blog();
-		blog.setBlogId(blogId);
-		comment.setBlogInComment(blog);
-
-		// 전체 댓글 갯수 확인.
-		int totalCount = commentService.getCount(paging);
-		paging.setTotalCount(totalCount);
-		commonService.setAndValidationPaging(paging);
-		
-		comment.setPaging(paging);
-		List<Comment> comments=commentService.findAllComments(comment);
-		
-		LOG.info("return : comments = {}", comments.toString());
-		return comments;
-	}
-	
-	@RequestMapping(value = "/{entity}/insert", method = {RequestMethod.POST}, produces = "application/json")
-	@ResponseBody
-	public AjaxResult addBoardComment(@RequestBody Long blogId, Comment comment, @PathVariable String entity, AjaxResult ajaxResult) throws Exception {
-		Blog blog=new Blog();
-		blog.setBlogId(blogId);	
-		try {
-			String content=comment.getContent();
-			
-			//유효성체크.
-			ajaxResult.setResult("false");
-			if(content==null || content.length()<1){
-				return ajaxResult;
-			} else if(blogId<1){
-				return ajaxResult;
-			}
-			
-			//유저가 로그인하지 않았을 경우. 페이지 이동시켜야함.
-			comment.setCreatedBy(commonService.getAccessUserToModel().getNickname());
-			
-		} catch (NullPointerException e) {
-			LOG.error("Fail to get login user information ");
-		}
-		
-		comment.setEntityName(entity);
-		comment.setContent(comment.getContent().replaceAll("\n", "<br/>"));
-		comment.setBlogInComment(blog);
-		commentService.saveComment(comment);
-		
-		ajaxResult.setResult("success");
-		return ajaxResult;
-	}
 	
 	@RequestMapping(value = "/{entity}/delete/{commentId}", method = {RequestMethod.GET})
 	@ResponseBody
@@ -126,7 +54,6 @@ public class CommentController {
 			return "false";
 		}
 		comment.setContent(comment.getContent().replaceAll("\n", "<br/>"));
-//		comment.setId(id);
 		commentService.updateComment(comment);
 		return "true";
 	}
