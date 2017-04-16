@@ -25,10 +25,10 @@ public class AccessLog {
 	@Column(name = "ACCESS_LOG_ID")
 	private Long id;
 	
-	@Column(name = "ACCESS_LOG_IP", nullable = false, length=30)
+	@Column(name = "ACCESS_LOG_IP", length=30, nullable = false)
 	private String ip;
 
-	@Column(name = "ACCESS_LOG_URL", nullable = false, length=80)
+	@Column(name = "ACCESS_LOG_URL", length=80, nullable = false)
 	private String url;
 	
 	@Column(name = "ACCESS_LOG_TIME_ZONE", length=80)
@@ -44,4 +44,7 @@ public class AccessLog {
 	
 	@Transient
 	private int type;
+	
+	@Transient
+	private Date date;
 }

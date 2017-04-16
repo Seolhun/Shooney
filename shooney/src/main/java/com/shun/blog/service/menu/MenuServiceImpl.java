@@ -30,26 +30,32 @@ public class MenuServiceImpl implements MenuService {
 	/**
 	 * menu정보 가ㅕ오기.
 	 * 
-	 * @param Menu menu
+	 * @param Content menu
 	 * @return List<Menu> menuList
 	 * @throws Exception
 	 */
 	@Override
-	public List<Menu> findAllByType(Menu menu, HttpServletRequest request) throws Exception {
+	public List<Menu> findAllByType(HttpServletRequest request) throws Exception {
+		Menu menu=new Menu(1);
 		String uri=request.getRequestURI();
-		String[] uriList=uri.split("/");
 		//0="" || 1="shooney" || 2="admin or blog"
-		if(uriList[2].equals("admin")){
-			menu.setMenuType(MenuType.ADMIN.getType());
-		} else {
+		String[] uriList=uri.split("/");
+		try {
+			if(uriList[2].equals("admin")){
+				menu.setMenuType(MenuType.ADMIN.getType());
+			} else {
+				menu.setMenuType(MenuType.NORMAL.getType());
+			}
+		} catch (Exception e) {
 			menu.setMenuType(MenuType.NORMAL.getType());
 		}
 				
 		List<Menu> menuList=menuRepository.findAllByType(menu);
 		for (int i = 0; i < menuList.size(); i++) {
 			menu.setMenuParentId(menuList.get(i).getMenuId());
+			//1을 먼저 가져온 후 depth 2를 가져온다(submenu)
 			menu.setMenuDepth(2);
-			List<Menu> submenuList=findAllByType(menu, request);
+			List<Menu> submenuList=menuRepository.findAllByType(menu);
 			menuList.get(i).setSubmenuList(submenuList);
 		}
 		return menuList;

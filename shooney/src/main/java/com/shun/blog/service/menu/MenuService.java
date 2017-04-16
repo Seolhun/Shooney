@@ -9,5 +9,5 @@ import com.shun.blog.model.menu.Menu;
 public interface MenuService {
 	void insertMenu(Menu menu) throws Exception;
 	
-	List<Menu> findAllByType(Menu menu, HttpServletRequest request) throws Exception;
+	List<Menu> findAllByType(HttpServletRequest request) throws Exception;
 }

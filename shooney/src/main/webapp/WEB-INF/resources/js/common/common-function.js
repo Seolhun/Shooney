@@ -3,7 +3,77 @@ var root="/shooney";
 var csrfHeader=$("#csrfHeader").attr("content");
 var	csrfToken=$("#csrfToken").attr("content");
 
+$(document).ready(function(){
+	CommonService.accessClientInfo();
+});
+
 var CommonService = (function() {
+	var accessClientInfo=function(){
+		$.getJSON('https://api.ipify.org?format=json', function(data){
+			var accessLog = {};
+			accessLog["ip"] = data.ip;
+			accessLog["url"] = window.location.pathname;
+			$.ajax({
+				url : root +"/access/client/insert",
+				type : 'POST',
+				timeout : 60000,
+				data: JSON.stringify(accessLog),	
+				dataType : "json",
+				beforeSend: function(xhr) {
+					xhr.setRequestHeader("Accept", "application/json");
+				    xhr.setRequestHeader("Content-Type", "application/json");
+				    xhr.setRequestHeader(csrfHeader, csrfToken);
+				}, success: function(data) {
+					if(data.result=="success"){
+						console.log('Success');
+						return;
+					} else if(data.result=="invalid"){
+						console.log('Invalid');
+						return;
+					} else {
+						console.log('Fail');
+					}
+				},
+				error : function(e){
+					console.log('Error');
+				}
+			});	
+		});
+	}
+	
+	var getAccessClientInfo=function(){
+		$.getJSON('https://api.ipify.org?format=json', function(data){
+			var accessLog = {};
+			accessLog["ip"] = data.ip;
+			accessLog["url"] = window.location.pathname;
+			$.ajax({
+				url : root +"/access/get/all",
+				type : 'POST',
+				timeout : 60000,
+				data: JSON.stringify(accessLog),	
+				dataType : "json",
+				beforeSend: function(xhr) {
+					xhr.setRequestHeader("Accept", "application/json");
+				    xhr.setRequestHeader("Content-Type", "application/json");
+				    xhr.setRequestHeader(csrfHeader, csrfToken);
+				}, success: function(data) {
+					if(data.result=="success"){
+						console.log('Success');
+						return;
+					} else if(data.result=="invalid"){
+						console.log('Invalid');
+						return;
+					} else {
+						console.log('Fail');
+					}
+				},
+				error : function(e){
+					console.log('Error');
+				}
+			});	
+		});
+	}
+	
 	//File Info & Validation Check 
 	var checkFileBeforeUpload=function(htmlTagId){
 		var files = document.getElementById(htmlTagId), fileName, fileType;
@@ -83,6 +153,7 @@ var CommonService = (function() {
 	}
 	
 	return {
+		accessClientInfo : accessClientInfo,
 		allCheck : allCheck,
 		alertConfirm : alertConfirm,
 		validAllCheckedParam : validAllCheckedParam,

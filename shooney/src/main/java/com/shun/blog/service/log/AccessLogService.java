@@ -8,4 +8,6 @@ public interface AccessLogService {
 	AccessLog findByIp(AccessLog accessLog) throws Exception;
 
 	void insertAccessLog(AccessLog accessLog) throws Exception;
+	
+	Integer getCountByDate(AccessLog accessLog) throws Exception;
 }

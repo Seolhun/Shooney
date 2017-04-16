@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,31 +38,37 @@ import com.shun.blog.model.common.Paging;
 import com.shun.blog.model.file.FileData;
 import com.shun.blog.model.file.FileNameInvalidException;
 import com.shun.blog.model.file.FileUploadOverException;
+import com.shun.blog.model.menu.Menu;
 import com.shun.blog.model.portfolio.PortfolioName;
 import com.shun.blog.service.blog.BlogService;
 import com.shun.blog.service.comment.CommentService;
 import com.shun.blog.service.common.CommonService;
 import com.shun.blog.service.file.FileService;
+import com.shun.blog.service.menu.MenuService;
 import com.shun.blog.service.user.UserService;
 
 @Controller
 @RequestMapping("/blog")
 public class BlogController {
+	private static final Logger LOG = LoggerFactory.getLogger(BlogController.class);
+	
 	private BlogService blogService;
 	private CommonService commonService;
 	private MessageSource messageSource;
 	private FileService fileService;
+	private MenuService menuService;
 	
 	@Autowired
-	public BlogController(UserService userService, CommentService commentService, BlogService blogService, CommonService commonService, MessageSource messageSource, FileService fileService) {
+	public BlogController(UserService userService, CommentService commentService, BlogService blogService,
+			CommonService commonService, MessageSource messageSource, FileService fileService,
+			MenuService menuService) {
 		this.blogService = blogService;
-		this.commonService=commonService;
-		this.messageSource=messageSource;
-		this.fileService=fileService;
+		this.commonService = commonService;
+		this.messageSource = messageSource;
+		this.fileService = fileService;
+		this.menuService = menuService;
 	}
 	
-	private static final Logger LOG = LoggerFactory.getLogger(BlogController.class);
-
 	/**
 	 * 게시판 리스트
 	 * 
@@ -70,7 +77,10 @@ public class BlogController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public String allBlogList(ModelMap model, HttpServletRequest request, @RequestParam(required=false, name="pf") String portfolioType) throws Exception{
+	public String allBlogList(ModelMap model, HttpServletRequest request, @RequestParam(required=false, name="pf") String portfolioType) throws Exception {
+		List<Menu> menuList=menuService.findAllByType(request);
+		model.addAttribute("menuList", menuList);
+		
 		//페이징 세팅 및 파라미터 가져오기.
 		Paging paging=commonService.beforeGetPaging(request);
 		paging.setPortfolioType(portfolioType);
@@ -101,8 +111,11 @@ public class BlogController {
 	 * @return String  -view
 	 * @throws Exception
 	 */
-	@GetMapping(value={"/insert"})
-	public String addBlog(ModelMap model) {
+	@RequestMapping(value = "/insert", method = RequestMethod.GET)
+	public String addBlog(HttpServletRequest request, Model model) throws Exception {
+		List<Menu> menuList=menuService.findAllByType(request);
+		model.addAttribute("menuList", menuList);
+		
 		model.addAttribute("blog", new Blog());
 		model.addAttribute("edit", false);
 		model.addAttribute("enNames", EntityName.values());
@@ -179,6 +192,9 @@ public class BlogController {
 	 */
 	@RequestMapping(value = { "/detail/{id}" }, method = RequestMethod.GET)
 	public String detailBlog(@PathVariable Long id, ModelMap model, HttpServletRequest request, HttpServletResponse response, Principal principal) throws Exception {
+		List<Menu> menuList=menuService.findAllByType(request);
+		model.addAttribute("menuList", menuList);
+		
 		String strId=String.valueOf(id);
 		
 		Blog blog=new Blog();		
@@ -205,7 +221,10 @@ public class BlogController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = { "/modify/{id}" }, method = RequestMethod.GET)
-	public String editBlog(@PathVariable Long id, ModelMap model) throws Exception {
+	public String editBlog(@PathVariable Long id, ModelMap model, HttpServletRequest request) throws Exception {
+		List<Menu> menuList=menuService.findAllByType(request);
+		model.addAttribute("menuList", menuList);
+		
 		Blog blog = blogService.selectById(id);
 		if (!(blog.getCreatedBy().equals(commonService.getAccessUserToModel().getNickname()))) {
 			return "redirect:/deny";

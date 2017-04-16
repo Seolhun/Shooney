@@ -28,5 +28,10 @@ public class AccessLogServiceImpl implements AccessLogService {
 	public void insertAccessLog(AccessLog accessLog) throws Exception {
 		accessLogRepository.insertAccessLog(accessLog);
 	}
+	
+	@Override
+	public Integer getCountByDate(AccessLog accessLog) throws Exception {
+		return getCountByDate(accessLog);
+	}
 
 }

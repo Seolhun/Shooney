@@ -9,8 +9,6 @@
 <spring:url value="/resources/template" var="template"/>
 <spring:url value="/webjars" var="webjars" />
 <spring:url value="/blog" var="blog"/>
-<spring:url value="/project" var="project"/>
-<spring:url value="/portfolio" var="portfolio"/>
 <spring:url value="/myinfo" var="myinfo"/>
 <spring:url value="/admin" var="admin"/>
 <spring:url value="/signup" var="signup"/>
@@ -160,33 +158,25 @@
 					<div class="collapse navbar-collapse navbar-responsive-collapse">
 						<div class="menu-container">
 							<ul class="nav navbar-nav">
-								<!-- Home -->
-								<li><a href="${shooney}" class="dropdown-toggle">Home</a></li>
-								<!-- End Home -->
-
-								<li><a href="${blog }/list" class="dropdown-toggle">Blog</a></li>
-								
-								<!-- Shortcodes -->
-								<!-- <li class="dropdown mega-menu-fullwidth"> -->
-								<li class="dropdown">
-									<a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">Portfolio</a>
-									<ul class="dropdown-menu">
-										<li><a href="${news}/list"><i class="fa fa-columns"></i>News</a></li>
-										<li><a href="${portfolio}/music/list"><i class="fa fa-volume-down"></i> Musics</a></li>
-									</ul>
-								</li>
-								<!-- End Shortcodes -->
-								
-								<!-- Blog -->
-								<li class="dropdown">
-									<a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">My Info</a>
-									<ul class="dropdown-menu">
-										<li><a href="${myinfo}/pro"><i class="glyphicon glyphicon-zoom-in"></i> Profile</a></li>
-										<li><a href="${myinfo}/ati"><i class="glyphicon glyphicon-apple"></i> Attitude</a></li>
-										<li><a href="${myinfo}/goal"><i class="glyphicon glyphicon-eye-open"></i> Goal</a></li>
-									</ul>
-								</li>
-								<!-- End Blog -->
+								<sec:authorize access="hasRole('SUPERADMIN')">
+									<c:forEach items="${menuList }" var="menu">
+										<c:choose>
+											<c:when test="${menu.menuUrl==null}">
+												<li class="dropdown">
+													<a href="javascript:void(0);" class="dropdown-toggle">${menu.menuName}</a>
+													<ul class="dropdown-menu">
+												 		<c:forEach items="${menu.submenuList}" var="submenu">
+											 				<li><a href="${shooney}${submenu.menuUrl}" class="dropdown-toggle">${submenu.menuName}</a></li>
+											 			</c:forEach>
+						 							</ul>
+						 						</li>
+											</c:when>
+											<c:otherwise>
+												<li><a href="${shooney}${menu.menuUrl}" class="dropdown-toggle">${menu.menuName}</a></li>
+											</c:otherwise>
+										</c:choose>
+							 		</c:forEach>
+						 		</sec:authorize>	
 							</ul>
 						</div>
 					</div><!--/navbar-collapse-->

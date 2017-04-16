@@ -24,14 +24,14 @@ public class Menu {
 	@Column(name = "MENU_ID")
 	private Long menuId;
 	
-	@Column(name = "MENU_NAME", nullable = false, length=30)
+	@Column(name = "MENU_NAME", length=30, nullable = false)
 	private String menuName;
 	
 	//admin , index 등 다양한 종류.
 	@Column(name = "MENU_TYPE", length=30, nullable = false)
 	private String menuType;
 
-	@Column(name = "MENU_URL", length=80, nullable = false)
+	@Column(name = "MENU_URL", length=80)
 	private String menuUrl;
 	
 	@Column(name = "MENU_ORDER", length=10, nullable = false)

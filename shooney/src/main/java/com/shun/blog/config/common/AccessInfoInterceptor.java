@@ -16,6 +16,7 @@ public class AccessInfoInterceptor extends HandlerInterceptorAdapter {
 //		LOG.info("time : preHandle : "+ request.getRequestURL().toString() + "- Start Time=" + System.currentTimeMillis());
 		request.setAttribute("startTime", startTime);
 		// if returned false, we need to make sure 'response' is sent
+		
 		return true;
 	}
 

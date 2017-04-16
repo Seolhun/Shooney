@@ -4,19 +4,14 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="tag" tagdir="/WEB-INF/tags"%>
-<spring:url value="/resources" var="resources" /><spring:url value="/resources/template" var="template"/><spring:url value="/" var="shooney"/><spring:url value="/board" var="board"/><spring:url value="/project" var="project"/><spring:url value="/portfolio" var="portfolio"/><spring:url value="/myinfo" var="myinfo"/><spring:url value="/admin" var="admin"/><spring:url value="/signup" var="signup"/><spring:url value="/login" var="login"/><spring:url value="/logout" var="logout"/><spring:url value="/it" var="it"/>
+<spring:url value="/shooney" var="shooney" /><spring:url value="/resources" var="resources" /><spring:url value="/resources/template" var="template"/><spring:url value="/" var="shooney"/><spring:url value="/board" var="board"/><spring:url value="/project" var="project"/><spring:url value="/portfolio" var="portfolio"/><spring:url value="/myinfo" var="myinfo"/><spring:url value="/admin" var="admin"/><spring:url value="/signup" var="signup"/><spring:url value="/login" var="login"/><spring:url value="/logout" var="logout"/><spring:url value="/it" var="it"/>
 <tag:admin-layout tab="${target}">
 	<div class="call-action-v1 bg-color-light">
 		<div class="container">
 			<div class="call-action-v1-box">
 				<div class="call-action-v1-in">
-					<p>Unify creative technology company providing key digital services and focused on helping our clients to build a successful business on web and mobile.</p>
+									
 				</div>
-				<sec:authorize access="hasRole('SUPERADMIN')">
-					<div class="call-action-v1-in inner-btn page-scroll">
-				 		<a href="${signup}" class="btn-u btn-brd btn-brd-hover btn-u-dark btn-u-block margin-bottom-5">Add New User</a>
-			 		</div>
-			 	</sec:authorize>
 			</div>
 		</div>
 	</div>

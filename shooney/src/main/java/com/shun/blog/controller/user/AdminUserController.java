@@ -59,9 +59,8 @@ public class AdminUserController {
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public String listUsers(ModelMap model, HttpServletRequest request) throws Exception {
-		Menu menu=new Menu(1);
-		List<Menu> menuList=menuService.findAllByType(menu, request);
-		LOG.info("return : menuList {}", menuList.toString());
+		List<Menu> menuList=menuService.findAllByType(request);
+		model.addAttribute("menuList", menuList);
 		
 		//paging Data 가져오기.
 		Paging paging=commonService.beforeGetPaging(request);
@@ -75,6 +74,8 @@ public class AdminUserController {
 		
 		model.addAttribute("users", users);
 		model.addAttribute("paging", paging);
+		
+		//serve Checklist 		
 		model.addAttribute("userProfile", UserProfileType.values());
 		model.addAttribute("state", CommonState.values());
 		return "admin/user/admin-user-list";
@@ -88,7 +89,10 @@ public class AdminUserController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = { "/modify/{email}" }, method = RequestMethod.GET)
-	public String editUser(@PathVariable String email, ModelMap model) {
+	public String editUser(@PathVariable String email, HttpServletRequest request, ModelMap model) throws Exception {
+		List<Menu> menuList=menuService.findAllByType(request);
+		model.addAttribute("menuList", menuList);
+		
 		User user = userService.selectByEmail(email);
 		model.addAttribute("user", user);
 		model.addAttribute("edit", true);
@@ -130,7 +134,10 @@ public class AdminUserController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = { "/update/role/{email}" }, method = RequestMethod.GET)
-	public String updateRoleUser(@PathVariable String email, @RequestParam(required=true) String type) {
+	public String updateRoleUser(@PathVariable String email, @RequestParam(required=true) String type, HttpServletRequest request, ModelMap model) throws Exception {
+		List<Menu> menuList=menuService.findAllByType(request);
+		model.addAttribute("menuList", menuList);
+		
 		User user=userService.selectByEmail(email);
 		for(UserProfileType userProfileType : UserProfileType.values()){
 			if(type.equals(userProfileType.getType())){
