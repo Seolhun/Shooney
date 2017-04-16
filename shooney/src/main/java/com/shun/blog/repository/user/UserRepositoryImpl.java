@@ -27,7 +27,6 @@ public class UserRepositoryImpl extends AbstractRepository<Long, User> implement
 	
 	@Override
 	public User selectById(Long id) {
-		LOG.info("param : selectById : {}", id);
 		User user = getByLong(id);
 		if (user != null) {
 			Hibernate.initialize(user.getUserProfiles());
@@ -38,7 +37,6 @@ public class UserRepositoryImpl extends AbstractRepository<Long, User> implement
 	
 	@Override
 	public User selectByEmail(String email) {
-		LOG.info("param : selectByEmail : {}", email);
 		Criteria crit = createEntityCriteria();
 		crit.add(Restrictions.eq("email", email));
 		User user = (User) crit.uniqueResult();
@@ -51,7 +49,6 @@ public class UserRepositoryImpl extends AbstractRepository<Long, User> implement
 
 	@Override
 	public User selectByNickname(String nickname) {
-		LOG.info("param : selectByNickname : {}", nickname);
 		Criteria crit = createEntityCriteria();
 		crit.add(Restrictions.eq("nickname", nickname));
 		User user = (User) crit.uniqueResult();

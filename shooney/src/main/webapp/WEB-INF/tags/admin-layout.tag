@@ -29,8 +29,6 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="keywords" content="Shooney, Blog, News, Music">
-	<meta name="description" content="Shooney's Blog">
 	<meta name="author" content="Shooney">
 	<meta id="csrfToken" name="csrfToken" content="${_csrf.token}"/>
 	<meta id="csrfHeader" name="csrfHeader" content="${_csrf.headerName}"/>

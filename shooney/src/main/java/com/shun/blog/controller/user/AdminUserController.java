@@ -24,10 +24,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.shun.blog.model.common.AjaxResult;
 import com.shun.blog.model.common.CommonState;
 import com.shun.blog.model.common.Paging;
+import com.shun.blog.model.menu.Menu;
 import com.shun.blog.model.user.User;
 import com.shun.blog.model.user.UserProfile;
 import com.shun.blog.model.user.UserProfileType;
 import com.shun.blog.service.common.CommonService;
+import com.shun.blog.service.menu.MenuService;
 import com.shun.blog.service.user.UserService;
 
 @Controller
@@ -36,12 +38,14 @@ public class AdminUserController {
 	private UserService userService;
 	private CommonService commonService;
 	private MessageSource messageSource;
+	private MenuService menuService;
 	
 	@Autowired
-	public AdminUserController(UserService userService, CommonService commonService, MessageSource messageSource) {
+	public AdminUserController(UserService userService, CommonService commonService, MessageSource messageSource, MenuService menuService) {
 		this.userService = userService;
 		this.commonService=commonService;
 		this.messageSource=messageSource;
+		this.menuService=menuService;
 	}
 
 	private static final Logger LOG = LoggerFactory.getLogger(AdminUserController.class);
@@ -54,7 +58,11 @@ public class AdminUserController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public String listUsers(ModelMap model, HttpServletRequest request) {
+	public String listUsers(ModelMap model, HttpServletRequest request) throws Exception {
+		Menu menu=new Menu(1);
+		List<Menu> menuList=menuService.findAllByType(menu, request);
+		LOG.info("return : menuList {}", menuList.toString());
+		
 		//paging Data 가져오기.
 		Paging paging=commonService.beforeGetPaging(request);
 		commonService.setAndValidationPaging(paging);
@@ -69,7 +77,7 @@ public class AdminUserController {
 		model.addAttribute("paging", paging);
 		model.addAttribute("userProfile", UserProfileType.values());
 		model.addAttribute("state", CommonState.values());
-		return "user/admin-user-list";
+		return "admin/user/admin-user-list";
 	}
 
 	/**

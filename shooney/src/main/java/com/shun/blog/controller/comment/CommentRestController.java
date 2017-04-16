@@ -43,8 +43,6 @@ public class CommentRestController {
 	 */
 	@RequestMapping(value = "/{entity}/list", method = RequestMethod.POST)
 	public List<Comment> getCommentsList(@RequestBody Comment comment, @PathVariable String entity, HttpServletRequest request, ModelMap model) throws Exception {
-		LOG.error("return : comment {}", comment.toString());
-		
 		//댓글위한 해당 블로그 값 넣기.
 		Paging paging = commonService.beforeGetPaging(request);
 		comment.setPaging(paging);
@@ -55,6 +53,7 @@ public class CommentRestController {
 		commonService.setAndValidationPaging(paging);
 		
 		List<Comment> comments=commentService.findAllComments(comment);
+		LOG.info("return : {}",comments.toString());
 		return comments;
 	}
 	
@@ -67,21 +66,21 @@ public class CommentRestController {
 	 */
 	@RequestMapping(value = "/{entity}/insert", method = RequestMethod.POST, produces = "application/json")
 	public AjaxResult addBoardComment(@RequestBody Comment comment, @PathVariable String entity, AjaxResult ajaxResult) throws Exception {
+		//유효성체크.
+		ajaxResult.setResult("invalid");
+		String content=comment.getContent();
+		if(content==null || content.length()<1){
+			return ajaxResult;
+		} else if(comment.getBlogInComment().getBlogId()<1){
+			return ajaxResult;
+		}
+		
 		try {
-			//유효성체크.
-			ajaxResult.setResult("false");
-			String content=comment.getContent();
-
-			if(content==null || content.length()<1){
-				return ajaxResult;
-			} else if(comment.getBlogInComment().getBlogId()<1){
-				return ajaxResult;
-			}
-			
 			//유저가 로그인하지 않았을 경우. 페이지 이동시켜야함.
 			comment.setCreatedBy(commonService.getAccessUserToModel().getNickname());
 		} catch (NullPointerException e) {
-			LOG.error("Fail to get login user information ");
+			LOG.error("error : Fail to get login user information ");
+			return ajaxResult;
 		}
 		
 		comment.setEntityName(entity);

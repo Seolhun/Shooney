@@ -1,15 +1,13 @@
-package com.shun.blog.model.common;
+package com.shun.blog.model.menu;
 
-public enum CommonState {
+public enum MenuType {
 
-	ACTIVE("active"),
-	INACTIVE("inactive"),
-	DELETED("deleted"),
-	LOCKED("locked");
+	NORMAL("normal"),
+	ADMIN("admin");
 	//name//Type
 	private String type;
 	
-	private CommonState(final String Type){
+	private MenuType(final String Type){
 		this.type = Type;
 	}
 	

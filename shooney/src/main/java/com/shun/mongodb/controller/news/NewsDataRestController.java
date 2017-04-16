@@ -116,14 +116,6 @@ public class NewsDataRestController {
 //				for (int i = 3100000; i<= 3182689; i++) {
 				for (Long i = startNumber; i< 3100000; i++) {
 					// 리스트 가져오기
-					for (NewsWebSite newsWebSite : NewsWebSite.values()) {
-						String address=newsWebSite.getWebAddress();
-						String webSiteName=newsWebSite.name();
-						LOG.info("return : NewsWebSite : {}",newsWebSite);
-						LOG.info("return : NewsWebSite : {}",address);
-						LOG.info("return : NewsWebSite : {}",webSiteName);
-					}
-					
 					try {
 						String webSiteName="";
 						String address="";
@@ -133,9 +125,6 @@ public class NewsDataRestController {
 							address=newsWebSite.getWebAddress();
 							webSiteName=newsWebSite.name();
 							doc = Jsoup.connect(address+i).timeout(8000).userAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.95 Safari/537.36").ignoreHttpErrors(true).get();
-							LOG.info("return : NewsWebSite : {}",newsWebSite);
-							LOG.info("return : NewsWebSite : {}",address);
-							LOG.info("return : NewsWebSite : {}",webSiteName);
 							//하나라도 신문기사가 있으면 포문을 종료시키고 넘어간다.
 							if (doc != null)
 								break;
@@ -175,18 +164,6 @@ public class NewsDataRestController {
 						newsData.setTags(tags);
 						
 						newsDataService.save(newsData);
-						//Example						
-//						File input = new File("/tmp/input.html");
-//						Document doc = Jsoup.parse(input, "UTF-8", "http://example.com/");
-//
-//						Elements links = doc.select("a[href]"); // a with href
-//						Elements pngs = doc.select("img[src$=.png]");
-//						  // img with src ending .png
-//
-//						Element masthead = doc.select("div.masthead").first();
-//						  // div with class=masthead
-//
-//						Elements resultLinks = doc.select("h3.r > a"); // direct a after h3
 					} catch (HttpStatusException e) {
 						LOG.error("ERROR : HttpStatusException");
 					} catch (NullPointerException e) {

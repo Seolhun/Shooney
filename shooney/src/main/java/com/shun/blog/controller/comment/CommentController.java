@@ -20,6 +20,8 @@ import com.shun.blog.service.common.CommonService;
 @Controller
 @RequestMapping(value = "/reply", produces = "application/json")
 public class CommentController {
+	private static final Logger LOG = LoggerFactory.getLogger(CommentController.class);
+	
 	private CommonService commonService;
 	private CommentService commentService;;
 	
@@ -29,8 +31,6 @@ public class CommentController {
 		this.commentService=commentService;
 	}
 
-	private static final Logger LOG = LoggerFactory.getLogger(CommentController.class);
-	
 	@RequestMapping(value = "/{entity}/delete/{commentId}", method = {RequestMethod.GET})
 	@ResponseBody
 	public String deleteBoardComment(HttpServletRequest reqeust, Comment comment, @PathVariable String entity, @PathVariable Long commentId, Principal principal) throws Exception{

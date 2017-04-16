@@ -24,8 +24,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -41,13 +39,12 @@ public class CommonServiceImpl implements CommonService {
 	static final Logger LOG = LoggerFactory.getLogger(CommonServiceImpl.class);
 	
 	@Autowired
-	JavaMailSender mailSender;
-	
+	private CommonService commonService;
 	@Autowired
-	UserService userService;
-	
+	private UserService userService;
 	@Autowired
-	CommonService commonService;
+	private JavaMailSender mailSender;
+	
 	
 	final private String emailPattern = "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,3})$";
 	final private String idPattern = "^[A-Za-z0-9].{1,20}";
@@ -158,8 +155,8 @@ public class CommonServiceImpl implements CommonService {
 	}
 
 	@Override
-	public String getUserIP() {
-		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+	public String getUserIP(HttpServletRequest request) {
+//		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
 		String ip = request.getHeader("X-FORWARDED-FOR");
 		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
 			ip = request.getHeader("Proxy-Client-IP");
@@ -367,5 +364,4 @@ public class CommonServiceImpl implements CommonService {
 		LOG.info("return : getAccessUserToModel : {}", userEmail);
 		return userService.selectByEmail(userEmail);
 	}
-	
 }

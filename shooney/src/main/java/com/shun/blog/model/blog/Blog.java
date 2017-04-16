@@ -1,6 +1,7 @@
 package com.shun.blog.model.blog;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -19,7 +20,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.shun.blog.model.comment.Comment;
 import com.shun.blog.model.file.FileData;
 
@@ -27,7 +28,6 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "TB_BLOG")
-@JsonIgnoreProperties(ignoreUnknown=true)
 public class Blog implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,10 +38,11 @@ public class Blog implements Serializable {
 	private Long idx;
 	
 	@OneToMany(mappedBy = "blogInFile")
-	private List<FileData> fileDataList;
+	private List<FileData> fileDataList=new ArrayList<FileData>();
 	
 	@OneToMany(mappedBy = "blogInComment")
-	private List<Comment> commentList;
+	@JsonIgnore
+	private List<Comment> commentList=new ArrayList<Comment>();
 	
 	@Column(name = "BLOG_TITLE",length=150 , nullable = false)
 	private String title;

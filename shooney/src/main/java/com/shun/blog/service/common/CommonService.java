@@ -36,7 +36,7 @@ public interface CommonService {
 	String getJSONData(Object rawData) throws JsonProcessingException;
 	
 	//User IP를 가져오기.	
-	String getUserIP();
+	String getUserIP(HttpServletRequest request);
 
 	//Encode SHA256
 	String buildSHA256(String str);

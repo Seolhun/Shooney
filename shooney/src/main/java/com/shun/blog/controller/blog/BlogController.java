@@ -53,8 +53,7 @@ public class BlogController {
 	private FileService fileService;
 	
 	@Autowired
-	public BlogController(UserService userService, CommentService commentService, BlogService blogService,
-			CommonService commonService, MessageSource messageSource, FileService fileService) {
+	public BlogController(UserService userService, CommentService commentService, BlogService blogService, CommonService commonService, MessageSource messageSource, FileService fileService) {
 		this.blogService = blogService;
 		this.commonService=commonService;
 		this.messageSource=messageSource;

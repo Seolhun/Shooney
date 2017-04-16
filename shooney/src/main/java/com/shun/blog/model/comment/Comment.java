@@ -3,6 +3,7 @@ package com.shun.blog.model.comment;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -20,7 +21,7 @@ import javax.persistence.Transient;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.shun.blog.model.blog.Blog;
 import com.shun.blog.model.common.Paging;
 
@@ -29,15 +30,15 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "TB_COMMENT")
-@JsonIgnoreProperties(ignoreUnknown=true)
 public class Comment implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "COMMENT_ID", nullable = false)
 	private Long commentId;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY, optional=true, cascade=CascadeType.DETACH)
 	@JoinColumn(foreignKey = @ForeignKey(name = "COMMENT_BLOG_FK"), name = "COMMENT_BLOG_ID", referencedColumnName = "BLOG_ID", nullable=false)
+	@JsonIgnore
 	private Blog blogInComment;
 	
 	@Column(name = "COMMENT_ENTITY_NAME", length=20, nullable = false)

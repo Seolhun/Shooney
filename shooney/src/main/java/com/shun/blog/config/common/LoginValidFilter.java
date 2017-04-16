@@ -1,10 +1,9 @@
-package com.shun.blog.config.security.custom;
+package com.shun.blog.config.common;
 
 import java.io.IOException;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -13,8 +12,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.web.filter.GenericFilterBean;
 
-public class AjaxSessionFilter implements Filter {
+public class LoginValidFilter extends GenericFilterBean implements Filter {
 	private String ajaxHeader;
 
 	public String getAjaxHeader() {
@@ -26,14 +26,14 @@ public class AjaxSessionFilter implements Filter {
 	}
 	
 	private boolean isAjaxRequest(HttpServletRequest req) {
-		return req.getHeader(ajaxHeader) != null && req.getHeader(ajaxHeader).equals(Boolean.TRUE.toString());
+		boolean valid=req.getHeader(ajaxHeader) != null && req.getHeader(ajaxHeader).equals(Boolean.TRUE.toString());
+		return valid;
 	}
 
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		HttpServletRequest req = (HttpServletRequest) request;
 		HttpServletResponse res = (HttpServletResponse) response;
-
 		if (isAjaxRequest(req)) {
 			try {
 				chain.doFilter(req, res);
@@ -48,10 +48,7 @@ public class AjaxSessionFilter implements Filter {
 	}
 
 	@Override
-	public void init(FilterConfig filterConfig) {
-	}
-	
-	@Override
 	public void destroy() {
+		
 	}
 }

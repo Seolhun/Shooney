@@ -16,20 +16,21 @@ import com.shun.blog.service.user.UserService;
 @RequestMapping("/admin/blog")
 public class AdminBlogController {
 
-	@Autowired
-	BlogService blogService;
-
-	@Autowired
-	UserService uService;
+	private MessageSource messageSource;
+	private BlogService blogService;
+	private CommentService cService;
+	private CommonService commonService;
+	private UserService uService;	
 	
-	@Autowired
-	CommentService cService;
 
 	@Autowired
-	CommonService commonService;
-
-	@Autowired
-	MessageSource messageSource;
+	public AdminBlogController(MessageSource messageSource, BlogService blogService, CommentService cService, CommonService commonService, UserService uService){
+		this.messageSource=messageSource;
+		this.blogService=blogService;
+		this.cService=cService;
+		this.commonService=commonService;
+		this.uService=uService;
+	}
 	
 	private static final Logger logger = LoggerFactory.getLogger(AdminBlogController.class);
 

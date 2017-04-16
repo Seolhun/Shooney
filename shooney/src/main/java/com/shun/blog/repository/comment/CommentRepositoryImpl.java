@@ -54,10 +54,7 @@ public class CommentRepositoryImpl extends AbstractRepository<Long, Comment> imp
 			}
 		}
 		
-		List<Comment> comments = (List<Comment>) criteria.list();
-		for (Comment comment2 : comments) {
-			
-		}
+		List<Comment> comments = criteria.list();
 		return comments;
 	}
 	

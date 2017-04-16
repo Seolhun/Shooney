@@ -28,6 +28,6 @@ public class AdminNewsDataController {
 	@RequestMapping(value = "/add/{websiteName}", method = RequestMethod.GET)
 	public String moveNewsAdded(ModelMap model, @ModelAttribute @PathVariable(required=true) String websiteName) {
 		LOG.info("where : moveNewsList");
-		return "news/news-add";
+		return "admin/news/news-add";
 	}
 }
