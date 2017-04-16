@@ -25,9 +25,8 @@ public class HomeController {
 	@RequestMapping(value = {"", "/"}, method = RequestMethod.GET)
 	public String main(HttpServletRequest request, Model model) throws Exception {
 		List<Menu> menuList=menuService.findAllByType(request);
-		model.addAttribute("menuList", menuList);
 		
-		LOG.info("where main");
+		model.addAttribute("menuList", menuList);
 		return "index";
 	}
 	

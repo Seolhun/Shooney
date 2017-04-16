@@ -23,12 +23,9 @@ var CommonService = (function() {
 					xhr.setRequestHeader("Accept", "application/json");
 				    xhr.setRequestHeader("Content-Type", "application/json");
 				    xhr.setRequestHeader(csrfHeader, csrfToken);
-				}, success: function(data) {
-					if(data.result=="success"){
+				}, success: function(data, status, xhr) {
+					if(xhr.status==200){
 						console.log('Success');
-						return;
-					} else if(data.result=="invalid"){
-						console.log('Invalid');
 						return;
 					} else {
 						console.log('Fail');
@@ -154,6 +151,7 @@ var CommonService = (function() {
 	
 	return {
 		accessClientInfo : accessClientInfo,
+		getAccessClientInfo : getAccessClientInfo,
 		allCheck : allCheck,
 		alertConfirm : alertConfirm,
 		validAllCheckedParam : validAllCheckedParam,

@@ -151,7 +151,7 @@
 		<div class="container">
 			<div class="call-action-v1-box">
 				<div class="call-action-v1-in">
-					<p> Spring Boot, JPA(Hibernate), MariaDB, MongoDB, Redis, JQuery, AngularJS, Bootstrap, Mavenm, Nginx, Tomcat</p>
+					<p> Spring Boot, JPA(Hibernate), MariaDB, MongoDB, Redis, JQuery, AngularJS, Bootstrap, Maven, Nginx, Tomcat</p>
 				</div>
 				<sec:authorize access="isAuthenticated()">
 					<sec:authorize access="hasRole('SUPERADMIN')">
@@ -178,8 +178,8 @@
 				<h5> - Spring Security(Login, Signup, Login valid count(Limit)</h5>
 				<h5> - Blog(Board), FileUpload, Comment(Not working now - comming soon)</h5>
 				<h5> - MongoDB - News detail using Angular JS</h5>
-				<h5> - Counting client footprint</h5>
 				<h5> - Admin User and Menu controller </h5>
+				<h5> - Counting client footprint - Now, Just save footprint</h5>
 				<br>
 			</div>
 		</div>

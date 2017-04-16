@@ -162,25 +162,23 @@
 					<div class="collapse navbar-collapse navbar-responsive-collapse">
 						<div class="menu-container">
 							<ul class="nav navbar-nav">
-								<sec:authorize access="hasRole('SUPERADMIN')">
-									<c:forEach items="${menuList }" var="menu">
-										<c:choose>
-											<c:when test="${menu.menuUrl==null}">
-												<li class="dropdown">
-													<a href="javascript:void(0);" class="dropdown-toggle">${menu.menuName}</a>
-													<ul class="dropdown-menu">
-												 		<c:forEach items="${menu.submenuList}" var="submenu">
-											 				<li><a href="${shooney}${submenu.menuUrl}" class="dropdown-toggle">${submenu.menuName}</a></li>
-											 			</c:forEach>
-						 							</ul>
-						 						</li>
-											</c:when>
-											<c:otherwise>
-												<li><a href="${shooney}${menu.menuUrl}" class="dropdown-toggle">${menu.menuName}</a></li>
-											</c:otherwise>
-										</c:choose>
-							 		</c:forEach>
-						 		</sec:authorize>	
+								<c:forEach items="${menuList }" var="menu">
+									<c:choose>
+										<c:when test="${menu.menuUrl==null}">
+											<li class="dropdown">
+												<a href="javascript:void(0);" class="dropdown-toggle">${menu.menuName}</a>
+												<ul class="dropdown-menu">
+											 		<c:forEach items="${menu.submenuList}" var="submenu">
+										 				<li><a href="${shooney}${submenu.menuUrl}" class="dropdown-toggle">${submenu.menuName}</a></li>
+										 			</c:forEach>
+					 							</ul>
+					 						</li>
+										</c:when>
+										<c:otherwise>
+											<li><a href="${shooney}${menu.menuUrl}" class="dropdown-toggle">${menu.menuName}</a></li>
+										</c:otherwise>
+									</c:choose>
+						 		</c:forEach>
 							</ul>
 						</div>
 					</div><!--/navbar-collapse-->

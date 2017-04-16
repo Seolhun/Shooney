@@ -13,11 +13,9 @@ import javax.persistence.Transient;
 
 import org.hibernate.annotations.CreationTimestamp;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter
-@Setter
+@Data
 @Entity(name="TB_ACCESS_LOG")
 public class AccessLog {
 	@Id
@@ -31,10 +29,10 @@ public class AccessLog {
 	@Column(name = "ACCESS_LOG_URL", length=80, nullable = false)
 	private String url;
 	
-	@Column(name = "ACCESS_LOG_TIME_ZONE", length=80)
+	@Column(name = "ACCESS_LOG_TIME_ZONE", length=80, nullable = true)
 	private String timeZone;
 	
-	@Column(name = "ACCESS_LOG_CREATED_BY", length = 60)
+	@Column(name = "ACCESS_LOG_CREATED_BY", length = 60, nullable = true)
 	private String createdBy;
 
 	@CreationTimestamp
