@@ -1,16 +1,16 @@
 # Personal Homepage and Portfolio Platform
 
-#### *2016-11-26 ~ *  
-	- 2016년 11월 26일 첫 시작하였으며, 중간에 다른 프로젝트 연습 및 회사 프로젝트를 병행하여 늦어지고 있습니다.
-	- 현재 우선순위 1순위로 작업 진행중입니다.
-	- [HI-CORD](https://hi-cord.com/shooney)에 앞으로 작업 내용이 나와있습니다.
+## *2016-11-26 ~ *  
+- 2016년 11월 26일 첫 시작하였으며, 중간에 다른 프로젝트 연습 및 회사 프로젝트를 병행하여 늦어지고 있습니다.
+- 현재 우선순위 1순위로 작업 진행중입니다.
+- [HI-CORD](https://hi-cord.com/shooney)에 앞으로 작업 내용이 나와있습니다.
 
-	- Type : 개인 프로젝트
-	- IDE : Spring Tool Suite
-	- WAS : Tomcat 9.0
-	- OS : OSX  
-	- Framework : Spring Boot(Security, JPA, Schduler ,MongoDB), Bootstrap, AngularJS  
-	- Library : Summernote, Jsoup
+- Type : 개인 프로젝트
+- IDE : Spring Tool Suite
+- WAS : Tomcat 9.0
+- OS : OSX  
+- Framework : Spring Boot(Security, JPA, Schduler ,MongoDB), Bootstrap, AngularJS  
+- Library : Summernote, Jsoup
 
 
 ## 1. 프로젝트 목표.
