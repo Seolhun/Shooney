@@ -23,7 +23,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -78,7 +77,8 @@ public class BlogController {
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public String allBlogList(ModelMap model, HttpServletRequest request, @RequestParam(required=false, name="pf") String portfolioType) throws Exception {
-		List<Menu> menuList=menuService.findAllByType(request);
+		Menu menu=commonService.setMenuConfig(request);
+		List<Menu> menuList=menuService.findAllByType(menu, menu.getMenuType());
 		model.addAttribute("menuList", menuList);
 		
 		//페이징 세팅 및 파라미터 가져오기.
@@ -113,7 +113,8 @@ public class BlogController {
 	 */
 	@RequestMapping(value = "/insert", method = RequestMethod.GET)
 	public String addBlog(HttpServletRequest request, Model model) throws Exception {
-		List<Menu> menuList=menuService.findAllByType(request);
+		Menu menu=commonService.setMenuConfig(request);
+		List<Menu> menuList=menuService.findAllByType(menu, menu.getMenuType());
 		model.addAttribute("menuList", menuList);
 		
 		model.addAttribute("blog", new Blog());
@@ -192,7 +193,8 @@ public class BlogController {
 	 */
 	@RequestMapping(value = { "/detail/{id}" }, method = RequestMethod.GET)
 	public String detailBlog(@PathVariable Long id, ModelMap model, HttpServletRequest request, HttpServletResponse response, Principal principal) throws Exception {
-		List<Menu> menuList=menuService.findAllByType(request);
+		Menu menu=commonService.setMenuConfig(request);
+		List<Menu> menuList=menuService.findAllByType(menu, menu.getMenuType());
 		model.addAttribute("menuList", menuList);
 		
 		String strId=String.valueOf(id);
@@ -222,7 +224,8 @@ public class BlogController {
 	 */
 	@RequestMapping(value = { "/modify/{id}" }, method = RequestMethod.GET)
 	public String editBlog(@PathVariable Long id, ModelMap model, HttpServletRequest request) throws Exception {
-		List<Menu> menuList=menuService.findAllByType(request);
+		Menu menu=commonService.setMenuConfig(request);
+		List<Menu> menuList=menuService.findAllByType(menu, menu.getMenuType());
 		model.addAttribute("menuList", menuList);
 		
 		Blog blog = blogService.selectById(id);

@@ -1,5 +1,6 @@
 package com.shun.blog.model.menu;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -18,7 +19,7 @@ import lombok.Data;
 
 @Data
 @Entity(name="TB_MENU")
-public class Menu {
+public class Menu implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "MENU_ID")

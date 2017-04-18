@@ -38,7 +38,8 @@ public class AdminNewsDataController {
 	
 	@RequestMapping(value = "/add/{websiteName}", method = RequestMethod.GET)
 	public String moveNewsAdded(ModelMap model, @ModelAttribute @PathVariable(required=true) String websiteName, HttpServletRequest request) throws Exception {
-		List<Menu> menuList=menuService.findAllByType(request);
+		Menu menu=commonService.setMenuConfig(request);
+		List<Menu> menuList=menuService.findAllByType(menu, menu.getMenuType());
 		model.addAttribute("menuList", menuList);
 		
 		LOG.info("where : moveNewsList");

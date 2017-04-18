@@ -59,7 +59,8 @@ public class AdminUserController {
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public String listUsers(ModelMap model, HttpServletRequest request) throws Exception {
-		List<Menu> menuList=menuService.findAllByType(request);
+		Menu menu=commonService.setMenuConfig(request);
+		List<Menu> menuList=menuService.findAllByType(menu, menu.getMenuType());
 		model.addAttribute("menuList", menuList);
 		
 		//paging Data 가져오기.
@@ -90,7 +91,8 @@ public class AdminUserController {
 	 */
 	@RequestMapping(value = { "/modify/{email}" }, method = RequestMethod.GET)
 	public String editUser(@PathVariable String email, HttpServletRequest request, ModelMap model) throws Exception {
-		List<Menu> menuList=menuService.findAllByType(request);
+		Menu menu=commonService.setMenuConfig(request);
+		List<Menu> menuList=menuService.findAllByType(menu, menu.getMenuType());
 		model.addAttribute("menuList", menuList);
 		
 		User user = userService.selectByEmail(email);
@@ -135,7 +137,8 @@ public class AdminUserController {
 	 */
 	@RequestMapping(value = { "/update/role/{email}" }, method = RequestMethod.GET)
 	public String updateRoleUser(@PathVariable String email, @RequestParam(required=true) String type, HttpServletRequest request, ModelMap model) throws Exception {
-		List<Menu> menuList=menuService.findAllByType(request);
+		Menu menu=commonService.setMenuConfig(request);
+		List<Menu> menuList=menuService.findAllByType(menu, menu.getMenuType());
 		model.addAttribute("menuList", menuList);
 		
 		User user=userService.selectByEmail(email);

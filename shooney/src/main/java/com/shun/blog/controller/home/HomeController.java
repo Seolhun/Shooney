@@ -13,18 +13,26 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.shun.blog.model.menu.Menu;
+import com.shun.blog.service.common.CommonService;
 import com.shun.blog.service.menu.MenuService;
 
 @Controller
 public class HomeController {
 	private static final Logger LOG = LoggerFactory.getLogger(HomeController.class);
 	
-	@Autowired
 	private MenuService menuService;
+	private CommonService commonService;
+	
+	@Autowired	
+	public HomeController(MenuService menuService, CommonService commonService){
+		this.menuService=menuService;
+		this.commonService=commonService;
+	}
 	
 	@RequestMapping(value = {"", "/"}, method = RequestMethod.GET)
 	public String main(HttpServletRequest request, Model model) throws Exception {
-		List<Menu> menuList=menuService.findAllByType(request);
+		Menu menu=commonService.setMenuConfig(request);
+		List<Menu> menuList=menuService.findAllByType(menu, menu.getMenuType());
 		
 		model.addAttribute("menuList", menuList);
 		return "index";
@@ -32,7 +40,8 @@ public class HomeController {
 	
 	@RequestMapping(value = "/success", method = RequestMethod.GET)
 	public String success(HttpServletRequest request, Model model) throws Exception {
-		List<Menu> menuList=menuService.findAllByType(request);
+		Menu menu=commonService.setMenuConfig(request);
+		List<Menu> menuList=menuService.findAllByType(menu, menu.getMenuType());
 		model.addAttribute("menuList", menuList);
 		
 		LOG.info("where success");
@@ -41,7 +50,8 @@ public class HomeController {
 	
 	@RequestMapping(value = "/deny", method = RequestMethod.GET)
 	public String deny(HttpServletRequest request, Model model) throws Exception {
-		List<Menu> menuList=menuService.findAllByType(request);
+		Menu menu=commonService.setMenuConfig(request);
+		List<Menu> menuList=menuService.findAllByType(menu, menu.getMenuType());
 		model.addAttribute("menuList", menuList);
 		
 		LOG.info("where deny");
@@ -50,7 +60,8 @@ public class HomeController {
 	
 	@RequestMapping(value = "/myinfo/profile", method = RequestMethod.GET)
 	public String myInfoProfile(HttpServletRequest request, Model model) throws Exception {
-		List<Menu> menuList=menuService.findAllByType(request);
+		Menu menu=commonService.setMenuConfig(request);
+		List<Menu> menuList=menuService.findAllByType(menu, menu.getMenuType());
 		model.addAttribute("menuList", menuList);
 		
 		LOG.info("where myInfoProfile");
@@ -59,7 +70,8 @@ public class HomeController {
 	
 	@RequestMapping(value = "/myinfo/attitude", method = RequestMethod.GET)
 	public String myInfoAttitude(HttpServletRequest request, Model model) throws Exception {
-		List<Menu> menuList=menuService.findAllByType(request);
+		Menu menu=commonService.setMenuConfig(request);
+		List<Menu> menuList=menuService.findAllByType(menu, menu.getMenuType());
 		model.addAttribute("menuList", menuList);
 		
 		LOG.info("where myInfoMission");
@@ -68,7 +80,8 @@ public class HomeController {
 	
 	@RequestMapping(value = "/myinfo/goal", method = RequestMethod.GET)
 	public String myInfoGoal(HttpServletRequest request, Model model) throws Exception {
-		List<Menu> menuList=menuService.findAllByType(request);
+		Menu menu=commonService.setMenuConfig(request);
+		List<Menu> menuList=menuService.findAllByType(menu, menu.getMenuType());
 		model.addAttribute("menuList", menuList);
 		
 		LOG.info("where myInfoGoal");

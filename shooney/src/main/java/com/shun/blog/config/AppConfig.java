@@ -1,5 +1,7 @@
 package com.shun.blog.config;
 
+import java.util.List;
+
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -9,7 +11,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.format.FormatterRegistry;
+import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.LocaleResolver;
@@ -24,6 +28,7 @@ import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;
 import com.shun.blog.config.common.AccessInfoInterceptor;
 import com.shun.blog.config.security.converter.RoleToUserProfileConverter;
@@ -38,10 +43,10 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 
 	@Autowired
 	RoleToUserProfileConverter roleToUserProfileConverter;
-	
-	private static final int MAX_UPLOAD_SIZE=(1024 * 1024 * 200);
-	private static final int MAX_UPLOAD_SIZE_PER_FILE=(1024 * 1024 * 50);
-	
+
+	private static final int MAX_UPLOAD_SIZE = (1024 * 1024 * 200);
+	private static final int MAX_UPLOAD_SIZE_PER_FILE = (1024 * 1024 * 50);
+
 	// Resource InterCeptor Error Config Part
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
@@ -58,21 +63,21 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 		return messageSource;
 	}
 
-	//Adapt interceptor to before and after
+	// Adapt interceptor to before and after
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
-		//Count Processing Time 
+		// Count Processing Time
 		registry.addInterceptor(new AccessInfoInterceptor());
 		registry.addInterceptor(localeChangeInterceptor());
 	}
 
-	//Locale Resolver
+	// Locale Resolver
 	@Bean
 	public LocaleResolver localeResolver() {
-		LocaleResolver localeResolver=new AcceptHeaderLocaleResolver();
+		LocaleResolver localeResolver = new AcceptHeaderLocaleResolver();
 		return localeResolver;
 	}
-	
+
 	// Locale Language Config Part
 	@Bean
 	public LocaleChangeInterceptor localeChangeInterceptor() {
@@ -82,12 +87,12 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 	}
 
 	// Multipart Config Part
-	@Bean(name="multipartResolver")
+	@Bean(name = "multipartResolver")
 	public MultipartResolver resolver() {
 		CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
 		multipartResolver.setDefaultEncoding("UTF-8");
-		multipartResolver.setMaxUploadSize(MAX_UPLOAD_SIZE); //40M
-		multipartResolver.setMaxUploadSizePerFile(MAX_UPLOAD_SIZE_PER_FILE);//10M
+		multipartResolver.setMaxUploadSize(MAX_UPLOAD_SIZE); // 40M
+		multipartResolver.setMaxUploadSizePerFile(MAX_UPLOAD_SIZE_PER_FILE);// 10M
 		multipartResolver.setMaxInMemorySize(MAX_UPLOAD_SIZE * 2);
 		return multipartResolver;
 	}
@@ -101,11 +106,11 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 		viewResolver.setSuffix(".jsp");
 		return viewResolver;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@Bean
 	public Jackson2ObjectMapperBuilder configureObjectMapper() {
-	    return new Jackson2ObjectMapperBuilder().modulesToInstall(Hibernate5Module.class);
+		return new Jackson2ObjectMapperBuilder().modulesToInstall(Hibernate5Module.class);
 	}
 
 	@Override
@@ -116,5 +121,19 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 	@Override
 	public void configurePathMatch(PathMatchConfigurer matcher) {
 		matcher.setUseRegisteredSuffixPatternMatch(true);
+	}
+	
+	@Override
+	public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
+		converters.add(jacksonMessageConverter());
+		super.configureMessageConverters(converters);
+	}
+
+	public MappingJackson2HttpMessageConverter jacksonMessageConverter() {
+		MappingJackson2HttpMessageConverter messageConverter = new MappingJackson2HttpMessageConverter();
+		ObjectMapper mapper = new ObjectMapper();
+		mapper.registerModule(new Hibernate5Module());
+		messageConverter.setObjectMapper(mapper);
+		return messageConverter;
 	}
 }

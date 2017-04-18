@@ -64,7 +64,8 @@ public class MusicController {
 
 	@RequestMapping(value = "/music/list", method = RequestMethod.GET)
 	public String listMusics(ModelMap model, HttpServletRequest request) throws Exception {
-		List<Menu> menuList=menuService.findAllByType(request);
+		Menu menu=commonService.setMenuConfig(request);
+		List<Menu> menuList=menuService.findAllByType(menu, menu.getMenuType());
 		model.addAttribute("menuList", menuList);
 		
 		ArrayList<Music> musics = (ArrayList<Music>) musicService.findAllMusics();

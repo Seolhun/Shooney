@@ -30,6 +30,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.shun.blog.model.common.Paging;
+import com.shun.blog.model.menu.Menu;
+import com.shun.blog.model.menu.MenuType;
 import com.shun.blog.model.user.User;
 import com.shun.blog.service.user.UserService;
 
@@ -363,5 +365,30 @@ public class CommonServiceImpl implements CommonService {
 		String userEmail=commonService.getPrincipal();
 		LOG.info("return : getAccessUserToModel : {}", userEmail);
 		return userService.selectByEmail(userEmail);
+	}
+	
+	/**
+	 * Menu 역할 확인하여 설정잡기.
+	 * 
+	 * @param Menu menu
+	 * @return Menu menu
+	 * @throws Exception
+	 */	
+	@Override
+	public Menu setMenuConfig(HttpServletRequest request) throws Exception {
+		Menu menu=new Menu(1);
+		String uri=request.getRequestURI();
+		//0="" || 1="shooney" || 2="admin or blog"
+		String[] uriList=uri.split("/");
+		try {
+			if(uriList[2].equals("admin")){
+				menu.setMenuType(MenuType.ADMIN.getType());
+			} else {
+				menu.setMenuType(MenuType.NORMAL.getType());
+			}
+		} catch (Exception e) {
+			menu.setMenuType(MenuType.NORMAL.getType());
+		}
+		return menu;
 	}
 }

@@ -12,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.shun.blog.model.common.Paging;
+import com.shun.blog.model.menu.Menu;
 import com.shun.blog.model.user.User;
 
 public interface CommonService {
@@ -61,4 +62,7 @@ public interface CommonService {
 	
 	//현재 접속한 유저로 유저정보 가져오기.
 	User getAccessUserToModel() throws Exception;
+	
+	//Menu 역할 확인하여 설정잡기.	
+	Menu setMenuConfig(HttpServletRequest request) throws Exception;
 }

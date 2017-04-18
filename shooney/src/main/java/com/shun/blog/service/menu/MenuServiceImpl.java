@@ -2,16 +2,15 @@ package com.shun.blog.service.menu;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.shun.blog.model.menu.Menu;
-import com.shun.blog.model.menu.MenuType;
 import com.shun.blog.repository.menu.MenuRepository;
 
 @Service
@@ -35,21 +34,9 @@ public class MenuServiceImpl implements MenuService {
 	 * @throws Exception
 	 */
 	@Override
-	public List<Menu> findAllByType(HttpServletRequest request) throws Exception {
-		Menu menu=new Menu(1);
-		String uri=request.getRequestURI();
-		//0="" || 1="shooney" || 2="admin or blog"
-		String[] uriList=uri.split("/");
-		try {
-			if(uriList[2].equals("admin")){
-				menu.setMenuType(MenuType.ADMIN.getType());
-			} else {
-				menu.setMenuType(MenuType.NORMAL.getType());
-			}
-		} catch (Exception e) {
-			menu.setMenuType(MenuType.NORMAL.getType());
-		}
-				
+//	@Caching(cacheable={@Cacheable(key="#surveyId+'|survey'", value="survey")})
+	@Caching(cacheable={@Cacheable(key="#userRole+'|findAllByType'", value="menuList")})
+	public List<Menu> findAllByType(Menu menu, String userRole) throws Exception {
 		List<Menu> menuList=menuRepository.findAllByType(menu);
 		for (int i = 0; i < menuList.size(); i++) {
 			menu.setMenuParentId(menuList.get(i).getMenuId());
