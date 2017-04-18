@@ -1,5 +1,5 @@
 # Personal Homepage and Portfolio Platform
-[프로젝트 홈페이지]로 (https://www.hi-cord.com/shooney)
+[프로젝트 홈페이지](https://www.hi-cord.com/shooney)
 
 - Type : 개인 프로젝트
 - IDE : Spring Tool Suite
