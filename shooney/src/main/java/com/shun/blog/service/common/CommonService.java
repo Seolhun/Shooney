@@ -2,6 +2,7 @@ package com.shun.blog.service.common;
 
 
 import java.io.IOException;
+import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -29,6 +30,9 @@ public interface CommonService {
 	
 	//검색어 유효성 검사하기.
 	String checkVDQuestion(String question);
+	
+	//데이트 포맷바꾸기.
+	Date convertDateFormat(String formatYouWnat) throws Exception;
 	
 	//JsonData를 VO에 매핑하기.
 	ObjectMapper setJSONMapper() throws JsonProcessingException;

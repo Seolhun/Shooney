@@ -3,6 +3,7 @@ package com.shun.blog.service.common;
 import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -134,6 +135,14 @@ public class CommonServiceImpl implements CommonService {
 			question_text = null;
 		}
 		return question_text;
+	}
+	
+	@Override
+	public Date convertDateFormat(String formatYouWnat) throws Exception {
+		SimpleDateFormat format = new SimpleDateFormat(formatYouWnat);
+		Date date=new Date();
+		
+		return date;
 	}
 
 	@Override

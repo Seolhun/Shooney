@@ -3,12 +3,13 @@ var	csrfToken=$("#csrfToken").attr("content");
 var thisRoot="/shooney";
 var thisHost=window.location.host;
 var thisPort=window.location.port;
+var browswerLang=navigator.language;
 
 $.i18n.init({
-	load: ["en_US", "ko_KR"],	
-    fallbackLng: ["en_US", "ko_KR"],
+	preload: ["ko", "en"],
+    fallbackLng: ["ko", "en"],
     ns: "commons",
-	resGetPath: thisRoot+'/resources/language/__lng__-__ns__.json',
+	resGetPath: thisRoot+"/resources/language/__ns__-__lng__.json",
 	detectLngQS: 'setLng',
 	selectorAttr: 'data-lang',
     cookieName: 'i18next',
@@ -17,8 +18,12 @@ $.i18n.init({
 //    debug : true,
     localStorageExpirationTime: 1000*60
 }, function (err, t) {
-	if(!($.i18n.options.lng=="en_US" || $.i18n.options.lng=="ko_KR")){
-		$.i18n.setLng("ko_KR");	
+	if(browswerLang=="ko"){
+		$.i18n.setLng("ko");	
+	} else if(browswerLang=="en" || browswerLang=="en_US"){
+		$.i18n.setLng("en");
+	} else {
+		$.i18n.setLng("ko");
 	}
     $('.translation').i18n();
 });

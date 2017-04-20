@@ -1,5 +1,8 @@
 package com.shun.blog.repository.log;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
@@ -28,9 +31,17 @@ public class AccessLogRepositoryImpl extends AbstractRepository<Long, AccessLog>
 	@Override
 	public AccessLog findByIp(AccessLog accessLog) throws Exception {
 		LOG.info("param : findByIp : {}", accessLog);
-		Criteria crit = createEntityCriteria();
-		crit.add(Restrictions.eq("ip", accessLog.getIp()));
-		accessLog = (AccessLog)crit.uniqueResult();
+		Criteria criteria = createEntityCriteria();
+		
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		Date toDate=new Date();
+		String toDateStr=format.format(toDate);
+		Date fromDate=new Date();
+		String fromDateStr=format.format(fromDate);
+        
+		criteria.add(Restrictions.eq("ip", accessLog.getIp()))
+			.add(Restrictions.between("createdDate", toDateStr, fromDateStr));
+		accessLog = (AccessLog)criteria.uniqueResult();
 		return accessLog;
 	}
 	
