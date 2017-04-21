@@ -3,7 +3,7 @@ package com.shun.blog.service.common;
 import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.text.ParseException;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -138,11 +138,24 @@ public class CommonServiceImpl implements CommonService {
 	}
 	
 	@Override
-	public Date convertDateFormat(String formatYouWnat) throws Exception {
+	public Timestamp convertDateToday(String formatYouWnat) throws Exception {
 		SimpleDateFormat format = new SimpleDateFormat(formatYouWnat);
-		Date date=new Date();
-		
-		return date;
+		Date today=new Date();
+		String fromDateStr=format.format(today);
+		today = format.parse(fromDateStr);
+		Timestamp fromStamp = new java.sql.Timestamp(today.getTime());
+		return fromStamp;
+	}
+	
+	@Override
+	public Timestamp convertDateFormat(String formatYouWnat, int day) throws Exception {
+		SimpleDateFormat format = new SimpleDateFormat(formatYouWnat);
+		Date today=new Date();
+		Date toDate=new Date(today.getTime()+((1000 * 60 * 60 * 24 * day)));
+		String toDateStr=format.format(toDate);
+		toDate = format.parse(toDateStr);
+		Timestamp toStamp = new java.sql.Timestamp(toDate.getTime());
+		return toStamp;
 	}
 
 	@Override

@@ -2,7 +2,7 @@ package com.shun.blog.service.common;
 
 
 import java.io.IOException;
-import java.util.Date;
+import java.sql.Timestamp;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -32,7 +32,8 @@ public interface CommonService {
 	String checkVDQuestion(String question);
 	
 	//데이트 포맷바꾸기.
-	Date convertDateFormat(String formatYouWnat) throws Exception;
+	Timestamp convertDateToday(String formatYouWnat) throws Exception;
+	Timestamp convertDateFormat(String formatYouWnat, int day) throws Exception;
 	
 	//JsonData를 VO에 매핑하기.
 	ObjectMapper setJSONMapper() throws JsonProcessingException;

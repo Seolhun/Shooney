@@ -59,8 +59,7 @@ public class BlogController {
 	
 	@Autowired
 	public BlogController(UserService userService, CommentService commentService, BlogService blogService,
-			CommonService commonService, MessageSource messageSource, FileService fileService,
-			MenuService menuService) {
+			CommonService commonService, MessageSource messageSource, FileService fileService, MenuService menuService) {
 		this.blogService = blogService;
 		this.commonService = commonService;
 		this.messageSource = messageSource;
@@ -197,8 +196,8 @@ public class BlogController {
 		List<Menu> menuList=menuService.findAllByType(menu, menu.getMenuType());
 		model.addAttribute("menuList", menuList);
 		
+		//쿠키 조회수 확인.
 		String strId=String.valueOf(id);
-		
 		Blog blog=new Blog();		
 		if(checkHitCookie(request, response, strId)){
 			blog.setBlogId(id);;

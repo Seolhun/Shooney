@@ -166,10 +166,14 @@
 									<c:choose>
 										<c:when test="${menu.menuUrl==null}">
 											<li class="dropdown">
-												<a href="javascript:void(0);" class="dropdown-toggle">${menu.menuName}</a>
+												<a href="javascript:void(0);" class="dropdown-toggle" data-hover="dropdown" data-toggle="dropdown">
+													${menu.menuName}
+												</a>
 												<ul class="dropdown-menu">
-											 		<c:forEach items="${menu.submenuList}" var="submenu">
-										 				<li><a href="${shooney}${submenu.menuUrl}" class="dropdown-toggle">${submenu.menuName}</a></li>
+											 		<c:forEach items="${menu.submenuList}" var="submenu" varStatus="status">
+										 				<li <c:if test="${status.first }">class="active" </c:if>>
+										 					<a href="${shooney}${submenu.menuUrl}" class="dropdown-toggle">${submenu.menuName}</a>
+										 				</li>
 										 			</c:forEach>
 					 							</ul>
 					 						</li>

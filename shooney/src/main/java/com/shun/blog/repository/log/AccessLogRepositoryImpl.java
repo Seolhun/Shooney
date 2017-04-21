@@ -1,21 +1,25 @@
 package com.shun.blog.repository.log;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.sql.Timestamp;
 
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.shun.blog.model.log.AccessLog;
 import com.shun.blog.repository.AbstractRepository;
+import com.shun.blog.service.common.CommonService;
 
 @Repository
 public class AccessLogRepositoryImpl extends AbstractRepository<Long, AccessLog> implements AccessLogRepository {
 	static final Logger LOG = LoggerFactory.getLogger(AccessLogRepositoryImpl.class);
+	
+	@Autowired
+	private CommonService commonService;
 	
 	@Override
 	public void insertAccessLog(AccessLog accessLog) throws Exception {
@@ -31,16 +35,13 @@ public class AccessLogRepositoryImpl extends AbstractRepository<Long, AccessLog>
 	@Override
 	public AccessLog findByIp(AccessLog accessLog) throws Exception {
 		LOG.info("param : findByIp : {}", accessLog);
-		Criteria criteria = createEntityCriteria();
 		
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-		Date toDate=new Date();
-		String toDateStr=format.format(toDate);
-		Date fromDate=new Date();
-		String fromDateStr=format.format(fromDate);
-        
+		Timestamp fromTime=commonService.convertDateToday("yyyy-MM-dd");
+		Timestamp toTime=commonService.convertDateFormat("yyyy-MM-dd", 1);
+		
+		Criteria criteria = createEntityCriteria();
 		criteria.add(Restrictions.eq("ip", accessLog.getIp()))
-			.add(Restrictions.between("createdDate", toDateStr, fromDateStr));
+			.add(Restrictions.between("createdDate", fromTime, toTime));
 		accessLog = (AccessLog)criteria.uniqueResult();
 		return accessLog;
 	}

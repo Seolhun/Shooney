@@ -4,11 +4,37 @@ var csrfHeader=$("#csrfHeader").attr("content");
 var	csrfToken=$("#csrfToken").attr("content");
 
 $(document).ready(function(){
-	CommonService.accessClientInfo();
+	CommonService.accessClientInsert();
 });
 
 var CommonService = (function() {
-	var accessClientInfo=function(){
+	
+	/**
+	 * @Param : Date(), "yyyy-MM-dd HH:mm" || Date(Timestamp) => Date, "yyyy-MM-dd HH:mm"
+	 * @return: Date()"
+	*/
+	var customDateformat = function(date, format) {
+		var z = {
+			M : date.getMonth() + 1,
+			d : date.getDate(),
+			h : date.getHours(),
+			m : date.getMinutes(),
+			s : date.getSeconds()
+		};
+		
+		//timeObject will be timeFormat I want.
+		format = format.replace(/(M+|d+|h+|m+|s+)/g, function(v) {
+			return ((v.length > 1 ? "0" : "") + eval('z.' + v.slice(-1))).slice(-2)
+		});
+		
+		//Year of timeFormat will be changed. 
+		return format.replace(/(y+)/g, function(v) {
+			return date.getFullYear().toString().slice(-v.length)
+		});
+	}
+	
+	//select by IP access Client and if null insert, not return;
+	var accessClientInsert=function(){
 		$.getJSON('https://api.ipify.org?format=json', function(data){
 			var accessLog = {};
 			accessLog["ip"] = data.ip;
@@ -37,6 +63,7 @@ var CommonService = (function() {
 			});	
 		});
 	}
+	
 	
 	var getAccessClientInfo=function(){
 		$.getJSON('https://api.ipify.org?format=json', function(data){
@@ -150,7 +177,8 @@ var CommonService = (function() {
 	}
 	
 	return {
-		accessClientInfo : accessClientInfo,
+		customDateformat : customDateformat,
+		accessClientInsert : accessClientInsert,
 		getAccessClientInfo : getAccessClientInfo,
 		allCheck : allCheck,
 		alertConfirm : alertConfirm,

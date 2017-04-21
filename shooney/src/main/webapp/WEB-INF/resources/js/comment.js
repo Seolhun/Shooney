@@ -5,16 +5,19 @@ var	csrfToken=$("#csrfToken").attr("content");
 
 //게시판 불러올 시 댓글 볼러오기
 $(document).ready(function(){
-	CommentService.getCommentList();
-	
+		
 });
 
 var CommentService = (function() {
 	
-	var commentSubmit=function(){
-		var comment = {}, blog={}, blogId=$("#blogId").val();
+	var inesrtComment=function(){
+		var comment = {}, blog={}, blogId=$("#blogId").val(), content=$("#commentTextarea").val();
+		if(content.length>300){
+			alert("댓글의 길이는 300자 이하입니다.");
+		}
+		
 		blog["blogId"] = blogId;
-		comment["content"] = $("#commentTextarea").val();
+		comment["content"] = content;
 		comment["blogInComment"] = blog;
 		$.ajax({
 			url : root +"/reply/blog/insert",
@@ -27,17 +30,50 @@ var CommentService = (function() {
 			    xhr.setRequestHeader("Content-Type", "application/json");
 			    xhr.setRequestHeader(csrfHeader, csrfToken);
 			}, success: function(data) {
-				if(data.result=="success"){
-					console.log('Success');
-					$("#commentTextarea").val("");
-					getCommentList();
+				$("#commentTextarea").val("");
+				if(data.createdBy==null){
 					return;
-				} else if(data.result=="invalid"){
-					console.log('Invalid');
-					return;
-				} else {
-					console.log('Fail');
 				}
+				var dbTime = new Date(data.createdDate);
+				dbTime=CommonService.customDateformat(dbTime, "yyyy-MM-dd, hh:mm");
+				
+				var commentHtml=
+				"<div class='col-sm-12 margin-bottom-5'>" +
+					"<div class='col-sm-5 col-xs-5'>" +
+						"<div class='input-group'>" +
+							"<span class='input-group-addon rounded-left'><i class='icon-envelope color-green'></i></span>" +
+							"<div class='form-control rounded-right'>"+data.createdBy+"</div>" +
+						"</div>" +
+					"</div>" +
+					"<div class='col-sm-5 col-xs-5'>" +
+						"<div class='input-group'>" +
+							"<span class='input-group-addon rounded-left'><i class='icon-envelope color-green'></i></span>" +
+							"<div class='form-control rounded-right'>"+dbTime+"</div>" +
+						"</div>" +
+					"</div>" +
+					"<div class='col-sm-2 col-xs-2'>" +
+						"<div class='input-group'>" +
+							"<span class='input-group-addon rounded-left'><i class='icon-envelope color-green'></i></span>" +
+							"<div class='form-control rounded-right'>"+data.likes+"</div>" +
+						"</div>" +
+					"</div>" +
+				"</div>" +
+				"<div class='col-sm-12 col-xs-12 margin-bottom-5'>" +
+					"<div class='col-sm-9'>" +
+						"<div class='input-group'>" +
+							"<span class='input-group-addon rounded-left'><i class='icon-envelope color-green'></i></span>" +
+							"<div class='form-control rounded-right' id='comment-content'>"+data.content+"</div>" +
+						"</div>" +
+					"</div>" +
+					"<c:if test='${accessUser.nickname.equals(i.createdBy)}'>" +
+						"<div class='col-sm-3 text-right'>" +
+							"<button class='btn-u btn-u-dark-blue rounded' onclick='commentModify();'>Modify</button>" +
+							"<button class='btn-u btn-u-red rounded' onclick='commentDelete();'>Delete</button>" +
+						"</div>" +
+					"</c:if>" +
+				"</div>" +
+				"<div class='col-sm-12'><hr></div>";
+				$("#commentDiv").prepend(commentHtml);
 			},
 			error : function(e){
 				console.log('Error');
@@ -45,12 +81,15 @@ var CommentService = (function() {
 		});	
 	}
 
-	var getCommentList = function() {
+	var _getCommentsMoreCount = 1;
+	
+	var getCommentsMore = function() {
 		var comment = {}, blog={}, blogId=$("#blogId").val();
 		blog["blogId"] = blogId;
+		console.log("blogId", blogId);
 		comment["blogInComment"] = blog;
 		$.ajax({
-			url : root +"/reply/blog/list",
+			url : root +"/reply/blog/list/more",
 			type : 'POST',
 			timeout : 60000,
 			data: JSON.stringify(comment),	
@@ -61,25 +100,52 @@ var CommentService = (function() {
 			    xhr.setRequestHeader("Content-Type", "application/json");
 			    xhr.setRequestHeader(csrfHeader, csrfToken);
 			}, success: function(data, xhr) {
-	    		$("#commentDiv").empty();
-	    		console.log("data",data);
-//	    		
-//	    		var commentList=data.comments;
-//	    		commentList.forEach(function(data, status, index) {
-//					row+= "<div class='col-sm-3 col-xs-3'><div class='input-group margin-bottom-20'><span class='input-group-addon rounded-left'><i class='icon-user color-green'></i></span><div class='form-control rounded-right' id='commentWriter'>"+data.writer+"</div></div></div>";
-//	    			row+="<div class='col-sm-3 col-xs-3'><div class='input-group margin-bottom-20'><span class='input-group-addon rounded-left'><i class='icon-envelope color-green'></i></span><div class='form-control rounded-right'>"+data.likes+"</div></div></div>";
-//	    			row+="<div class='col-sm-6 col-xs-6'><div class='input-group margin-bottom-20'><span class='input-group-addon rounded-left'><i class='icon-envelope color-green'></i></span><div class='form-control rounded-right'>"+data.latestDate+"</div></div></div>";
-//					row+="<div class='col-sm-12 commentContent-"+data.id+"'><div class='input-group margin-bottom-20'><span class='input-group-addon rounded-left'><i class='icon-envelope color-green'></i></span><div class='form-control rounded-right' id='commentContent' style='height : auto;'>"+data.content+"</div></div></div>";	
-//					if(accessUser==data.createdBy){
-//						row+="<div class='col-sm-12 text-right commentContent-"+data.id+"'><button class='btn-u btn-u-dark-blue rounded margin-right-5' onclick='CommentService.commentModify("+data.id+");'>Modify</button><button class='btn-u btn-u-red rounded' onclick='CommentService.commentDelete("+data.id+");'>Delete</button></div>";
-//					}
-//					//This part for Modify				
-//					row+="<div class='col-sm-12 text-center margin-bottom-20' id='commentModify-"+data.id+"' hidden='true'><textarea name='content' rows='5' cols='auto' style='resize:none;' id='commentModifyTextarea'>"+data.content.replace(/<br\s*\/?>/mg,"\n")+"</textarea><div class='text-right'><button class='btn-u btn-u-default rounded margin-right-5' onclick='CommentService.modifyCancel("+data.id+");'>Cancel</button><button class='btn-u btn-u-dark-blue rounded' onclick='CommentService.commentModifySubmit("+data.id+");'>Modify</button></div></div>"
-//					row+="<div class='col-sm-12'><hr></div>";					
-//					$("#commentDiv").append(row);
-//					row = "";
-//	    		});
-//	    		
+				_getCommentsMoreCount+=1;
+	    		console.log("data", data);
+	    		var commentList=data.comments;
+	    		commentList.forEach(function(data, status, index) {
+	    			var dbTime = new Date(data.createdDate);
+					dbTime=CommonService.customDateformat(dbTime, "yyyy-MM-dd, hh:mm");
+					
+	    			var commentHtml=
+	    				"<div class='col-sm-12 margin-bottom-5'>" +
+	    					"<div class='col-sm-5 col-xs-5'>" +
+	    						"<div class='input-group'>" +
+	    							"<span class='input-group-addon rounded-left'><i class='icon-envelope color-green'></i></span>" +
+	    							"<div class='form-control rounded-right'>"+data.createdBy+"</div>" +
+	    						"</div>" +
+	    					"</div>" +
+	    					"<div class='col-sm-5 col-xs-5'>" +
+	    						"<div class='input-group'>" +
+	    							"<span class='input-group-addon rounded-left'><i class='icon-envelope color-green'></i></span>" +
+	    							"<div class='form-control rounded-right'>"+dbTime+"</div>" +
+	    						"</div>" +
+	    					"</div>" +
+	    					"<div class='col-sm-2 col-xs-2'>" +
+	    						"<div class='input-group'>" +
+	    							"<span class='input-group-addon rounded-left'><i class='icon-envelope color-green'></i></span>" +
+	    							"<div class='form-control rounded-right'>"+data.likes+"</div>" +
+	    						"</div>" +
+	    					"</div>" +
+	    				"</div>" +
+	    				"<div class='col-sm-12 col-xs-12 margin-bottom-5'>" +
+	    					"<div class='col-sm-9'>" +
+	    						"<div class='input-group'>" +
+	    							"<span class='input-group-addon rounded-left'><i class='icon-envelope color-green'></i></span>" +
+	    							"<div class='form-control rounded-right' id='comment-content'>"+data.content+"</div>" +
+	    						"</div>" +
+	    					"</div>" +
+	    					"<c:if test='${accessUser.nickname.equals(i.createdBy)}'>" +
+	    						"<div class='col-sm-3 text-right'>" +
+	    							"<button class='btn-u btn-u-dark-blue rounded' onclick='commentModify();'>Modify</button>" +
+	    							"<button class='btn-u btn-u-red rounded' onclick='commentDelete();'>Delete</button>" +
+	    						"</div>" +
+	    					"</c:if>" +
+	    				"</div>" +
+	    				"<div class='col-sm-12'><hr></div>";
+	    				$("#commentDiv").prepend(commentHtml);
+	    		});
+	    		
 	    	}, error : function(e){
 				console.log('Error');
 			}//end success
@@ -104,7 +170,7 @@ var CommentService = (function() {
 				success: function(data) {
 					if(data){
 						console.log('Success');
-						getCommentList();
+						getCommentsMore();
 					} else {
 						console.log('Fail');
 					}
@@ -143,7 +209,7 @@ var CommentService = (function() {
 			success: function(data) {
 				if(data){
 					console.log('Success');
-					getCommentList();
+					getCommentsMore();
 				} else {
 					console.log('Fail');
 				}
@@ -158,12 +224,12 @@ var CommentService = (function() {
 	 }
 	
 	return {
-		getCommentList : getCommentList,
+		inesrtComment : inesrtComment,
+		getCommentsMore : getCommentsMore,
+		cancelHidden : cancelHidden,
 		commentModify : commentModify,
 		modifyCancel : modifyCancel,
-		commentModifySubmit : commentModifySubmit,
 		commentDelete : commentDelete,
-		cancelHidden : cancelHidden,
-		commentSubmit : commentSubmit
+		commentModifySubmit : commentModifySubmit,
 	}
 })();

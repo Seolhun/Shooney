@@ -6,24 +6,51 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.shun.blog.model.blog.Blog;
 import com.shun.blog.model.comment.Comment;
+import com.shun.blog.repository.blog.BlogRepository;
 import com.shun.blog.repository.comment.CommentRepository;
 
 @Service
 @Transactional(transactionManager="txManager")
 public class CommentServiceImpl implements CommentService {
 
-	@Autowired
 	private CommentRepository commentRepository;
+	private BlogRepository blogRepository;
+	
+	@Autowired
+	public CommentServiceImpl(CommentRepository commentRepository, BlogRepository blogRepository) {
+		this.commentRepository=commentRepository;
+		this.blogRepository=blogRepository;
+	}
+	
+	
 	
 	@Override
 	public Comment findById(Long id) throws Exception{
 		return commentRepository.findById(id);
 	}
-
+	
 	@Override
-	public void saveComment(Comment Comment) {
-		commentRepository.saveComment(Comment);
+	public Comment getLatest(Comment Comment) throws Exception{
+		return commentRepository.getLatest(Comment);
+	}
+	
+	@Override
+	public List<Comment> selectListByBlog(Blog blog) throws Exception {
+		return commentRepository.selectListByBlog(blog);
+	}
+	
+	@Override
+	public void saveComment(Comment comment) throws Exception {
+		commentRepository.saveComment(comment);
+		
+		Blog dbBlog= blogRepository.selectById(comment.getBlogInComment().getBlogId());
+		//읽을시 쿠키 읽기
+		if(dbBlog != null){
+			int depth=dbBlog.getDepth();
+			dbBlog.setDepth(depth+1);
+		}
 	}
 	
 	@Override

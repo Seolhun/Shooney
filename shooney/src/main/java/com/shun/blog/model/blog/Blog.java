@@ -20,7 +20,6 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.shun.blog.model.comment.Comment;
 import com.shun.blog.model.file.FileData;
 
@@ -41,7 +40,6 @@ public class Blog implements Serializable {
 	private List<FileData> fileDataList=new ArrayList<FileData>();
 	
 	@OneToMany(mappedBy = "blogInComment")
-	@JsonIgnore
 	private List<Comment> commentList=new ArrayList<Comment>();
 	
 	@Column(name = "BLOG_TITLE",length=150 , nullable = false)

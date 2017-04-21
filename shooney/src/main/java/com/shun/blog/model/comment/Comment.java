@@ -21,7 +21,6 @@ import javax.persistence.Transient;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.shun.blog.model.blog.Blog;
 import com.shun.blog.model.common.Paging;
 
@@ -38,7 +37,6 @@ public class Comment implements Serializable {
 	
 	@ManyToOne(fetch = FetchType.LAZY, optional=true, cascade=CascadeType.DETACH)
 	@JoinColumn(foreignKey = @ForeignKey(name = "COMMENT_BLOG_FK"), name = "COMMENT_BLOG_ID", referencedColumnName = "BLOG_ID", nullable=false)
-	@JsonIgnore
 	private Blog blogInComment;
 	
 	@Column(name = "COMMENT_ENTITY_NAME", length=20, nullable = false)
@@ -46,7 +44,7 @@ public class Comment implements Serializable {
 
 	@Column(name = "COMMENT_CONTENT", length=300 ,nullable = false)
 	private String content;
-
+	
 	@Column(name = "COMMENT_LIKES")
 	private int likes=0;
 	
@@ -60,7 +58,7 @@ public class Comment implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "COMMENT_CREATED_DATE")
 	private Date createdDate;
-
+	
 	@UpdateTimestamp
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "COMMENT_MODIFIED_DATE")

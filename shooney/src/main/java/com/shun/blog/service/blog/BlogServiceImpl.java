@@ -9,9 +9,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.shun.blog.model.blog.Blog;
+import com.shun.blog.model.comment.Comment;
 import com.shun.blog.model.common.Paging;
 import com.shun.blog.model.file.FileData;
 import com.shun.blog.repository.blog.BlogRepository;
+import com.shun.blog.repository.comment.CommentRepository;
 import com.shun.blog.repository.file.FileRepository;
 
 @Service
@@ -21,11 +23,13 @@ public class BlogServiceImpl implements BlogService {
 
 	private BlogRepository blogRepository;
 	private FileRepository fileRepository;
+	private CommentRepository commentRepository;
 	
 	@Autowired
-	public BlogServiceImpl(FileRepository fileRepository, BlogRepository blogRepository) {
+	public BlogServiceImpl(BlogRepository blogRepository, FileRepository fileRepository, CommentRepository commentRepository) {
 		this.blogRepository=blogRepository;
 		this.fileRepository=fileRepository;
+		this.commentRepository=commentRepository;
 	}
 	
 	@Override
@@ -39,8 +43,12 @@ public class BlogServiceImpl implements BlogService {
 		LOG.info("param : selectById {}", id);
 		Blog blog=blogRepository.selectById(id);
 		List<FileData> fileList=fileRepository.selectListByBlog(blog);
+		List<Comment> commentList=commentRepository.selectListByBlog(blog);
 		if(fileList!=null){
 			blog.setFileDataList(fileList);	
+		} 
+		if(commentList!=null){
+			blog.setCommentList(commentList);	
 		}
 		return blog;
 	}

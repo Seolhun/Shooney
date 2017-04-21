@@ -3,6 +3,7 @@ package com.shun.blog.service.file;
 import java.io.IOException;
 import java.util.List;
 
+import com.shun.blog.model.blog.Blog;
 import com.shun.blog.model.file.FileData;
 
 public interface FileService {
@@ -10,7 +11,9 @@ public interface FileService {
 
 	FileData selectById(Long id);
 	
-	List<FileData> selectList(FileData fileData);
+	List<FileData> selectList(FileData fileData) throws Exception;
+	
+	List<FileData> selectListByBlog(Blog blog) throws Exception;
 	
 	FileData update(FileData fileData);
 

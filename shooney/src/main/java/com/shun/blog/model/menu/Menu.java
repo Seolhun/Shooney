@@ -46,11 +46,16 @@ public class Menu implements Serializable {
 	
 	@Column(name = "MENU_CREATED_BY", length = 60)
 	private String createdBy;
+	
+	@Column(name = "MENU_DEL_FLAG", length = 1)
+	private String delFlag;
 
 	@CreationTimestamp
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "MENU_CREATED_DATE")
 	private Date createdDate;
+	
+	
 
 	@Transient
 	private int type;

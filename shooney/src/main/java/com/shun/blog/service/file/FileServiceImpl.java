@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.shun.blog.model.blog.Blog;
 import com.shun.blog.model.file.FileData;
 import com.shun.blog.model.file.FileUploadOverException;
 import com.shun.blog.repository.file.FileRepository;
@@ -109,23 +110,29 @@ public class FileServiceImpl implements FileService {
 	
 	@Override
 	public FileData selectById(Long id) {
-		LOG.info("param : "+id.toString());
+		LOG.info("param : selectById {}",id.toString());
 		
 		FileData fileData=fileRepository.selectById(id);
 		return fileData;
 	}
 
 	@Override
-	public List<FileData> selectList(FileData fileData) {
-		LOG.info("param : "+fileData.toString());
-		
+	public List<FileData> selectList(FileData fileData) throws Exception{
+		LOG.info("param : selectList {}", fileData.toString());
 		List<FileData> fileDataList = fileRepository.selectList(fileData);
 		return fileDataList;
+	}
+	
+
+	@Override
+	public List<FileData> selectListByBlog(Blog blog) throws Exception {
+		LOG.info("param : selectListByBlog {}", blog.toString());
+		return fileRepository.selectListByBlog(blog);
 	}
 
 	@Override
 	public Boolean delete(Long id) {
-		LOG.info("param : "+id.toString());
+		LOG.info("param : delete {}",id.toString());
 		try {
 			fileRepository.delete(id);	
 		} catch (NullPointerException e) {
@@ -136,7 +143,7 @@ public class FileServiceImpl implements FileService {
 
 	@Override
 	public FileData update(FileData fileData) {
-		LOG.info("param : "+fileData.toString());
+		LOG.info("param : update {}",fileData.toString());
 		FileData dbFileData = fileRepository.selectById(fileData.getFileDataId());
 		if (dbFileData != null) {
 			dbFileData=fileData;

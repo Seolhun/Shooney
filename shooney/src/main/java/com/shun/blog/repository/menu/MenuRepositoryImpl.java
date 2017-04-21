@@ -33,6 +33,7 @@ public class MenuRepositoryImpl extends AbstractRepository<Long, Menu> implement
 		criteria
 			.add(Restrictions.eq("menuType", menuType))
 			.add(Restrictions.eq("menuDepth", menuDepth))
+			.add(Restrictions.eq("delFlag", "N"))
 			.addOrder(Order.asc("menuOrder"))
 			.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);		
 		

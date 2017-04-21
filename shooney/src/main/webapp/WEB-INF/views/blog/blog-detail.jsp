@@ -134,50 +134,54 @@
 				<textarea name="content" rows="5" cols="auto" id="commentTextarea"></textarea>
 				<div class="text-right" id="commentBtn" hidden="true">
 					<button class="btn-u btn-u-default rounded" onclick="CommentService.cancelHidden();">Cancel</button>
-					<button class="btn-u btn-u-dark-blue rounded" onclick="CommentService.commentSubmit();">Submit</button>
+					<button class="btn-u btn-u-dark-blue rounded" onclick="CommentService.inesrtComment();">Submit</button>
 				</div>
 			</div>
-			
-			<div class="col-sm-12" id="commentDiv">
-				<%-- 
-				<c:forEach items="${comments}" var="i">
-					<div class="col-sm-4 col-xs-4">
-						<div class="input-group margin-bottom-20">
-							<span class="input-group-addon rounded-left"><i class="icon-user color-green"></i></span>
-							<div class="form-control rounded-right" >${i.writer}</div>
+		</div>
+		
+		<div class="row">
+			<div id="commentDiv">
+				<c:forEach items="${blog.commentList}" var="i">
+					<div class="col-sm-12 margin-bottom-5">
+						<div class="col-sm-5 col-xs-5">
+							<div class="input-group">
+								<span class="input-group-addon rounded-left"><i class="icon-envelope color-green"></i></span>
+								<div class="form-control rounded-right">${i.createdBy }</div>
+							</div>
 						</div>
-					</div>
-												
-					<div class="col-sm-4 col-xs-4">
-						<div class="input-group margin-bottom-20">
-							<span class="input-group-addon rounded-left"><i class="icon-envelope color-green"></i></span>
-							<div class="form-control rounded-right">${i.likes}</div>
+						
+						<div class="col-sm-5 col-xs-5">
+							<div class="input-group">
+								<span class="input-group-addon rounded-left"><i class="icon-envelope color-green"></i></span>
+								<div class="form-control rounded-right"><fmt:formatDate value="${i.createdDate}" pattern="yyyy-MM-dd, HH:mm"/></div>
+							</div>
+						</div>
+						
+						<div class="col-sm-2 col-xs-2">
+							<div class="input-group">
+								<span class="input-group-addon rounded-left"><i class="icon-envelope color-green"></i></span>
+								<div class="form-control rounded-right">${i.likes}</div>
+							</div>
 						</div>
 					</div>
 					
-					<div class="col-sm-4 col-xs-4">
-						<div class="input-group margin-bottom-20">
-							<span class="input-group-addon rounded-left"><i class="icon-envelope color-green"></i></span>
-							<div class="form-control rounded-right"><fmt:formatDate value="${i.latestDate}" pattern="yy-MM-dd, HH:mm"/></div>
+					<div class="col-sm-12 col-xs-12 margin-bottom-5">
+						<div class="col-sm-9">
+							<div class="input-group">
+								<span class="input-group-addon rounded-left"><i class="icon-envelope color-green"></i></span>
+								<div class="form-control rounded-right" id="comment-content">${i.content}</div>
+							</div>
 						</div>
+						
+						<c:if test="${accessUser.nickname.equals(i.createdBy)}">
+							<div class="col-sm-3 text-right">
+								<button class="btn-u btn-u-dark-blue rounded" onclick="commentModify();">Modify</button>
+								<button class="btn-u btn-u-red rounded" onclick="commentDelete();">Delete</button>
+							</div>
+						</c:if>
 					</div>
-
-					<div class="col-sm-12">
-						<div class="input-group margin-bottom-20">
-							<span class="input-group-addon rounded-left"><i class="icon-envelope color-green"></i></span>
-							<div class="form-control rounded-right" id="comment-content">${i.content}</div>
-						</div>
-						<hr>
-					</div>
-					
-					<c:if test="${accessUser.nickname.equals(i.writer)}">
-						<div class="col-sm-12 text-right">
-							<button class="btn-u btn-u-default rounded" onclick="commentModify();">Modify</button>
-							<button class="btn-u btn-u-dark-blue rounded" onclick="commentDelete();">Delete</button>
-						</div>
-					</c:if>
+					<div class="col-sm-12"><hr></div>
 				</c:forEach>  
-				--%>
 			</div>
 		</div>
 		

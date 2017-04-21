@@ -11,11 +11,6 @@ textarea {
 	width: 20px;
 }
 
-#comment-content {
-	min-height: 50px;
-	height : auto;
-}
-
 #blog-content {
 	min-height: 600px;
 	height: auto;
