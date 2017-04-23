@@ -24,8 +24,6 @@ public class CommentServiceImpl implements CommentService {
 		this.blogRepository=blogRepository;
 	}
 	
-	
-	
 	@Override
 	public Comment findById(Long id) throws Exception{
 		return commentRepository.findById(id);
@@ -66,9 +64,15 @@ public class CommentServiceImpl implements CommentService {
 	@Override
 	public void updateComment(Comment comment) throws Exception{
 		Comment dbComment = commentRepository.findById(comment.getCommentId());
-		//읽을시 쿠키 읽기
-		if(dbComment != null){
-			dbComment=comment;
+		String createdBy=dbComment.getCreatedBy();
+		String modifyBy=comment.getModifiedBy();
+		if(createdBy.equals(modifyBy)){
+			if(comment.getDelFlag().equals("Y")){
+				dbComment.setDelFlag(comment.getDelFlag());
+			} else if(comment.getContent()!=null){
+				dbComment.setContent(comment.getContent());
+			}
+			dbComment.setModifiedBy(comment.getModifiedBy());
 		}
 	}
 

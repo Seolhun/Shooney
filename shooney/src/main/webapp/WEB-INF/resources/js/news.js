@@ -1,7 +1,7 @@
 /* Write here your custom javascript codes */
 var csrfHeader=$("#csrfHeader").attr("content");
 var	csrfToken=$("#csrfToken").attr("content");
-var thisRoot="/shooney";
+var root="/shooney";
 var thisHost=window.location.host;
 var thisPort=window.location.port;
 
@@ -39,7 +39,7 @@ var thisPort=window.location.port;
 		function getNewsList(currentPage) {
 			$http({
 				method : 'GET', // 방식
-				url : thisRoot + "/news/list-json", /* 통신할 URL */
+				url : root + "/news/list-json", /* 통신할 URL */
 				timeout : 600000,
 				contentType : 'application/json',
 				params : {
@@ -79,7 +79,7 @@ var thisPort=window.location.port;
 			}
 			$http({
 				method : 'GET', // 방식
-				url : thisRoot + "/news/detail-json/"+newsId, /* 통신할 URL */
+				url : root + "/news/detail-json/"+newsId, /* 통신할 URL */
 				timeout : 600000,
 				contentType : 'application/json',
 				params : {
@@ -180,7 +180,7 @@ var NewsModule=(function(){
 	var _saveNews = function() {
 		var newsNumber=$("#newsNumber").val();
 		$.ajax({
-			url : thisRoot +"/news/save/"+newsNumber,
+			url : root +"/news/save/"+newsNumber,
 			timeout : 60000,
 			beforeSend: function(xhr) {
                  xhr.setRequestHeader("Accept", "application/json");
@@ -205,7 +205,7 @@ var NewsModule=(function(){
 	
 	var _stopNews = function() {
 		$.ajax({
-			url : thisRoot +"/news/stop",
+			url : root +"/news/stop",
 			timeout : 60000,
 			beforeSend: function(xhr) {
                  xhr.setRequestHeader("Accept", "application/json");
@@ -232,7 +232,7 @@ var NewsModule=(function(){
 		var newsNumber=$("#newsNumber").val();
 		console.log("newsNumber : "+newsNumber);
 		$.ajax({
-			url : thisRoot +"/news/detail/"+newsNumber,
+			url : root +"/news/detail/"+newsNumber,
 			timeout : 60000,
 			beforeSend: function(xhr) {
                  xhr.setRequestHeader("Accept", "application/json");

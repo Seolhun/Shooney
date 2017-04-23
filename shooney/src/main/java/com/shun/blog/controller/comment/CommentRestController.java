@@ -1,5 +1,6 @@
 package com.shun.blog.controller.comment;
 
+import java.security.Principal;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.shun.blog.model.comment.Comment;
+import com.shun.blog.model.common.AjaxResult;
 import com.shun.blog.model.common.Paging;
 import com.shun.blog.service.comment.CommentService;
 import com.shun.blog.service.common.CommonService;
@@ -42,30 +44,30 @@ public class CommentRestController {
 	 */
 	@RequestMapping(value = "/{entity}/insert", method = RequestMethod.POST, produces = "application/json")
 	public Comment addBoardComment(@RequestBody Comment comment, @PathVariable String entity) throws Exception {
-		Comment returnComment=new Comment();
-		
+		String nickName="";
 		try {
 			//유저가 로그인하지 않았을 경우. 페이지 이동시켜야함.
-			comment.setCreatedBy(commonService.getAccessUserToModel().getNickname());
+			nickName=commonService.getAccessUserToModel().getNickname();
 		} catch (NullPointerException e) {
 			LOG.error("error : Fail to get login user information ");
-			return returnComment;
+			return comment;
 		}
 		
 		//유효성체크.
 		String content=comment.getContent();
 		if(content==null || content.length()<1 || content.length()>300){
-			return returnComment;
+			return comment;
 		} else if(comment.getBlogInComment().getBlogId()<1){
-			return returnComment;
+			return comment;
 		}
 		
+		comment.setCreatedBy(nickName);
 		comment.setEntityName(entity);
 		comment.setContent(comment.getContent().replaceAll("\n", "<br/>"));
 		commentService.saveComment(comment);
 		
-		returnComment=commentService.getLatest(comment);
-		return returnComment;
+		comment=commentService.getLatest(comment);
+		return comment;
 	}
 	
 	/**
@@ -75,7 +77,7 @@ public class CommentRestController {
 	 * @return List<Comment>
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/{entity}/list/more", method = RequestMethod.POST)
+	@RequestMapping(value = "/{entity}/list/more", method = RequestMethod.POST, produces = "application/json")
 	public List<Comment> getCommentsList(@RequestBody Comment comment, @PathVariable String entity, HttpServletRequest request, ModelMap model) throws Exception {
 		//댓글위한 해당 블로그 값 넣기.
 		Paging paging = commonService.beforeGetPaging(request);
@@ -89,5 +91,47 @@ public class CommentRestController {
 		List<Comment> comments=commentService.findAllComments(comment);
 		LOG.info("return : {}",comments.toString());
 		return comments;
+	}
+	
+	@RequestMapping(value = "/{entity}/modify/{commentId}", method = RequestMethod.POST, produces = "application/json")
+	public AjaxResult modifyBoardComment(@RequestBody Comment comment, AjaxResult ajaxResult, @PathVariable String entity, @PathVariable Long commentId, HttpServletRequest reqeust, Principal principal) throws Exception{
+		String nickName="";
+		try {
+			//유저가 로그인하지 않았을 경우. 페이지 이동시켜야함.
+			nickName=commonService.getAccessUserToModel().getNickname();
+		} catch (NullPointerException e) {
+			LOG.error("error : Fail to get login user information ");
+			ajaxResult.setResult("invalid");
+		}
+		
+		comment.setCommentId(commentId);
+		comment.setEntityName(entity);
+		comment.setModifiedBy(nickName);
+		comment.setContent(comment.getContent().replaceAll("\n", "<br/>"));
+		commentService.updateComment(comment);
+		
+		ajaxResult.setResult("success");
+		return ajaxResult;
+	}
+	
+	@RequestMapping(value = "/{entity}/delete/{commentId}", method = RequestMethod.POST, produces = "application/json")
+	public AjaxResult deleteBoardComment(@RequestBody Comment comment, AjaxResult ajaxResult, @PathVariable String entity, @PathVariable Long commentId, HttpServletRequest reqeust, Principal principal) throws Exception{
+		String nickName="";
+		try {
+			//유저가 로그인하지 않았을 경우. 페이지 이동시켜야함.
+			nickName=commonService.getAccessUserToModel().getNickname();
+			comment.setCreatedBy(nickName);
+		} catch (NullPointerException e) {
+			LOG.error("error : Fail to get login user information ");
+			ajaxResult.setResult("invalid");
+		}
+		
+		comment.setDelFlag("Y");
+		comment.setCommentId(commentId);
+		comment.setModifiedBy(nickName);
+		commentService.updateComment(comment);
+		
+		ajaxResult.setResult("success");
+		return ajaxResult;
 	}
 }

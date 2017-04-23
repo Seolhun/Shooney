@@ -54,7 +54,7 @@
 							<c:forEach items="${blogs}" var="i">
 								<tr>
 									<td class="width-10 text-center">${i.blogId}</td>
-									<td class="width-60"><a href="detail/${i.blogId}">[ ${i.portfolioType} ] ${i.title}<c:if test="${i.depth>0}">&nbsp;&nbsp;<i class="fa fa-comments">&nbsp;${i.depth}</i></c:if></a></td>
+									<td class="width-60"><a href="${blo }/detail/${i.blogId}">[ ${i.portfolioType} ] ${i.title}<c:if test="${i.depth>0}">&nbsp;&nbsp;<i class="fa fa-comments">&nbsp;${i.depth}</i></c:if></a></td>
 									<td class="width-10 text-center">${i.createdBy}</td>
 									<td class="width-10 text-center"><fmt:formatDate value="${i.createdDate}" pattern="yy-MM-dd, HH:mm"/></td>
 									<td class="width-5 text-center">${i.hits}</td>

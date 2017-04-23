@@ -38,10 +38,11 @@ public class MongoConfig extends AbstractMongoConfiguration {
 	
 	@Bean
 	public MongoClient mongoClient() throws Exception {
-		MongoCredential credential = MongoCredential.createCredential(environment.getRequiredProperty("mongodb.config.user"), environment.getRequiredProperty("mongodb.config.adminDb"), environment.getRequiredProperty("mongodb.config.pwd").toCharArray());
-		ServerAddress serverAddress = new ServerAddress(environment.getRequiredProperty("mongodb.config.ip"), Integer.parseInt(environment.getRequiredProperty("mongodb.config.port")));
-		MongoClient mongoClient = new MongoClient(serverAddress,Arrays.asList(credential)); 
-//		MongoClient mongoClient = new MongoClient();
+//		MongoCredential credential = MongoCredential.createCredential(environment.getRequiredProperty("mongodb.config.user"), environment.getRequiredProperty("mongodb.config.adminDb"), environment.getRequiredProperty("mongodb.config.pwd").toCharArray());
+//		ServerAddress serverAddress = new ServerAddress(environment.getRequiredProperty("mongodb.config.ip"), Integer.parseInt(environment.getRequiredProperty("mongodb.config.port")));
+//		MongoClient mongoClient = new MongoClient(serverAddress,Arrays.asList(credential)); 
+		
+		MongoClient mongoClient = new MongoClient();
 		return mongoClient;
 	}
 	

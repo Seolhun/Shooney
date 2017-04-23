@@ -33,8 +33,7 @@ public class CommentRepositoryImpl extends AbstractRepository<Long, Comment> imp
 	public Comment getLatest(Comment Comment) throws Exception {
 		Criteria criteria = createEntityCriteria()
 				.addOrder(Order.desc("commentId"))
-				.add(Restrictions.eq("delCheck", 0))
-				.add(Restrictions.eq("delCheck", 0))
+				.add(Restrictions.eq("delFlag", "N"))
 				.add(Restrictions.eq("createdBy", Comment.getCreatedBy()))
 				.add(Restrictions.eq("blogInComment", Comment.getBlogInComment()))
 				.setMaxResults(1)
@@ -48,7 +47,7 @@ public class CommentRepositoryImpl extends AbstractRepository<Long, Comment> imp
 	public List<Comment> selectListByBlog(Blog blog) {
 		Criteria criteria = createEntityCriteria()
 				.addOrder(Order.desc("commentId"))
-				.add(Restrictions.eq("delCheck", 0))
+				.add(Restrictions.eq("delFlag", "N"))
 				.add(Restrictions.eq("blogInComment", blog))
 				.setFirstResult(0)
 				.setMaxResults(10)
@@ -68,13 +67,19 @@ public class CommentRepositoryImpl extends AbstractRepository<Long, Comment> imp
 		// 검색 로직
 		Criteria criteria = createEntityCriteria()
 				.addOrder(Order.desc("commentId"))
-				.add(Restrictions.eq("delCheck", 0))
+				.add(Restrictions.eq("delFlag", "N"))
 				.add(Restrictions.eq("blogInComment", comment.getBlogInComment()))
 				//-1을 통해 0부터 시작되어야 하지만, 기존 블로그 Detail에서 10개를 가져오기 떄문에, -1를 없앤다.
 				.setFirstResult((cPage) * limit)
 				.setMaxResults(limit)
 				.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);		
 		
+		//날짜 이용.
+		if(sDate != 0){
+			
+		}
+		
+		//검색어 이용.
 		commentSearch(criteria, sType, sText);
 		
 		List<Comment> comments = criteria.list();
@@ -90,7 +95,7 @@ public class CommentRepositoryImpl extends AbstractRepository<Long, Comment> imp
 		// 검색 로직
 		Criteria criteria = createEntityCriteria()
 				.addOrder(Order.desc("commentId"))
-				.add(Restrictions.eq("delCheck", 0))
+				.add(Restrictions.eq("delFlag", "N"))
 				.add(Restrictions.eq("blogInComment", comment.getBlogInComment()));
 				
 		//날짜 이용.
@@ -108,7 +113,7 @@ public class CommentRepositoryImpl extends AbstractRepository<Long, Comment> imp
 	@Override
 	public void deleteCommentById(Long id) {
 		Criteria crit = createEntityCriteria();
-		crit.add(Restrictions.eq("id", id));
+		crit.add(Restrictions.eq("commentId", id));
 		Comment comment = (Comment) crit.uniqueResult();
 		delete(comment);
 	}

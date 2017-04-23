@@ -8,7 +8,6 @@ $(document).ready(function(){
 });
 
 var CommonService = (function() {
-	
 	/**
 	 * @Param : Date(), "yyyy-MM-dd HH:mm" || Date(Timestamp) => Date, "yyyy-MM-dd HH:mm"
 	 * @return: Date()"
@@ -132,6 +131,9 @@ var CommonService = (function() {
 		}
 	}
 	
+	/**
+	 * ex) if(CommonService.alertConfirm(msg)){}
+	*/
 	var alertConfirm=function(message){
 	    return (!confirm(message));
 	}

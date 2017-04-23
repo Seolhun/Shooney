@@ -32,7 +32,7 @@ import lombok.Data;
 public class Comment implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "COMMENT_ID", nullable = false)
+	@Column(name = "COMMENT_ID")
 	private Long commentId;
 	
 	@ManyToOne(fetch = FetchType.LAZY, optional=true, cascade=CascadeType.DETACH)
@@ -64,8 +64,8 @@ public class Comment implements Serializable {
 	@Column(name = "COMMENT_MODIFIED_DATE")
 	private Date modifiedDate;
 	
-	@Column(name = "COMMENT_DELCHECK", nullable=false)
-	private int delCheck=0;
+	@Column(name = "COMMENT_DEL_FLAG")
+	private String delFlag="N";
 	
 	@Transient
 	private Paging paging;

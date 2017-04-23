@@ -176,7 +176,7 @@
 			<div class="col-sm-12">
 				<p class="font-26b">구현 된 기능</p>
 				<h5> - Spring Security(Login, Signup, Login valid count(Limit)</h5>
-				<h5> - Blog(Board), FileUpload, Comment(Not working now - comming soon)</h5>
+				<h5> - Blog(Board), FileUpload, Comment(not paging)</h5>
 				<h5> - MongoDB - News detail using Angular JS</h5>
 				<h5> - Admin User and Menu controller </h5>
 				<h5> - Counting client footprint - Now, Just save footprint</h5>
