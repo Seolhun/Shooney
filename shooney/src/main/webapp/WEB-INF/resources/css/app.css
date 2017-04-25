@@ -3339,6 +3339,30 @@ div#addBindingGroupModal {
 	width: 70%;
 }
 
+.width-75 {
+	width: 75%;
+}
+
+.width-80 {
+	width: 80%;
+}
+
+.width-85 {
+	width: 85%;
+}
+
+.width-90 {
+	width: 90%;
+}
+
+.width-95 {
+	width: 95%;
+}
+
+.width-100 {
+	width: 100%;
+}
+
 .grid-border {
 	border: solid 1px black;
 }
@@ -3353,4 +3377,16 @@ div#addBindingGroupModal {
 	font-size: 14px;
 	font-weight: 400;
 	color: blue;
+}
+
+.form-control2{
+    width: 100%;
+    height: auto;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;	
 }

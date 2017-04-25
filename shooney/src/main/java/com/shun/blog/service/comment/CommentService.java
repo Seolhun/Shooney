@@ -18,7 +18,7 @@ public interface CommentService {
 
 	int getCount(Comment comment) throws Exception;
 
-	void updateComment(Comment comment) throws Exception;
+	Comment updateComment(Comment comment) throws Exception;
 
 	void deleteUserById(Long id);
 }

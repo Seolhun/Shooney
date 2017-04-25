@@ -62,7 +62,7 @@ public class CommentServiceImpl implements CommentService {
 	}
 	
 	@Override
-	public void updateComment(Comment comment) throws Exception{
+	public Comment updateComment(Comment comment) throws Exception{
 		Comment dbComment = commentRepository.findById(comment.getCommentId());
 		String createdBy=dbComment.getCreatedBy();
 		String modifyBy=comment.getModifiedBy();
@@ -74,6 +74,7 @@ public class CommentServiceImpl implements CommentService {
 			}
 			dbComment.setModifiedBy(comment.getModifiedBy());
 		}
+		return dbComment;
 	}
 
 	@Override

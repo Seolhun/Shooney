@@ -94,7 +94,7 @@ public class CommentRestController {
 	}
 	
 	@RequestMapping(value = "/{entity}/modify/{commentId}", method = RequestMethod.POST, produces = "application/json")
-	public AjaxResult modifyBoardComment(@RequestBody Comment comment, AjaxResult ajaxResult, @PathVariable String entity, @PathVariable Long commentId, HttpServletRequest reqeust, Principal principal) throws Exception{
+	public Comment modifyBoardComment(@RequestBody Comment comment, AjaxResult ajaxResult, @PathVariable String entity, @PathVariable Long commentId, HttpServletRequest reqeust, Principal principal) throws Exception{
 		String nickName="";
 		try {
 			//유저가 로그인하지 않았을 경우. 페이지 이동시켜야함.
@@ -108,10 +108,9 @@ public class CommentRestController {
 		comment.setEntityName(entity);
 		comment.setModifiedBy(nickName);
 		comment.setContent(comment.getContent().replaceAll("\n", "<br/>"));
-		commentService.updateComment(comment);
+		comment=commentService.updateComment(comment);
 		
-		ajaxResult.setResult("success");
-		return ajaxResult;
+		return comment;
 	}
 	
 	@RequestMapping(value = "/{entity}/delete/{commentId}", method = RequestMethod.POST, produces = "application/json")

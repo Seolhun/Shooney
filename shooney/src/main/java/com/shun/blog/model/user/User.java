@@ -65,8 +65,8 @@ public class User implements Serializable {
 	@Column(name = "USER_MODIFIED_DATE")
 	private Date modifiedDate;
 	
-	@Column(name = "USER_DELCHECK", nullable=false)
-	private int delCheck=0;
+	@Column(name = "USER_DEL_FLAG")
+	private String delFlag="N";
 
 	@Column(name = "USER_STATE", length=20, nullable=false)
 	private String state;

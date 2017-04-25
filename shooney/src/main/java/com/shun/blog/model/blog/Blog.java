@@ -79,8 +79,8 @@ public class Blog implements Serializable {
 	@Column(name = "BLOG_MODIFIED_DATE")
 	private Date modifiedDate;
 	
-	@Column(name = "BLOG_DELCHECK", nullable=false)
-	private int delCheck=0;
+	@Column(name = "BLOG_DEL_FLAG")
+	private String delFlag="N";
 	
 	@Transient
 	private List<MultipartFile> files;

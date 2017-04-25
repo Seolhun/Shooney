@@ -39,7 +39,7 @@ var CommentService = (function() {
 				"</div>" +
 				"<div class='col-sm-12 col-xs-12 margin-bottom-5'>" +
 					"<div class='col-sm-9'>" +
-						"<div class='form-control rounded comment-content'>"+data.content+"</div>" +
+						"<div class='form-control2 rounded' id='comment-content"+data.commentId+"'>"+data.content+"</div>" +
 					"</div>" +
 					"<c:if test='${accessUser.nickname.equals(i.createdBy)}'>" +
 						"<div class='col-sm-3 text-right'>" +
@@ -176,7 +176,7 @@ var CommentService = (function() {
 		
 		$.ajax({
 			url : root +"/reply/blog/modify/"+commentId,
-			type : 'GET',
+			type : 'POST',
 			timeout : 60000,
 			data: JSON.stringify(comment),	
 			dataType : "json",
@@ -185,10 +185,9 @@ var CommentService = (function() {
 			    xhr.setRequestHeader("Content-Type", "application/json");
 			    xhr.setRequestHeader(csrfHeader, csrfToken);
 			}, success: function(data) {
-				if(data.result=="success"){
-					
-				} else {
-				}
+				console.log(data);
+				$("#comment-content"+commentId).html(content);
+				$(".commentModifyOne").remove();
 			},
 			error : function(e){
 				console.log('Error');

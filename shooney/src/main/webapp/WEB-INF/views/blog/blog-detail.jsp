@@ -60,37 +60,39 @@
 			</div>
 		</div>
 		
-		<div class="row margin-bottom-20">
-			<div class="col-sm-12">
-				File List
-				<c:forEach var="fileData" items="${blog.fileDataList}" varStatus="status">
-					<div class="input-group margin-bottom-5">
-						<span class="input-group-addon rounded-left"><i class="icon-envelope color-green"></i></span>
-						<div class="form-control rounded-right">
-							<c:choose>
-								<c:when test="${fn:length(blog.fileDataList)>0}">
-									<div class="row">
-										<input type="hidden" id="${fileData.fileDataId }" value="${fileData.fileDataId }">
-										<div class="col-sm-9">
-											<a href="${file }/download/${fileData.fileDataId}">${fileData.fileDataOriginName }</a> (${fileData.fileDataSize }kb)
-										</div>
-										
-										<c:if test="${status.first}">
-											<div class="col-sm-3 text-right">
-												더 보기
+		<c:if test="${fn:length(blog.fileDataList) > 0}">
+			<div class="row margin-bottom-20">
+				<div class="col-sm-12">
+					File List
+					<c:forEach var="fileData" items="${blog.fileDataList}" varStatus="status">
+						<div class="input-group margin-bottom-5">
+							<span class="input-group-addon rounded-left"><i class="icon-envelope color-green"></i></span>
+							<div class="form-control2 rounded-right">
+								<c:choose>
+									<c:when test="${fn:length(blog.fileDataList)>0}">
+										<div class="row">
+											<input type="hidden" id="${fileData.fileDataId }" value="${fileData.fileDataId }">
+											<div class="col-sm-9">
+												<a href="${file }/download/${fileData.fileDataId}">${fileData.fileDataOriginName }</a> (${fileData.fileDataSize }kb)
 											</div>
-										</c:if>
-									</div>
-								</c:when>
-								<c:otherwise>
-										첨부된 파일이 없습니다.
-								</c:otherwise>
-							</c:choose>
+											
+											<c:if test="${status.first}">
+												<div class="col-sm-3 text-right">
+													더 보기
+												</div>
+											</c:if>
+										</div>
+									</c:when>
+									<c:otherwise>
+											첨부된 파일이 없습니다.
+									</c:otherwise>
+								</c:choose>
+							</div>
 						</div>
-					</div>
-				</c:forEach>
+					</c:forEach>
+				</div>
 			</div>
-		</div>
+		</c:if>
 		
 		<div class="row">
 			<div class="col-sm-12">
@@ -142,7 +144,7 @@
 		<div class="row">
 			<div id="commentDiv">
 				<c:forEach items="${blog.commentList}" var="i">
-					<div id="commentChagedDiv${i.commentId }">>
+					<div id="commentChagedDiv${i.commentId }">
 						<div class="col-sm-12 margin-bottom-5">
 							<div class="col-sm-5 col-xs-5">
 								<div class="input-group">
@@ -168,7 +170,7 @@
 						
 						<div class="col-sm-12 col-xs-12 margin-bottom-5">
 							<div class="col-sm-9">
-								<div class="form-control rounded comment-content">${i.content}</div>
+								<div class="form-control2 rounded" id="comment-content${i.commentId }">${i.content}</div>
 							</div>
 							
 							<c:if test="${accessUser.nickname.equals(i.createdBy)}">

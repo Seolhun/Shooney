@@ -260,7 +260,7 @@ public class BlogController {
 			return "redirect:/deny";
 		} 
 		
-		dbBlog.setDelCheck(1);
+		dbBlog.setDelFlag("Y");
 		blogService.update(dbBlog);
 		return "redirect:/blog/list";
 	}

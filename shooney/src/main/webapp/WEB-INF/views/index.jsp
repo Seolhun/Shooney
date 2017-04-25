@@ -211,28 +211,22 @@
 			<div class="margin-bottom-40"></div>
 			
 			<div class="row margin-bottom-10">
-				<div class="col-sm-3 col-xs-6">
+				<div class="col-sm-4 col-xs-4">
 					<div class="counters">
 						<span class="counter">10629</span>
 						<h4>Total</h4>
 					</div>
 				</div>
-				<div class="col-sm-3 col-xs-6">
+				<div class="col-sm-4 col-xs-4">
 					<div class="counters">
 						<span class="counter">78</span>
 						<h4>Today</h4>
 					</div>
 				</div>
-				<div class="col-sm-3 col-xs-6">
+				<div class="col-sm-4 col-xs-4">
 					<div class="counters">
 						<span class="counter">78</span>
 						<h4>Yesterday</h4>
-					</div>
-				</div>
-				<div class="col-sm-3 col-xs-6">
-					<div class="counters">
-						<span class="counter">277</span>
-						<h4>Projects</h4>
 					</div>
 				</div>
 			</div>
