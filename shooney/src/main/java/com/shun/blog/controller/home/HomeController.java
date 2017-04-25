@@ -1,6 +1,8 @@
 package com.shun.blog.controller.home;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -12,8 +14,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.shun.blog.model.log.AccessLog;
 import com.shun.blog.model.menu.Menu;
 import com.shun.blog.service.common.CommonService;
+import com.shun.blog.service.log.AccessLogService;
 import com.shun.blog.service.menu.MenuService;
 
 @Controller
@@ -22,11 +26,13 @@ public class HomeController {
 	
 	private MenuService menuService;
 	private CommonService commonService;
+	private AccessLogService accessLogService;
 	
 	@Autowired	
-	public HomeController(MenuService menuService, CommonService commonService){
+	public HomeController(MenuService menuService, CommonService commonService, AccessLogService accessLogService){
 		this.menuService=menuService;
 		this.commonService=commonService;
+		this.accessLogService=accessLogService;
 	}
 	
 	@RequestMapping(value = {"", "/"}, method = RequestMethod.GET)
@@ -34,6 +40,22 @@ public class HomeController {
 		Menu menu=commonService.setMenuConfig(request);
 		List<Menu> menuList=menuService.findAllByType(menu, menu.getMenuType());
 		
+		AccessLog accessLog=new AccessLog();
+		Integer total=accessLogService.getCountByDate(accessLog);
+		accessLog.setType(1);
+		accessLog.setCalculator(-1);
+		Integer yesterday=accessLogService.getCountByDate(accessLog);
+		
+		accessLog.setType(2);
+		accessLog.setCalculator(1);
+		Integer today=accessLogService.getCountByDate(accessLog);
+		
+		Map<String, Integer> historys=new HashMap<>();
+		historys.put("yesterday", yesterday);
+		historys.put("today", today);
+		historys.put("total", total);
+		
+		model.addAttribute("historys", historys);
 		model.addAttribute("menuList", menuList);
 		return "index";
 	}

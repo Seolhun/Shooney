@@ -213,20 +213,20 @@
 			<div class="row margin-bottom-10">
 				<div class="col-sm-4 col-xs-4">
 					<div class="counters">
-						<span class="counter">10629</span>
-						<h4>Total</h4>
+						<span class="counter">${historys.yesterday}</span>
+						<h4>Yesterday</h4>
 					</div>
 				</div>
 				<div class="col-sm-4 col-xs-4">
 					<div class="counters">
-						<span class="counter">78</span>
+						<span class="counter">${historys.today }</span>
 						<h4>Today</h4>
 					</div>
 				</div>
 				<div class="col-sm-4 col-xs-4">
 					<div class="counters">
-						<span class="counter">78</span>
-						<h4>Yesterday</h4>
+						<span class="counter">${historys.total }</span>
+						<h4>Total</h4>
 					</div>
 				</div>
 			</div>

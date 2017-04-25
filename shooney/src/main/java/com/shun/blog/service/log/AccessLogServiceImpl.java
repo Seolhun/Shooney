@@ -31,7 +31,7 @@ public class AccessLogServiceImpl implements AccessLogService {
 	
 	@Override
 	public Integer getCountByDate(AccessLog accessLog) throws Exception {
-		return getCountByDate(accessLog);
+		return accessLogRepository.getCountByDate(accessLog);
 	}
 
 }

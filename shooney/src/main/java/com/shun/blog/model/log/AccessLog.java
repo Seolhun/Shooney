@@ -13,9 +13,11 @@ import javax.persistence.Transient;
 
 import org.hibernate.annotations.CreationTimestamp;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 @Entity(name="TB_ACCESS_LOG")
 public class AccessLog {
 	@Id
@@ -40,8 +42,13 @@ public class AccessLog {
 	@Column(name = "ACCESS_LOG_CREATED_DATE")
 	private Date createdDate;
 	
+	//Repository or service divide
 	@Transient
 	private int type;
+	
+	//add or minus for data
+	@Transient
+	private int calculator;
 	
 	@Transient
 	private Date date;

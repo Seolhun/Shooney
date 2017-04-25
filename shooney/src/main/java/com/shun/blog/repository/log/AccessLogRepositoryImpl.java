@@ -42,6 +42,7 @@ public class AccessLogRepositoryImpl extends AbstractRepository<Long, AccessLog>
 		Criteria criteria = createEntityCriteria();
 		criteria.add(Restrictions.eq("ip", accessLog.getIp()))
 			.add(Restrictions.between("createdDate", fromTime, toTime));
+		
 		accessLog = (AccessLog)criteria.uniqueResult();
 		return accessLog;
 	}
@@ -49,16 +50,23 @@ public class AccessLogRepositoryImpl extends AbstractRepository<Long, AccessLog>
 	@Override
 	public Integer getCountByDate(AccessLog accessLog) throws Exception {
 		LOG.info("param : findAllByIp {}", accessLog.toString());
-		String ip=accessLog.getIp(); 
+		Timestamp fromTime=commonService.convertDateToday("yyyy-MM-dd");
+		Timestamp toTime=commonService.convertDateFormat("yyyy-MM-dd", accessLog.getCalculator());
 		
 		Criteria criteria = createEntityCriteria();
-		criteria
-			.add(Restrictions.eq("ip", ip))
-			.add(Restrictions.like("createdDate",accessLog.getDate()))
-			.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);		
 		
-		Integer totalCount = ((Number)criteria.setProjection(Projections.rowCount()).uniqueResult()).intValue();
-		return totalCount;
+		Integer type=accessLog.getType();
+		//YesterDay
+		if(type==1){
+			criteria.add(Restrictions.between("createdDate", toTime, fromTime));	
+		} 
+		//Today
+		else if(type==2){
+			criteria.add(Restrictions.between("createdDate", fromTime, toTime));
+		}
+		
+		Integer count = ((Number)criteria.setProjection(Projections.rowCount()).uniqueResult()).intValue();
+		return count;
 	}
 }
 
