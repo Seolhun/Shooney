@@ -84,7 +84,7 @@
 										</div>
 									</c:when>
 									<c:otherwise>
-											첨부된 파일이 없습니다.
+										첨부된 파일이 없습니다.
 									</c:otherwise>
 								</c:choose>
 							</div>
@@ -102,16 +102,17 @@
 					<div class="form-control rounded-right">${blog.title }</div>
 				</div>
 			</div>
-			
+		</div>
+		
+		<div class="row margin-bottom-10">
 			<div class="col-sm-12">
-				<div>Content<br>
-					<div class="input-group margin-bottom-20">
-						<span class="input-group-addon rounded-left"><i class="icon-envelope color-green"></i></span>
-						<div class="form-control rounded-right" id="blog-content">${blog.content }</div>
-					</div>
+				<div>Content
+					<div class="form-control rounded-right" id="blog-content">${blog.content }</div>
 				</div>					
 			</div>
-			
+		</div>
+		
+		<div class="row">
 			<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
 				<a href="${blo}/${kind}/list" class="btn-u btn-u-blue btn-block rounded">List</a>
 			</div>
@@ -125,10 +126,11 @@
 			</c:if>
 		</div>
 		
+		<hr/>
+		
 		<!-- 댓글 구현 -->
 		<div class="row">
 			<div class="col-sm-12">
-				<hr>
 				<div class="text-left"><h3>Reply</h3></div>
 			</div>
 			
@@ -184,7 +186,7 @@
 						<div id="commentModifiedDiv${i.commentId }">
 						
 						</div>
-						<div class="col-sm-12"><hr></div>
+						<div class="col-sm-12"><hr/></div>
 					</div>
 				</c:forEach>  
 			</div>
@@ -193,7 +195,7 @@
 		<div class="row">
 			<div class="col-sm-12">
 				<div class="text-center">
-		   			<button class="btn-u btn-brd btn-brd-hover btn-u-dark-blue btn-u-block margin-bottom-30">More Comments</button>
+		   			<button class="btn-u btn-brd btn-brd-hover btn-u-dark-blue btn-u-block margin-bottom-30" onclick="CommentService.getCommentsMore();">More Comments</button>
 		   		</div>
 		   	</div>
 		</div>

@@ -74,7 +74,6 @@ var CommentService = (function() {
 		if(content.length>300){
 			alert("댓글의 길이는 300자 이하입니다.");
 		}
-		
 		blog["blogId"] = blogId;
 		comment["content"] = content;
 		comment["blogInComment"] = blog;
@@ -107,13 +106,15 @@ var CommentService = (function() {
 		});	
 	}
 
-	var _getCommentsMoreCount = 1;
+	var _currentPage = 0;
 	
 	var getCommentsMore = function() {
-		var comment = {}, blog={}, blogId=$("#blogId").val();
+		var comment = {}, blog={}, paging={}, blogId=$("#blogId").val();
+		_currentPage+=1;
+		paging["currentPage"]=_currentPage;
 		blog["blogId"] = blogId;
-		console.log("blogId", blogId);
 		comment["blogInComment"] = blog;
+		comment["paging"] = paging;
 		$.ajax({
 			url : root +"/reply/blog/list/more",
 			type : 'POST',
@@ -125,16 +126,16 @@ var CommentService = (function() {
 			    xhr.setRequestHeader("Content-Type", "application/json");
 			    xhr.setRequestHeader(csrfHeader, csrfToken);
 			}, success: function(data, xhr) {
-				_getCommentsMoreCount+=1;
-	    		console.log("data", data);
-	    		var commentList=data.comments;
-	    		commentList.forEach(function(data, status, index) {
-	    			var dbTime = new Date(data.createdDate);
-					dbTime=CommonService.customDateformat(dbTime, "yyyy-MM-dd, hh:mm");
-					
-    				$("#commentDiv").append(_commentHtml(data, dbTime));
-	    		});
-	    		
+	    		if(data!=null){
+	    			var commentList=data;
+		    		commentList.forEach(function(data, status, index) {
+		    			var dbTime = new Date(data.createdDate);
+						dbTime=CommonService.customDateformat(dbTime, "yyyy-MM-dd, hh:mm");
+	    				$("#commentDiv").append(_commentHtml(data, dbTime));
+		    		});	
+	    		}else {
+	    			_currentPage-=1;
+	    		}
 	    	}, error : function(e){
 				console.log('Error');
 			}//end success

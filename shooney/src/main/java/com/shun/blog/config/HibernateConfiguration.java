@@ -51,9 +51,9 @@ public class HibernateConfiguration {
         properties.put("hibernate.connection.useUnicode", true);
         
 //      //Entity를 통한 테이블 생성
-//      properties.put("hibernate.hbm2ddl.auto", environment.getRequiredProperty("hibernate.ddl_auto"));
-//      properties.put("jpa.generate-ddl", environment.getRequiredProperty("jpa.generate-ddl"));
-//      properties.put("hibernate.hbm2ddl.import_files", environment.getRequiredProperty("hibernate.hbm2ddl.import_files"));
+//		properties.put("hibernate.hbm2ddl.auto", environment.getRequiredProperty("hibernate.ddl_auto"));
+//		properties.put("jpa.generate-ddl", environment.getRequiredProperty("jpa.generate-ddl"));
+//		properties.put("hibernate.hbm2ddl.import_files", environment.getRequiredProperty("hibernate.hbm2ddl.import_files"));
         
         //방언 및 SQL 옵션
     	properties.put("hibernate.dialect", environment.getRequiredProperty("hibernate.dialect"));

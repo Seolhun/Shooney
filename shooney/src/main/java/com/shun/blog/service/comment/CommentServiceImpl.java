@@ -69,6 +69,12 @@ public class CommentServiceImpl implements CommentService {
 		if(createdBy.equals(modifyBy)){
 			if(comment.getDelFlag().equals("Y")){
 				dbComment.setDelFlag(comment.getDelFlag());
+				Blog dbBlog= blogRepository.selectById(dbComment.getBlogInComment().getBlogId());
+				//읽을시 쿠키 읽기
+				if(dbBlog != null){
+					int depth=dbBlog.getDepth();
+					dbBlog.setDepth(depth-1);
+				}
 			} else if(comment.getContent()!=null){
 				dbComment.setContent(comment.getContent());
 			}

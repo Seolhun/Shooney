@@ -1,14 +1,18 @@
 package com.shun.blog.model.common;
 
+import java.io.Serializable;
+
 import lombok.Data;
 
 @Data
-public class Paging {
+public class Paging implements Serializable {
 	/** For Paging Field */
 	// 현재 페이지
-	private int currentPage;
+	private Integer currentPage;
 	// 페이지 제한 수
-	private int limit;
+	private Integer limit;
+	//currentPage*limit
+	private Integer maxCount;
 	// 총 게시물 갯수
 	private int totalCount;
 	// 총 페이지 갯수

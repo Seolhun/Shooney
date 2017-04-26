@@ -33,12 +33,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.shun.blog.model.blog.Blog;
 import com.shun.blog.model.blog.EntityName;
+import com.shun.blog.model.blog.PortfolioName;
 import com.shun.blog.model.common.Paging;
 import com.shun.blog.model.file.FileData;
 import com.shun.blog.model.file.FileNameInvalidException;
 import com.shun.blog.model.file.FileUploadOverException;
 import com.shun.blog.model.menu.Menu;
-import com.shun.blog.model.portfolio.PortfolioName;
 import com.shun.blog.service.blog.BlogService;
 import com.shun.blog.service.comment.CommentService;
 import com.shun.blog.service.common.CommonService;

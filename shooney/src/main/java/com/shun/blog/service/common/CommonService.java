@@ -25,6 +25,9 @@ public interface CommonService {
 	//int 유효성 검사하기.
 	int checkVDInt(String parameter, int defaultValue);
 	
+	//Integer로 Null값 체크하기.
+	int checkVDInteger(Integer parameter, int default_value);
+	
 	//Float 유효성 검사하기.
 	float checkVDFloat(String parameter, int defaultValue);
 	
@@ -64,6 +67,8 @@ public interface CommonService {
 	
 	//페이징 전에 페이징 데이터 가져오
 	Paging beforeGetPaging(HttpServletRequest request);
+	
+	Paging beforePostPaging(Paging paging);
 	
 	//현재 접속한 유저로 유저정보 가져오기.
 	User getAccessUserToModel() throws Exception;

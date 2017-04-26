@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.shun.blog.model.comment.Comment;
 import com.shun.blog.model.common.AjaxResult;
-import com.shun.blog.model.common.Paging;
 import com.shun.blog.service.comment.CommentService;
 import com.shun.blog.service.common.CommonService;
 
@@ -80,16 +79,23 @@ public class CommentRestController {
 	@RequestMapping(value = "/{entity}/list/more", method = RequestMethod.POST, produces = "application/json")
 	public List<Comment> getCommentsList(@RequestBody Comment comment, @PathVariable String entity, HttpServletRequest request, ModelMap model) throws Exception {
 		//댓글위한 해당 블로그 값 넣기.
-		Paging paging = commonService.beforeGetPaging(request);
-		comment.setPaging(paging);
+		LOG.info("param : {}",comment.toString());
+		LOG.info("param : {}",comment.getBlogInComment().toString());
+		comment.setPaging(commonService.beforePostPaging(comment.getPaging())); 
 		
 		// 전체 댓글 갯수 확인.
 		int totalCount = commentService.getCount(comment);
 		comment.getPaging().setTotalCount(totalCount);
-		commonService.setAndValidationPaging(paging);
+		commonService.setAndValidationPaging(comment.getPaging());
+		int maxCount=comment.getPaging().getMaxCount();
 		
-		List<Comment> comments=commentService.findAllComments(comment);
-		LOG.info("return : {}",comments.toString());
+		LOG.info("param : maxCount {}",maxCount);
+		LOG.info("param : totalCount {}",totalCount);
+		
+		List<Comment> comments=null;
+		if(totalCount>maxCount){
+			comments=commentService.findAllComments(comment);	
+		}
 		return comments;
 	}
 	

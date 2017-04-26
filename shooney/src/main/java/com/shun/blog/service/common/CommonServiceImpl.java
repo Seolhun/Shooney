@@ -42,8 +42,6 @@ public class CommonServiceImpl implements CommonService {
 	static final Logger LOG = LoggerFactory.getLogger(CommonServiceImpl.class);
 	
 	@Autowired
-	private CommonService commonService;
-	@Autowired
 	private UserService userService;
 	@Autowired
 	private JavaMailSender mailSender;
@@ -103,6 +101,17 @@ public class CommonServiceImpl implements CommonService {
 		int int_value;
 		try {
 			int_value = Integer.parseInt(parameter);
+		} catch (Exception e) {
+			int_value = default_value;
+		}
+		return int_value;
+	}
+	
+	@Override
+	public int checkVDInteger(Integer parameter, int default_value) {
+		int int_value;
+		try {
+			int_value = parameter;
 		} catch (Exception e) {
 			int_value = default_value;
 		}
@@ -319,12 +328,28 @@ public class CommonServiceImpl implements CommonService {
 	// 파라미터 호출 및 유효성 검사
 	@Override
 	public Paging beforeGetPaging(HttpServletRequest request) {
-		int currentPage = commonService.checkVDInt(request.getParameter("cPage"), 1);
-		int searchType = commonService.checkVDInt(request.getParameter("sType"), 0);
-		String searchText = commonService.checkVDQuestion(request.getParameter("sText"));
-		int searchDate = commonService.checkVDInt(request.getParameter("sDate"), 0);
-		int limit = commonService.checkVDInt(request.getParameter("limit"), 20);
+		int currentPage = checkVDInt(request.getParameter("cPage"), 1);
+		int searchType = checkVDInt(request.getParameter("sType"), 0);
+		String searchText = checkVDQuestion(request.getParameter("sText"));
+		int searchDate = checkVDInt(request.getParameter("sDate"), 0);
+		int limit = checkVDInt(request.getParameter("limit"), 20);
 		Paging paging = new Paging(currentPage, searchType, searchText, searchDate, limit);
+		return paging;
+	}
+	
+	// 파라미터 호출 및 유효성 검사
+	@Override
+	public Paging beforePostPaging(Paging paging) {
+		int currentPage = checkVDInteger(paging.getCurrentPage(), 1);
+		int searchType = checkVDInteger(paging.getSearchType(), 0);
+		String searchText = checkVDQuestion(paging.getSearchText());
+		int searchDate = checkVDInteger(paging.getSearchDate(), 0);
+		int limit = checkVDInteger(paging.getLimit(), 10);
+		paging.setCurrentPage(currentPage);
+		paging.setSearchType(searchType);
+		paging.setSearchText(searchText);
+		paging.setSearchDate(searchDate);
+		paging.setLimit(limit);
 		return paging;
 	}
 	
@@ -344,6 +369,7 @@ public class CommonServiceImpl implements CommonService {
 			totalPage=1;
 		}
 		
+		int maxCount=cPage*limit;
 		int totalBlock = totalCount / limit + (totalCount % limit > 0 ? 1 : 0); // 전체
 		int currentBlock = cPage / blockLimit + (cPage % blockLimit > 0 ? 1 : 0);// 현재
 		int blockEndNum = currentBlock * blockLimit;
@@ -363,6 +389,8 @@ public class CommonServiceImpl implements CommonService {
 		if (nextPage > totalBlock) {
 			nextPage = totalBlock / blockLimit * blockLimit + 1;
 		}
+		
+		paging.setMaxCount(maxCount);
 		paging.setTotalPage(totalPage);
 		paging.setSearchType(sType);
 		paging.setSearchDate(sDate);
@@ -386,7 +414,7 @@ public class CommonServiceImpl implements CommonService {
 	 */	
 	@Override
 	public User getAccessUserToModel() throws Exception {
-		String userEmail=commonService.getPrincipal();
+		String userEmail=getPrincipal();
 		LOG.info("return : getAccessUserToModel : {}", userEmail);
 		return userService.selectByEmail(userEmail);
 	}

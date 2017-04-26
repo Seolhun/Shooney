@@ -55,6 +55,7 @@ public class HomeController {
 		historys.put("today", today);
 		historys.put("total", total);
 		
+		
 		model.addAttribute("historys", historys);
 		model.addAttribute("menuList", menuList);
 		return "index";

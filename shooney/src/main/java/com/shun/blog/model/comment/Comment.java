@@ -21,6 +21,8 @@ import javax.persistence.Transient;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.shun.blog.model.blog.Blog;
 import com.shun.blog.model.common.Paging;
 
@@ -68,5 +70,10 @@ public class Comment implements Serializable {
 	private String delFlag="N";
 	
 	@Transient
+	private int currentPage;
+	
+	@Transient
+	@JsonSerialize
+	@JsonDeserialize
 	private Paging paging;
 }
