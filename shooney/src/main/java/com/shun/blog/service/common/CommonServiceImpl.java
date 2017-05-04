@@ -7,6 +7,7 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Map;
 
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
@@ -188,6 +189,20 @@ public class CommonServiceImpl implements CommonService {
 		String dtoAsString = mapper.writeValueAsString(rawData);
 		return dtoAsString;
 	}
+	
+	@Override
+	public String convertMapToVo(ObjectMapper mapper, Object object) throws Exception {
+		String objectJson = mapper.writeValueAsString(object);
+//		Patient patient2 = mapper.readValue(objectJson, Patient.class);
+		return objectJson;
+	}
+	
+	@Override
+	public Map<?, ?> convertVoToMap(Object object) throws Exception {
+		ObjectMapper mapper = setJSONMapper();
+		Map<?, ?> map = mapper.convertValue(object, Map.class);
+		return map;
+	}
 
 	@Override
 	public String getUserIP(HttpServletRequest request) {
@@ -312,18 +327,6 @@ public class CommonServiceImpl implements CommonService {
 		}
 		
 	}
-
-	@Override
-	public String getPrincipal() throws Exception{
-		String userName = null;
-		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		if (principal instanceof UserDetails) {
-			userName = ((UserDetails) principal).getUsername();
-		} else {
-			userName = principal.toString();
-		}
-		return userName;
-	}
 	
 	// 파라미터 호출 및 유효성 검사
 	@Override
@@ -417,6 +420,18 @@ public class CommonServiceImpl implements CommonService {
 		String userEmail=getPrincipal();
 		LOG.info("return : getAccessUserToModel : {}", userEmail);
 		return userService.selectByEmail(userEmail);
+	}
+	
+	@Override
+	public String getPrincipal() throws Exception {
+		String userName = null;
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		if (principal instanceof UserDetails) {
+			userName = ((UserDetails) principal).getUsername();
+		} else {
+			userName = principal.toString();
+		}
+		return userName;
 	}
 	
 	/**

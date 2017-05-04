@@ -3,6 +3,7 @@ package com.shun.blog.service.common;
 
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -40,9 +41,11 @@ public interface CommonService {
 	
 	//JsonData를 VO에 매핑하기.
 	ObjectMapper setJSONMapper() throws JsonProcessingException;
-	
 	//VO에 있는 값들 JSON으로 변환하기,
 	String getJSONData(Object rawData) throws JsonProcessingException;
+	//Convert Object -> Map : Map -> Object
+	String convertMapToVo(ObjectMapper mapper, Object object) throws Exception;
+	Map<?, ?> convertVoToMap(Object object) throws Exception;
 	
 	//User IP를 가져오기.	
 	String getUserIP(HttpServletRequest request);
@@ -59,19 +62,16 @@ public interface CommonService {
 	//@Valid로 검사시 중복값 리다이렉트해주기.
 	void validCheckAndSendError(MessageSource messageSource, BindingResult bindingResult, HttpServletRequest request, String inputValue, String objectName, String fieldName, String messagePropertyName);
 	
-	//로그인된 유저 이메일로 유저 가져오기.(null처리 가능)
-	String getPrincipal() throws Exception;
-	
 	//리스트 페이징하기.
 	void setAndValidationPaging(Paging paging);
 	
 	//페이징 전에 페이징 데이터 가져오
 	Paging beforeGetPaging(HttpServletRequest request);
-	
 	Paging beforePostPaging(Paging paging);
 	
 	//현재 접속한 유저로 유저정보 가져오기.
 	User getAccessUserToModel() throws Exception;
+	String getPrincipal() throws Exception;
 	
 	//Menu 역할 확인하여 설정잡기.	
 	Menu setMenuConfig(HttpServletRequest request) throws Exception;

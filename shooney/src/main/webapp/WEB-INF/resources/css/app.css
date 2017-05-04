@@ -588,6 +588,11 @@ h3.heading-xs {
 	background: #5fb611;
 }
 
+.btn-u:disabled {
+	cursor : not-allowed;
+	background: #dddddd;
+}
+
 .btn-u-split.dropdown-toggle {
 	border-left: solid 1px #5fb611;
 }
@@ -3038,160 +3043,29 @@ img.img-center, .img-center img {
 	background: #333;
 }
 
-@
--webkit-keyframes scroll { 0%{
+@-webkit-keyframes scroll { 0%{
 	opacity: 1;
 }
 
 100%{
-opacity
-
-
-
-
-
-
-
-
-
-
-:
-
-
-
-
-
-
-
-
-
-
-0;
-transform
-
-
-
-
-
-
-
-
-
-
-:translateY(36px)
-
-
-
-
-
-
-
-
-
-
-;
--webkit-transform
-
-
-
-
-
-
-
-
-
-
-:translateY(36px)
-
-
-
-
-
-
-
-
-
-
-;
+	opacity:0;	
+	transform:translateY(36px);
+	-webkit-transform:translateY(36px);
+	}
 }
-}
-@
-keyframes scroll { 0%{
+
+@keyframes scroll { 
+	0%{
 	opacity: 1;
 }
 
-100%{
-opacity
-
-
-
-
-
-
-
-
-
-
-:
-
-
-
-
-
-
-
-
-
-
-0;
-transform
-
-
-
-
-
-
-
-
-
-
-:translateY(36px)
-
-
-
-
-
-
-
-
-
-
-;
--webkit-transform
-
-
-
-
-
-
-
-
-
-
-:translateY(36px)
-
-
-
-
-
-
-
-
-
-
-;
+100% {
+	opacity:0;
+	transform:translateY(36px);
+	-webkit-transform:translateY(36px);
+	}
 }
-}
+
 div#addBindingGroupModal {
 	top: 30%;
 }
@@ -3225,6 +3099,9 @@ div#addBindingGroupModal {
 	font-size: 16px;
 }
 
+.font-13 {
+	font-size: 13px;
+}
 .font-12 {
 	font-size: 12px;
 }
@@ -3266,6 +3143,11 @@ div#addBindingGroupModal {
 
 .font-14b {
 	font-size: 16px;
+	font-weight: 500;
+}
+
+.font-13b {
+	font-size: 12px;
 	font-weight: 500;
 }
 
@@ -3370,13 +3252,25 @@ div#addBindingGroupModal {
 .error-red {
 	font-size: 14px;
 	font-weight: 400;
-	color: red;
+	color: #95a5a6;
 }
 
 .error-blue {
 	font-size: 14px;
 	font-weight: 400;
-	color: blue;
+	color: #4765a0;
+}
+
+.last-width-xs{
+	min-width: 500px;
+}
+
+.last-width-sm{
+	min-width: 1024px;
+}
+
+.word-break-all{
+	word-break: break-all;
 }
 
 .form-control2{

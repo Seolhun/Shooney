@@ -178,6 +178,39 @@ var CommonService = (function() {
 		});	
 	}
 	
+	var _getTimeBetweenObjectAndDb = function (dbDateValue){
+		//DB시간과 현재 시간 가져오기.
+		var currentTime = new Date();
+		var dbTime = new Date(dbDateValue);
+		
+		//시간 계산하기.
+		var timeDiff = Math.abs(currentTime.getTime() - dbTime.getTime());
+		var minutes = Math.round(timeDiff / (1000 * 60));
+		var hours = Math.round(timeDiff / (1000 * 3600));
+		var days = Math.round(timeDiff / (1000 * 3600 * 24));
+		var months = Math.round(timeDiff / (1000 * 3600 * 24 * 30));
+		var years = Math.round(timeDiff / (1000 * 3600 * 24 * 365));
+		console.log("minutes",minutes);
+		console.log("hours",hours);
+		console.log("days",days);
+		console.log("months",months);
+		console.log("years",years);
+		
+		var timeType=["분 전","시간 전","일 전","월 전","년 전"];
+		if(minutes<60){
+			return minutes+timeType[0];
+		} else if(hours<24){
+			return hours+timeType[1];
+		} else if(days<365){
+			return days+timeType[2];
+		} else if(months<12){
+			return months+timeType[3];
+		} else if(years >=1){
+			return years+timeType[4];
+		}  
+		return "방금 전";
+	}
+	
 	return {
 		customDateformat : customDateformat,
 		accessClientInsert : accessClientInsert,
