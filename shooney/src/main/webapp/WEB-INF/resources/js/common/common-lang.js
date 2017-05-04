@@ -3,7 +3,14 @@ var	csrfToken=$("#csrfToken").attr("content");
 var thisRoot="/shooney";
 var thisHost=window.location.host;
 var thisPort=window.location.port;
-var browswerLang=navigator.language;
+//var browswerLang=navigator.language;
+//if(browswerLang=="ko"){
+//$.i18n.setLng("ko");	
+//} else if(browswerLang=="en" || browswerLang=="en_US"){
+//$.i18n.setLng("en");
+//} else {
+//$.i18n.setLng("ko");
+//}
 
 $.i18n.init({
 	preload: ["ko", "en"],
@@ -16,13 +23,9 @@ $.i18n.init({
     useCookie: true,
     useLocalStorage: true,
 //    debug : true,
-    localStorageExpirationTime: 1000*60
+    localStorageExpirationTime: 1000*60*60
 }, function (err, t) {
-	if(browswerLang=="ko"){
-		$.i18n.setLng("ko");	
-	} else if(browswerLang=="en" || browswerLang=="en_US"){
-		$.i18n.setLng("en");
-	} else {
+	if(!($.i18n.lng()=="ko" || $.i18n.lng()=="en")){
 		$.i18n.setLng("ko");
 	}
     $('.translation').i18n();
@@ -31,7 +34,7 @@ $.i18n.init({
 var changeLang = function (lang) {
     $.i18n.setLng(lang);
     $('.translation').i18n();
-    location.reload();
+//    location.reload();
 }
 
 /*
