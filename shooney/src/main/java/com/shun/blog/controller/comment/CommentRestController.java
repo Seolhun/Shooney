@@ -1,7 +1,10 @@
 package com.shun.blog.controller.comment;
 
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -77,10 +80,18 @@ public class CommentRestController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/{entity}/list/more", method = RequestMethod.POST, produces = "application/json")
-	public List<Comment> getCommentsList(@RequestBody Comment comment, @PathVariable String entity, HttpServletRequest request, ModelMap model) throws Exception {
+	public Map<String, Object> getCommentsList(@RequestBody Comment comment, @PathVariable String entity, HttpServletRequest request, ModelMap model) throws Exception {
+		Map<String, Object> returnMap=new HashMap<>();
+		String nickName="";
+		try {
+			//유저가 로그인하지 않았을 경우. 페이지 이동시켜야함.
+			nickName=commonService.getAccessUserToModel().getNickname();
+			returnMap.put("nickName", nickName);
+		} catch (NullPointerException e) {
+			LOG.error("error : Fail to get login user information ");
+		}
+		
 		//댓글위한 해당 블로그 값 넣기.
-		LOG.info("param : {}",comment.toString());
-		LOG.info("param : {}",comment.getBlogInComment().toString());
 		comment.setPaging(commonService.beforePostPaging(comment.getPaging())); 
 		
 		// 전체 댓글 갯수 확인.
@@ -89,14 +100,12 @@ public class CommentRestController {
 		commonService.setAndValidationPaging(comment.getPaging());
 		int maxCount=comment.getPaging().getMaxCount();
 		
-		LOG.info("param : maxCount {}",maxCount);
-		LOG.info("param : totalCount {}",totalCount);
-		
-		List<Comment> comments=null;
+		List<Comment> comments=new ArrayList<>();
 		if(totalCount>maxCount){
 			comments=commentService.findAllComments(comment);	
+			returnMap.put("comments", comments);
 		}
-		return comments;
+		return returnMap;
 	}
 	
 	@RequestMapping(value = "/{entity}/modify/{commentId}", method = RequestMethod.POST, produces = "application/json")

@@ -14,8 +14,9 @@ $(document).ready(function(){
 });
 
 var CommentService = (function() {
-	var _commentHtml = function(data, dbTime){
-		return commentHtml=
+	var _commentHtml = function(data, dbTime, nickname){
+		var commentHtml="";
+		commentHtml=
 			"<div id='commentChagedDiv"+data.commentId+"'>"+
 				"<div class='col-sm-12 margin-bottom-5'>" +
 					"<div class='col-sm-5 col-xs-5'>" +
@@ -40,18 +41,21 @@ var CommentService = (function() {
 				"<div class='col-sm-12 col-xs-12 margin-bottom-5'>" +
 					"<div class='col-sm-9'>" +
 						"<div class='form-control2 rounded' id='comment-content"+data.commentId+"'>"+data.content+"</div>" +
-					"</div>" +
-					"<c:if test='${accessUser.nickname.equals(i.createdBy)}'>" +
-						"<div class='col-sm-3 text-right'>" +
-							"<button class='btn-u btn-u-dark-blue rounded' onclick='CommentService.commentModifyDiv("+data.commentId+");'>수정</button>" +
-							"<button class='btn-u btn-u-red rounded' onclick='CommentService.commentDeleteSubmit("+data.commentId+");'>삭제</button>" +
-						"</div>" +
-					"</c:if>" +
+					"</div>";
+			if(data.createdBy==nickname){
+				commentHtml+=
+					"<div class='col-sm-3 text-right'>" +
+						"<button class='btn-u btn-u-dark-blue rounded' onclick='CommentService.commentModifyDiv("+data.commentId+");'>수정</button>" +
+						"<button class='btn-u btn-u-red rounded' onclick='CommentService.commentDeleteSubmit("+data.commentId+");'>삭제</button>" +
+					"</div>";				
+			}
+			commentHtml+=		
 				"</div>" +
 				"<div id='commentModifiedDiv"+data.commentId+"'>"+
 				"</div>" +
 				"<div class='col-sm-12'><hr></div>"+
 			"</div>";
+		return commentHtml;
 	} 
 	
 	//댓글 수정시 댓글 밑에 입력 칸 뜨는 이벤트.(하나만 뜨게하였다.)
@@ -98,7 +102,7 @@ var CommentService = (function() {
 				var dbTime = new Date(data.createdDate);
 				dbTime=CommonService.customDateformat(dbTime, "yyyy-MM-dd, hh:mm");
 				
-				$("#commentDiv").prepend(_commentHtml(data, dbTime));
+				$("#commentDiv").prepend(_commentHtml(data, dbTime, data.createdBy));
 			},
 			error : function(e){
 				console.log('Error');
@@ -126,12 +130,13 @@ var CommentService = (function() {
 			    xhr.setRequestHeader("Content-Type", "application/json");
 			    xhr.setRequestHeader(csrfHeader, csrfToken);
 			}, success: function(data, xhr) {
-	    		if(data!=null){
-	    			var commentList=data;
+	    		if(data.comments!=null){
+	    			var commentList=data.comments;
+	    			var nickname=data.nickname;
 		    		commentList.forEach(function(data, status, index) {
 		    			var dbTime = new Date(data.createdDate);
 						dbTime=CommonService.customDateformat(dbTime, "yyyy-MM-dd, hh:mm");
-	    				$("#commentDiv").append(_commentHtml(data, dbTime));
+	    				$("#commentDiv").append(_commentHtml(data, dbTime, nickname));
 		    		});	
 	    		}else {
 	    			_currentPage-=1;
