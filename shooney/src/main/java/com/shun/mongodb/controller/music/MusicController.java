@@ -41,10 +41,9 @@ import com.shun.blog.service.menu.MenuService;
 import com.shun.mongodb.service.music.MusicService;
 
 @Controller
-@RequestMapping("/")
+@RequestMapping("/music")
 public class MusicController {
 	private static final Logger LOG = LoggerFactory.getLogger(MusicController.class);
-	
 	private static final String UPLOAD_LOCATION = "/Users/HunSeol/Desktop/shooney/file/";
 	
 	private MessageSource messageSource;
@@ -60,9 +59,7 @@ public class MusicController {
 		this.menuService=menuService;
 	}
 	
-	
-
-	@RequestMapping(value = "/music/list", method = RequestMethod.GET)
+	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public String listMusics(ModelMap model, HttpServletRequest request) throws Exception {
 		Menu menu=commonService.setMenuConfig(request);
 		List<Menu> menuList=menuService.findAllByType(menu, menu.getMenuType());
@@ -73,7 +70,7 @@ public class MusicController {
 		return "portfolio/music/musiclist";
 	}
 
-	@RequestMapping(value = { "/music/get" }, method = RequestMethod.GET)
+	@RequestMapping(value = { "/get" }, method = RequestMethod.GET)
 	public String getMusic(ModelMap model) throws IOException {
 		System.out.println("음악파일을 가져옵니다.");
 		JSONObject obj = new JSONObject();
@@ -156,7 +153,7 @@ public class MusicController {
 		return "redirect:/music/list";
 	}
 
-	@RequestMapping(value = { "/music/edit-{id}" }, method = RequestMethod.GET)
+	@RequestMapping(value = { "/edit/{id}" }, method = RequestMethod.GET)
 	public String editUser(@PathVariable Long id, ModelMap model) {
 		Music music = musicService.findById(id);
 		model.addAttribute("music", music);
@@ -164,7 +161,7 @@ public class MusicController {
 		return "portfolio/music/newmusic";
 	}
 
-	@RequestMapping(value = { "/music/edit-{id}" }, method = RequestMethod.POST)
+	@RequestMapping(value = { "/edit/{id}" }, method = RequestMethod.POST)
 	public String updateUser(@Valid Music music, BindingResult result, ModelMap model, @PathVariable int id) {
 		if (result.hasErrors()) {
 			return "portfolio/music/newmusic";
@@ -175,7 +172,7 @@ public class MusicController {
 		return "result/result/success";
 	}
 
-	@RequestMapping(value = { "/music/delete-{id}" }, method = RequestMethod.GET)
+	@RequestMapping(value = { "/delete/{id}" }, method = RequestMethod.GET)
 	public String deleteUser(@PathVariable Long id) {
 		musicService.deleteUserById(id);
 		return "redirect:/musiclist";

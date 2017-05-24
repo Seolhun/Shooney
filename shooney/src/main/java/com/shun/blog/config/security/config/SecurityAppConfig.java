@@ -20,23 +20,26 @@ import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
 import com.shun.blog.config.security.custom.CustomSuccessHandler;
+import com.shun.blog.config.security.custom.CustomUserDetailsService;
 import com.shun.blog.config.security.custom.LimitingDaoAuthenticationProvider;
 
 
 @Configuration
 @EnableWebSecurity
 public class SecurityAppConfig extends WebSecurityConfigurerAdapter {
-	
-	@Autowired
-	@Qualifier("customUserDetailsService")
-	UserDetailsService userDetailsService;
-	
-	@Autowired
+//	@Autowired
+//	@Qualifier("customUserDetailsService")
+//	UserDetailsService userDetailsService;
+	CustomUserDetailsService userDetailsService;
 	PersistentTokenRepository tokenRepository;
-	
-	@Autowired
 	CustomSuccessHandler customSuccessHandler;
 	
+	@Autowired
+	public SecurityAppConfig(CustomUserDetailsService userDetailsService, PersistentTokenRepository tokenRepository, CustomSuccessHandler customSuccessHandler) {
+		this.userDetailsService=userDetailsService;
+		this.tokenRepository=tokenRepository;
+		this.tokenRepository=tokenRepository;
+	}
 
 	@Autowired
 	public void configureGlobalSecurity(AuthenticationManagerBuilder auth) throws Exception {

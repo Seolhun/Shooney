@@ -190,12 +190,6 @@ var CommonService = (function() {
 		var days = Math.round(timeDiff / (1000 * 3600 * 24));
 		var months = Math.round(timeDiff / (1000 * 3600 * 24 * 30));
 		var years = Math.round(timeDiff / (1000 * 3600 * 24 * 365));
-		console.log("minutes",minutes);
-		console.log("hours",hours);
-		console.log("days",days);
-		console.log("months",months);
-		console.log("years",years);
-		
 		var timeType=["분 전","시간 전","일 전","월 전","년 전"];
 		if(minutes<60){
 			return minutes+timeType[0];
