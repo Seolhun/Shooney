@@ -165,40 +165,7 @@
 	</div>
 	<!--=== End Call To Action ===-->
 	
-	<div class="container content-xs">
-		<div class="row margin-bottom-50">
-			<div class="col-sm-12">
-				<h4>인기 있는 프로젝트 나열하기. (5 ~ 10개) - 어드민에서 갯수 조절가능하게 하기.</h4>
-			</div>
-		</div>
-		
-		<div class="row">
-			<div class="col-sm-12">
-				<p class="font-26b">구현 된 기능</p>
-				<h5> - Spring Security(Login, Signup, Login valid count(Limit)</h5>
-				<h5> - Blog(Board), FileUpload, Comment(not paging)</h5>
-				<h5> - MongoDB - News detail using Angular JS</h5>
-				<h5> - Admin User and Menu controller </h5>
-				<h5> - Counting client footprint - Now, Just save footprint</h5>
-				<br>
-			</div>
-		</div>
-		
-		<div class="row">
-			<div class="col-sm-12">
-				<p class="font-26b">앞으로 업데이트 될 내용</p>
-				<h4>일정 : 2017.04.29</h4>
-				<h5> - 웹 크롤링 Image 주소를 통해 파일업로드해서 이미지 받기. - Crawl 로직추가하기.</h5>
-				<h5> - AngularJS를 사용하여, News CRUD 구현하기.</h5>
-				<h5> - Cache를 통한 Cache 관리(Redis) - 설정 완료.</h5>
-				<br>
-				<h4>일정 : 2017.05.28</h4>
-				<h5>1. Spring WebSocket을 적용하여 알림 기능 구현 예정(알림 기능을 Spring Stomp + Sock.Js로 구현 할 예정)</h5>  
-				<h5>2. Spring Social을 통해 자신이 올린 포트폴리오 등에 대한 정보를 공유할 수 있는 기능.</h5>
-				<h5>4. 웹 크롤링 데이터 확대 및 통계/분석 기능. => 50만 뉴스데이터 분석을 통한 핫 이슈 단어 랭크내기</h5>
-			</div>
-		</div>
-	</div>
+	
 
 	<!--=== Carallax Counter v1 ===-->
 	<div class="parallax-counter-v1 parallaxBg" style="background-position: 50% 20px;">

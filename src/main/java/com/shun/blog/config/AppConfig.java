@@ -2,12 +2,11 @@ package com.shun.blog.config;
 
 import java.util.List;
 
-import org.aspectj.lang.annotation.Aspect;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.format.FormatterRegistry;
@@ -18,7 +17,6 @@ import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.ViewResolver;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -34,13 +32,10 @@ import com.shun.blog.config.common.AccessInfoInterceptor;
 import com.shun.blog.config.security.converter.RoleToUserProfileConverter;
 import com.shun.mongodb.config.MongoConfig;
 
-@Configuration
-@EnableWebMvc
 @ComponentScan(basePackages = "com.shun")
 @Import({ MongoConfig.class })
-@Aspect
+@SpringBootApplication
 public class AppConfig extends WebMvcConfigurerAdapter {
-
 	@Autowired
 	RoleToUserProfileConverter roleToUserProfileConverter;
 
@@ -52,6 +47,16 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		registry.addResourceHandler("/resources/**").addResourceLocations("/WEB-INF/resources/");
 		registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
+	}
+
+	// Dispatcher Servlet Part
+	@Bean
+	public ViewResolver viewResolver() {
+		InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
+		viewResolver.setViewClass(JstlView.class);
+		viewResolver.setPrefix("/WEB-INF/views/");
+		viewResolver.setSuffix(".jsp");
+		return viewResolver;
 	}
 
 	// MessageSource Error Config Part
@@ -97,16 +102,6 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 		return multipartResolver;
 	}
 
-	// Dispatcher Servlet Part
-	@Bean
-	public ViewResolver viewResolver() {
-		InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
-		viewResolver.setViewClass(JstlView.class);
-		viewResolver.setPrefix("/WEB-INF/views/");
-		viewResolver.setSuffix(".jsp");
-		return viewResolver;
-	}
-
 	@SuppressWarnings("unchecked")
 	@Bean
 	public Jackson2ObjectMapperBuilder configureObjectMapper() {
@@ -122,7 +117,7 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 	public void configurePathMatch(PathMatchConfigurer matcher) {
 		matcher.setUseRegisteredSuffixPatternMatch(true);
 	}
-	
+
 	@Override
 	public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
 		converters.add(jacksonMessageConverter());
