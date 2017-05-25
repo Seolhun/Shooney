@@ -1,0 +1,155 @@
+{
+	"common": {
+		"en" : "English",
+		"ko" : "Korean",
+		"no": "No",
+		"title": "Title",
+		"name": "Name",
+		"birth": "Birth",
+		"gender": "Gender",
+		"eamil": "E-Mail",
+		"type": "Type",
+		"need": "Need",
+		"notneed": "Not Need",
+		"state": "state",
+		"add": "Add",
+		"more" : "More",
+		"detail": "Detail",
+		"yes": "Yes",
+		"ok": "Confirm",
+		"modify" : "Modify",
+		"cancel": "Cancel",
+		"remove": "Remove",
+		"nono" : "No",
+		"sure" : "Are you sure?",
+		
+		"tel": "연락처",
+		"prev": "이전",
+		"next": "다음",
+		"save": "저장",
+		"close": "닫기",
+		"register": "등록",
+		"success": "성공",
+		"edit": "수정",
+		"choose": "선택",
+		"overlap": "중복",
+		"writer": "작성자",
+		"dataEmpty": "조회된 결과가 없습니다.",
+		"fileChoose": "파일을 선택해주세요.",
+		"upload": "업로드",
+		"uploadSure": "업로드 하시겠습니까?",
+		"brainwave": "뇌파",
+		"survey": "설문",
+		"deleteSure": "정말로 삭제하시겠습니까?"
+	},
+	"survey": {
+		"this": "Survey",
+		"request": "Survey Request",
+		"name": "Survey name",
+		"info": "Survey information",
+		"type": "Survey type",
+		"source": "Survey source",
+		"howto": "How to do",
+		"counts": "Survey counts",
+		"spend": "Time to take",
+		"scale": "Survey scales",
+		"reset": "Reset",
+		"cancel": "Survey cancel",
+		"list": "Surveys List",
+		"state": "Survey state",
+		"requested" : "Requested survey",
+		"requestedDate" : "Requested date",
+		
+		"modifyRequest": "Modification request",
+		"cancelRequest": "Cancelation reqeust",
+		"successRequest": "The survey was successfully requested.",
+		"parentsAgree": "Parents Argree",
+		
+		"binding": {
+			"no" : "Survey binding No"
+		},
+		"group": {
+			"add" : "Group add",
+			"head" : "설문지 그룹 이름을 입력해주세요.",
+			"placeholder" : "그룹 이름",
+			"removeSuccess" : "그룹 삭제가 완료되었습니다.",
+			"removeFail" : "그룹 삭제가 실패되었습니다.",
+			"invalid" : {
+				"empty" : "공백은 입력이 불가능합니다.",
+				"korean" : "한글과 영어 숫자 외에 입력이 불가능합니다.(최대 10자)",
+				"duplicate" : "중복되었습니다.",
+				"privilege" : "그룹 삭제 권한이 없습니다."
+			}
+		}
+	},
+	"patient": {
+		"list" : "Patient List",
+		"email": "Patient Email",
+		"startDate": "시작 날짜",
+		"endDate": "종료 날짜",
+		"tody": "오늘 날짜",
+		"search": "조회",
+		"cntError": "카운트 이벤트 에러 발생",
+		"dataNone": "환자 데이터가 존재하지 않습니다.",
+		"info": "님 정보상세",
+		"chartId": "환자 번호",
+		"familyDoctor": "담당의",
+		"medicalDate": "상담일시",
+		"age": "나이(만)",
+		"hand": "손잡이",
+		"blood": "혈액형",
+		"bloodTxt": "형",
+		"height": "키",
+		"weight": "몸무게",
+		"report": "분석결과지",
+		"result": "결과",
+		"Handright": "오른손",
+		"Handleft": "왼손",
+		"HandBoth": "양손",
+		"femail": "여성",
+		"mail": "남성",
+		"invalid" : {
+				"blood" : "혈액형 미선택"
+			},
+		"editReason": "수정 사유",
+		"choose": "환자를 선택하세요.",
+		"registerAlert": "신규 환자가 정상적으로 등록되었습니다.",
+		"overLapAlert": "동일한 연락처나 이메일로 등록된 환자가 이미 존재합니다.",
+		"notMatch": "동일 환자가 아닙니다.(환자 등록)",
+		"register": "환자 등록",
+		"registerSuccess": "등록 성공!",
+		"registerNotice": "정상적으로 등록되었습니다.",
+		"chartIdCheck": "환자 번호 체크",
+		"addDate": "추가일시",
+		"onlyExcel": "엑셀 파일만 업로드 가능합니다.",
+		"noneDoctor": "의사 데이터 없음."
+	},
+	"diagnosis": {
+		"no" : "Diagnosis No",
+		"empty": "진료 내역이 없습니다.",
+		"emptyS": "진료내역없음",
+		"date": "진료일",
+		"comment": "진료 코멘트",
+		"info": "님 진료내역",
+		"noneCmt": "등록된 진료 코멘트가 없습니다.",
+		"choose": "진료 내역을 선택해주세요."
+	}, 
+	"board": {
+		"valid" : {
+			"title": "제목을 입력해주세요."
+		},
+		"noticeAlert": "공지기간은 한달로 지정됩니다. 공지로 지정하시겠습니까?"
+	}, 
+	"comment": {
+		"valid" : {
+			"content": "댓글 내용을 입력해주세요."
+		},
+		"deleteAlert": "댓글을 삭제하시겠습니까?"
+	}, 
+	"ajax": {
+		"invalid": {
+			"auth" : "인증에 실패 했습니다. 로그인 페이지로 이동합니다.",
+			"session" : "세션이 만료가 되었습니다. 로그인 페이지로 이동합니다."
+		}	
+	}
+}

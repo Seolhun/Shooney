@@ -1,0 +1,66 @@
+{
+	"common": {
+		"en" : "English",
+		"ko" : "Korean",
+		"no": "No",
+		"title": "Title",
+		"name": "Name",
+		"birth": "Birth",
+		"gender": "Gender",
+		"eamil": "E-Mail",
+		"type": "Type",
+		"need": "Need",
+		"notneed": "Not Need",
+		"state": "state",
+		"add": "Add",
+		"more" : "More",
+		"detail": "Detail",
+		"yes": "Yes",
+		"ok": "Confirm",
+		"modify" : "Modify",
+		"cancel": "Cancel",
+		"remove": "Remove",
+		"nono" : "No",
+		"sure" : "Are you sure?",
+		"priority" : "priority",
+		"order" : "order",
+		"content" : "내용",
+		
+		"tel": "Tel",
+		"prev": "prev",
+		"next": "next",
+		"save": "save",
+		"close": "close",
+		"register": "등록",
+		"success": "success",
+		"edit": "수정",
+		"choose": "choose",
+		"overlap": "중복",
+		"writer": "작성자",
+		"dataEmpty": "No query results found.",
+		"fileChoose": "Please select a file.",
+		"upload": "upload",
+		"uploadSure": "Do you want to upload?",
+		"brainwave": "Brainwave",
+		"survey": "Survey",
+		"deleteSure": "Do you really want to delete it?",
+		"calendar" : {
+				"sun" : "Sun",
+				"mon" : "Mon",
+				"tue" : "Tue",
+				"wed" : "Wed",
+				"thu" : "Thu",
+				"fri" : "Fri",
+				"sat" : "Sat"
+			}
+	},"index": {
+		"s1" : "We are creative technology company providing, ",
+		"s2" : "key digital services on web and mobile."
+	},
+	"ajax": {
+		"invalid": {
+			"auth" : "인증에 실패 했습니다. 로그인 페이지로 이동합니다.",
+			"session" : "세션이 만료가 되었습니다. 로그인 페이지로 이동합니다."
+		}	
+	}
+}
