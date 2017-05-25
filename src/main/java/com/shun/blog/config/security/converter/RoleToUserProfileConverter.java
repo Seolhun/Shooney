@@ -14,7 +14,7 @@ import com.shun.blog.service.user.UserProfileService;
  */
 @Component
 public class RoleToUserProfileConverter implements Converter<Object, UserProfile> {
-	static final Logger logger = LoggerFactory.getLogger(RoleToUserProfileConverter.class);
+	static final Logger LOG = LoggerFactory.getLogger(RoleToUserProfileConverter.class);
 
 	@Autowired
 	UserProfileService userProfileService;
@@ -27,7 +27,7 @@ public class RoleToUserProfileConverter implements Converter<Object, UserProfile
 	public UserProfile convert(Object element) {
 		Integer id = Integer.parseInt((String) element);
 		UserProfile profile = userProfileService.selectById(id);
-		logger.info("Profile : {}", profile);
+		LOG.info("Profile : {}", profile);
 		return profile;
 	}
 

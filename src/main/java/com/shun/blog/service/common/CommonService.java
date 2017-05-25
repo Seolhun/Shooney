@@ -1,21 +1,19 @@
 package com.shun.blog.service.common;
 
 
-import java.io.IOException;
-import java.sql.Timestamp;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.springframework.context.MessageSource;
-import org.springframework.security.core.Authentication;
-import org.springframework.validation.BindingResult;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.shun.blog.model.common.Paging;
 import com.shun.blog.model.menu.Menu;
 import com.shun.blog.model.user.User;
+import org.springframework.context.MessageSource;
+import org.springframework.security.core.Authentication;
+import org.springframework.validation.BindingResult;
+
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.sql.Timestamp;
+import java.util.Map;
 
 public interface CommonService {
 	boolean validPattern(String parameter, String patternName);

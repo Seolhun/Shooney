@@ -102,8 +102,9 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 		return multipartResolver;
 	}
 
-	@SuppressWarnings("unchecked")
+
 	@Bean
+	@SuppressWarnings("unchecked")
 	public Jackson2ObjectMapperBuilder configureObjectMapper() {
 		return new Jackson2ObjectMapperBuilder().modulesToInstall(Hibernate5Module.class);
 	}

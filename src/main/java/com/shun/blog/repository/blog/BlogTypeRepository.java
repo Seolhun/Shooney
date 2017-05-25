@@ -7,6 +7,8 @@ public interface BlogTypeRepository {
 	void insert(BlogType blogType);
 	
 	BlogType selectById(Long id) throws Exception;
+
+	BlogType selectByName(String name) throws Exception;
 	
 	List<BlogType> selectList() throws Exception;
 

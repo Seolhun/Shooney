@@ -1,17 +1,14 @@
 package com.shun.blog.service.common;
 
-import java.io.IOException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
-import java.util.Map;
-
-import javax.mail.internet.MimeMessage;
-import javax.servlet.http.HttpServletRequest;
-
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.shun.blog.model.common.Paging;
+import com.shun.blog.model.menu.Menu;
+import com.shun.blog.model.menu.MenuType;
+import com.shun.blog.model.user.User;
+import com.shun.blog.service.user.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,31 +24,37 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.shun.blog.model.common.Paging;
-import com.shun.blog.model.menu.Menu;
-import com.shun.blog.model.menu.MenuType;
-import com.shun.blog.model.user.User;
-import com.shun.blog.service.user.UserService;
+import javax.mail.internet.MimeMessage;
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+import java.util.Map;
 
 @Service
 @Transactional(transactionManager="txManager")
 public class CommonServiceImpl implements CommonService {
-	static final Logger LOG = LoggerFactory.getLogger(CommonServiceImpl.class);
+	private static final Logger LOG = LoggerFactory.getLogger(CommonServiceImpl.class);
 	
-	@Autowired
 	private UserService userService;
-	@Autowired
 	private JavaMailSender mailSender;
-	
+
+    @Autowired
+    public CommonServiceImpl(UserService userService, JavaMailSender mailSender){
+        this.userService=userService;
+        this.mailSender=mailSender;
+    }
 	
 	final private String emailPattern = "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,3})$";
 	final private String idPattern = "^[A-Za-z0-9].{1,20}";
-	final private String passwordPattern = "((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+=-~`]).{8,20})";
-//	final private String passwordPattern = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,20}";
+    final private String namePattern = ".[가-힣]{1,14}";
+    final private String phonePattern = "\\d{10,11}";
+    final private String telPattern = "\\d{9,10}";
+	final private String passwordPattern = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+=-~`]).{8,20}";
 	/*
 		(?=.*[0-9]) a digit must occur at least once
 		(?=.*[a-z]) a lower case letter must occur at least once
@@ -60,25 +63,23 @@ public class CommonServiceImpl implements CommonService {
 		(?=\\S+$) no whitespace allowed in the entire string
 		.{8,} at least 8 characters
 	*/
-	final private String namePattern = ".[가-힣]{1,14}";
-	final private String phonePattern = "\\d{10,11}";
-	final private String telPattern = "\\d{9,10}";
-	
+
+
 	@Override
 	//Pattern에 틀리면 True || 맞으면 False
 	public boolean validPattern(String parameter, String patternName) {
 		boolean validation=false;
 		switch (patternName) {
 		case "password":
-			validation=parameter.matches(passwordPattern);
+            validation=parameter.matches(passwordPattern);
 		case "email":
-			validation=parameter.matches(emailPattern);
+            validation=parameter.matches(emailPattern);
 		case "id":
-			validation=parameter.matches(idPattern);
+            validation=parameter.matches(idPattern);
 		case "name":
-			validation=parameter.matches(namePattern);
+            validation=parameter.matches(namePattern);
 		case "phone":
-			validation=parameter.matches(phonePattern);
+            validation=parameter.matches(phonePattern);
 		case "tel":
 			validation=parameter.matches(telPattern);
 		}
@@ -133,7 +134,7 @@ public class CommonServiceImpl implements CommonService {
 
 	@Override
 	public String checkVDQuestion(String question) {
-		String question_text = "";
+		String question_text;
 		try {
 			if (question.length() > 0) {
 				question_text = question.replaceAll("<(/)?([a-zA-Z]*)(\\s[a-zA-Z]*=[^>]*)?(\\s)*(/)?>", "")
@@ -186,22 +187,19 @@ public class CommonServiceImpl implements CommonService {
 		mapper.setSerializationInclusion(Include.NON_NULL);
 		mapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
 		// 추출한 자료를 JSON으로 매핑하기
-		String dtoAsString = mapper.writeValueAsString(rawData);
-		return dtoAsString;
+		return mapper.writeValueAsString(rawData);
 	}
 	
 	@Override
 	public String convertMapToVo(ObjectMapper mapper, Object object) throws Exception {
-		String objectJson = mapper.writeValueAsString(object);
-//		Patient patient2 = mapper.readValue(objectJson, Patient.class);
-		return objectJson;
+		//		Patient patient2 = mapper.readValue(objectJson, Patient.class);
+		return mapper.writeValueAsString(object);
 	}
 	
 	@Override
 	public Map<?, ?> convertVoToMap(Object object) throws Exception {
 		ObjectMapper mapper = setJSONMapper();
-		Map<?, ?> map = mapper.convertValue(object, Map.class);
-		return map;
+        return mapper.convertValue(object, Map.class);
 	}
 
 	@Override
@@ -232,7 +230,7 @@ public class CommonServiceImpl implements CommonService {
 			MessageDigest sh = MessageDigest.getInstance("SHA-256");
 			sh.update(str.getBytes());
 			byte byteData[] = sh.digest();
-			StringBuffer sb = new StringBuffer();
+			StringBuilder sb = new StringBuilder();
 			for (int i = 0; i < byteData.length; i++) {
 				sb.append(Integer.toString((byteData[i] & 0xff) + 0x100, 16).substring(1));
 			}
@@ -278,42 +276,40 @@ public class CommonServiceImpl implements CommonService {
 		mainSendMail(toEmail, from, mailSubject, mailContent);
 	}
 	
-	public void mainSendMail(String toEmail, String from, String mailSubject, String mailContent) {
-		new Thread(){
-			public void run(){
-				String emailregex = "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
-				if (toEmail.matches(emailregex)) {
-					try {
-						MimeMessage message = mailSender.createMimeMessage();
-						// true로서 멀티파트 메세지라는 의미
-						MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
-						messageHelper.setFrom(from);
-						messageHelper.setTo(toEmail);
-						messageHelper.setSubject(mailSubject);
-						messageHelper.setText(
-							"<html>"
-								+ "<body>"
-									+ "<div style='text-align : left; font-color:black; font-size : 14px;'>"
-										+ mailContent
-									+ "</div>"
-								+ "</body>"
-							+ "</html>", true);
-						// 파일첨부하기 하지만, Url위치가 틀려서 파일을 찾을 수 없다고 에러가 발생...수정 요망
-						// FileSystemResource fileImage=new
-						// FileSystemResource("/resources/img/google.png");
-						// messageHelper.addAttachment("Google Png", fileImage);
-		
-						// 로고 넣기
-						// ClassPathResource image=new
-						// ClassPathResource("/resources/img/google.png");
-						// messageHelper.addInline("Google_Logo", image);
-						mailSender.send(message);
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-				}
-			}
-		}.start();
+	private void mainSendMail(String toEmail, String from, String mailSubject, String mailContent) {
+		new Thread(() -> {
+            String emailRegex = "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
+            if (toEmail.matches(emailRegex)) {
+                try {
+                    MimeMessage message = mailSender.createMimeMessage();
+                    // true로서 멀티파트 메세지라는 의미
+                    MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
+                    messageHelper.setFrom(from);
+                    messageHelper.setTo(toEmail);
+                    messageHelper.setSubject(mailSubject);
+                    messageHelper.setText(
+                        "<html>"
+                            + "<body>"
+                                + "<div style='text-align : left; font-color:black; font-size : 14px;'>"
+                                    + mailContent
+                                + "</div>"
+                            + "</body>"
+                        + "</html>", true);
+                    // 파일첨부하기 하지만, Url위치가 틀려서 파일을 찾을 수 없다고 에러가 발생...수정 요망
+                    // FileSystemResource fileImage=new
+                    // FileSystemResource("/resources/img/google.png");
+                    // messageHelper.addAttachment("Google Png", fileImage);
+
+                    // 로고 넣기
+                    // ClassPathResource image=new
+                    // ClassPathResource("/resources/img/google.png");
+                    // messageHelper.addInline("Google_Logo", image);
+                    mailSender.send(message);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
 	}
 
 	@Override
@@ -336,8 +332,7 @@ public class CommonServiceImpl implements CommonService {
 		String searchText = checkVDQuestion(request.getParameter("sText"));
 		int searchDate = checkVDInt(request.getParameter("sDate"), 0);
 		int limit = checkVDInt(request.getParameter("limit"), 20);
-		Paging paging = new Paging(currentPage, searchType, searchText, searchDate, limit);
-		return paging;
+		return new Paging(currentPage, searchType, searchText, searchDate, limit);
 	}
 	
 	// 파라미터 호출 및 유효성 검사
@@ -411,20 +406,20 @@ public class CommonServiceImpl implements CommonService {
 	/**
 	 * 로그인 된 인원 DB정보 가쟈오기.
 	 * 
-	 * @param String userEmail
-	 * @return User user
-	 * @throws Exception
-	 */	
+	 * param String userEmail
+	 * return User user
+	 * throws Exception
+	 */
 	@Override
 	public User getAccessUserToModel() throws Exception {
 		String userEmail=getPrincipal();
 		LOG.info("return : getAccessUserToModel : {}", userEmail);
 		return userService.selectByEmail(userEmail);
 	}
-	
+
 	@Override
 	public String getPrincipal() throws Exception {
-		String userName = null;
+		String userName;
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		if (principal instanceof UserDetails) {
 			userName = ((UserDetails) principal).getUsername();
@@ -433,13 +428,13 @@ public class CommonServiceImpl implements CommonService {
 		}
 		return userName;
 	}
-	
+
 	/**
 	 * Menu 역할 확인하여 설정잡기.
-	 * 
-	 * @param Menu menu
-	 * @return Menu menu
-	 * @throws Exception
+	 *
+	 * param Menu menu
+	 * return Menu menu
+	 * throws Exception
 	 */	
 	@Override
 	public Menu setMenuConfig(HttpServletRequest request) throws Exception {

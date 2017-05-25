@@ -7,6 +7,5 @@ var	csrfToken=$("#csrfToken").attr("content");
 $(document).ready(function(){
 	//HTML에 FileUpload시 정보띄우
 	CommonService.checkFileBeforeUpload("files");
-	
-	
 });
+

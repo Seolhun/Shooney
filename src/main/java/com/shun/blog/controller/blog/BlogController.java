@@ -2,8 +2,6 @@ package com.shun.blog.controller.blog;
 
 import com.shun.blog.model.blog.Blog;
 import com.shun.blog.model.blog.BlogType;
-import com.shun.blog.model.blog.EntityName;
-import com.shun.blog.model.blog.PortfolioName;
 import com.shun.blog.model.common.Paging;
 import com.shun.blog.model.file.FileData;
 import com.shun.blog.model.file.FileNameInvalidException;
@@ -34,7 +32,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
-import java.security.Principal;
 import java.util.*;
 
 @Controller
@@ -43,11 +40,11 @@ public class BlogController {
     private static final Logger LOG = LoggerFactory.getLogger(BlogController.class);
 
     private BlogService blogService;
-    private CommonService commonService;
-    private MessageSource messageSource;
-    private FileService fileService;
-    private MenuService menuService;
-    private BlogTypeService blogTypeService;
+    CommonService commonService;
+    MessageSource messageSource;
+    FileService fileService;
+    MenuService menuService;
+    BlogTypeService blogTypeService;
 
     @Autowired
     public BlogController(BlogService blogService, BlogTypeService blogTypeService,
@@ -63,19 +60,19 @@ public class BlogController {
     /**
      * 게시판 리스트
      *
-     * @param portfolioType
-     * @return String  -view
-     * @throws Exception
+     * param portfolioType
+     * return String  -view
+     * throws Exception
      */
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public String allBlogList(ModelMap model, HttpServletRequest request, @RequestParam(required = false, name = "pf") String portfolioType) throws Exception {
+    public String allBlogList(ModelMap model, HttpServletRequest request, @RequestParam(required = false, name = "bt") String boardType) throws Exception {
         Menu menu = commonService.setMenuConfig(request);
         List<Menu> menuList = menuService.findAllByType(menu, menu.getMenuType());
         model.addAttribute("menuList", menuList);
 
         //페이징 세팅 및 파라미터 가져오기.
         Paging paging = commonService.beforeGetPaging(request);
-        paging.setPortfolioType(portfolioType);
+        paging.setBoardType(boardType);
 
         // 전체 게시판 갯수 확인
         int totalCount = blogService.getCount(paging);
@@ -87,21 +84,21 @@ public class BlogController {
         try {
             blogs = blogService.selectList(paging);
         } catch (NullPointerException e) {
-
+            LOG.info("error : /blog/list Nullpoint Error");
         }
 
         model.addAttribute("blogs", blogs);
         model.addAttribute("paging", paging);
-        model.addAttribute("pfNames", PortfolioName.values());
+        model.addAttribute("blogTypes", blogTypeService.selectList());
         return "blog/blog-list";
     }
 
     /**
      * 게시판 등록 페이지 이동
      *
-     * @param -
-     * @return String  -view
-     * @throws Exception
+     * param -
+     * return String  -view
+     * throws Exception
      */
     @RequestMapping(value = "/insert", method = RequestMethod.GET)
     public String addBlog(HttpServletRequest request, Model model) throws Exception {
@@ -111,25 +108,23 @@ public class BlogController {
 
         model.addAttribute("blog", new Blog());
         model.addAttribute("edit", false);
-        model.addAttribute("enNames", EntityName.values());
-        model.addAttribute("pfNames", PortfolioName.values());
+        model.addAttribute("blogTypes", blogTypeService.selectList());
         return "blog/blog-insert";
     }
 
     /**
      * 게시판 등록하기 - 파일업로드
      *
-     * @param blog, files
-     * @return String  -view
-     * @throws Exception
+     * param blog, files
+     * return String  -view
+     * throws Exception
      */
     @RequestMapping(value = "/insert", method = RequestMethod.POST)
     public String insertBlogDo(Blog blog, @RequestParam(name = "files") MultipartFile[] files, BindingResult bindingResult, ModelMap model, HttpServletRequest request, RedirectAttributes redirect) throws Exception {
         //Blog 부분
         model.addAttribute("blog", blog);
         model.addAttribute("edit", false);
-        model.addAttribute("enNames", EntityName.values());
-        model.addAttribute("pfNames", PortfolioName.values());
+        model.addAttribute("blogTypes", blogTypeService.selectList());
 
         //게시판 유효성 검사.
         String mapping = "blog/blog-insert";
@@ -159,16 +154,7 @@ public class BlogController {
 
             blogService.insert(blog);
             fileService.insert(fileData);
-        } catch (FileUploadOverException e) {
-            e.printStackTrace();
-            return mapping;
-        } catch (FileNameInvalidException e) {
-            e.printStackTrace();
-            return mapping;
-        } catch (FileUploadException e) {
-            e.printStackTrace();
-            return mapping;
-        } catch (IOException e) {
+        } catch (FileUploadOverException | FileUploadException | FileNameInvalidException | IOException e) {
             e.printStackTrace();
             return mapping;
         }
@@ -179,12 +165,12 @@ public class BlogController {
     /**
      * 게시물 자세히보기, 쿠키로 조회수 늘리기.
      *
-     * @param id
-     * @return String  -view
-     * @throws Exception
+     * param id
+     * return String  -view
+     * throws Exception
      */
     @RequestMapping(value = {"/detail/{id}"}, method = RequestMethod.GET)
-    public String detailBlog(@PathVariable Long id, ModelMap model, HttpServletRequest request, HttpServletResponse response, Principal principal) throws Exception {
+    public String detailBlog(@PathVariable Long id, ModelMap model, HttpServletRequest request, HttpServletResponse response) throws Exception {
         Menu menu = commonService.setMenuConfig(request);
         List<Menu> menuList = menuService.findAllByType(menu, menu.getMenuType());
         model.addAttribute("menuList", menuList);
@@ -193,8 +179,7 @@ public class BlogController {
         String strId = String.valueOf(id);
         Blog blog = new Blog();
         if (checkHitCookie(request, response, strId)) {
-            blog.setBlogId(id);
-            ;
+            blog.setId(id);
             blog.setHits(1);
             blogService.update(blog);
         }
@@ -203,17 +188,16 @@ public class BlogController {
         model.addAttribute("blog", blog);
         model.addAttribute("edit", false);
         model.addAttribute("accessUser", commonService.getAccessUserToModel());
-        model.addAttribute("enNames", blog.getEntityName());
-        model.addAttribute("pfNames", blog.getPortfolioType());
+        model.addAttribute("blogTypes", blogTypeService.selectList());
         return "blog/blog-detail";
     }
 
     /**
      * 게시판 리스트
      *
-     * @param @PathVariable Long id
-     * @return String  -view
-     * @throws Exception
+     * param @PathVariable Long id
+     * return String  -view
+     * throws Exception
      */
     @RequestMapping(value = {"/modify/{id}"}, method = RequestMethod.GET)
     public String editBlog(@PathVariable Long id, ModelMap model, HttpServletRequest request) throws Exception {
@@ -228,8 +212,7 @@ public class BlogController {
 
         model.addAttribute("blog", blog);
         model.addAttribute("edit", true);
-        model.addAttribute("enNames", EntityName.values());
-        model.addAttribute("pfNames", PortfolioName.values());
+        model.addAttribute("blogTypes", blogTypeService.selectList());
         return "blog/blog-modify";
     }
 
@@ -256,6 +239,10 @@ public class BlogController {
 
         dbBlog.setDelFlag("Y");
         blogService.update(dbBlog);
+
+        BlogType blogType=new BlogType(dbBlog.getBlogType());
+        blogTypeService.update(blogType,-1);
+
         return "redirect:/blog/list";
     }
 
@@ -265,13 +252,13 @@ public class BlogController {
     /**
      * Insert Blog Type
      *
-     * @param
-     * @return String  -view
-     * @throws Exception
+     * param
+     * return String  -view
+     * throws Exception
      */
     @RequestMapping(value = "/type/list", method = RequestMethod.GET)
     @ResponseBody
-    public List<BlogType> getBoardType(ModelMap model, HttpServletRequest request) throws Exception {
+    public List<BlogType> getBoardType() throws Exception {
         List<BlogType> blogTypes = new ArrayList<>();
         try {
             blogTypes = blogTypeService.selectList();
@@ -299,7 +286,7 @@ public class BlogController {
 
         // 저장된 쿠키 중 읽었었던 해당 게시판의 번호 불러오기
         String originalNo = (String) cookieMap.get(tableName);
-        Cookie cookie = null;
+        Cookie cookie;
         if (originalNo == null) {
             cookie = new Cookie(tableName, id);
         } else {

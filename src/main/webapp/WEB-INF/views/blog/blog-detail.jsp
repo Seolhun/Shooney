@@ -26,20 +26,11 @@
 					<div class="form-control rounded-right">${blog.blogId }</div>
 				</div>
 			</div>
-			<!--  
-			<div class="col-sm-2">
-				Portfolio Type
-				<div class="input-group margin-bottom-20">
-					<span class="input-group-addon rounded-left"><i class="icon-user color-green"></i></span>
-					<div class="form-control rounded-right" id="blog_entityname">${blog.entityName }</div>
-				</div>
-			</div>
-			-->
 			<div class="col-sm-3">
 				Portfolio Type
 				<div class="input-group margin-bottom-20">
 					<span class="input-group-addon rounded-left"><i class="icon-envelope color-green"></i></span>
-					<div class="form-control rounded-right">${blog.portfolioType }</div>
+					<div class="form-control rounded-right">${blog.blogType }</div>
 				</div>
 			</div>
 			
@@ -203,5 +194,5 @@
  </div>
 </tag:layout>
 <!-- Custom & Functional JS -->
-<script type="text/javascript" src="${resources}/js/blog.js"></script>
-<script type="text/javascript" src="${resources}/js/comment.js"></script>
+<script type="text/javascript" src="${resources}/js/blog/blog.js"></script>
+<script type="text/javascript" src="${resources}/js/comment/comment.js"></script>

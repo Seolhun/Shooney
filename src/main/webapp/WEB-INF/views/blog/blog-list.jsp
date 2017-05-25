@@ -16,7 +16,7 @@
 			</div>
 			<sec:authorize access="hasRole('SUPERADMIN')">
 				<div class="call-action-v1-in inner-btn page-scroll">
-			 		<a href="insert" class="btn-u btn-brd btn-brd-hover btn-u-dark-blue btn-u-block margin-bottom-5">Write</a>
+			 		<a href="insert" class="btn-u btn-u-dark-blue rounded margin-bottom-5 ">Write</a>
 		 		</div>
 		 	</sec:authorize>
 		</div>
@@ -26,8 +26,8 @@
 	<div class="row">
 		<div class="col-sm-12">
 			<a href="list" class="btn-u btn-brd btn-brd-hover btn-u-dark-blue rounded">All</a>
-			<c:forEach items="${pfNames }" var="i">
-				<a href="list?pf=${i.type}" class="btn-u btn-brd btn-brd-hover btn-u-dark-blue rounded">${i}</a>
+			<c:forEach items="${blogTypes }" var="i">
+				<a href="list?bf=${i.name}" class="btn-u btn-brd btn-brd-hover btn-u-dark-blue rounded">${i.name} [${i.counts}]</a>
 			</c:forEach>
 		</div>
 		<hr>
@@ -35,7 +35,7 @@
    			<c:choose>
   				<c:when test="${fn:length(blogs)<1}">
   					<div class="font-24 text-center margin-bottom-30">
-  						${param.pf } 게시물이 없습니다.
+  						${param.bf } 게시물이 없습니다.
   					</div>
   				</c:when>
   				<c:otherwise>
@@ -54,7 +54,7 @@
 							<c:forEach items="${blogs}" var="i">
 								<tr>
 									<td class="width-10 text-center">${i.blogId}</td>
-									<td class="width-60"><a href="${blo }/detail/${i.blogId}">[ ${i.portfolioType} ] ${i.title}<c:if test="${i.depth>0}">&nbsp;&nbsp;<i class="fa fa-comments">&nbsp;${i.depth}</i></c:if></a></td>
+									<td class="width-60"><a href="${blo }/detail/${i.blogId}">[ ${i.blogType} ] ${i.title}<c:if test="${i.depth>0}">&nbsp;&nbsp;<i class="fa fa-comments">&nbsp;${i.depth}</i></c:if></a></td>
 									<td class="width-10 text-center">${i.createdBy}</td>
 									<td class="width-10 text-center"><fmt:formatDate value="${i.createdDate}" pattern="yy-MM-dd, HH:mm"/></td>
 									<td class="width-5 text-center">${i.hits}</td>
@@ -114,4 +114,4 @@
 	</div> 
 </div>
 </tag:layout>
-<script type="text/javascript" src="${resources}/js/blog.js"></script>
+<script type="text/javascript" src="${resources}/js/blog/blog.js"></script>

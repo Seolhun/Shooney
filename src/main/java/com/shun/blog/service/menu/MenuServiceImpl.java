@@ -1,7 +1,7 @@
 package com.shun.blog.service.menu;
 
-import java.util.List;
-
+import com.shun.blog.model.menu.Menu;
+import com.shun.blog.repository.menu.MenuRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,8 +10,7 @@ import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.shun.blog.model.menu.Menu;
-import com.shun.blog.repository.menu.MenuRepository;
+import java.util.List;
 
 @Service
 @Transactional(transactionManager="txManager")
@@ -29,9 +28,9 @@ public class MenuServiceImpl implements MenuService {
 	/**
 	 * menu정보 가ㅕ오기.
 	 * 
-	 * @param Content menu
-	 * @return List<Menu> menuList
-	 * @throws Exception
+	 * param Content menu
+	 * return List<Menu> menuList
+	 * throws Exception
 	 */
 	@Override
 //	@Caching(cacheable={@Cacheable(key="#surveyId+'|survey'", value="survey")})

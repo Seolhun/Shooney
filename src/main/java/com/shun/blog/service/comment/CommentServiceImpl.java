@@ -1,15 +1,14 @@
 package com.shun.blog.service.comment;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.shun.blog.model.blog.Blog;
 import com.shun.blog.model.comment.Comment;
 import com.shun.blog.repository.blog.BlogRepository;
 import com.shun.blog.repository.comment.CommentRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @Transactional(transactionManager="txManager")
@@ -43,7 +42,7 @@ public class CommentServiceImpl implements CommentService {
 	public void saveComment(Comment comment) throws Exception {
 		commentRepository.saveComment(comment);
 		
-		Blog dbBlog= blogRepository.selectById(comment.getBlogInComment().getBlogId());
+		Blog dbBlog= blogRepository.selectById(comment.getBlogInComment().getId());
 		//읽을시 쿠키 읽기
 		if(dbBlog != null){
 			int depth=dbBlog.getDepth();
@@ -69,7 +68,7 @@ public class CommentServiceImpl implements CommentService {
 		if(createdBy.equals(modifyBy)){
 			if(comment.getDelFlag().equals("Y")){
 				dbComment.setDelFlag(comment.getDelFlag());
-				Blog dbBlog= blogRepository.selectById(dbComment.getBlogInComment().getBlogId());
+				Blog dbBlog= blogRepository.selectById(dbComment.getBlogInComment().getId());
 				//읽을시 쿠키 읽기
 				if(dbBlog != null){
 					int depth=dbBlog.getDepth();

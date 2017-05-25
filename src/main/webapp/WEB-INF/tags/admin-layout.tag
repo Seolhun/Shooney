@@ -77,14 +77,14 @@
 					<div class="row" id="aboverow">
 						<div class="col-sm-4">
 							<span class="margin-right-10">
-								<a class="link-txt" id="head-a" href="javascript:void(0);" onclick="changeLang('ko_KR');">
+								<a class="link-txt" class="head-a" href="javascript:void(0);" onclick="changeLang('ko_KR');">
 									<img src="${resources}/img/lang_ko.png" class="language">
 									<span>Korean</span>
 								</a>
 							</span> 
 							<span>&nbsp;|&nbsp;</span>
 							<span class="margin-right-10">
-								<a class="link-txt" id="head-a" href="javascript:void(0);" onclick="changeLang('en_US');">
+								<a class="link-txt" class="head-a" href="javascript:void(0);" onclick="changeLang('en_US');">
 									<img src="${resources}/img/lang_en.png" class="language">
 									<span>English</span>
 								</a>
@@ -95,14 +95,14 @@
 								<sec:authorize access="isAuthenticated()">
 									<span class="margin-right-10"><b>ID : </b><sec:authentication property="principal.username"/></span>
 									<span class="margin-right-20"><b>Role : </b><sec:authentication property="principal.authorities"/></span>
-									<span class="margin-right-20"><b><a href="${logout }" id="head-a">LOGOUT</a></b></span>
+									<span class="margin-right-20"><b><a href="${logout }" class="head-a">LOGOUT</a></b></span>
 									<sec:authorize access="hasRole('SUPERADMIN')">
-										<span><b><a href="${admin}/user/list" id="head-a">Admin</a></b></span>
+										<span><b><a href="${admin}/user/list" class="head-a">ADMIN</a></b></span>
 									</sec:authorize>
 								</sec:authorize>
 								<sec:authorize access="isAnonymous()">
-									<b><a href="${login }" class="margin-right-10" id="head-a">LOGIN</a></b>
-									<b><a href="${signup }" id="head-a">SIGN UP</a></b>
+									<b><a href="${login }" class="margin-right-10" class="head-a">LOGIN</a></b>
+									<b><a href="${signup }" class="head-a">SIGN UP</a></b>
 								</sec:authorize>
 							</div>
 						</div>

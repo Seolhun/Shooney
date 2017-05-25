@@ -26,15 +26,21 @@ public class BlogTypeServiceImpl implements BlogTypeService {
     }
 
     @Override
-    public void insert(BlogType blogType) {
-        LOG.info("param : insert {}", blogType.toString());
-        blogTypeRepository.insert(blogType);
-    }
-
-    @Override
     public BlogType selectById(Long id) throws Exception {
         LOG.info("param : selectById {}", id);
         return blogTypeRepository.selectById(id);
+    }
+
+    @Override
+    public BlogType selectByName(String name) throws Exception {
+        LOG.info("param : selectByName {}", name);
+        return blogTypeRepository.selectByName(name);
+    }
+
+    @Override
+    public void insert(BlogType blogType) {
+        LOG.info("param : insert {}", blogType.toString());
+        blogTypeRepository.insert(blogType);
     }
 
     @Override
@@ -50,13 +56,24 @@ public class BlogTypeServiceImpl implements BlogTypeService {
     @Override
     public void update(BlogType blogType, int variableCount) throws Exception {
         LOG.info("param : update {}", blogType.toString());
-        BlogType dbBlogType = blogTypeRepository.selectById(blogType.getId());
-        //읽을시 쿠키 읽기
-        dbBlogType.setCounts(dbBlogType.getCounts()+(variableCount));
-        dbBlogType.setTitle(blogType.getTitle());
-        dbBlogType.setCreatedBy(blogType.getCreatedBy());
-        dbBlogType.setModifiedBy(blogType.getModifiedBy());
-        dbBlogType.setDepth(blogType.getDepth());
+        BlogType dbBlogType = null;
+        try {
+            if (blogType.getId() != null) {
+                dbBlogType = blogTypeRepository.selectById(blogType.getId());
+            } else if (blogType.getName() != null) {
+                dbBlogType = blogTypeRepository.selectByName(blogType.getName());
+            }
+        } catch (NullPointerException e) {
+            LOG.info("error : update BlogType NullPointerException");
+        }
+        if (dbBlogType != null) {
+            dbBlogType.setName(blogType.getName());
+            dbBlogType.setCounts(dbBlogType.getCounts() + (variableCount));
+            dbBlogType.setCreatedBy(blogType.getCreatedBy());
+            dbBlogType.setModifiedBy(blogType.getModifiedBy());
+            dbBlogType.setDepth(blogType.getDepth());
+        }
+
     }
 
     @Override

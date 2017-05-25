@@ -1,27 +1,21 @@
 package com.shun.blog.controller.comment;
 
+import com.shun.blog.model.comment.Comment;
+import com.shun.blog.model.common.AjaxResult;
+import com.shun.blog.service.comment.CommentService;
+import com.shun.blog.service.common.CommonService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.shun.blog.model.comment.Comment;
-import com.shun.blog.model.common.AjaxResult;
-import com.shun.blog.service.comment.CommentService;
-import com.shun.blog.service.common.CommonService;
 
 @RestController
 @RequestMapping(value = "/reply")
@@ -40,9 +34,9 @@ public class CommentRestController {
 	/**
 	 * 댓글 입력하기..
 	 * 
-	 * @param Comment comment
-	 * @return -
-	 * @throws Exception
+	 * param Comment comment
+	 * return -
+	 * throws Exception
 	 */
 	@RequestMapping(value = "/{entity}/insert", method = RequestMethod.POST, produces = "application/json")
 	public Comment addBoardComment(@RequestBody Comment comment, @PathVariable String entity) throws Exception {
@@ -59,7 +53,7 @@ public class CommentRestController {
 		String content=comment.getContent();
 		if(content==null || content.length()<1 || content.length()>300){
 			return comment;
-		} else if(comment.getBlogInComment().getBlogId()<1){
+		} else if(comment.getBlogInComment().getId()<1){
 			return comment;
 		}
 		
@@ -75,9 +69,9 @@ public class CommentRestController {
 	/**
 	 * 댓글 리스트 가져오기.
 	 * 
-	 * @param Comment comment
-	 * @return List<Comment>
-	 * @throws Exception
+	 * param Comment comment
+	 * return List<Comment>
+	 * throws Exception
 	 */
 	@RequestMapping(value = "/{entity}/list/more", method = RequestMethod.POST, produces = "application/json")
 	public Map<String, Object> getCommentsList(@RequestBody Comment comment, @PathVariable String entity, HttpServletRequest request, ModelMap model) throws Exception {

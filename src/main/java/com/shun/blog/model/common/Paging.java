@@ -1,8 +1,8 @@
 package com.shun.blog.model.common;
 
-import java.io.Serializable;
-
 import lombok.Data;
+
+import java.io.Serializable;
 
 @Data
 public class Paging implements Serializable {
@@ -43,9 +43,7 @@ public class Paging implements Serializable {
 	private String entityName;
 	// 게시판 종류
 	private String boardType;
-	//게시판에서 게시물의 타입.
-	private String portfolioType;
-	
+
 	private String question;
 	// 검색 종류 설정
 	private int searchType;
@@ -53,19 +51,18 @@ public class Paging implements Serializable {
 	private String searchText;
 	// 게시판 날짜 검색용
 	private int searchDate;
-	
+
 	public Paging() {
 
 	}
-	
-	public Paging(int currentPage, int searchType, String searchText, int searchDate, int limit, String boardType, String portfolioType){
+
+	public Paging(int currentPage, int searchType, String searchText, int searchDate, int limit, String boardType){
 		this.currentPage = currentPage;
 		this.searchType = searchType;
 		this.searchText = searchText;
 		this.searchDate=searchDate;
 		this.limit = limit;
 		this.boardType=boardType;
-		this.portfolioType=portfolioType;
 	}
 
 	public Paging(int currentPage, int searchType, String searchText, int searchDatesDate, int limit) {
@@ -74,14 +71,5 @@ public class Paging implements Serializable {
 		this.searchText = searchText;
 		this.limit = limit;
 		this.searchDate = searchDatesDate;
-	}
-
-	public Paging(int currentPage, int searchType, String searchText, int searchDate, int limit, String boardType) {
-		this.currentPage = currentPage;
-		this.searchType = searchType;
-		this.searchText = searchText;
-		this.searchDate = searchDate;
-		this.limit = limit;
-		this.boardType = boardType;
 	}
 }

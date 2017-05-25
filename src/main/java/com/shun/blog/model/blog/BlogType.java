@@ -10,41 +10,59 @@ import java.util.Date;
 
 @Data
 @Entity
-@Table(name = "TB_BLOG_TYPE")
+@Table(name = "TB_BLOG_TYPE", uniqueConstraints = {@UniqueConstraint(columnNames = "BLOG_TYPE_NAME")})
 public class BlogType implements Serializable {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "BLOG_TYPE_ID")
-	private Long Id;
-	
-	@Column(name = "BLOG_TYPE_TITLE",length=150 , nullable = false)
-	private String title;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "BLOG_TYPE_ID")
+    private Long id;
 
-	@Column(name = "BLOG_TYPE_COUNTS", nullable=false)
-	private int counts=0;
+    @Column(name = "BLOG_TYPE_NAME", length = 150)
+    private String name;
 
-	@Column(name = "BLOG_TYPE_DEPTH", nullable=false)
-	private int depth=0;
+    @Column(name = "BLOG_TYPE_COUNTS")
+    private int counts = 0;
 
-	@Column(name = "BLOG_TYPE_CREATED_BY", length = 60, nullable = false)
-	private String createdBy;
+    @Column(name = "BLOG_TYPE_DEPTH")
+    private int depth = 0;
 
-	@Column(name = "BLOG_TYPE_MODIFIED_BY", length = 60)
-	private String modifiedBy;
+    @Column(name = "BLOG_TYPE_CREATED_BY", length = 60)
+    private String createdBy;
 
-	@CreationTimestamp
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "BLOG_TYPE_CREATED_DATE")
-	private Date createdDate;
+    @Column(name = "BLOG_TYPE_MODIFIED_BY", length = 60)
+    private String modifiedBy;
 
-	@UpdateTimestamp
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "BLOG_TYPE_MODIFIED_DATE")
-	private Date modifiedDate;
-	
-	@Column(name = "BLOG_TYPE_DEL_FLAG")
-	private String delFlag="N";
+    @CreationTimestamp
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "BLOG_TYPE_CREATED_DATE")
+    private Date createdDate;
 
-	@Version
-	private int version;
+    @UpdateTimestamp
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "BLOG_TYPE_MODIFIED_DATE")
+    private Date modifiedDate;
+
+    @Column(name = "BLOG_TYPE_DEL_FLAG", length = 1)
+    private String delFlag = "N";
+
+    @Version
+    @Column(name = "VERSION")
+    private int version;
+
+    public BlogType() {
+
+    }
+
+    public BlogType(Long Id) {
+        this.id = id;
+    }
+
+    public BlogType(String name) {
+        this.name = name;
+    }
+
+    public BlogType(Long Id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 }

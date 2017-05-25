@@ -98,9 +98,9 @@
 								<sec:authorize access="isAuthenticated()">
 									<span class="margin-right-10"><b>ID : </b><sec:authentication property="principal.username"/></span>
 									<span class="margin-right-20"><b>Role : </b><sec:authentication property="principal.authorities"/></span>
-									<span class="margin-right-20"><b><a href="${logout }" >LOGOUT</a></b></span>
+									<span class="margin-right-20"><b><a class="head-a" href="${logout }" >LOGOUT</a></b></span>
 									<sec:authorize access="hasRole('SUPERADMIN')">
-										<span><b><a class="head-a" href="${admin}/user/list" >Admin</a></b></span>
+										<span><b><a class="head-a" href="${admin}/user/list" >ADMIN</a></b></span>
 									</sec:authorize>
 								</sec:authorize>
 								<sec:authorize access="isAnonymous()">

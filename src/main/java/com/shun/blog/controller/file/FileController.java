@@ -1,19 +1,7 @@
 package com.shun.blog.controller.file;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.nio.charset.Charset;
-import java.util.Map;
-
-import javax.activation.MimetypesFileTypeMap;
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletResponse;
-
+import com.shun.blog.model.file.FileData;
+import com.shun.blog.service.file.FileService;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,8 +11,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.shun.blog.model.file.FileData;
-import com.shun.blog.service.file.FileService;
+import javax.activation.MimetypesFileTypeMap;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
+import java.nio.charset.Charset;
+import java.util.Map;
 
 /**
  * Handles requests for the application file upload requests
@@ -43,9 +35,9 @@ public class FileController {
 	/**
 	 * 파일 다운로드 받기.
 	 * 
-	 * @param String portfolioType
-	 * @return String  -view
-	 * @throws Exception
+	 * param String portfolioType
+	 * return String  -view
+	 * throws Exception
 	 */
 	@GetMapping(value="/file/download/{fileId}")
 	public void downloadFile(FileData fileData, HttpServletResponse response, @PathVariable Long fileId) throws Exception{

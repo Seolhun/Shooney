@@ -1,32 +1,16 @@
 package com.shun.blog.model.comment;
 
-import java.io.Serializable;
-import java.util.Date;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.ForeignKey;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.persistence.Transient;
-
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
-
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.shun.blog.model.blog.Blog;
 import com.shun.blog.model.common.Paging;
-
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.Date;
 
 @Data
 @Entity
@@ -66,7 +50,7 @@ public class Comment implements Serializable {
 	@Column(name = "COMMENT_MODIFIED_DATE")
 	private Date modifiedDate;
 	
-	@Column(name = "COMMENT_DEL_FLAG")
+	@Column(name = "COMMENT_DEL_FLAG", length = 1)
 	private String delFlag="N";
 	
 	@Transient

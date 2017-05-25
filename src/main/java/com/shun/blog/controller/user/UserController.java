@@ -1,14 +1,11 @@
 package com.shun.blog.controller.user;
 
-import java.security.Principal;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
-
+import com.shun.blog.model.user.User;
+import com.shun.blog.model.user.UserProfile;
+import com.shun.blog.model.user.UserProfileType;
+import com.shun.blog.service.common.CommonService;
+import com.shun.blog.service.user.UserProfileService;
+import com.shun.blog.service.user.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,49 +20,45 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.annotation.*;
 
-import com.shun.blog.model.user.User;
-import com.shun.blog.model.user.UserProfile;
-import com.shun.blog.model.user.UserProfileType;
-import com.shun.blog.service.common.CommonService;
-import com.shun.blog.service.user.UserProfileService;
-import com.shun.blog.service.user.UserService;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
+import java.security.Principal;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Controller
 @SessionAttributes({"roles"})
 public class UserController {
+    private static final Logger LOG = LoggerFactory.getLogger(UserController.class);
 
-	@Autowired
-	UserService userService;
+    private UserService userService;
+    private UserProfileService userProfileService;
+    private MessageSource messageSource;
+    private PersistentTokenBasedRememberMeServices persistentTokenBasedRememberMeServices;
+    private AuthenticationTrustResolver authenticationTrustResolver;
+    private CommonService commonService;
 
-	@Autowired
-	UserProfileService userProfileService;
-
-	@Autowired
-	MessageSource messageSource;
-
-	@Autowired
-	PersistentTokenBasedRememberMeServices persistentTokenBasedRememberMeServices;
-
-	@Autowired
-	AuthenticationTrustResolver authenticationTrustResolver;
-
-	@Autowired
-	CommonService commonService;
-
-	private static final Logger LOG = LoggerFactory.getLogger(UserController.class);
+    @Autowired
+    UserController(UserService userService, UserProfileService userProfileService, MessageSource messageSource, PersistentTokenBasedRememberMeServices persistentTokenBasedRememberMeServices,
+                   AuthenticationTrustResolver authenticationTrustResolver,CommonService commonService){
+        this.userService=userService;
+        this.userProfileService=userProfileService;
+        this.messageSource=messageSource;
+        this.persistentTokenBasedRememberMeServices=persistentTokenBasedRememberMeServices;
+        this.authenticationTrustResolver=authenticationTrustResolver;
+        this.commonService=commonService;
+    }
 
 	/**
 	 * 회원가입 페이지 이동
 	 * 
-	 * @param -
-	 * @return String  -view
-	 * @throws Exception
+	 * param -
+	 * return String  -view
+	 * throws Exception
 	 */
 	@RequestMapping(value = "/signup", method = RequestMethod.GET)
 	public String signup(ModelMap model, HttpServletResponse res, Principal principal) throws Exception {
@@ -75,13 +68,13 @@ public class UserController {
 		model.addAttribute("role", UserProfileType.values());
 		return "user/signup";
 	}
-	
+
 	/**
 	 * 회원가입 전송
-	 * 
-	 * @param User user
-	 * @return String  -view
-	 * @throws Exception
+	 *
+	 * param User user
+	 * return String  -view
+	 * throws Exception
 	 */
 	@RequestMapping(value = { "/signup" }, method = RequestMethod.POST)
 	public String signupDo(@Valid User user, BindingResult result, ModelMap model, HttpServletRequest request) throws Exception{
@@ -115,7 +108,7 @@ public class UserController {
 		up.setType(UserProfileType.GUEST.getType());
 		upSet.add(up);
 		user.setUserProfiles(upSet);
-		
+
 		userService.insert(user);
 		model.addAttribute("success", "User " + user.getEmail() + " registered successfully");
 		model.addAttribute("loggedinuser", commonService.getPrincipal());
@@ -124,10 +117,10 @@ public class UserController {
 
 	/**
 	 * 로그인
-	 * 
-	 * @param String error
-	 * @return String  -view
-	 * @throws Exception
+	 *
+	 * param String error
+	 * return String  -view
+	 * throws Exception
 	 */
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String loginPage(@RequestParam(required=false) String error, HttpServletRequest request, Model model) {
@@ -144,9 +137,9 @@ public class UserController {
 
 	/**
 	 * 로그아웃
-	 * 
-	 * @param -
-	 * @return String  -view
+	 *
+	 * param -
+	 * return String  -view
 	 */
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
 	public String logoutPage(HttpServletRequest request, HttpServletResponse response) {
@@ -159,14 +152,14 @@ public class UserController {
 		}
 		return "redirect:/login?logout";
 	}
-	
+
 	// 선언하면 모델값으로 쉽게 넘길 수 있음
 	/**
 	 * 디비 권한 리스트 가져오기
-	 * 
-	 * @param -
-	 * @return List<UserProfile>
-	 * @throws Exception
+	 *
+	 * param -
+	 * return List<UserProfile>
+	 * throws Exception
 	 */
 	@ModelAttribute("roles")
 	public List<UserProfile> initializeProfiles() throws Exception{

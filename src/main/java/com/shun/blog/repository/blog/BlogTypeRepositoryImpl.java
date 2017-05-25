@@ -27,11 +27,18 @@ public class BlogTypeRepositoryImpl extends AbstractRepository<Long, BlogType> i
     }
 
     @Override
-    @SuppressWarnings("unchecked")
+    public BlogType selectByName(String name) throws Exception {
+        Criteria crit = createEntityCriteria();
+        crit.add(Restrictions.eq("name", name));
+        return (BlogType) crit.uniqueResult();
+    }
+
+    @Override
+
     public List<BlogType> selectList() throws Exception {
         // 검색 로직
         Criteria criteria = createEntityCriteria()
-                .addOrder(Order.desc("id"))
+                .addOrder(Order.desc("counts"))
                 .add(Restrictions.eq("delFlag", "N"))
                 .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 

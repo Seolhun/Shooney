@@ -17,27 +17,15 @@
 	<div class="content">
 		<form:form action="${blo }/insert?${_csrf.parameterName}=${_csrf.token}" class="form-horizontal" commandName="blog" enctype="multipart/form-data">
 			<div class="row">
-				<div class="col-sm-3 col-xs-12">
-					<div>Entity Name
-						<div class="error-blue">
-							<form:errors path="entityName" class="help-inline"/>
-						</div>
-					</div>
-					<div class="input-group margin-bottom-20">
-						<span class="input-group-addon rounded-left"><i class="icon-user color-green"></i></span>
-						<form:select path="entityName" class="form-control rounded-right" items="${enNames}"/>
-					</div>						
-				</div>
-				
-				<div class="col-sm-3 col-xs-12">
+				<div class="col-sm-6 col-xs-12">
 					<div>Portfolio Name
 						<div class="error-blue">
-							<form:errors path="portfolioType" class="help-inline"/>
+							<form:errors path="blogType" class="help-inline"/>
 						</div>
 					</div>
 					<div class="input-group">
 						<span class="input-group-addon rounded-left"><i class="icon-user color-green"></i></span>
-						<form:select path="portfolioType" class="form-control rounded-right" items="${pfNames }"/>
+						<form:select path="blogType" class="form-control rounded-right" items="${blogTypes}" itemValue="id" itemLabel="name"/>
 					</div>
 					
 				</div>
