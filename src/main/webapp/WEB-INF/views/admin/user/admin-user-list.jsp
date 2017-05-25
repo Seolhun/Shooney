@@ -6,6 +6,15 @@
 <%@ taglib prefix="tag" tagdir="/WEB-INF/tags"%>
 <spring:url value="/shooney" var="shooney" /><spring:url value="/resources" var="resources" /><spring:url value="/resources/template" var="template"/><spring:url value="/" var="shooney"/><spring:url value="/board" var="board"/><spring:url value="/project" var="project"/><spring:url value="/portfolio" var="portfolio"/><spring:url value="/myinfo" var="myinfo"/><spring:url value="/admin" var="admin"/><spring:url value="/signup" var="signup"/><spring:url value="/login" var="login"/><spring:url value="/logout" var="logout"/><spring:url value="/it" var="it"/>
 <tag:admin-layout tab="${target}">
+	<div class="call-action-v1 bg-color-light">
+		<div class="container">
+			<div class="call-action-v1-box">
+				<div class="call-action-v1-in">
+					<p>User Manager</p>
+				</div>
+			</div>
+		</div>
+	</div>
 	<div class="container content-sm">
 		<div class="row">
 			<div class="col-sm-12">

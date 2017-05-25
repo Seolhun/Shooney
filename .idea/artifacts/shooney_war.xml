@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="shooney:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="shooney-1.0.0.war">
+      <element id="artifact" artifact-name="shooney:war exploded" />
+    </root>
+  </artifact>
+</component>

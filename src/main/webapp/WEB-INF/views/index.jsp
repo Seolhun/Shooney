@@ -164,8 +164,12 @@
 		</div>
 	</div>
 	<!--=== End Call To Action ===-->
-	
-	
+
+	<div class="container">
+		<div class="content-lg">
+			공지사항 나열하기
+		</div>
+	</div>
 
 	<!--=== Carallax Counter v1 ===-->
 	<div class="parallax-counter-v1 parallaxBg" style="background-position: 50% 20px;">

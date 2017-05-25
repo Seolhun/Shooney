@@ -81,14 +81,13 @@
 					<div class="row" id="aboverow">
 						<div class="col-sm-4">
 							<span class="margin-right-10">
-								<a class="link-txt" id="head-a" href="javascript:void(0);" onclick="changeLang('ko');">
+								<a class="link-txt head-a" href="javascript:void(0);" onclick="changeLang('ko');">
 									<img src="${resources}/img/lang_ko.png" class="language">
 									<span>Korean</span>
 								</a>
-							</span> 
-							<span>&nbsp;|&nbsp;</span>
+							</span>
 							<span class="margin-right-10">
-								<a class="link-txt" id="head-a" href="javascript:void(0);" onclick="changeLang('en');">
+								<a class="link-txt head-a"  href="javascript:void(0);" onclick="changeLang('en');">
 									<img src="${resources}/img/lang_en.png" class="language">
 									<span>English</span>
 								</a>
@@ -99,14 +98,14 @@
 								<sec:authorize access="isAuthenticated()">
 									<span class="margin-right-10"><b>ID : </b><sec:authentication property="principal.username"/></span>
 									<span class="margin-right-20"><b>Role : </b><sec:authentication property="principal.authorities"/></span>
-									<span class="margin-right-20"><b><a href="${logout }" id="head-a">LOGOUT</a></b></span>
+									<span class="margin-right-20"><b><a href="${logout }" >LOGOUT</a></b></span>
 									<sec:authorize access="hasRole('SUPERADMIN')">
-										<span><b><a href="${admin}/user/list" id="head-a">Admin</a></b></span>
+										<span><b><a class="head-a" href="${admin}/user/list" >Admin</a></b></span>
 									</sec:authorize>
 								</sec:authorize>
 								<sec:authorize access="isAnonymous()">
-									<b><a href="${login }" class="margin-right-10" id="head-a">LOGIN</a></b>
-									<b><a href="${signup }" id="head-a">SIGN UP</a></b>
+									<b><a class="head-a margin-right-10" href="${login }">LOGIN</a></b>
+									<b><a class="head-a" href="${signup }" >SIGN UP</a></b>
 								</sec:authorize>
 							</div>
 						</div>
@@ -114,7 +113,7 @@
 				</div>
 			</div>
 			<!-- Navbar -->
-			<div class="navbar mega-menu" role="navigation">
+			<div class="navbar" role="navigation">
 				<div class="container">
 					<!-- Brand and toggle get grouped for better mobile display -->
 					<div class="menu-container">
@@ -166,7 +165,7 @@
 									<c:choose>
 										<c:when test="${menu.menuUrl==null}">
 											<li class="dropdown">
-												<a href="javascript:void(0);" class="dropdown-toggle" data-hover="dropdown" data-toggle="dropdown">
+												<a href="javascript:void(0);" class="dropdown-toggle"  data-toggle="dropdown">
 													${menu.menuName}
 												</a>
 												<ul class="dropdown-menu">
@@ -193,12 +192,8 @@
 		<!--=== End Header v6 ===-->
 <!-- ---------------------------------------------------------------------------------------------------------------------------------  -->
 		<!-- real Body input place  -->
-		<div>
-		
-			<jsp:doBody/>
+		<jsp:doBody/>
 			
-		</div>
-<!-- ---------------------------------------------------------------------------------------------------------------------------------  -->
 		<!--=== Footer v6 ===-->
 		<div id="footer-v6" class="footer-v6">
 			<div class="footer">

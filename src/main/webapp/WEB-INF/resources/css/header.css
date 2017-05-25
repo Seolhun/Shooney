@@ -111,21 +111,16 @@
 	width: 100%;
 }
 
-#head-a:link {
+.head-a:link {
 	color: white;
 }
 
 /* visited link */
-#head-a:visited {
+.head-a:visited {
 	color: white;
 }
 
 /* mouse over link */
-#head-a:hover {
-	color: #71bf2c;
-}
-
-/* selected link */
-#head-a:active {
+.head-a:hover {
 	color: #71bf2c;
 }
