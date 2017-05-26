@@ -4,13 +4,13 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.shun.blog.model.common.Paging;
 import com.shun.blog.model.menu.Menu;
 import com.shun.blog.model.menu.MenuType;
 import com.shun.blog.model.user.User;
 import com.shun.blog.service.user.UserService;
-import org.json.JSONArray;
-import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -544,10 +544,10 @@ public class CommonServiceImpl implements CommonService {
     }
 
     @Override
-    public JSONArray getResponseAPI(String apiUrl) throws IOException {
+    public JsonObject getResponseAPI(String apiUrl) throws IOException {
         HttpURLConnection conn = null;
-        JSONObject jsonObject = new JSONObject();
-        JSONArray jsonArray = new JSONArray();
+        JsonParser parser = new JsonParser();
+        JsonObject jsonObject = new JsonObject();
         try {
             URL url = new URL(apiUrl);
             conn = (HttpURLConnection) url.openConnection();
@@ -561,25 +561,16 @@ public class CommonServiceImpl implements CommonService {
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader((conn.getInputStream())));
 
             //String output;
-            String output;
-            while ((output = bufferedReader.readLine()) != null) {
-                LOG.info("return API output : {}", output);
-                jsonObject.put("output", output);
-                jsonArray.put(jsonObject);
+            String jsonStr = null;
+            while ((jsonStr = bufferedReader.readLine()) != null) {
+                jsonObject = parser.parse(jsonStr).getAsJsonObject();
+                LOG.info("return API output : {}", jsonObject);
             }
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
             conn.disconnect();
         }
-
-        try {
-            for (int i = 0; i < jsonArray.length(); ++i) {
-                LOG.info("return API jsonObject : {}", jsonArray.getJSONObject(i));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return jsonArray;
+        return jsonObject;
     }
 }

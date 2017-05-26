@@ -3,10 +3,10 @@ package com.shun.blog.service.common;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.JsonObject;
 import com.shun.blog.model.common.Paging;
 import com.shun.blog.model.menu.Menu;
 import com.shun.blog.model.user.User;
-import org.json.JSONArray;
 import org.springframework.context.MessageSource;
 import org.springframework.security.core.Authentication;
 import org.springframework.validation.BindingResult;
@@ -78,5 +78,5 @@ public interface CommonService {
 	//Menu 역할 확인하여 설정잡기.	
 	Menu setMenuConfig(HttpServletRequest request) throws Exception;
 
-    JSONArray getResponseAPI(String apiUrl) throws IOException;
+    JsonObject getResponseAPI(String apiUrl) throws IOException;
 }

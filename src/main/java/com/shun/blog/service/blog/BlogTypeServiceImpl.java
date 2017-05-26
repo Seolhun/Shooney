@@ -5,6 +5,9 @@ import com.shun.blog.repository.blog.BlogTypeRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -44,6 +47,7 @@ public class BlogTypeServiceImpl implements BlogTypeService {
     }
 
     @Override
+    @Caching(cacheable = {@Cacheable(key = "'selectListBoardType'", value = "selectListBoardType")})
     public List<BlogType> selectList() throws Exception {
         return blogTypeRepository.selectList();
     }
@@ -53,7 +57,9 @@ public class BlogTypeServiceImpl implements BlogTypeService {
         return blogTypeRepository.getCount();
     }
 
+
     @Override
+    @Caching(put = {@CachePut(key = "'selectListBoardType'", value = "selectListBoardType")})
     public void update(BlogType blogType, int variableCount) throws Exception {
         LOG.info("param : update {}", blogType.toString());
         BlogType dbBlogType = null;
@@ -77,6 +83,7 @@ public class BlogTypeServiceImpl implements BlogTypeService {
     }
 
     @Override
+    @Caching(put = {@CachePut(key = "'selectListBoardType'", value = "selectListBoardType")})
     public void deleteById(Long id) {
         LOG.info("param : deleteById {}", id);
         blogTypeRepository.deleteById(id);

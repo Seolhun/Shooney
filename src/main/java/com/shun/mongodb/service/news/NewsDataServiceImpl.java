@@ -1,17 +1,18 @@
 package com.shun.mongodb.service.news;
 
-import java.util.List;
-
+import com.shun.mongodb.model.news.NewsData;
+import com.shun.mongodb.repository.news.NewsDataRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.shun.mongodb.model.news.NewsData;
-import com.shun.mongodb.repository.news.NewsDataRepository;
+import java.util.List;
 
 
 @Service
@@ -41,6 +42,7 @@ public class NewsDataServiceImpl implements NewsDataService {
 	}
 	
 	@Override
+	@Caching(cacheable = {@Cacheable(key = "#pageable+'findNewsList'", value = "findNewsList")})
 	public Page<NewsData> findAll(Pageable pageable) {
 		LOG.info("param : findAll : {}", pageable.toString());
 		return newsDataRepository.findAll(pageable);

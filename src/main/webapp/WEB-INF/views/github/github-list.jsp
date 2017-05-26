@@ -11,81 +11,31 @@
 <tag:layout tab="${target}">
 <!--=== Call To Action ===-->
 <div class="call-action-v1 bg-color-light">
-	<div class="call-action-v1-box">
-		<div class="call-action-v1-in">
-			<p>프로젝트와 관련된 게시판입니다.</p>
-		</div>
-		<sec:authorize access="hasRole('SUPERADMIN')">
-			<div class="call-action-v1-in inner-btn page-scroll">
-				<a href="insert" class="btn-u btn-u-dark-blue rounded margin-bottom-5 ">Write</a>
+	<div class="container">
+		<div class="call-action-v1-box">
+			<div class="call-action-v1-in">
+				<p>GitHub API와 D3를 통해 데이터시각화를 사용합니다</p>
 			</div>
-		</sec:authorize>
+			<sec:authorize access="hasRole('SUPERADMIN')">
+				<div class="call-action-v1-in inner-btn page-scroll">
+					<a href="insert" class="btn-u btn-u-dark-blue rounded margin-bottom-5 ">Write</a>
+				</div>
+			</sec:authorize>
+		</div>
 	</div>
 </div>
 <!--=== End Call To Action ===-->
 <div class="container content-xs">
-		<div class="row">
-			<div class="col-sm-12">
-				<div class="row service-box-v1">
-					<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 no-margin-bottom">
-						<div class="service-block service-block-default">
-							<div class="">
-								<img alt="" src="${resources}/img/me.jpg" class="myprofile-img">
-							</div>
-						</div>
-						<div class="service-block service-block-default">
-							<div class="">
-								<img alt="" src="${resources}/img/me.jpg" class="myprofile-img">
-							</div>
-						</div>
-					</div>
-					
-					<div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-						<div class="service-block service-block-default myprofile">
-							<i class="icon-lg rounded-x icon icon-badge"></i>
-							<h2 class="heading-sm"><strong>History &amp; Profile</strong></h2>
-							<br>
-							<ul class="list-unstyled myprofile-ul">
-								<li>한국 지도자 육성 장학재단 41기</li>
-								<li>용인대학교 졸업(체육, 경영)</li>
-								<li>ROTC(학군단) 51기</li>
-								<li>설빙 1기 마케팅 공모전 장려상 수상</li>
-								<li>경산 국제 콘텐츠 쇼 본선 진출 (아이디어 부문)</li>
-								<li>마이다스 아이티 사관학교 1기</li>
-								<li><a href="http://imedisyn.com">(주)아이메디신</a> 연구원 </li>
-								<li>고려사이버대학교 소프트웨어 공학과 편입</li>
-							</ul>
-						</div>
-					</div>
-					<div class="col-sm-12">
-						<hr>
-					</div>
-					<div class="col-md-12 col-sm-12 col-xs-12">
-						<div class="service-block service-block-default no-margin-bottom">
-							<i class="icon-lg rounded-x icon-line icon-layers"></i>
-							<h2 class="heading-sm">Project &amp; Skill</h2>
-								<p>
-									<a class="skill">#Java</a><a class="skill">#Spring</a><a class="skill">#Hibernate</a>
-									<br>
-									<a class="skill">#CentOS</a><a class="skill">#nginX</a><a class="skill">#apache</a><a class="skill">#Tomcat</a>
-									<br>
-									<a class="skill">#Oracle</a><a class="skill">#MariaDB</a><a class="skill">#MongoDB</a>
-									<br>
-									<a class="skill">#Java Script</a><a class="skill">#Ajax</a><a class="skill">#JQuery</a>
-									<a class="skill">#Boot Strap</a><a class="skill">#Foundation</a>
-								</p>
-							<ul class="list-unstyled">
-								<li>Git Hub | <a href="https://github.com/Seolhun">https://github.com/Seolhun</a></li>
-								<li>&nbsp;&nbsp;&nbsp;Web&nbsp;&nbsp;&nbsp;| <a href="http://imedisyn.com">http://imedisyn.com</a></li>
-								<li>&nbsp;&nbsp;&nbsp;Web&nbsp;&nbsp;&nbsp;| <a href="http://imedisyn.com/isyncbrain">http://imedisyn.com/isyncbrain</a></li>
-								<li>&nbsp;&nbsp;&nbsp;Web&nbsp;&nbsp;&nbsp;| <a href="${po}/project/3">SIST Third Project</a></li>
-								<li>&nbsp;&nbsp;&nbsp;Web&nbsp;&nbsp;&nbsp;| <a href="${po}/project/2">SIST Two Project</a></li>
-								<li>&nbsp;&nbsp;&nbsp;Java&nbsp;&nbsp;| <a href="${po}/project/1">SIST First Project</a></li>
-							</ul>
-						</div>
+	<div class="row">
+		<div class="col-sm-12">
+			<div class="row service-box-v1">
+				<div class="col-sm-12 no-margin-bottom">
+					<div class="service-block service-block-default">
+
 					</div>
 				</div>
 			</div>
 		</div>
-   	</div>
+	</div>
+</div>
 </tag:layout>

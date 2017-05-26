@@ -28,8 +28,8 @@
 	<div class="container" data-ng-app="NewsAngularApp">
 		<div class="content"  data-ng-controller="NewsAngularController as newsCtrl">
 			<div class="row margin-bottom-30">
-				<div class="col-sm-4" data-ng-repeat="news in newsCtrl.newsList | filter:searcText">
-					<div class="max-height-150 margin-bottom-30 newsDiv" data-ng-click="newsCtrl.MoveDetail(news.id)">
+				<div class="col-sm-4 height-300" data-ng-repeat="news in newsCtrl.newsList | filter:searcText">
+					<div class="margin-bottom-30 newsDiv" data-ng-click="newsCtrl.MoveDetail(news.id)">
                         <%--
 						<div class="col-sm-12 margin-bottom-10">
 							<b>id : {{news.id}}</b>

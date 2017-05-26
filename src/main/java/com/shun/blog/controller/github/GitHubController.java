@@ -1,5 +1,6 @@
 package com.shun.blog.controller.github;
 
+import com.google.gson.JsonObject;
 import com.shun.blog.model.menu.Menu;
 import com.shun.blog.service.common.CommonService;
 import com.shun.blog.service.menu.MenuService;
@@ -35,6 +36,8 @@ public class GitHubController {
 		List<Menu> menuList=menuService.findAllMenu(menu, menu.getMenuType());
 		model.addAttribute("menuList", menuList);
 
+        JsonObject jsonObject = new JsonObject();
+        jsonObject = commonService.getResponseAPI("https://api.github.com/search/repositories?q=blog&topic:python+topic:java&language:java&sort=stars&order=desc");
 		return "github/github-list";
 	}
 
