@@ -49,4 +49,4 @@
 			</div>
 	</div>
 </tag:layout>
-<script type="text/javascript" src="${resources}/js/news.js"></script>
+<script type="text/javascript" src="${resources}/js/news/news.js"></script>

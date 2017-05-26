@@ -29,22 +29,26 @@
 		<div class="content"  data-ng-controller="NewsAngularController as newsCtrl">
 			<div class="row margin-bottom-30">
 				<div class="col-sm-4" data-ng-repeat="news in newsCtrl.newsList | filter:searcText">
-					<div class="max-height-450 margin-bottom-30 newsDiv" data-ng-click="newsCtrl.MoveDetail(news.id)">
+					<div class="max-height-150 margin-bottom-30 newsDiv" data-ng-click="newsCtrl.MoveDetail(news.id)">
+                        <%--
 						<div class="col-sm-12 margin-bottom-10">
-							id : {{news.id}}
+							<b>id : {{news.id}}</b>
+						</div>
+                        --%>
+						<div class="col-sm-12 margin-bottom-10">
+							<b>No : {{news.idx}}</b>
 						</div>
 						<div class="col-sm-12 margin-bottom-10">
-							No : {{news.idx}}
-						</div>
-						<div class="col-sm-12 margin-bottom-10">
-							Title : {{news.title}}
+							<b>Title : {{news.title}}</b>
 						</div>
 						<div class="col-sm-12 margin-bottom-10">
 							Writer : {{news.createdBy}}
 						</div>
+						<%--
 						<div class="col-sm-12 margin-bottom-10" data-ng-if="news.headerImage != ''">
 							<img class="newsImage" data-ng-src="{{news.headerImage}}">
 						</div>
+						--%>
 					</div>
 				</div>
 			</div>
@@ -102,4 +106,4 @@
 		 -->
 	</div>
 </tag:layout>
-<script type="text/javascript" src="${resources}/js/news.js"></script>
+<script type="text/javascript" src="${resources}/js/news/news.js"></script>

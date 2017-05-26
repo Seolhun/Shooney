@@ -8,11 +8,11 @@ var root="/shooney";
 var thisHost=window.location.host;
 var thisPort=window.location.port;
 
-var BlogService = (function () {
+var BlogTypeService = (function () {
     var blogAdd = function () {
-        var blogType = {}, blogTypeTitle;
-        blogTypeTitle = $("input[name='title']").val();
-        blogType["title"] = blogTypeTitle;
+        var blogType = {}, blogTypeName;
+        blogTypeName = $("input[name='name']").val();
+        blogType["name"] = blogTypeName;
         $.ajax({
             url : root +"/admin/blog/type/insert",
             type : 'POST',
@@ -29,8 +29,7 @@ var BlogService = (function () {
                 } else {
                     alert("Fail : Insert Blog Type");
                 }
-            },
-            error : function(error){
+            }, error : function(error){
                 console.log('Error', error);
             }
         });

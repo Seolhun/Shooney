@@ -1,10 +1,13 @@
 package com.shun.blog.service.menu;
 
+import com.shun.blog.model.common.AjaxResult;
 import com.shun.blog.model.menu.Menu;
 import com.shun.blog.repository.menu.MenuRepository;
+import com.shun.blog.service.common.CommonService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
@@ -13,37 +16,90 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-@Transactional(transactionManager="txManager")
+@Transactional(transactionManager = "txManager")
 public class MenuServiceImpl implements MenuService {
-	static final Logger LOG = LoggerFactory.getLogger(MenuServiceImpl.class);
+    static final Logger LOG = LoggerFactory.getLogger(MenuServiceImpl.class);
 
-	@Autowired
-	private MenuRepository menuRepository;
+    private MenuRepository menuRepository;
+    private CommonService commonService;
 
-	@Override
-	public void insertMenu(Menu menu) throws Exception {
-		menuRepository.insertMenu(menu);
-	}
-	
-	/**
-	 * menu정보 가ㅕ오기.
-	 * 
-	 * param Content menu
-	 * return List<Menu> menuList
-	 * throws Exception
-	 */
-	@Override
-//	@Caching(cacheable={@Cacheable(key="#surveyId+'|survey'", value="survey")})
-	@Caching(cacheable={@Cacheable(key="#userRole+'|findAllByType'", value="menuList")})
-	public List<Menu> findAllByType(Menu menu, String userRole) throws Exception {
-		List<Menu> menuList=menuRepository.findAllByType(menu);
-		for (int i = 0; i < menuList.size(); i++) {
-			menu.setMenuParentId(menuList.get(i).getMenuId());
-			//1을 먼저 가져온 후 depth 2를 가져온다(submenu)
-			menu.setMenuDepth(2);
-			List<Menu> submenuList=menuRepository.findAllByType(menu);
-			menuList.get(i).setSubmenuList(submenuList);
-		}
-		return menuList;
-	}
+    @Autowired
+    MenuServiceImpl(MenuRepository menuRepository, CommonService commonService){
+        this.menuRepository=menuRepository;
+        this.commonService=commonService;
+    }
+
+    @Override
+    @Caching(put = {@CachePut(key = "#userRole+'|findAllByType'", value = "menuList")})
+    public void insertMenu(Menu menu, String userRole) throws Exception {
+        menu.setDelFlag("Y");
+        menu.setCreatedBy(commonService.getAccessUserToModel().getNickname());
+        menuRepository.insertMenu(menu);
+    }
+
+    @Override
+    public Menu selectMenuById(Long menuId) throws Exception {
+        Menu menu = menuRepository.selectMenuById(menuId);
+        return menu;
+    }
+
+    @Override
+    @Caching(cacheable = {@Cacheable(key = "#userRole+'|findAllMenu'", value = "menuList")})
+    public List<Menu> findAllMenu(Menu menu, String userRole) throws Exception {
+        List<Menu> menuList = menuRepository.findAllMenu(menu);
+        for (int i = 0; i < menuList.size(); i++) {
+            menu.setMenuParentId(menuList.get(i).getMenuId());
+            //1을 먼저 가져온 후 depth 2를 가져온다(submenu)
+            menu.setMenuDepth(2);
+            List<Menu> submenuList = menuRepository.findAllMenu(menu);
+            menuList.get(i).setSubmenuList(submenuList);
+        }
+        return menuList;
+    }
+
+
+    @Override
+    @Caching(put = {@CachePut(key = "#userRole+'|findAllMenu'", value = "menuList")})
+    public void updateMenu(Menu menu, String userRole) throws Exception {
+        Menu dbMenu = selectMenuById(menu.getMenuId());
+        try {
+            dbMenu.setMenuName(menu.getMenuName());
+            dbMenu.setMenuDepth(menu.getMenuDepth());
+            dbMenu.setMenuOrder(menu.getMenuOrder());
+
+            dbMenu.setMenuType(menu.getMenuType());
+            if (menu.getMenuUrl() != null) {
+                dbMenu.setMenuUrl(menu.getMenuUrl());
+            } else if (menu.getMenuParentId() != null) {
+                dbMenu.setMenuParentId(menu.getMenuParentId());
+            }
+        } catch (NullPointerException e){
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    @Caching(put = {@CachePut(key = "#userRole+'|findAllMenu'", value = "menuList")})
+    public AjaxResult deleteMenu(Menu menu, String userRole) throws Exception {
+        Menu dbMenu = selectMenuById(menu.getMenuId());
+        AjaxResult ajaxResult = null;
+        try {
+            if (dbMenu.getDelFlag().equals("Y")) {
+                dbMenu.setDelFlag("N");
+                ajaxResult.setResult("active");
+            } else {
+                dbMenu.setDelFlag("Y");
+                ajaxResult.setResult("delete");
+            }
+        }catch (NullPointerException e){
+            e.printStackTrace();
+        }
+        return ajaxResult;
+    }
+
+    @Override
+    public List<Menu> findAllByAdmin(Menu menu) throws Exception {
+        List<Menu> menuList = menuRepository.findAllByAdmin(menu);
+        return menuList;
+    }
 }

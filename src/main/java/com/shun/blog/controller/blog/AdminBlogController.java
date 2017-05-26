@@ -55,7 +55,7 @@ public class AdminBlogController {
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public String adminBlogList(ModelMap model, HttpServletRequest request, @RequestParam(required = false, name = "bt") String boardType) throws Exception {
         Menu menu=commonService.setMenuConfig(request);
-        List<Menu> menuList=menuService.findAllByType(menu, menu.getMenuType());
+        List<Menu> menuList=menuService.findAllMenu(menu, menu.getMenuType());
         model.addAttribute("menuList", menuList);
 
         //페이징 세팅 및 파라미터 가져오기.

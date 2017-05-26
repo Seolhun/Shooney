@@ -42,29 +42,29 @@ var CommentService = (function() {
 					"<div class='col-sm-9'>" +
 						"<div class='form-control2 rounded' id='comment-content"+data.commentId+"'>"+data.content+"</div>" +
 					"</div>";
-			if(data.createdBy==nickname){
+			if(data.createdBy===nickname){
 				commentHtml+=
 					"<div class='col-sm-3 text-right'>" +
 						"<button class='btn-u btn-u-dark-blue rounded' onclick='CommentService.commentModifyDiv("+data.commentId+");'>수정</button>" +
 						"<button class='btn-u btn-u-red rounded' onclick='CommentService.commentDeleteSubmit("+data.commentId+");'>삭제</button>" +
-					"</div>";				
+					"</div>";
 			}
-			commentHtml+=		
+			commentHtml+=
 				"</div>" +
 				"<div id='commentModifiedDiv"+data.commentId+"'>"+
 				"</div>" +
 				"<div class='col-sm-12'><hr></div>"+
 			"</div>";
 		return commentHtml;
-	} 
-	
+	}
+
 	//댓글 수정시 댓글 밑에 입력 칸 뜨는 이벤트.(하나만 뜨게하였다.)
 	var _modifyHtml=function(commentId){
 		$(".commentModifyOne").remove();
-		return modifyHtml=				
+		return modifyHtml=
 			"<div class='col-sm-12 margin-bottom-5 commentModifyOne'>" +
 				"<div class='col-sm-9 col-xs-9'>" +
-					"<textarea name='content' rows='3' cols='auto' id='commentModifyTextarea'></textarea>" + 
+					"<textarea name='content' rows='3' cols='auto' id='commentModifyTextarea'></textarea>" +
 				"</div>" +
 				"<div class='col-sm-3 col-xs-3 text-right'>" +
 					"<button class='btn-u btn-u-dark-blue rounded margin-right-5' onclick='CommentService.commentModifySubmit("+commentId+")'>완료</button>" +
@@ -72,7 +72,7 @@ var CommentService = (function() {
 				"</div>" +
 			"</div>";
 	}
-	
+
 	var inesrtComment=function(){
 		var comment = {}, blog={}, blogId=$("#blogId").val(), content=$("#commentTextarea").val();
 		if(content.length>300){
@@ -85,7 +85,7 @@ var CommentService = (function() {
 			url : root +"/reply/blog/insert",
 			type : 'POST',
 			timeout : 60000,
-			data: JSON.stringify(comment),	
+			data: JSON.stringify(comment),
 			dataType : "json",
 			beforeSend: function(xhr) {
 				xhr.setRequestHeader("Accept", "application/json");
@@ -97,21 +97,21 @@ var CommentService = (function() {
 					window.open("/shooney/login", "_blank");
 					return;
 				}
-				
+
 				$("#commentTextarea").val("");
 				var dbTime = new Date(data.createdDate);
 				dbTime=CommonService.customDateformat(dbTime, "yyyy-MM-dd, hh:mm");
-				
+
 				$("#commentDiv").prepend(_commentHtml(data, dbTime, data.createdBy));
 			},
 			error : function(e){
 				console.log('Error');
 			}
-		});	
+		});
 	}
 
 	var _currentPage = 0;
-	
+
 	var getCommentsMore = function() {
 		var comment = {}, blog={}, paging={}, blogId=$("#blogId").val();
 		_currentPage+=1;
@@ -123,21 +123,21 @@ var CommentService = (function() {
 			url : root +"/reply/blog/list/more",
 			type : 'POST',
 			timeout : 60000,
-			data: JSON.stringify(comment),	
+			data: JSON.stringify(comment),
 	    	dataType : "json",
 	    	beforeSend: function(xhr) {
 			    xhr.setRequestHeader("Accept", "application/json");
 			    xhr.setRequestHeader("Content-Type", "application/json");
 			    xhr.setRequestHeader(csrfHeader, csrfToken);
 			}, success: function(data, xhr) {
-	    		if(data.comments!=null){
+	    		if(data.comments!==null){
 	    			var commentList=data.comments;
 	    			var nickname=data.nickname;
 		    		commentList.forEach(function(data, status, index) {
 		    			var dbTime = new Date(data.createdDate);
 						dbTime=CommonService.customDateformat(dbTime, "yyyy-MM-dd, hh:mm");
 	    				$("#commentDiv").append(_commentHtml(data, dbTime, nickname));
-		    		});	
+		    		});
 	    		}else {
 	    			_currentPage-=1;
 	    		}
@@ -146,26 +146,26 @@ var CommentService = (function() {
 			}//end success
 		});//end ajax
 	}//end function()
-	
-	
-	//댓글 수정 버튼 누를시, 입력공간 넣어주는 것. 
+
+
+	//댓글 수정 버튼 누를시, 입력공간 넣어주는 것.
 	var commentModifyDiv =function(commentId) {
 		$("#commentModifiedDiv"+commentId).append(_modifyHtml(commentId));
-		
+
 		//댓글 수정 성공시 비동기 Html 수정
 		var content=$("#commentChagedDiv"+commentId).find("#comment-content").val();;
 		console.log("content",content);
-		
+
 		$(".commentModifyOne").find("#commentModifyTextarea").val(content);
 //		$("#commentChagedDiv"+commentId).find("#comment-content").val(content);
-		
+
 	}
-	
+
 	//댓글 수정 후 입력공간에서 취소버튼 누를 떄의 이벤트
 	var commentModifyCancel = function() {
 		$(".commentModifyOne").remove();
 	}
-	
+
 	//댓글 입력 취소버튼 클릭시 이벤트.
 	var commentInsertCancel = function() {
 		$("#commentBtnDiv").prop("hidden", true);
@@ -179,12 +179,12 @@ var CommentService = (function() {
 		var comment = {}, content=$("#commentModifyTextarea").val();
 		comment["commentId"]=commentId;
 		comment["content"]=content;
-		
+
 		$.ajax({
 			url : root +"/reply/blog/modify/"+commentId,
 			type : 'POST',
 			timeout : 60000,
-			data: JSON.stringify(comment),	
+			data: JSON.stringify(comment),
 			dataType : "json",
 			beforeSend: function(xhr) {
 				xhr.setRequestHeader("Accept", "application/json");
@@ -198,9 +198,9 @@ var CommentService = (function() {
 			error : function(e){
 				console.log('Error');
 			}
-		});	
+		});
 	}
-	
+
 	//댓글 삭제한것 입력하기.
 	var commentDeleteSubmit = function(commentId){
 		if(CommonService.alertConfirm("댓글을 삭제하시겠습니까?")){
@@ -214,7 +214,7 @@ var CommentService = (function() {
 			url : root +"/reply/blog/delete/"+commentId,
 			type : 'POST',
 			timeout : 60000,
-			data: JSON.stringify(comment),	
+			data: JSON.stringify(comment),
 			dataType : "json",
 			beforeSend: function(xhr) {
 				xhr.setRequestHeader("Accept", "application/json");
@@ -230,9 +230,9 @@ var CommentService = (function() {
 			error : function(e){
 				console.log('Error');
 			}
-		});	
+		});
 	}
-	
+
 	return {
 		commentInsertCancel : commentInsertCancel,
 		inesrtComment : inesrtComment,

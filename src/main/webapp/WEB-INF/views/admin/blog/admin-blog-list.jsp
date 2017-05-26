@@ -18,8 +18,8 @@
                         </div>
                         <sec:authorize access="hasRole('SUPERADMIN')">
                             <div class="col-sm-4 text-right">
-                                <input type="text" name="title" class="input" placeholder="Insert Blog-Type Title"/>
-                                <button class="btn-u btn-u-green rounded" onclick="BlogService.blogAdd()">저장</button>
+                                <input type="text" name="name" class="input" placeholder="Insert Blog-Type Title"/>
+                                <button class="btn-u btn-u-green rounded" onclick="BlogTypeService.blogAdd()">저장</button>
                             </div>
                         </sec:authorize>
                     </div>

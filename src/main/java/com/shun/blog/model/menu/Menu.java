@@ -1,21 +1,12 @@
 package com.shun.blog.model.menu;
 
+import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
+
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.persistence.Transient;
-
-import org.hibernate.annotations.CreationTimestamp;
-
-import lombok.Data;
 
 @Data
 @Entity(name="TB_MENU")
@@ -55,15 +46,13 @@ public class Menu implements Serializable {
 	@Column(name = "MENU_CREATED_DATE")
 	private Date createdDate;
 	
-	
-
 	@Transient
 	private int type;
 	
 	@Transient
 	private List<Menu> submenuList;
-	
-	public Menu(){
+
+    public Menu(){
 		
 	}
 	

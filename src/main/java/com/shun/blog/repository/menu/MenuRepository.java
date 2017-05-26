@@ -1,11 +1,17 @@
 package com.shun.blog.repository.menu;
 
-import java.util.List;
-
 import com.shun.blog.model.menu.Menu;
+
+import java.util.List;
 
 public interface MenuRepository {
 	void insertMenu(Menu menu) throws Exception;
+
+	Menu selectMenuById(Long menuId);
 	
-	List<Menu> findAllByType(Menu menu) throws Exception;
+	List<Menu> findAllMenu(Menu menu) throws Exception;
+
+	List<Menu> findAllByAdmin(Menu menu) throws Exception;
+
+
 }

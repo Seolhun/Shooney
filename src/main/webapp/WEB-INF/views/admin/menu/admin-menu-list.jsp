@@ -14,7 +14,7 @@
 				</div>
 				<sec:authorize access="hasRole('SUPERADMIN')">
 					<div class="call-action-v1-in inner-btn page-scroll">
-				 		<a href="${admin}/menu/add" class="btn-u btn-brd btn-brd-hover btn-u-dark btn-u-block margin-bottom-5">Add New Menu</a>
+				 		<button class="btn-u btn-u-dark-blue" onclick="MenuService.menuInsertForm()">Add New Menu</button>
 			 		</div>
 			 	</sec:authorize>
 			</div>
@@ -23,31 +23,17 @@
 	<div class="container content-xs">
 		<div class="row">
 			<div class="col-sm-12">
-				<div>
-					<select class="select" name="roleType">
-						<option label="-- Role --">
-						<c:forEach items="${userProfile}" var="i">
-							<option value="${i}">${i}</option>
-						</c:forEach>
-					</select>
-					<select class="select" name="stateType">
-						<option label="-- State --">
-						<c:forEach items="${state}" var="i">
-							<option value="${i}">${i}</option>
-						</c:forEach>
-					</select>
-					<button type="button" class="btn-u btn-u-block rounded" id="allSubmit">Submit</button>
-				</div>
 				<table class="table table-hover">
 		    		<thead>
 			      		<tr>
-			      			<th><input type="checkbox" onclick="CommonService.allCheck()"></th>
-					        <th>No.</th>
-					        <th>Email.</th>
-					        <th>Nickname.</th>
-					        <th>State.</th>
-					        <th>Role.</th>
-					        <th>Email Check</th>
+                            <th class="text-center">No.</th>
+					        <th class="text-center">Name.</th>
+					        <th class="text-center">Type.</th>
+							<th class="text-center">URL.</th>
+					        <th class="text-center">Order.</th>
+					        <th class="text-center">Depth</th>
+							<th class="text-center">Parent Id</th>
+							<th class="text-center">State</th>
 					        <sec:authorize access="hasRole('SUPERADMIN')">
 					        	<th>Edit.</th>
 					        </sec:authorize>
@@ -58,43 +44,33 @@
 						</tr>
 			    	</thead>
 		    		<tbody>
-					<c:forEach items="${users}" var="user">
-						<tr>
-							<td><input type="checkbox" name="oneCheck" value="${user.id}"></td>
-							<td>${user.id}</td>
-							<td>${user.email}</td>
-							<td>${user.nickname}</td>
-							<td>${user.state}</td>
-							<td><c:forEach items="${user.userProfiles}" var="i">${i.type }<br></c:forEach></td>
-							<td>${user.receiveEmail}</td>
-							<td><a href="${admin }/user/modify/${user.email}" class="btn btn-default custom-width rounded">Edit</a></td>
-					        <c:choose>
-					        	<c:when test="${user.state.equals('ACTIVE')}">
-					        		<td><a href="${admin }/user/update/state/${user.email}?type=LOCKED" class="btn-u btn-u-red custom-width rounded confirm">Locked</a></td>
-					        	</c:when>
-					        	<c:otherwise>
-					        		<td><a href="${admin }/user/update/state/${user.email}?type=ACTIVE" class="btn-u btn-u-dark-blue custom-width rounded" id="confirm">Active</a></td>
-					        	</c:otherwise>
-					        </c:choose>
+					<c:forEach items="${menus }" var="menu">
+						<tr class="text-center">
+                            <td id="menuId${menu.menuId}">${menu.menuId}</td>
+							<td id="menuName${menu.menuId}">${menu.menuName}</td>
+							<td id="menuType${menu.menuId}">${menu.menuType}</td>
+							<td id="menuUrl${menu.menuId}">${menu.menuUrl}</td>
+							<td id="menuOrder${menu.menuId}">${menu.menuOrder}</td>
+							<td id="menuDepth${menu.menuId}">${menu.menuDepth}</td>
+							<td id="menuParentId${menu.menuId}">${menu.menuParentId}</td>
+							<td>${menu.delFlag}</td>
+							<td><button class="btn btn-default custom-width rounded" onclick="MenuService.menuUpdateForm(${menu.menuId})">Edit</button></td>
+							<c:choose>
+								<c:when test="${menu.delFlag.equals('N')}">
+                                    <td><button class="btn-u btn-u-red rounded" onclick="MenuService.menuDelete(${menu.menuId})">Delete</button></td>
+								</c:when>
+								<c:otherwise>
+									<td><button class="btn-u btn-u-dark-blue rounded" onclick="MenuService.menuDelete(${menu.menuId})">Active</button></td>
+								</c:otherwise>
+							</c:choose>
 						</tr>
 					</c:forEach>
 		    		</tbody>
 		    	</table>
-		    	<form action="${admin}/user/list" class="form-horizontal">
-			   		<div class="text-center">
-			   			<a href="list?cPage=${paging.currentPage -10 < 1 ? 1 : paging.currentPage -10}" class="btn-u btn-brd btn-brd-hover btn-u-dark btn-u-block margin-bottom-5">&larr;&larr;</a>
-			   			<a href="list?cPage=${paging.currentPage -1 < 1 ? 1 : paging.currentPage -1}" class="btn-u btn-brd btn-brd-hover btn-u-dark btn-u-block margin-bottom-5">&larr;</a>
-			   			<c:forEach begin="${paging.blockStartNum }" end="${paging.blockEndNum}" varStatus="status">
-							<a href="list?cPage=${status.index }" class="btn-u btn-brd btn-brd-hover btn-u-dark btn-u-block margin-bottom-5" 
-							<c:if test="${status.index==paging.currentPage }">style="color: Green"</c:if>>${status.index}</a>
-			   			</c:forEach>
-			   			<a href="list?cPage=${paging.currentPage +1 > paging.totalPage ? paging.totalPage : paging.currentPage +1}" class="btn-u btn-brd btn-brd-hover btn-u-dark btn-u-block margin-bottom-5">&rarr;</a>
-			   			<a href="list?cPage=${paging.currentPage +10 > paging.totalPage ? paging.totalPage : paging.currentPage +10 }" class="btn-u btn-brd btn-brd-hover btn-u-dark btn-u-block margin-bottom-5">&rarr;&rarr;</a>
-			   		</div>
-		   		</form>
 			</div>
 	   	</div>
 	</div>
+    <%@ include file="/WEB-INF/views/admin/menu/modal/admin-menu-modal.jsp"%>
 </tag:admin-layout>
 <!-- Custom & Functional JS -->
-<script type="text/javascript" src="${resources}/js/user.js"></script>
+<script type="text/javascript" src="${resources}/js/menu/menu-module.js"></script>

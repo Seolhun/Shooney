@@ -67,7 +67,7 @@ public class BlogController {
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public String allBlogList(ModelMap model, HttpServletRequest request, @RequestParam(required = false, name = "bt") String boardType) throws Exception {
         Menu menu = commonService.setMenuConfig(request);
-        List<Menu> menuList = menuService.findAllByType(menu, menu.getMenuType());
+        List<Menu> menuList = menuService.findAllMenu(menu, menu.getMenuType());
         model.addAttribute("menuList", menuList);
 
         //페이징 세팅 및 파라미터 가져오기.
@@ -103,7 +103,7 @@ public class BlogController {
     @RequestMapping(value = "/insert", method = RequestMethod.GET)
     public String addBlog(HttpServletRequest request, Model model) throws Exception {
         Menu menu = commonService.setMenuConfig(request);
-        List<Menu> menuList = menuService.findAllByType(menu, menu.getMenuType());
+        List<Menu> menuList = menuService.findAllMenu(menu, menu.getMenuType());
         model.addAttribute("menuList", menuList);
 
         model.addAttribute("blog", new Blog());
@@ -172,7 +172,7 @@ public class BlogController {
     @RequestMapping(value = {"/detail/{id}"}, method = RequestMethod.GET)
     public String detailBlog(@PathVariable Long id, ModelMap model, HttpServletRequest request, HttpServletResponse response) throws Exception {
         Menu menu = commonService.setMenuConfig(request);
-        List<Menu> menuList = menuService.findAllByType(menu, menu.getMenuType());
+        List<Menu> menuList = menuService.findAllMenu(menu, menu.getMenuType());
         model.addAttribute("menuList", menuList);
 
         //쿠키 조회수 확인.
@@ -202,7 +202,7 @@ public class BlogController {
     @RequestMapping(value = {"/modify/{id}"}, method = RequestMethod.GET)
     public String editBlog(@PathVariable Long id, ModelMap model, HttpServletRequest request) throws Exception {
         Menu menu = commonService.setMenuConfig(request);
-        List<Menu> menuList = menuService.findAllByType(menu, menu.getMenuType());
+        List<Menu> menuList = menuService.findAllMenu(menu, menu.getMenuType());
         model.addAttribute("menuList", menuList);
 
         Blog blog = blogService.selectById(id);

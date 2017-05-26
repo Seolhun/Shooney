@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.shun.blog.model.common.Paging;
 import com.shun.blog.model.menu.Menu;
 import com.shun.blog.model.user.User;
+import org.json.JSONArray;
 import org.springframework.context.MessageSource;
 import org.springframework.security.core.Authentication;
 import org.springframework.validation.BindingResult;
@@ -50,12 +51,15 @@ public interface CommonService {
 
 	//Encode SHA256
 	String buildSHA256(String str);
-	
-	//get Validation about logiun User 	
+
+    //Spring Security Auth check
 	boolean getLoginAuthValidation(Authentication auth, String authNameYouWant);
-	
-	//Post Email Locked user.
-	void sendEmailLockingUser(String toEmail, String userName, String authentication, String httpPath, String password) throws IOException;
+
+    //Post Email Locked user.
+    void sendEmailLockingUser(String toEmail, String userName, String authentication, String httpPath, String password) throws IOException;
+
+    //Post Email
+    String mainSendMail(String toEmail, String from, String mailSubject, String subTitle, String mailContent) throws Exception;
 	
 	//@Valid로 검사시 중복값 리다이렉트해주기.
 	void validCheckAndSendError(MessageSource messageSource, BindingResult bindingResult, HttpServletRequest request, String inputValue, String objectName, String fieldName, String messagePropertyName);
@@ -73,4 +77,6 @@ public interface CommonService {
 	
 	//Menu 역할 확인하여 설정잡기.	
 	Menu setMenuConfig(HttpServletRequest request) throws Exception;
+
+    JSONArray getResponseAPI(String apiUrl) throws IOException;
 }

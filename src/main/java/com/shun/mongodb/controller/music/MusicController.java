@@ -1,19 +1,11 @@
 package com.shun.mongodb.controller.music;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
-
+import com.shun.blog.model.menu.Menu;
+import com.shun.blog.model.portfolio.music.Music;
+import com.shun.blog.model.portfolio.music.MusicType;
+import com.shun.blog.service.common.CommonService;
+import com.shun.blog.service.menu.MenuService;
+import com.shun.mongodb.service.music.MusicService;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -33,12 +25,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.shun.blog.model.menu.Menu;
-import com.shun.blog.model.portfolio.music.Music;
-import com.shun.blog.model.portfolio.music.MusicType;
-import com.shun.blog.service.common.CommonService;
-import com.shun.blog.service.menu.MenuService;
-import com.shun.mongodb.service.music.MusicService;
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Controller
 @RequestMapping("/music")
@@ -62,7 +56,7 @@ public class MusicController {
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public String listMusics(ModelMap model, HttpServletRequest request) throws Exception {
 		Menu menu=commonService.setMenuConfig(request);
-		List<Menu> menuList=menuService.findAllByType(menu, menu.getMenuType());
+		List<Menu> menuList=menuService.findAllMenu(menu, menu.getMenuType());
 		model.addAttribute("menuList", menuList);
 		
 		ArrayList<Music> musics = (ArrayList<Music>) musicService.findAllMusics();

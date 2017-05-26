@@ -47,7 +47,7 @@
 	<root name="com.shun.mongodb" level="TRACE">
 		<appender-ref ref="STDOUT" />
 	</root>
-	 
+
 	<root name="com.shun.mongodb" level="INFO">
 		<appender-ref ref="STDOUT" />
 	</root>

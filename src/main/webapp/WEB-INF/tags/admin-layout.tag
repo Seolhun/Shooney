@@ -77,14 +77,14 @@
 					<div class="row" id="aboverow">
 						<div class="col-sm-4">
 							<span class="margin-right-10">
-								<a class="link-txt" class="head-a" href="javascript:void(0);" onclick="changeLang('ko_KR');">
+								<a class="link-txt head-a" href="javascript:void(0);" onclick="changeLang('ko_KR');">
 									<img src="${resources}/img/lang_ko.png" class="language">
 									<span>Korean</span>
 								</a>
 							</span> 
 							<span>&nbsp;|&nbsp;</span>
 							<span class="margin-right-10">
-								<a class="link-txt" class="head-a" href="javascript:void(0);" onclick="changeLang('en_US');">
+								<a class="link-txt head-a" href="javascript:void(0);" onclick="changeLang('en_US');">
 									<img src="${resources}/img/lang_en.png" class="language">
 									<span>English</span>
 								</a>

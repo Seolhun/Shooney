@@ -50,14 +50,14 @@ var CommonService = (function() {
 				    xhr.setRequestHeader(csrfHeader, csrfToken);
 				}, success: function(data, status, xhr) {
 					if(xhr.status==200){
-						console.log('Success');
+						// console.log('Success');
 						return;
 					} else {
-						console.log('Fail');
+						// console.log('Fail');
 					}
 				},
 				error : function(e){
-					console.log('Error');
+					// console.log('Error');
 				}
 			});	
 		});
@@ -81,17 +81,17 @@ var CommonService = (function() {
 				    xhr.setRequestHeader(csrfHeader, csrfToken);
 				}, success: function(data) {
 					if(data.result=="success"){
-						console.log('Success');
+						// console.log('Success');
 						return;
 					} else if(data.result=="invalid"){
-						console.log('Invalid');
+						// console.log('Invalid');
 						return;
 					} else {
-						console.log('Fail');
+						// console.log('Fail');
 					}
 				},
 				error : function(e){
-					console.log('Error');
+					// console.log('Error');
 				}
 			});	
 		});
@@ -171,9 +171,9 @@ var CommonService = (function() {
 			try {
 				var successful = document.execCommand('copy');
 				var msg = successful ? 'successful' : 'unsuccessful';
-				console.log('Copying text command was ' + msg);
+				// console.log('Copying text command was ' + msg);
 			} catch (err) {
-				console.log('Oops, unable to copy');
+				// console.log('Oops, unable to copy');
 			}
 		});	
 	}

@@ -1,11 +1,10 @@
 package com.shun.blog.controller.home;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
+import com.shun.blog.model.log.AccessLog;
+import com.shun.blog.model.menu.Menu;
+import com.shun.blog.service.common.CommonService;
+import com.shun.blog.service.log.AccessLogService;
+import com.shun.blog.service.menu.MenuService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,11 +13,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.shun.blog.model.log.AccessLog;
-import com.shun.blog.model.menu.Menu;
-import com.shun.blog.service.common.CommonService;
-import com.shun.blog.service.log.AccessLogService;
-import com.shun.blog.service.menu.MenuService;
+import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 public class HomeController {
@@ -38,8 +36,9 @@ public class HomeController {
 	@RequestMapping(value = {"", "/"}, method = RequestMethod.GET)
 	public String main(HttpServletRequest request, Model model) throws Exception {
 		Menu menu=commonService.setMenuConfig(request);
-		List<Menu> menuList=menuService.findAllByType(menu, menu.getMenuType());
-		
+		List<Menu> menuList=menuService.findAllMenu(menu, menu.getMenuType());
+
+		//YesterDay Today Total value
 		AccessLog accessLog=new AccessLog();
 		Integer total=accessLogService.getCountByDate(accessLog);
 		accessLog.setType(1);
@@ -54,8 +53,7 @@ public class HomeController {
 		historys.put("yesterday", yesterday);
 		historys.put("today", today);
 		historys.put("total", total);
-		
-		
+
 		model.addAttribute("historys", historys);
 		model.addAttribute("menuList", menuList);
 		return "index";
@@ -64,7 +62,7 @@ public class HomeController {
 	@RequestMapping(value = "/success", method = RequestMethod.GET)
 	public String success(HttpServletRequest request, Model model) throws Exception {
 		Menu menu=commonService.setMenuConfig(request);
-		List<Menu> menuList=menuService.findAllByType(menu, menu.getMenuType());
+		List<Menu> menuList=menuService.findAllMenu(menu, menu.getMenuType());
 		model.addAttribute("menuList", menuList);
 		
 		LOG.info("where success");
@@ -74,7 +72,7 @@ public class HomeController {
 	@RequestMapping(value = "/deny", method = RequestMethod.GET)
 	public String deny(HttpServletRequest request, Model model) throws Exception {
 		Menu menu=commonService.setMenuConfig(request);
-		List<Menu> menuList=menuService.findAllByType(menu, menu.getMenuType());
+		List<Menu> menuList=menuService.findAllMenu(menu, menu.getMenuType());
 		model.addAttribute("menuList", menuList);
 		
 		LOG.info("where deny");
@@ -84,7 +82,7 @@ public class HomeController {
 	@RequestMapping(value = "/myinfo/profile", method = RequestMethod.GET)
 	public String myInfoProfile(HttpServletRequest request, Model model) throws Exception {
 		Menu menu=commonService.setMenuConfig(request);
-		List<Menu> menuList=menuService.findAllByType(menu, menu.getMenuType());
+		List<Menu> menuList=menuService.findAllMenu(menu, menu.getMenuType());
 		model.addAttribute("menuList", menuList);
 		
 		LOG.info("where myInfoProfile");
@@ -94,7 +92,7 @@ public class HomeController {
 	@RequestMapping(value = "/myinfo/attitude", method = RequestMethod.GET)
 	public String myInfoAttitude(HttpServletRequest request, Model model) throws Exception {
 		Menu menu=commonService.setMenuConfig(request);
-		List<Menu> menuList=menuService.findAllByType(menu, menu.getMenuType());
+		List<Menu> menuList=menuService.findAllMenu(menu, menu.getMenuType());
 		model.addAttribute("menuList", menuList);
 		
 		LOG.info("where myInfoMission");
@@ -104,7 +102,7 @@ public class HomeController {
 	@RequestMapping(value = "/myinfo/goal", method = RequestMethod.GET)
 	public String myInfoGoal(HttpServletRequest request, Model model) throws Exception {
 		Menu menu=commonService.setMenuConfig(request);
-		List<Menu> menuList=menuService.findAllByType(menu, menu.getMenuType());
+		List<Menu> menuList=menuService.findAllMenu(menu, menu.getMenuType());
 		model.addAttribute("menuList", menuList);
 		
 		LOG.info("where myInfoGoal");
