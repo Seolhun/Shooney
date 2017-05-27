@@ -1,8 +1,8 @@
 var csrfHeader=$("#csrfHeader").attr("content");
 var	csrfToken=$("#csrfToken").attr("content");
+console.log(csrfHeader);
+console.log(csrfToken);
 var thisRoot="/shooney";
-var thisHost=window.location.host;
-var thisPort=window.location.port;
 //var browswerLang=navigator.language;
 //if(browswerLang=="ko"){
 //$.i18n.setLng("ko");	

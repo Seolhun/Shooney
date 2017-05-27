@@ -68,7 +68,7 @@
 					
 					<div class="form-inline">
 						<button class="btn-u btn-u-blue" data-ng-disabled="newsCtrl.pager.currentPage <= 1" data-ng-click="newsCtrl.setPage(1)">First</button>
-						<button class="btn-u btn-u-blue" data-ng-disabled="newsCtrl.pager.currentPage <= 10" data-ng-click="newsCtrl.setPage(newsCtrl.pager.currentPage + 10)">Previous</button>
+						<button class="btn-u btn-u-blue" data-ng-disabled="newsCtrl.pager.currentPage <= 10" data-ng-click="newsCtrl.setPage(newsCtrl.pager.currentPage - 10)">Previous</button>
 						<span data-ng-repeat="page in newsCtrl.pager.pages" >
                     		<a class="btn-u btn-u-blue btn-brd rounded" data-ng-class="{active : newsCtrl.pager.currentPage === page}" data-ng-click="newsCtrl.setPage(page)">{{page}}</a>
                 		</span> 

@@ -2,8 +2,6 @@
 var csrfHeader=$("#csrfHeader").attr("content");
 var	csrfToken=$("#csrfToken").attr("content");
 var root="/shooney";
-var thisHost=window.location.host;
-var thisPort=window.location.port;
 
 //회원관리 전체작업용
 $(function() {

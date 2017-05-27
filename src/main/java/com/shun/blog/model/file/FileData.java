@@ -30,7 +30,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "TB_FILE_DATA")
+@Table(name = "TB_BLOG_FILE")
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class FileData implements Serializable {
 	@Id

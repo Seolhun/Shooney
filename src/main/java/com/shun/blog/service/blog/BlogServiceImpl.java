@@ -39,8 +39,7 @@ public class BlogServiceImpl implements BlogService {
 		LOG.info("param : insert {}", blog.toString());
 		blogRepository.insert(blog);
 
-		BlogType blogType=null;
-		blogType.setName(blog.getBlogType());
+		BlogType blogType=new BlogType(blog.getBlogType());
 		blogTypeService.update(blogType, 1);
 	}
 	
@@ -85,6 +84,10 @@ public class BlogServiceImpl implements BlogService {
 			dbBlog.setModifiedBy(blog.getModifiedBy());
 			dbBlog.setDepth(blog.getDepth());
 			dbBlog.setBlogType(blog.getBlogType());
+		}
+
+		if(blog.getDelFlag() != null && blog.getDelFlag().equals("Y")){
+			dbBlog.setDelFlag("Y");
 		}
 	}
 

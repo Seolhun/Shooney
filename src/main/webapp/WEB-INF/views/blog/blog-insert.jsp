@@ -25,7 +25,7 @@
 					</div>
 					<div class="input-group">
 						<span class="input-group-addon rounded-left"><i class="icon-user color-green"></i></span>
-						<form:select path="blogType" class="form-control rounded-right" items="${blogTypes}" itemValue="id" itemLabel="name"/>
+						<form:select path="blogType" class="form-control rounded-right" items="${blogTypes}" itemValue="name" itemLabel="name"/>
 					</div>
 					
 				</div>
@@ -84,4 +84,4 @@
 </tag:layout>
 
 <!-- Custom & Functional JS -->
-<script type="text/javascript" src="${resources}/js/blog.js"></script>
+<script type="text/javascript" src="${resources}/js/blog/blog.js"></script>

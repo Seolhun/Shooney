@@ -22,8 +22,8 @@
 				No
 				<div class="input-group margin-bottom-20">
 					<span class="input-group-addon rounded-left"><i class="icon-envelope color-green"></i></span>
-					<input type="hidden" id="blogId" value="${blog.blogId }">
-					<div class="form-control rounded-right">${blog.blogId }</div>
+					<input type="hidden" id="blogId" value="${blog.id }">
+					<div class="form-control rounded-right">${blog.id }</div>
 				</div>
 			</div>
 			<div class="col-sm-3">
@@ -109,10 +109,10 @@
 			</div>
 			<c:if test="${accessUser.nickname.equals(blog.createdBy)}">
 				<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-					<a href="${blo}/modify/${blog.blogId}" class="btn-u btn-u-dark-blue btn-block rounded">Modify</a>
+					<a href="${blo}/modify/${blog.id}" class="btn-u btn-u-dark-blue btn-block rounded">Modify</a>
 				</div>
 				<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-					<a href="${blo}/delete/${blog.blogId}" id="confirm" class="btn-u btn-u-default btn-block rounded">Delete</a>
+					<a href="${blo}/delete/${blog.id}" id="confirm" class="btn-u btn-u-default btn-block rounded">Delete</a>
 				</div>
 			</c:if>
 		</div>

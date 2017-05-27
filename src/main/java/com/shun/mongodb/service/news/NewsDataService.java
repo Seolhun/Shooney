@@ -7,8 +7,8 @@ import org.springframework.data.domain.Pageable;
 
 import com.shun.mongodb.model.news.NewsData;
 
-public interface NewsDataService {
-	
+	public interface NewsDataService {
+
 	void save(NewsData newsData);
 	
 	NewsData findById(String id);

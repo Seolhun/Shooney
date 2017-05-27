@@ -33,7 +33,7 @@ import com.shun.mongodb.model.news.NewsWebSite;
 import com.shun.mongodb.service.news.NewsDataService;
 
 @RestController
-@RequestMapping(value = "/news")
+@RequestMapping(value = "/stack")
 public class NewsDataRestController {
 	private static final Logger LOG = LoggerFactory.getLogger(NewsDataRestController.class);
 	
@@ -45,6 +45,7 @@ public class NewsDataRestController {
 		this.newsDataService=newsDataService;
 		this.commonService=commonService;
 	}
+
 	@RequestMapping(value = "/save/{idx}", method = RequestMethod.GET)
 	public AjaxResult saveNews(ModelMap model, @PathVariable Long idx) {
 		LOG.info("where : saveNews");
@@ -145,15 +146,8 @@ public class NewsDataRestController {
 						List<String> tags=new ArrayList<>();
 						for (Element tagName : newsTags) {
 							String tag=tagName.html();
-							LOG.error("return tagName : " + tag);	
 							tags.add(tag);
 						}
-						LOG.error("return newsIdx : " + i);
-						LOG.error("return newsTitle: " + newsTitle);
-						LOG.error("return newsWriter: " + newsWriter);
-						LOG.error("return newsHeadImage: " + newsHeadImage);
-						LOG.error("return newsContent: " + newsContent);
-						LOG.error("return newsSource : " + newsSource);
 						newsData.setId(webSiteName+"_"+i);
 						newsData.setIdx(i);
 						newsData.setTitle(newsTitle);

@@ -61,7 +61,7 @@ public class MenuServiceImpl implements MenuService {
     @Override
     @Caching(put = {@CachePut(key = "#userRole+'|findAllMenu'", value = "menuList")})
     public void updateMenu(Menu menu, String userRole) throws Exception {
-        Menu dbMenu = selectMenuById(menu.getMenuId());
+        Menu dbMenu = menuRepository.selectMenuById(menu.getMenuId());
         try {
             dbMenu.setMenuName(menu.getMenuName());
             dbMenu.setMenuDepth(menu.getMenuDepth());
@@ -81,18 +81,14 @@ public class MenuServiceImpl implements MenuService {
     @Override
     @Caching(put = {@CachePut(key = "#userRole+'|findAllMenu'", value = "menuList")})
     public AjaxResult deleteMenu(Menu menu, String userRole) throws Exception {
-        Menu dbMenu = selectMenuById(menu.getMenuId());
-        AjaxResult ajaxResult = null;
-        try {
-            if (dbMenu.getDelFlag().equals("Y")) {
-                dbMenu.setDelFlag("N");
-                ajaxResult.setResult("active");
-            } else {
-                dbMenu.setDelFlag("Y");
-                ajaxResult.setResult("delete");
-            }
-        }catch (NullPointerException e){
-            e.printStackTrace();
+        Menu dbMenu = menuRepository.selectMenuById(menu.getMenuId());
+        AjaxResult ajaxResult = new AjaxResult();
+        if (dbMenu.getDelFlag().equals("Y")) {
+            dbMenu.setDelFlag("N");
+            ajaxResult.setResult("active");
+        } else {
+            dbMenu.setDelFlag("Y");
+            ajaxResult.setResult("delete");
         }
         return ajaxResult;
     }

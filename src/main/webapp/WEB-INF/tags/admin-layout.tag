@@ -28,8 +28,8 @@
 	<meta http-equiv="content-type" content="text/html; charset=utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="author" content="Shooney">
-	<meta id="csrfToken" name="csrfToken" content="${_csrf.token}"/>
-	<meta id="csrfHeader" name="csrfHeader" content="${_csrf.headerName}"/>
+    <meta id="csrfToken" name="csrfToken" content="${_csrf.token}"/>
+    <meta id="csrfHeader" name="csrfHeader" content="${_csrf.headerName}"/>
 
 	<title>SomeThing New | Shooney Blog</title>
 
@@ -39,9 +39,10 @@
 	<link rel='stylesheet' type='text/css' href='//fonts.googleapis.com/css?family=Open+Sans:400,300,600&amp;subset=cyrillic,latin'>
 	
 	<!-- CSS Global Compulsory -->
+	<script type="text/javascript" src="${webjars}/jquery/2.2.4/jquery.min.js"></script>
 	<link rel="stylesheet" href="${webjars }/bootstrap/3.3.6/css/bootstrap.min.css">
 	<link rel="stylesheet" href="${template}/css/style.css">
-	
+
 	<!-- CSS Header and Footer -->
 	<link rel="stylesheet" href="${template}/css/headers/header-v6.css">
 	<link rel="stylesheet" href="${template}/css/footers/footer-v6.css">
@@ -308,7 +309,6 @@
 			<!--=== End Footer v6 ===-->
 	</div><!--/wrapper-->
 		<!-- JS Global Compulsory -->
-		<script type="text/javascript" src="${webjars}/jquery/2.2.4/jquery.min.js" ></script>
 		<script type="text/javascript" src="${template}/plugins/jquery/jquery-migrate.min.js"></script>
 		<script type="text/javascript" src="${webjars}/angular/1.6.3/angular.min.js"></script>
 		<script type="text/javascript" src="${webjars}/angular-sanitize/1.6.3/angular-sanitize.min.js"></script>

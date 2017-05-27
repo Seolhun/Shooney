@@ -41,6 +41,7 @@ public class BlogTypeServiceImpl implements BlogTypeService {
     }
 
     @Override
+    @Caching(put = {@CachePut(key = "'selectListBoardType'", value = "selectListBoardType")})
     public void insert(BlogType blogType) {
         LOG.info("param : insert {}", blogType.toString());
         blogTypeRepository.insert(blogType);

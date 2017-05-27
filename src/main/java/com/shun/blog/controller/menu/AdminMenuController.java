@@ -65,9 +65,9 @@ public class AdminMenuController {
     @ResponseBody
     public AjaxResult deleteMenu(@RequestBody Menu menu) throws Exception {
         LOG.info("param deleteMenu : {}", menu.toString());
-
         AjaxResult ajaxResult = null;
         ajaxResult = menuService.deleteMenu(menu, menu.getMenuType());
+        LOG.info("return deleteMenu : {}", ajaxResult.toString());
         return ajaxResult;
     }
 }

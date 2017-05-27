@@ -5,8 +5,6 @@
 var csrfHeader=$("#csrfHeader").attr("content");
 var	csrfToken=$("#csrfToken").attr("content");
 var root="/shooney";
-var thisHost=window.location.host;
-var thisPort=window.location.port;
 
 var BlogTypeService = (function () {
     var blogAdd = function () {

@@ -6,7 +6,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<spring:url value="/shooney" var="shooney" /><spring:url value="/resources" var="resources" /><spring:url value="/resources/template" var="template"/><spring:url value="/" var="shooney"/><spring:url value="/board" var="board"/><spring:url value="/project" var="project"/><spring:url value="/portfolio" var="portfolio"/><spring:url value="/myinfo" var="myinfo"/><spring:url value="/admin" var="admin"/><spring:url value="/signup" var="signup"/><spring:url value="/login" var="login"/><spring:url value="/logout" var="logout"/><spring:url value="/it" var="it"/>
+<spring:url value="/blog" var="blo"/><spring:url value="/file" var="file"/><spring:url value="/resources" var="resources" /><spring:url value="/resources/template" var="template"/>
 <tag:admin-layout tab="${target}">
 	<div class="call-action-v1 bg-color-light">
 		<div class="container">
@@ -59,8 +59,8 @@
                             <tbody>
                             <c:forEach items="${blogs}" var="i">
                                 <tr>
-                                    <td class="width-10 text-center">${i.blogId}</td>
-                                    <td class="width-60"><a href="${blo }/detail/${i.blogId}">[ ${i.blogType} ] ${i.title}<c:if test="${i.depth>0}">&nbsp;&nbsp;<i class="fa fa-comments">&nbsp;${i.depth}</i></c:if></a></td>
+                                    <td class="width-10 text-center">${i.id}</td>
+                                    <td class="width-60"><a href="${blo }/detail/${i.id}">[ ${i.blogType} ] ${i.title}<c:if test="${i.depth>0}">&nbsp;&nbsp;<i class="fa fa-comments">&nbsp;${i.depth}</i></c:if></a></td>
                                     <td class="width-10 text-center">${i.createdBy}</td>
                                     <td class="width-10 text-center"><fmt:formatDate value="${i.createdDate}" pattern="yy-MM-dd, HH:mm"/></td>
                                     <td class="width-5 text-center">${i.hits}</td>
@@ -119,7 +119,7 @@
             </div>
         </div>
     </div>
+    <script type="text/javascript" src="${resources}/js/blog/blog.js"></script>
+    <script type="text/javascript" src="${resources}/js/blog/blog-module.js"></script>
 </tag:admin-layout>
 <!-- Custom & Functional JS -->
-<script type="text/javascript" src="${resources}/js/blog/blog.js"></script>
-<script type="text/javascript" src="${resources}/js/blog/blog-module.js"></script>

@@ -1,9 +1,9 @@
 /* Write here your custom javascript codes */
 var csrfHeader=$("#csrfHeader").attr("content");
 var	csrfToken=$("#csrfToken").attr("content");
+console.log(csrfHeader);
+console.log(csrfToken);
 var root="/shooney";
-var thisHost=window.location.host;
-var thisPort=window.location.port;
 
 //게시판 불러올 시 댓글 볼러오기
 $(document).ready(function(){

@@ -51,7 +51,6 @@ public class AdminBlogController {
      * return String - view
      * throws Exception
      */
-    @Secured(value = "SUPERADMIN")
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public String adminBlogList(ModelMap model, HttpServletRequest request, @RequestParam(required = false, name = "bt") String boardType) throws Exception {
         Menu menu=commonService.setMenuConfig(request);
@@ -86,7 +85,6 @@ public class AdminBlogController {
      * return String  -view
      * throws Exception
      */
-    @Secured(value = "SUPERADMIN")
     @RequestMapping(value = "/type/insert", method = RequestMethod.POST, produces = "application/json")
     public AjaxResult insertBoardType(@RequestBody BlogType blogType, AjaxResult ajaxResult) throws Exception {
         LOG.info("param : /type/insert {}", blogType.toString());
