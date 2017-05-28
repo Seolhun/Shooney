@@ -6,14 +6,26 @@ VALUES
 	(4,'SUPERADMIN');
 
 
-INSERT INTO `TB_MENU` (`MENU_ID`, `MENU_NAME`, `MENU_TYPE`, `MENU_DEPTH`, `MENU_ORDER`, `MENU_PARENT_ID`, `MENU_URL`, `MENU_CREATED_DATE`, `MENU_CREATED_BY`, `MENU_DEL_FLAG`)
+INSERT INTO `TB_MENU` (`MENU_ID`, `MENU_CREATED_BY`, `MENU_CREATED_DATE`, `MENU_DEL_FLAG`, `MENU_DEPTH`, `MENU_NAME`, `MENU_ORDER`, `MENU_PARENT_ID`, `MENU_TYPE`, `MENU_URL`)
 VALUES
-	(1,'Home','admin',1,1,NULL,'','2017-04-16 16:59:45','shooney','N'),
-	(2,'User','admin',1,2,NULL,'admin/user/list','2017-04-16 16:59:45','shooney','N'),
-	(51,'Home','normal',1,1,NULL,'','2017-04-16 16:59:45','shooney','N'),
-	(52,'Blog','normal',1,2,NULL,'blog/list','2017-04-16 16:59:45','shooney','N'),
-	(53,'News','normal',1,3,NULL,'news/list','2017-04-16 16:59:45','shooney','N'),
-	(54,'Music','normal',1,4,NULL,'music/list','2017-04-16 16:59:45','shooney','Y'),
-	(59,'My Infomation','normal',1,9,NULL,NULL,'2017-04-16 16:59:45','shooney','N'),
-	(63,'Profile','normal',2,1,59,'myinfo/profile','2017-04-16 20:57:03','shooney','N'),
-	(64,'Attitude','normal',2,2,59,'myinfo/attitude','2017-04-16 20:57:03','shooney','N');
+	(1, 'shooney', '2017-04-16 16:59:45', 'N', 1, 'Home', 1, NULL, 'admin', ''),
+	(2, 'shooney', '2017-04-16 16:59:45', 'N', 1, 'User', 2, NULL, 'admin', 'admin/user/list'),
+	(3, 'shooney', '2017-04-16 16:59:45', 'N', 1, 'Blog', 2, NULL, 'admin', 'admin/blog/list'),
+	(4, 'shooney', '2017-04-16 16:59:45', 'N', 1, 'Menu', 2, NULL, 'admin', 'admin/menu/list'),
+	(51, 'shooney', '2017-04-16 16:59:45', 'N', 1, 'Home', 1, NULL, 'normal', ''),
+	(52, 'shooney', '2017-04-16 16:59:45', 'N', 1, 'Blog', 2, NULL, 'normal', 'blog/list'),
+	(53, 'shooney', '2017-04-16 16:59:45', 'N', 1, 'News', 3, NULL, 'normal', 'news/list'),
+	(54, 'shooney', '2017-04-16 16:59:45', 'Y', 1, 'Music', 4, NULL, 'normal', 'music/list'),
+	(59, 'shooney', '2017-04-16 16:59:45', 'N', 1, 'My Infomation', 9, NULL, 'normal', NULL),
+	(63, 'shooney', '2017-04-16 20:57:03', 'N', 2, 'Profile', 1, 59, 'normal', 'myinfo/profile'),
+	(64, 'shooney', '2017-04-16 20:57:03', 'N', 2, 'Attitude', 2, 59, 'normal', 'myinfo/attitude');
+
+
+
+INSERT INTO `TB_USER` (`USER_ID`, `USER_CREATED_DATE`, `USER_DEL_FLAG`, `USER_EMAIL`, `USER_LOCKED_AUTH`, `USER_MODIFIED_BY`, `USER_MODIFIED_DATE`, `USER_NICKNAME`, `USER_PASSWORD`, `USER_RECEIVE_EMAIL`, `USER_STATE`)
+VALUES
+	(1,'2017-05-28 21:50:28','N','shun10114@gmail.com',NULL,NULL,'2017-05-28 21:50:28','shooney','$2a$10$fF/kaU9dwLLqgD8cix3d2.F/1dqEL1Gnd3OoePUMdIIgfnmfRIJOS',0,'ACTIVE');
+
+INSERT INTO `TB_USER_PROFILE_REFER` (`USER_ID`, `USER_PROFILE_ID`)
+VALUES
+	(1,4);

@@ -78,5 +78,7 @@ public interface CommonService {
 	//Menu 역할 확인하여 설정잡기.	
 	Menu setMenuConfig(HttpServletRequest request) throws Exception;
 
+    String getImgUsingJsoup(String imgSrc, String savedDirectoryName) throws IOException;
+
     JsonObject getResponseAPI(String apiUrl) throws IOException;
 }

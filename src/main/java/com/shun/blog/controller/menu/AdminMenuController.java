@@ -32,9 +32,9 @@ public class AdminMenuController {
     }
 
     @RequestMapping(path = "/list", method = RequestMethod.GET)
-    public String moveMenuList(Menu menu, HttpServletRequest request, ModelMap model) throws Exception {
-        Menu menuType = commonService.setMenuConfig(request);
-        List<Menu> menuList = menuService.findAllMenu(menu, menuType.getMenuType());
+    public String moveMenuList(HttpServletRequest request, ModelMap model) throws Exception {
+        Menu menu=commonService.setMenuConfig(request);
+        List<Menu> menuList=menuService.findAllMenu(menu, menu.getMenuType());
         model.addAttribute("menuList", menuList);
 
         List<Menu> menus = menuService.findAllByAdmin(menu);
@@ -63,11 +63,10 @@ public class AdminMenuController {
 
     @RequestMapping(path = "/delete", method = RequestMethod.POST, produces = "application/json")
     @ResponseBody
-    public AjaxResult deleteMenu(@RequestBody Menu menu) throws Exception {
+    public AjaxResult deleteMenu(@RequestBody Menu menu, AjaxResult ajaxResult) throws Exception {
         LOG.info("param deleteMenu : {}", menu.toString());
-        AjaxResult ajaxResult = null;
-        ajaxResult = menuService.deleteMenu(menu, menu.getMenuType());
-        LOG.info("return deleteMenu : {}", ajaxResult.toString());
+
+        menuService.deleteMenu(menu, menu.getMenuType());
         return ajaxResult;
     }
 }

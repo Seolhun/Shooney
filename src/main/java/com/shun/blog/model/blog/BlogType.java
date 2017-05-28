@@ -17,7 +17,7 @@ public class BlogType implements Serializable {
     @Column(name = "BLOG_TYPE_ID")
     private Long id;
 
-    @Column(name = "BLOG_TYPE_NAME", length = 150)
+    @Column(name = "BLOG_TYPE_NAME", length = 150, unique = true)
     private String name;
 
     @Column(name = "BLOG_TYPE_COUNTS")

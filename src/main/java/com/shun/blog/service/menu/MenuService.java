@@ -1,6 +1,5 @@
 package com.shun.blog.service.menu;
 
-import com.shun.blog.model.common.AjaxResult;
 import com.shun.blog.model.menu.Menu;
 
 import java.util.List;
@@ -14,7 +13,7 @@ public interface MenuService {
 
 	void updateMenu(Menu menu, String userRole) throws Exception;
 
-	AjaxResult deleteMenu(Menu menu, String userRole) throws Exception;
+	void deleteMenu(Menu menu, String userRole) throws Exception;
 
 	List<Menu> findAllByAdmin(Menu menu) throws Exception;
 }

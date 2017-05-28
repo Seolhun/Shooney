@@ -77,7 +77,7 @@ public class StackServiceImpl implements StackService {
             dbStack.setName(stack.getName());
             dbStack.setCreatedBy(stack.getCreatedBy());
             dbStack.setModifiedBy(stack.getModifiedBy());
-            dbStack.setDepth(stack.getDepth());
+            dbStack.setLangDepth(stack.getLangDepth());
         }
 
     }

@@ -1,6 +1,5 @@
 package com.shun.blog.service.menu;
 
-import com.shun.blog.model.common.AjaxResult;
 import com.shun.blog.model.menu.Menu;
 import com.shun.blog.repository.menu.MenuRepository;
 import com.shun.blog.service.common.CommonService;
@@ -80,17 +79,13 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     @Caching(put = {@CachePut(key = "#userRole+'|findAllMenu'", value = "menuList")})
-    public AjaxResult deleteMenu(Menu menu, String userRole) throws Exception {
+    public void deleteMenu(Menu menu, String userRole) throws Exception {
         Menu dbMenu = menuRepository.selectMenuById(menu.getMenuId());
-        AjaxResult ajaxResult = new AjaxResult();
         if (dbMenu.getDelFlag().equals("Y")) {
             dbMenu.setDelFlag("N");
-            ajaxResult.setResult("active");
         } else {
             dbMenu.setDelFlag("Y");
-            ajaxResult.setResult("delete");
         }
-        return ajaxResult;
     }
 
     @Override

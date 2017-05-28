@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
-@RequestMapping(value = "/stack")
+@RequestMapping(value = "/company")
 public class CompanyController {
 	private static final Logger LOG = LoggerFactory.getLogger(CompanyController.class);
 	
@@ -35,7 +35,7 @@ public class CompanyController {
 		model.addAttribute("menuList", menuList);
 		
 		LOG.info("where : moveNewsList");
-		return "stack/stack-list";
+		return "company/company-list";
 	}
 	
 }

@@ -1,7 +1,5 @@
 var csrfHeader=$("#csrfHeader").attr("content");
 var	csrfToken=$("#csrfToken").attr("content");
-console.log(csrfHeader);
-console.log(csrfToken);
 var thisRoot="/shooney";
 //var browswerLang=navigator.language;
 //if(browswerLang=="ko"){

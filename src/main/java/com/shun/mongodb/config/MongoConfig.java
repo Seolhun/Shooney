@@ -1,7 +1,9 @@
 package com.shun.mongodb.config;
 
-import java.util.Arrays;
-
+import com.mongodb.Mongo;
+import com.mongodb.MongoClient;
+import com.mongodb.MongoCredential;
+import com.mongodb.ServerAddress;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,10 +15,7 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.SimpleMongoDbFactory;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
-import com.mongodb.Mongo;
-import com.mongodb.MongoClient;
-import com.mongodb.MongoCredential;
-import com.mongodb.ServerAddress;
+import java.util.Arrays;
 
 @Configuration
 @EnableMongoRepositories(basePackages = "com.shun.mongodb.repository")
@@ -38,10 +37,9 @@ public class MongoConfig extends AbstractMongoConfiguration {
 
     @Bean
     public MongoClient mongoClient() throws Exception {
-//        MongoCredential credential = MongoCredential.createCredential(environment.getRequiredProperty("mongodb.config.user"), environment.getRequiredProperty("mongodb.config.adminDb"), environment.getRequiredProperty("mongodb.config.pwd").toCharArray());
-//        MongoClient mongoClient = new MongoClient(serverAddress, Arrays.asList(credential));
+        MongoCredential credential = MongoCredential.createCredential(environment.getRequiredProperty("mongodb.config.user"), environment.getRequiredProperty("mongodb.config.adminDb"), environment.getRequiredProperty("mongodb.config.pwd").toCharArray());
         ServerAddress serverAddress = new ServerAddress(environment.getRequiredProperty("mongodb.config.ip"), Integer.parseInt(environment.getRequiredProperty("mongodb.config.port")));
-        MongoClient mongoClient = new MongoClient();
+        MongoClient mongoClient = new MongoClient(serverAddress, Arrays.asList(credential));
 
 //		MongoClient mongoClient = new MongoClient();
         return mongoClient;

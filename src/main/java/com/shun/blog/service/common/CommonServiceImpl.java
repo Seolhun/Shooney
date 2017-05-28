@@ -28,9 +28,7 @@ import org.springframework.validation.FieldError;
 
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.security.MessageDigest;
@@ -56,6 +54,9 @@ public class CommonServiceImpl implements CommonService {
         this.userService = userService;
         this.mailSender = mailSender;
     }
+
+    private static final String FILE_PATH="/Users/hunseol/Desktop/project/shooney/file/";
+//    private static final String FILE_PATH="/opt/tomcat/files/";
 
     final private String emailPattern = "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,3})$";
     final private String idPattern = "^[A-Za-z0-9].{1,20}";
@@ -541,6 +542,41 @@ public class CommonServiceImpl implements CommonService {
             menu.setMenuType(MenuType.NORMAL.getType());
         }
         return menu;
+    }
+
+    /**
+     * Get from Img using Jsoup
+     * <p>
+     * param Img SRc
+     * return
+     * throws IOException
+     */
+    @Override
+    public String getImgUsingJsoup(String imgSrc, String savedDirectoryName) throws IOException {
+        int indexName = imgSrc.lastIndexOf("/");
+        if(indexName == imgSrc.length())
+            imgSrc = imgSrc.substring(1, indexName);
+        indexName = imgSrc.lastIndexOf("/");
+        String savedName = imgSrc.substring(indexName, imgSrc.length());
+
+        savedDirectoryName = savedDirectoryName.toLowerCase();
+        savedName = savedName.toLowerCase();
+
+        File directory = new File(FILE_PATH+savedDirectoryName);
+        if (!directory.exists()){
+            directory.mkdirs();
+        }
+
+        URL url = new URL(imgSrc);
+        InputStream in = url.openStream();
+        OutputStream out = new BufferedOutputStream(new FileOutputStream(FILE_PATH+savedDirectoryName+savedName));
+
+        for (int b; (b = in.read()) != -1;){
+            out.write(b);
+        }
+        out.close();
+        in.close();
+        return FILE_PATH+savedDirectoryName+savedName;
     }
 
     @Override

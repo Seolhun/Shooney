@@ -2,9 +2,10 @@
  * Created by hunseol on 2017. 5. 25..
  */
 /* Write here your custom javascript codes */
-var csrfHeader=$("#csrfHeader").attr("content");
-var	csrfToken=$("#csrfToken").attr("content");
-var root="/shooney";
+var csrfHeader=$("#csrfHeader").attr("content"), csrfToken=$("#csrfToken").attr("content"), root="/shooney";
+var protocol = window.location.protocol, host = window.location.host, pathname = window.location.pathname;
+var thisPage = protocol+host+pathname;
+console.log(thisPage);
 
 var MenuService = (function () {
     var menuUpdateForm = function (menuId) {
@@ -47,13 +48,8 @@ var MenuService = (function () {
                 xhr.setRequestHeader("Content-Type", "application/json");
                 xhr.setRequestHeader(csrfHeader, csrfToken);
             }, success: function(data) {
-                if(data.result=="delete"){
-                    alert("Success : Delete Munu")
-                    location.reload();
-                } else {
-                    alert("Success : Active Munu");
-                    location.reload();
-                }
+                alert("Success : Request is Succeed");
+                location.reload();
             }, error : function(error){
                 console.log('Error', error);
             }
@@ -89,7 +85,7 @@ var MenuService = (function () {
                 xhr.setRequestHeader("Content-Type", "application/json");
                 xhr.setRequestHeader(csrfHeader, csrfToken);
             }, success: function() {
-                alert("Success : Update Munu");
+                alert("Success : Update request is succeed");
                 location.reload();
             }, error : function(error){
                 console.log('Error', error);
