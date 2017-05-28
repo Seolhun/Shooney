@@ -2,8 +2,8 @@ package com.shun.blog.controller.stack;
 
 import com.shun.blog.model.common.AjaxResult;
 import com.shun.blog.service.common.CommonService;
+import com.shun.blog.service.stack.StackService;
 import com.shun.mongodb.model.news.NewsData;
-import com.shun.mongodb.service.news.NewsDataService;
 import org.jsoup.HttpStatusException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -13,7 +13,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,33 +26,31 @@ import java.util.List;
 public class StackRestController {
 	private static final Logger LOG = LoggerFactory.getLogger(StackRestController.class);
 	
-	private NewsDataService newsDataService;
+	private StackService stackService;
 	private CommonService commonService;
 	
 	@Autowired
-	public StackRestController(NewsDataService newsDataService, CommonService commonService) {
-		this.newsDataService=newsDataService;
+	public StackRestController(StackService stackService, CommonService commonService) {
+		this.stackService=stackService;
 		this.commonService=commonService;
 	}
 
-	@RequestMapping(value = "/save/{idx}", method = RequestMethod.GET)
-	public AjaxResult saveNews(ModelMap model, @PathVariable Long idx) {
+	@RequestMapping(value = "/insert", method = RequestMethod.GET)
+	public AjaxResult saveNews(ModelMap model) {
 		LOG.info("where : saveNews");
 		AjaxResult result=new AjaxResult();
 
-		getStacksThread(idx).start();
-		
 		result.setResult("success");
 		return result;
 	}
 	
-	@RequestMapping(value = "/stop", method = RequestMethod.GET)
-	public AjaxResult stopThreadNews(AjaxResult ajaxResult) {
-		LOG.info("where : stopThreadNews");
-		stopNewsThread();
-		ajaxResult.setResult("success");
-		return ajaxResult;
-	}
+//	@RequestMapping(value = "/stop", method = RequestMethod.GET)
+//	public AjaxResult stopThreadNews(AjaxResult ajaxResult) {
+//		LOG.info("where : stopThreadNews");
+//		stopNewsThread();
+//		ajaxResult.setResult("success");
+//		return ajaxResult;
+//	}
 
 	private Thread getStacksThread(Long startNumber){
 		Thread thread=new Thread(){
@@ -84,7 +81,7 @@ public class StackRestController {
 					tags.add(tag);
 				}
 
-				newsDataService.save(newsData);
+//				stackService.save(newsData);
 			} catch (HttpStatusException e) {
 				LOG.error("ERROR : HttpStatusException");
 			} catch (NullPointerException e) {

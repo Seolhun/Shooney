@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
-@RequestMapping(value = "/stack")
+@RequestMapping(value = "/news")
 public class NewsDataController {
 	private static final Logger LOG = LoggerFactory.getLogger(NewsDataController.class);
 	
@@ -36,6 +36,6 @@ public class NewsDataController {
 		model.addAttribute("menuList", menuList);
 		
 		LOG.info("where : moveNewsList");
-		return "stack/stack-list";
+		return "news/news-list";
 	}
 }
