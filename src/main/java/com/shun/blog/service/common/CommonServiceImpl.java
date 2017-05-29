@@ -552,12 +552,17 @@ public class CommonServiceImpl implements CommonService {
      * throws IOException
      */
     @Override
-    public String getImgUsingJsoup(String imgSrc, String savedDirectoryName) throws IOException {
+    public String getImgUsingJsoup(String imgSrc, String savedDirectoryName) throws IOException, StringIndexOutOfBoundsException {
+        LOG.info("return imgSrc1 : {}", imgSrc);
         int indexName = imgSrc.lastIndexOf("/");
+        LOG.info("return indexName1 : {}", indexName);
         if(indexName == imgSrc.length())
             imgSrc = imgSrc.substring(1, indexName);
+            LOG.info("return imgSrc2 : {}", imgSrc);
         indexName = imgSrc.lastIndexOf("/");
+        LOG.info("return indexName2 : {}", indexName);
         String savedName = imgSrc.substring(indexName, imgSrc.length());
+        LOG.info("return savedName : {}", savedName);
 
         savedDirectoryName = savedDirectoryName.toLowerCase();
         savedName = savedName.toLowerCase();

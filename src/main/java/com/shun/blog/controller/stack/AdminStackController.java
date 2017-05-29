@@ -62,8 +62,15 @@ public class AdminStackController {
     @ResponseBody
     public AjaxResult saveNews(@RequestBody Stack stack, AjaxResult ajaxResult) throws Exception {
         LOG.info("return : getNewsThread : {}", stack.toString());
-        getStackUsingThread(stack.getName().toLowerCase(), commonService.getAccessUserToModel()).start();
-
+        try {
+            getStackUsingThread(stack.getName().toLowerCase(), commonService.getAccessUserToModel()).start();
+        } catch (InterruptedException e){
+            e.printStackTrace();
+            getStackUsingThread(stack.getName().toLowerCase(), commonService.getAccessUserToModel()).start();
+        } catch (Exception e){
+            e.printStackTrace();
+            getStackUsingThread(stack.getName().toLowerCase(), commonService.getAccessUserToModel()).start();
+        }
         ajaxResult.setResult("success");
         return ajaxResult;
     }
@@ -94,9 +101,14 @@ public class AdminStackController {
 
                     //Crawl root Stack img to DB
                     String rootImgSrc = doc.getElementsByClass("sp-service-logo").select("div > a > img").attr("src");
-                    String rootFilePath = commonService.getImgUsingJsoup(rootImgSrc, tempStacks.getName().toLowerCase());
+                    String rootFilePath = "";
+                    try {
+                        rootFilePath = commonService.getImgUsingJsoup(rootImgSrc, tempStacks.getName().toLowerCase());
+                    } catch (StringIndexOutOfBoundsException e){
+                        e.printStackTrace();
+                    }
+
                     String rootStackName = doc.select("meta[name=keywords]").attr("content");
-                    rootStackName = rootStackName.substring(0, 1).toUpperCase() + rootStackName.substring(1, rootStackName.length());
 
                     List<Stack> similarStacks = new ArrayList<>();
                     //Crawl similar Stack
