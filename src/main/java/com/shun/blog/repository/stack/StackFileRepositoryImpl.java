@@ -1,9 +1,9 @@
 package com.shun.blog.repository.stack;
 
+import com.shun.blog.model.stack.Stack;
 import com.shun.blog.model.stack.StackFile;
 import com.shun.blog.repository.AbstractRepository;
 import org.hibernate.Criteria;
-import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
@@ -35,23 +35,23 @@ public class StackFileRepositoryImpl extends AbstractRepository<Long, StackFile>
 
     @Override
 
-    public List<StackFile> selectList() throws Exception {
+    public List<StackFile> selectList(Stack stack) throws Exception {
         // 검색 로직
-        Criteria criteria = createEntityCriteria()
-                .addOrder(Order.desc("counts"))
-                .add(Restrictions.eq("delFlag", "N"))
-                .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+        Criteria criteria = createEntityCriteria();
+        criteria.add(Restrictions.eq("stackInFile", stack));
+        criteria.add(Restrictions.eq("delFlag", "N"));
+        criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 
         List<StackFile> stackFiles = (List<StackFile>) criteria.list();
-        LOG.info("return : selectList {}", stackFiles);
+        LOG.info("return : selectList {}", stackFiles.toString());
         return stackFiles;
     }
 
     @Override
     public int getCount() throws Exception {
         // 검색 로직
-        Criteria criteria = createEntityCriteria()
-                .add(Restrictions.eq("delFlag", "N"));
+        Criteria criteria = createEntityCriteria();
+        criteria.add(Restrictions.eq("delFlag", "N"));
         return ((Number) criteria.setProjection(Projections.rowCount()).uniqueResult()).intValue();
     }
 

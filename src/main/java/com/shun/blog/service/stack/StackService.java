@@ -3,7 +3,7 @@ package com.shun.blog.service.stack;
 
 import com.shun.blog.model.stack.Stack;
 
-import java.util.List;
+import java.util.Set;
 
 /**
  * Created by HunSeol on 2017. 5. 28..
@@ -19,7 +19,7 @@ public interface StackService {
 
     void deleteById(Long id);
 
-    List<Stack> selectList() throws Exception;
+    Set<Stack> selectList(Stack stack) throws Exception;
 
     int getCount() throws Exception;
 }

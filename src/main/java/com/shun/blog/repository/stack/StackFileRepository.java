@@ -1,5 +1,6 @@
 package com.shun.blog.repository.stack;
 
+import com.shun.blog.model.stack.Stack;
 import com.shun.blog.model.stack.StackFile;
 
 import java.util.List;
@@ -11,7 +12,7 @@ public interface StackFileRepository {
 
 	StackFile selectByName(String name) throws Exception;
 	
-	List<StackFile> selectList() throws Exception;
+	List<StackFile> selectList(Stack stack) throws Exception;
 
 	int getCount() throws Exception;
 

@@ -25,10 +25,10 @@ public class Blog implements Serializable {
 	private Long idx;
 	
 	@OneToMany(mappedBy = "blogInFile")
-	private List<FileData> fileDataList=new ArrayList<FileData>();
+	private List<FileData> fileDataList=new ArrayList<>();
 	
 	@OneToMany(mappedBy = "blogInComment")
-	private List<Comment> commentList=new ArrayList<Comment>();
+	private List<Comment> commentList=new ArrayList<>();
 	
 	@Column(name = "BLOG_TITLE",length=150 , nullable = false)
 	private String title;

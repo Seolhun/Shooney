@@ -4,15 +4,15 @@ import lombok.Data;
 import org.hibernate.annotations.*;
 
 import javax.persistence.*;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.*;
 
 @Data
-@Entity(name = "TB_STACK")
-@BatchSize(size = 10)
-@Table(name = "TB_BLOG_TYPE", uniqueConstraints = {@UniqueConstraint(columnNames = "STACK_NAME")})
+@Entity
+@Table(name = "TB_STACK", uniqueConstraints = {@UniqueConstraint(columnNames = "STACK_NAME")})
 public class Stack implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,36 +37,36 @@ public class Stack implements Serializable {
     @Column(name = "STACK_TOOL_DEPTH", length = 10)
     private int toolDepth = 0;
 
-    @OneToMany(mappedBy = "stackInFile")
-    private List<StackFile> stackFiles=new ArrayList<>();
+    @OneToMany(mappedBy = "stackInFile", fetch = FetchType.LAZY)
+    private List<StackFile> stackFiles = new ArrayList<>();
 
     @BatchSize(size = 5)
     @Fetch(FetchMode.SELECT)
-    @ManyToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "TB_STACK_SIMILAR", joinColumns = {@JoinColumn(name = "STACK_ID")}, inverseJoinColumns = {
             @JoinColumn(name = "STACK_ID_SIMILAR")})
-    private Set<Stack> similarStacks = new HashSet<>();
+    private Set<Stack> similarStacks;
 
     @BatchSize(size = 5)
     @Fetch(FetchMode.SELECT)
-    @ManyToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "TB_STACK_COMPANY", joinColumns = {@JoinColumn(name = "STACK_ID")}, inverseJoinColumns = {
             @JoinColumn(name = "STACK_ID_COMPANY")})
-    private Set<Company> companies = new HashSet<>();
+    private Set<Company> companies;
 
     @BatchSize(size = 5)
     @Fetch(FetchMode.SELECT)
-    @ManyToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "TB_STACK_ITEM", joinColumns = {@JoinColumn(name = "STACK_ID")}, inverseJoinColumns = {
             @JoinColumn(name = "STACK_ID_ITEM")})
-    private Set<ItemTool> items = new HashSet<>();
+    private Set<ItemTool> items;
 
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "STACK_CREATED_DATE")
     private Date createdDate;
 
-    @Column(name = "STACK_CREATED_BY", nullable = false, length = 60)
+    @Column(name = "STACK_CREATED_BY",  length = 60)
     private String createdBy;
 
     @Column(name = "STACK_MODIFIED_BY", length = 60)

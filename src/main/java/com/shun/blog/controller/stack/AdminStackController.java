@@ -4,6 +4,7 @@ import com.shun.blog.model.common.AjaxResult;
 import com.shun.blog.model.menu.Menu;
 import com.shun.blog.model.stack.Stack;
 import com.shun.blog.model.stack.StackFile;
+import com.shun.blog.model.user.User;
 import com.shun.blog.service.common.CommonService;
 import com.shun.blog.service.menu.MenuService;
 import com.shun.blog.service.stack.StackFileService;
@@ -58,10 +59,10 @@ public class AdminStackController {
 
     @RequestMapping(value = "/insert", method = RequestMethod.POST, produces = "application/json")
     @ResponseBody
-    public AjaxResult saveNews(@RequestBody Stack stack, AjaxResult ajaxResult) {
+    public AjaxResult saveNews(@RequestBody Stack stack, AjaxResult ajaxResult) throws Exception {
         LOG.info("return : getNewsThread : {}", stack.toString());
 
-        getStackUsingThread(stack.getName().toLowerCase()).start();
+        getStackUsingThread(stack.getName().toLowerCase(), commonService.getAccessUserToModel()).start();
 
         ajaxResult.setResult("success");
         return ajaxResult;
@@ -74,7 +75,7 @@ public class AdminStackController {
         return ajaxResult;
     }
 
-    private Thread getStackUsingThread(String stackName) {
+    private Thread getStackUsingThread(String stackName, User user) {
         Thread thread = new Thread() {
             public void run() {
                 try {
@@ -102,11 +103,13 @@ public class AdminStackController {
                     String rootFilePath = commonService.getImgUsingJsoup(rootImgSrc, stackName);
                     rootStackFile.setSavedPath(rootFilePath);
                     rootStackFile.setSavedName(stackName);
+                    rootStackFile.setCreatedBy(user.getNickname());
                     rootStackFile.setStackInFile(rootStack);
 
                     Set<Stack> similarStacks = new HashSet<>();
                     //Crawl similar Stack
                     Elements similars = doc.getElementsByClass("similar-services-items").select("div > div > a > img");
+                    int counts = 0;
                     for (Element el : similars) {
                         Stack similarStack = new Stack();
                         StackFile similarStackFile = new StackFile();
@@ -114,21 +117,33 @@ public class AdminStackController {
                         String itemName = el.attr("alt");
                         String imgSrc = el.attr("src");
 
-                        //insert root similarStack  to DB
-                        similarStack.setName(itemName);
-                        stackService.insert(similarStack);
+                        try {
+                            similarStack = stackService.selectByName(itemName);
+                            if (similarStack.getName() != null) {
+                                //insert root similarStack  to DB
+                                similarStack.setName(itemName);
+                                similarStack.setCreatedBy(user.getNickname());
+                                stackService.insert(similarStack);
 
-                        //insert root similarStack img Info to DB
-                        String path = commonService.getImgUsingJsoup(imgSrc, itemName);
-                        similarStackFile.setSavedPath(path);
-                        similarStackFile.setSavedName(itemName);
-                        similarStackFile.setStackInFile(similarStack);
-                        stackFileService.insert(similarStackFile);
+                                //insert root similarStack img Info to DB
+                                String path = commonService.getImgUsingJsoup(imgSrc, itemName);
+                                similarStackFile.setSavedPath(path);
+                                similarStackFile.setSavedName(itemName);
+                                similarStackFile.setStackInFile(similarStack);
+                                similarStackFile.setCreatedBy(user.getNickname());
+                                stackFileService.insert(similarStackFile);
+                            }
+                        } catch (NullPointerException e){
+                            e.printStackTrace();
+                        }
 
                         similarStacks.add(similarStack);
+                        counts += 1;
                     }
 
                     rootStack.setSimilarStacks(similarStacks);
+                    rootStack.setCreatedBy(user.getNickname());
+                    rootStack.setLangDepth(counts);
                     stackService.insert(rootStack);
                     stackFileService.insert(rootStackFile);
 

@@ -1,6 +1,5 @@
 package com.shun.blog.model.stack;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.BatchSize;
@@ -11,11 +10,11 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
-@Getter
+
 @Setter
+@Getter
 @Entity
 @Table(name = "TB_STACK_FILE")
-@JsonIgnoreProperties(ignoreUnknown=true)
 @BatchSize(size = 5)
 public class StackFile implements Serializable {
 	@Id

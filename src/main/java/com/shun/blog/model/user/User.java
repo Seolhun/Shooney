@@ -1,33 +1,17 @@
 package com.shun.blog.model.user;
 
+import lombok.Data;
+import org.hibernate.annotations.*;
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
+
+import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.persistence.Transient;
-
-import org.hibernate.annotations.BatchSize;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
-import org.hibernate.annotations.UpdateTimestamp;
-import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.NotEmpty;
-
-import lombok.Data;
 
 @Entity
 @Table(name = "TB_USER")
@@ -76,7 +60,7 @@ public class User implements Serializable {
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "TB_USER_PROFILE_REFER", joinColumns = { @JoinColumn(name = "USER_ID") }, inverseJoinColumns = {
 			@JoinColumn(name = "USER_PROFILE_ID") })
-	private Set<UserProfile> userProfiles = new HashSet<UserProfile>();
+	private Set<UserProfile> userProfiles = new HashSet<>();
 
 	@Column(name = "USER_RECEIVE_EMAIL", nullable=false)
 	private int receiveEmail=0;

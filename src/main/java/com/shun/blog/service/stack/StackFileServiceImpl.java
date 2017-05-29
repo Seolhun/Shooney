@@ -1,5 +1,6 @@
 package com.shun.blog.service.stack;
 
+import com.shun.blog.model.stack.Stack;
 import com.shun.blog.model.stack.StackFile;
 import com.shun.blog.repository.stack.StackFileRepository;
 import org.slf4j.Logger;
@@ -44,8 +45,8 @@ public class StackFileServiceImpl implements StackFileService {
     }
 
     @Override
-    public List<StackFile> selectList() throws Exception {
-        return stackFileReoisitory.selectList();
+    public List<StackFile> selectList(Stack stack) throws Exception {
+        return stackFileReoisitory.selectList(stack);
     }
 
     @Override
