@@ -62,13 +62,12 @@ public class AdminStackController {
     @ResponseBody
     public AjaxResult saveNews(@RequestBody Stack stack, AjaxResult ajaxResult) throws Exception {
         LOG.info("return : getNewsThread : {}", stack.toString());
-
-        stack.setName(stack.getName().toLowerCase());
+        stack.setName(stack.getName().substring(0,1).toUpperCase()+stack.getName().substring(1,stack.getName().length()));
         List<Stack> stackList = stackService.selectList(stack);
+        LOG.info("return : stackList : {}", stackList.toString());
         for (Stack stackTemp : stackList) {
             getStackUsingThread(stackTemp.getName().toLowerCase(), commonService.getAccessUserToModel()).start();
         }
-
 
         ajaxResult.setResult("success");
         return ajaxResult;
