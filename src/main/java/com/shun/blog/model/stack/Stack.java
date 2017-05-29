@@ -37,29 +37,29 @@ public class Stack implements Serializable {
     @Column(name = "STACK_TOOL_DEPTH", length = 10)
     private int toolDepth = 0;
 
-    @OneToMany(mappedBy = "stackInFile", fetch = FetchType.LAZY)
-    private List<StackFile> stackFiles = new ArrayList<>();
+    @OneToMany(mappedBy = "stackInFile")
+    private List<StackFile> stackImgFiles = new ArrayList<>();
 
     @BatchSize(size = 5)
     @Fetch(FetchMode.SELECT)
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "TB_STACK_SIMILAR", joinColumns = {@JoinColumn(name = "STACK_ID")}, inverseJoinColumns = {
-            @JoinColumn(name = "STACK_ID_SIMILAR")})
-    private Set<Stack> similarStacks;
+            @JoinColumn(name = "STACK_SIMILAR_ID")})
+    private List<Stack> similarStacks = new ArrayList<>();
 
     @BatchSize(size = 5)
     @Fetch(FetchMode.SELECT)
     @OneToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "TB_STACK_COMPANY", joinColumns = {@JoinColumn(name = "STACK_ID")}, inverseJoinColumns = {
-            @JoinColumn(name = "STACK_ID_COMPANY")})
-    private Set<Company> companies;
+            @JoinColumn(name = "STACK_COMPANY_ID")})
+    private List<Company> companies = new ArrayList<>();;
 
     @BatchSize(size = 5)
     @Fetch(FetchMode.SELECT)
     @OneToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "TB_STACK_ITEM", joinColumns = {@JoinColumn(name = "STACK_ID")}, inverseJoinColumns = {
-            @JoinColumn(name = "STACK_ID_ITEM")})
-    private Set<ItemTool> items;
+            @JoinColumn(name = "STACK_ITEM_ID")})
+    private List<ItemTool> items = new ArrayList<>();;
 
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)

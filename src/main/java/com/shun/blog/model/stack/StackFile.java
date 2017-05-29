@@ -1,5 +1,6 @@
 package com.shun.blog.model.stack;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.BatchSize;
@@ -11,8 +12,8 @@ import java.io.Serializable;
 import java.util.Date;
 
 
-@Setter
 @Getter
+@Setter
 @Entity
 @Table(name = "TB_STACK_FILE")
 @BatchSize(size = 5)

@@ -55,7 +55,7 @@ public class CommonServiceImpl implements CommonService {
         this.mailSender = mailSender;
     }
 
-    private static final String FILE_PATH="/Users/hunseol/Desktop/project/shooney/file/";
+    private static final String FILE_PATH="/Users/hunseol/Desktop/project/shooney/stack/";
 //    private static final String FILE_PATH="/opt/tomcat/files/";
 
     final private String emailPattern = "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,3})$";

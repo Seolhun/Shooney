@@ -56,7 +56,7 @@ public class StackFileServiceImpl implements StackFileService {
 
 
     @Override
-    public void update(StackFile stackFile, int variableCount) throws Exception {
+    public void update(StackFile stackFile) throws Exception {
         LOG.info("param : update {}", stackFile.toString());
         StackFile dbStackFile = stackFileReoisitory.selectById(stackFile.getId());
         if (dbStackFile != null) {

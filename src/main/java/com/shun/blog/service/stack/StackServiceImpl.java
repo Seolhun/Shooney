@@ -35,16 +35,11 @@ public class StackServiceImpl implements StackService {
     public Stack selectById(Long id) throws Exception {
         LOG.info("param : selectById {}", id);
         Stack stack = stackRepository.selectById(id);
-        List<StackFile> stackFiles = stackFileRepository.selectList(stack);
-        if (stackFiles != null) {
-            stack.setStackFiles(stackFiles);
-        }
-
-        if (stack != null) {
-            Hibernate.initialize(stack.getSimilarStacks());
-            Hibernate.initialize(stack.getCompanies());
-            Hibernate.initialize(stack.getItems());
-        }
+//        List<StackFile> stackFileList = stackFileRepository.selectList(stack);
+//        if(stackFileList != null){
+//            stack.setStackImgFiles(stackFileList);
+//        }
+//        createEntityHiber(stack);
         return stack;
     }
 
@@ -52,22 +47,16 @@ public class StackServiceImpl implements StackService {
     public Stack selectByName(String name) throws Exception {
         LOG.info("param : selectByName {}", name);
         Stack stack = stackRepository.selectByName(name);
-        List<StackFile> stackFiles = stackFileRepository.selectList(stack);
-        if (stackFiles != null) {
-            stack.setStackFiles(stackFiles);
-        }
-
-        if (stack != null) {
-            Hibernate.initialize(stack.getSimilarStacks());
-            Hibernate.initialize(stack.getCompanies());
-            Hibernate.initialize(stack.getItems());
-        }
+//        List<StackFile> stackFileList = stackFileRepository.selectList(stack);
+//        if(stackFileList != null){
+//            stack.setStackImgFiles(stackFileList);
+//        }
+//        createEntityHiber(stack);
         return stack;
     }
 
     @Override
     public void insert(Stack stack) {
-        LOG.info("param : insert {}", stack.toString());
         stackRepository.insert(stack);
     }
 
@@ -83,18 +72,14 @@ public class StackServiceImpl implements StackService {
 
 
     @Override
-    public void update(Stack stack, int variableCount) throws Exception {
-        LOG.info("param : update {}", stack.toString());
+    public void update(Stack stack) throws Exception {
         Stack dbStack = null;
-        try {
-            if (stack.getId() != null) {
-                dbStack = stackRepository.selectById(stack.getId());
-            } else if (stack.getName() != null) {
-                dbStack = stackRepository.selectByName(stack.getName());
-            }
-        } catch (NullPointerException e) {
-            LOG.info("error : update Stack NullPointerException");
+        if (stack.getId() != null) {
+            dbStack = stackRepository.selectById(stack.getId());
+        } else if (stack.getName() != null) {
+            dbStack = stackRepository.selectByName(stack.getName());
         }
+
         if (dbStack != null) {
             dbStack.setName(stack.getName());
             dbStack.setCreatedBy(stack.getCreatedBy());
@@ -102,11 +87,24 @@ public class StackServiceImpl implements StackService {
             dbStack.setLangDepth(stack.getLangDepth());
         }
 
+        if(stack.getSimilarStacks() != null){
+            dbStack.setSimilarStacks(stack.getSimilarStacks());
+            insert(dbStack);
+        }
     }
 
     @Override
     public void deleteById(Long id) {
         LOG.info("param : deleteById {}", id);
         stackRepository.deleteById(id);
+    }
+
+    private void createEntityHiber(Stack stack){
+        if (stack != null) {
+            Hibernate.initialize(stack.getStackImgFiles());
+            Hibernate.initialize(stack.getSimilarStacks());
+            Hibernate.initialize(stack.getCompanies());
+            Hibernate.initialize(stack.getItems());
+        }
     }
 }

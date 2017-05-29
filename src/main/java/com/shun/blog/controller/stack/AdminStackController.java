@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -80,8 +81,6 @@ public class AdminStackController {
             public void run() {
                 try {
                     String address = "https://stackshare.io/" + stackName;
-                    LOG.info("return : getNewsThread : address {}", address);
-
                     //Jsoup Crawling connect
                     Document doc = null;
                     doc = Jsoup.connect(address).timeout(8000).userAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.95 Safari/537.36").ignoreHttpErrors(true).get();
@@ -89,64 +88,71 @@ public class AdminStackController {
                         return;
                     }
 
-                    Stack rootStack = new Stack();
-                    StackFile rootStackFile = new StackFile();
-
-                    //Crawl root Stack
-                    String rootStackName = doc.select("meta[name=keywords]").attr("content");
+                    //Crawl root Stack img to DB
                     String rootImgSrc = doc.getElementsByClass("sp-service-logo").select("div > a > img").attr("src");
-
-                    //insert root Stack  to DB
-                    rootStack.setName(rootStackName);
-
-                    //insert root Stack img Info to DB
                     String rootFilePath = commonService.getImgUsingJsoup(rootImgSrc, stackName);
-                    rootStackFile.setSavedPath(rootFilePath);
-                    rootStackFile.setSavedName(stackName);
-                    rootStackFile.setCreatedBy(user.getNickname());
-                    rootStackFile.setStackInFile(rootStack);
+                    String rootStackName = doc.select("meta[name=keywords]").attr("content");
+                    rootStackName = rootStackName.substring(0,1).toUpperCase()+rootStackName.substring(1,rootStackName.length());
 
-                    Set<Stack> similarStacks = new HashSet<>();
+                    List<Stack> similarStacks = new ArrayList<>();
                     //Crawl similar Stack
                     Elements similars = doc.getElementsByClass("similar-services-items").select("div > div > a > img");
                     int counts = 0;
                     for (Element el : similars) {
-                        Stack similarStack = new Stack();
-                        StackFile similarStackFile = new StackFile();
+                        String similarStackName = el.attr("alt");
+                        String similarImgSrc = el.attr("src");
 
-                        String itemName = el.attr("alt");
-                        String imgSrc = el.attr("src");
+                        //insert root similarStack  to DB
+                        Stack similarStack = stackService.selectByName(similarStackName);
+                        if(similarStack == null){
+                            similarStack = new Stack();
+                            similarStack.setName(similarStackName);
+                            similarStack.setCreatedBy(user.getNickname());
+                            stackService.insert(similarStack);
+                        }
 
-                        try {
-                            similarStack = stackService.selectByName(itemName);
-                            if (similarStack.getName() != null) {
-                                //insert root similarStack  to DB
-                                similarStack.setName(itemName);
-                                similarStack.setCreatedBy(user.getNickname());
-                                stackService.insert(similarStack);
-
-                                //insert root similarStack img Info to DB
-                                String path = commonService.getImgUsingJsoup(imgSrc, itemName);
-                                similarStackFile.setSavedPath(path);
-                                similarStackFile.setSavedName(itemName);
-                                similarStackFile.setStackInFile(similarStack);
-                                similarStackFile.setCreatedBy(user.getNickname());
-                                stackFileService.insert(similarStackFile);
-                            }
-                        } catch (NullPointerException e){
-                            e.printStackTrace();
+                        StackFile similarStackFile = stackFileService.selectByName(similarStackName);
+                        if(similarStackFile == null) {
+                            similarStackFile = new StackFile();
+                            //insert root similarStack img Info to DB
+                            similarStackFile.setOriginName(similarStackName);
+                            similarStackFile.setSavedName(similarStackName);
+                            similarStackFile.setCreatedBy(user.getNickname());
+                            similarStackFile.setStackInFile(similarStack);
+                            String path = commonService.getImgUsingJsoup(similarImgSrc, similarStackName);
+                            similarStackFile.setSavedPath(path);
+                            stackFileService.insert(similarStackFile);
                         }
 
                         similarStacks.add(similarStack);
                         counts += 1;
                     }
 
-                    rootStack.setSimilarStacks(similarStacks);
-                    rootStack.setCreatedBy(user.getNickname());
-                    rootStack.setLangDepth(counts);
-                    stackService.insert(rootStack);
-                    stackFileService.insert(rootStackFile);
+                    //Insert root Stack img to DB
+                    Stack rootStack = stackService.selectByName(rootStackName);
+                    if(rootStack == null) {
+                        rootStack = new Stack();
+                        rootStack.setName(rootStackName);
+                        rootStack.setCreatedBy(user.getNickname());
+                        rootStack.setLangDepth(counts);
+                        rootStack.setSimilarStacks(similarStacks);
+                        stackService.insert(rootStack);
+                    } else {
+                        rootStack.setSimilarStacks(similarStacks);
+                        stackService.update(rootStack);
+                    }
 
+
+
+                    StackFile rootStackFile = stackFileService.selectByName(rootStackName);
+                    if(rootStackFile == null) {
+                        rootStackFile = new StackFile();
+                        rootStackFile.setSavedPath(rootFilePath);
+                        rootStackFile.setOriginName(rootStackName);
+                        rootStackFile.setSavedName(rootStackName);
+                        rootStackFile.setCreatedBy(user.getNickname());
+                        stackFileService.insert(rootStackFile);
+                    }
                 } catch (HttpStatusException e) {
                     LOG.error("ERROR : HttpStatusException");
                     e.printStackTrace();

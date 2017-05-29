@@ -12,7 +12,7 @@ public interface StackFileService {
 
     void insert(StackFile stackFile);
 
-    void update(StackFile stackFile, int variableCount) throws Exception;
+    void update(StackFile stackFile) throws Exception;
 
     void deleteById(Long id);
 

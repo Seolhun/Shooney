@@ -29,7 +29,7 @@ public class StackFileRepositoryImpl extends AbstractRepository<Long, StackFile>
     @Override
     public StackFile selectByName(String name) throws Exception {
         Criteria crit = createEntityCriteria();
-        crit.add(Restrictions.eq("name", name));
+        crit.add(Restrictions.eq("savedName", name));
         return (StackFile) crit.uniqueResult();
     }
 
@@ -43,7 +43,7 @@ public class StackFileRepositoryImpl extends AbstractRepository<Long, StackFile>
         criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 
         List<StackFile> stackFiles = (List<StackFile>) criteria.list();
-        LOG.info("return : selectList {}", stackFiles.toString());
+        LOG.info("return : StackFile.selectList {}", stackFiles.toString());
         return stackFiles;
     }
 

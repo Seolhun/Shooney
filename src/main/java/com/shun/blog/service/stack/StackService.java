@@ -15,7 +15,7 @@ public interface StackService {
 
     void insert(Stack stack);
 
-    void update(Stack stack, int variableCount) throws Exception;
+    void update(Stack stack) throws Exception;
 
     void deleteById(Long id);
 
