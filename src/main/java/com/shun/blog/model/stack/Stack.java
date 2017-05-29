@@ -13,6 +13,7 @@ import java.util.*;
 @Data
 @Entity
 @Table(name = "TB_STACK", uniqueConstraints = {@UniqueConstraint(columnNames = "STACK_NAME")})
+@BatchSize(size = 5)
 public class Stack implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
