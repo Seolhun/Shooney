@@ -10,7 +10,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Set;
 
 @Repository
 public class StackRepositoryImpl extends AbstractRepository<Long, Stack> implements StackRepository {
@@ -36,7 +35,7 @@ public class StackRepositoryImpl extends AbstractRepository<Long, Stack> impleme
     }
 
     @Override
-
+    @SuppressWarnings("unchecked")
     public List<Stack> selectList(Stack stack) throws Exception {
         LOG.info("param : StackRepository.selectList {}", stack.toString());
         // 검색 로직
@@ -44,10 +43,7 @@ public class StackRepositoryImpl extends AbstractRepository<Long, Stack> impleme
         criteria.add(Restrictions.eq("delFlag", "N"));
 //        criteria.add(Restrictions.eq("similarStacks", stack));
         criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
-
-        List<Stack> stacks = (List<Stack>) criteria.uniqueResult();
-        LOG.info("return : StackRepository.selectList {}", stacks.toString());
-        return stacks;
+        return (List<Stack>)criteria.list();
     }
 
     @Override
