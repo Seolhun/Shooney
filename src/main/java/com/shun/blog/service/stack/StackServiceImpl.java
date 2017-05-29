@@ -61,7 +61,7 @@ public class StackServiceImpl implements StackService {
     }
 
     @Override
-    public Set<Stack> selectList(Stack stack) throws Exception {
+    public List<Stack> selectList(Stack stack) throws Exception {
         return stackRepository.selectList(stack);
     }
 
@@ -69,7 +69,6 @@ public class StackServiceImpl implements StackService {
     public int getCount() throws Exception {
         return stackRepository.getCount();
     }
-
 
     @Override
     public void update(Stack stack) throws Exception {

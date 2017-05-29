@@ -3,7 +3,8 @@ package com.shun.blog.repository.stack;
 
 import com.shun.blog.model.stack.Stack;
 
-import java.util.Set;
+import java.util.List;
+
 
 public interface StackRepository {
 	void insert(Stack stack);
@@ -12,7 +13,7 @@ public interface StackRepository {
 
 	Stack selectByName(String name) throws Exception;
 
-	Set<Stack> selectList(Stack stack) throws Exception;
+	List<Stack> selectList(Stack stack) throws Exception;
 
 	int getCount() throws Exception;
 
