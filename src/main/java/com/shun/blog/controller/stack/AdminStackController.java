@@ -217,7 +217,7 @@ public class AdminStackController {
         }
 
         if (stackName.contains(" ")) {
-            stackName = stackName.replaceAll("\\.", "");
+            stackName = stackName.replace(".", "");
             LOG.info("param : contains(\".\") {}", stackName);
         }
 
@@ -227,7 +227,7 @@ public class AdminStackController {
         }
 
         if (stackName.contains("#")) {
-            stackName = stackName.replaceAll("\\#", "-sharp");
+            stackName = stackName.replaceAll("#", "-sharp");
             LOG.info("param : contains(\"#\") {}", stackName);
         }
 
