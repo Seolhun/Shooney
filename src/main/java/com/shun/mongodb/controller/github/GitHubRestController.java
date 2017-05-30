@@ -1,6 +1,7 @@
 package com.shun.mongodb.controller.github;
 
 import com.google.gson.JsonObject;
+import com.shun.blog.model.common.AjaxResult;
 import com.shun.blog.service.common.CommonService;
 import com.shun.mongodb.model.github.GitSearch;
 import com.shun.mongodb.service.github.GithubService;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -31,7 +33,7 @@ public class GitHubRestController {
 		this.githubService=githubService;
 	}
 	
-	@RequestMapping(value = "/search", method = RequestMethod.POST)
+	@RequestMapping(value = "/search", method = RequestMethod.GET)
 	public JsonObject githubSearch(@RequestBody GitSearch gitSearch) throws Exception {
 	    LOG.info("param : githubSearch {}", gitSearch.toString());
 		JsonObject json = commonService.getResponseAPI(searchGithub(gitSearch));
@@ -39,16 +41,22 @@ public class GitHubRestController {
 	}
 
     @RequestMapping(value = "/test", method = RequestMethod.GET)
-    public JsonObject test(GitSearch gitSearch) throws Exception {
+    public AjaxResult test(GitSearch gitSearch, AjaxResult ajaxResult) throws Exception {
         LOG.info("param : githubSearch {}", gitSearch.toString());
+        List<String> lists = new ArrayList<>();
+        lists.add("python");
+        lists.add("django");
+        gitSearch.setTopcis(lists);
         JsonObject json = commonService.getResponseAPI(searchGithub(gitSearch));
-        return json;
+        ajaxResult.setResult(json.toString());
+        return ajaxResult;
     }
 
     private String searchGithub(GitSearch gitSearch){
 //		https://api.github.com/search/repositories?q=blog&topic:python+topic:java&language:java&sort=stars&order=desc
-        String buildUrl = GITHUB_API+gitSearch.getSearchType()+"?q=";
-        buildUrl+=putStringFromList(gitSearch.getTopcis());
+        String buildUrl = GITHUB_API+"/search"+gitSearch.getSearchType()+"?q=";
+        buildUrl+=putStringFromList(gitSearch);
+        LOG.info("return : buildUrl {}", buildUrl);
 //        if(gitSearch!=null){
 //            String sort=gitSearch.getSort();
 //            String order=gitSearch.getOrder();
@@ -67,13 +75,19 @@ public class GitHubRestController {
         return buildUrl;
     }
 
-    private String putStringFromList(List<String> list){
+    private String putStringFromList(GitSearch gitSearch){
         String param = "";
-        for (int i = 0; i < list.size(); i++) {
-            if(i==0){
-                param = "topic:"+list.get(i);
-            } else if(i>0){
-                param+="+topics:"+list.get(i);
+        List<String> list = null;
+        if(gitSearch.getTopcis() != null){
+            list = gitSearch.getTopcis();
+        }
+        if(list !=null && list.size()>0){
+            for (int i = 0; i < list.size(); i++) {
+                if(i==0){
+                    param = "topic:"+list.get(i);
+                } else if(i>0){
+                    param+="+topic:"+list.get(i);
+                }
             }
         }
         return param;

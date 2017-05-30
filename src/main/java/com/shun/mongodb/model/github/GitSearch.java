@@ -1,10 +1,13 @@
 package com.shun.mongodb.model.github;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -34,7 +37,9 @@ public class GitSearch implements Serializable {
     //topic:jekyll
     //topic>3
     //topic:5
-    private List<String> topcis;
+    @JsonSerialize
+    @JsonDeserialize
+    private List<String> topcis = new ArrayList<>();
 
     private String language;
 

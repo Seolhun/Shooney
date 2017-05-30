@@ -6,19 +6,19 @@ var root="/shooney";
 /* AJAX 통신 처리 */
 var GithubService = (function() {
 	var githubSearch = function(){
-        var gitSearch = {}, topics = [], searchType, topic;
+        var topics = [], searchType, topic;
 
         topic = $("input[name='topic']").val();
         topics.push(topic);
         searchType = $("select[name='searchType']").val();
-
-        gitSearch["searchType"] = searchType;
-        gitSearch["topics"] = topics;
         $.ajax({
             url : root +"/github/search",
-            type : 'POST',
+            type : 'GET',
             timeout : 60000,
-            data: JSON.stringify(gitSearch),
+            data: {
+                "topics" : topics,
+                "searchType" : searchType
+            },
             dataType : "json",
             beforeSend: function(xhr) {
                 xhr.setRequestHeader("Accept", "application/json");
@@ -34,7 +34,11 @@ var GithubService = (function() {
 	}
 
     var test = function(){
-        var searchType = $("select[name='searchType']").val();
+        var topics = [], searchType, topic;
+
+        topic = $("input[name='topic']").val();
+        topics.push(topic);
+        searchType = $("select[name='searchType']").val();
         $.ajax({
             url : root +"/github/test",
             type : 'GET',
@@ -49,7 +53,7 @@ var GithubService = (function() {
                 xhr.setRequestHeader(csrfHeader, csrfToken);
             }, success: function(data) {
                 console.log(data);
-                $("#searchResult").append(data);
+                $("#searchResult").append(data.result);
             }, error : function(error){
                 console.log('Error', error);
             }
