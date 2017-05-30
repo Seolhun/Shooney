@@ -69,14 +69,7 @@ public class AdminStackController {
     @RequestMapping(value = "/insert/list", method = RequestMethod.POST, produces = "application/json")
     @ResponseBody
     public AjaxResult insertStackList(@RequestBody Stack stack, AjaxResult ajaxResult) throws Exception {
-        List<Stack> stackList = stackService.selectList(stack);
-        if(stackList.size()>0) {
-            for (Stack tempStacks : stackList) {
-                LOG.info("return : getNewsThread : {}", tempStacks.getName());
-                getStackListUsingThread(tempStacks.getName(), commonService.getAccessUserToModel()).start();
-            }
-        }
-
+        getStackListUsingThread(stack, commonService.getAccessUserToModel()).start();
         ajaxResult.setResult("success");
         return ajaxResult;
     }
@@ -104,11 +97,16 @@ public class AdminStackController {
         return thread;
     }
 
-    private Thread getStackListUsingThread(String stackName, User user) {
+    private Thread getStackListUsingThread(Stack stack, User user) {
         Thread thread = new Thread(() -> {
             try {
-                LOG.info("test similarStackName {}", stackName);
-                getStackAndSaveStack(commonService, stackService, stackFileService, user, stackName);
+                List<Stack> stackList = stackService.selectList(stack);
+                if(stackList.size()>0) {
+                    for (Stack tempStacks : stackList) {
+                        LOG.info("return : getNewsThread : {}", tempStacks.getName());
+                        getStackAndSaveStack(commonService, stackService, stackFileService, user, tempStacks.getName());
+                    }
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (Exception e) {
@@ -193,10 +191,8 @@ public class AdminStackController {
 
             rootStack.setSimilarStacks(similarStacks);
             stackService.update(rootStack);
-        } else if (rootStack != null && rootStack.getSimilarStacks() != null){
+        } else if (rootStack != null && rootStack.getSimilarStacks() != null && (rootStack.getUrl() == null || rootStack.getLangDepth() == 0)){
             LOG.info("test insert(rootStack)3");
-            rootStack.setName(rootStackName);
-            rootStack.setCreatedBy(user.getNickname());
             rootStack.setLangDepth(counts);
             rootStack.setUrl(rootUrl);
 
@@ -211,7 +207,7 @@ public class AdminStackController {
     private String validationStackName(String stackName) {
         LOG.info("param : stackName1 {}", stackName);
         if (stackName.contains("-")) {
-            stackName = stackName.replaceAll("-", "");
+            stackName = stackName.replace("-", " ");
             LOG.info("param : contains(\"-\") {}", stackName);
         }
 
@@ -221,22 +217,23 @@ public class AdminStackController {
         }
 
         if (stackName.contains(" ")) {
-            stackName = stackName.replaceAll(".", "");
+            stackName = stackName.replaceAll("\\.", "");
             LOG.info("param : contains(\".\") {}", stackName);
         }
 
-        if (stackName.contains(",")) {
-            stackName = stackName.split(",")[0];
-            LOG.info("param : contains(\",\") {}", stackName);
-        }
         if (stackName.contains("+")) {
             stackName = stackName.replaceAll("\\+", "plus");
             LOG.info("param : contains(\"+\") {}", stackName);
         }
 
         if (stackName.contains("#")) {
-            stackName = stackName.replaceAll("#", "-sharp");
+            stackName = stackName.replaceAll("\\#", "-sharp");
             LOG.info("param : contains(\"#\") {}", stackName);
+        }
+
+        if (stackName.contains(",")) {
+            stackName = stackName.split(",")[0];
+            LOG.info("param : contains(\",\") {}", stackName);
         }
 
         LOG.info("return : stackName {}", stackName);

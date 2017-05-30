@@ -27,7 +27,7 @@ public class Stack implements Serializable {
     @Column(name = "STACK_CONTENT", length = 300)
     private String content;
 
-    @Column(name = "STACK_URL", length = 100)
+    @Column(name = "STACK_URL", length = 200)
     private String url;
 
     @Column(name = "STACK_LANG_DEPTH", length = 10)
