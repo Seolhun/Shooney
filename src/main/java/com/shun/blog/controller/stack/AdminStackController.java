@@ -216,7 +216,7 @@ public class AdminStackController {
             LOG.info("param : contains(\" \") {}", stackName);
         }
 
-        if (stackName.contains(" ")) {
+        if (stackName.contains(".")) {
             stackName = stackName.replace(".", "");
             LOG.info("param : contains(\".\") {}", stackName);
         }
