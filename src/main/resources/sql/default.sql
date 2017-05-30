@@ -29,3 +29,9 @@ VALUES
 INSERT INTO `TB_USER_PROFILE_REFER` (`USER_ID`, `USER_PROFILE_ID`)
 VALUES
 	(1,4);
+
+delete from `TB_STACK_SIMILAR`;
+
+delete from `TB_STACK_IMG`;
+
+delete from `TB_STACK`;

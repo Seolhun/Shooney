@@ -99,18 +99,22 @@ public class AdminStackController {
 
     private Thread getStackListUsingThread(Stack stack, User user) {
         Thread thread = new Thread(() -> {
+            List<Stack> stackList = null;
             try {
-                List<Stack> stackList = stackService.selectList(stack);
-                if(stackList.size()>0) {
-                    for (Stack tempStacks : stackList) {
-                        LOG.info("return : getNewsThread : {}", tempStacks.getName());
-                        getStackAndSaveStack(commonService, stackService, stackFileService, user, tempStacks.getName());
-                    }
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
+                stackList = stackService.selectList(stack);
             } catch (Exception e) {
                 e.printStackTrace();
+            }
+            if (stackList.size() > 0) {
+                for (Stack tempStacks : stackList) {
+                    try {
+                        LOG.info("return : getNewsThread : {}", tempStacks.getName());
+                        getStackAndSaveStack(commonService, stackService, stackFileService, user, tempStacks.getName());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        continue;
+                    }
+                }
             }
         });
         return thread;
@@ -217,7 +221,7 @@ public class AdminStackController {
         }
 
         if (stackName.contains(".")) {
-            stackName = stackName.replace(".", "");
+            stackName = stackName.replace(".", "-");
             LOG.info("param : contains(\".\") {}", stackName);
         }
 
