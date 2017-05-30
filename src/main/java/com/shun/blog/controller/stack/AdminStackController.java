@@ -209,6 +209,11 @@ public class AdminStackController {
 
     private String validationStackName(String stackName) {
         LOG.info("param : stackName1 {}", stackName);
+        if (stackName.contains("-")) {
+            stackName = stackName.replaceAll("-", "");
+            LOG.info("param : contains(\"-\") {}", stackName);
+        }
+
         if (stackName.contains(" ")) {
             stackName = stackName.replaceAll(" ", "-");
             LOG.info("param : contains(\" \") {}", stackName);

@@ -41,7 +41,7 @@ public class StackRepositoryImpl extends AbstractRepository<Long, Stack> impleme
         // 검색 로직
         Criteria criteria = createEntityCriteria();
         criteria.add(Restrictions.eq("delFlag", "N"));
-//        criteria.add(Restrictions.eq("similarStacks", stack));
+        criteria.add(Restrictions.eq("langDepth", 0));
         criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
         return (List<Stack>)criteria.list();
     }
