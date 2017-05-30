@@ -1,7 +1,6 @@
 package com.shun.blog.service.stack;
 
 import com.shun.blog.model.stack.Stack;
-import com.shun.blog.model.stack.StackFile;
 import com.shun.blog.repository.stack.StackFileRepository;
 import com.shun.blog.repository.stack.StackRepository;
 import org.hibernate.Hibernate;
@@ -12,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Set;
 
 /**
  *
@@ -72,23 +70,18 @@ public class StackServiceImpl implements StackService {
 
     @Override
     public void update(Stack stack) throws Exception {
-        Stack dbStack = null;
-        if (stack.getId() != null) {
-            dbStack = stackRepository.selectById(stack.getId());
-        } else if (stack.getName() != null) {
-            dbStack = stackRepository.selectByName(stack.getName());
-        }
+        Stack dbStack = stackRepository.selectByName(stack.getName());
 
         if (dbStack != null) {
             dbStack.setName(stack.getName());
             dbStack.setCreatedBy(stack.getCreatedBy());
             dbStack.setModifiedBy(stack.getModifiedBy());
+            dbStack.setUrl(stack.getUrl());
             dbStack.setLangDepth(stack.getLangDepth());
         }
 
         if(stack.getSimilarStacks() != null){
             dbStack.setSimilarStacks(stack.getSimilarStacks());
-            insert(dbStack);
         }
     }
 

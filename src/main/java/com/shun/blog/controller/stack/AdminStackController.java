@@ -9,7 +9,6 @@ import com.shun.blog.service.common.CommonService;
 import com.shun.blog.service.menu.MenuService;
 import com.shun.blog.service.stack.StackFileService;
 import com.shun.blog.service.stack.StackService;
-import org.jsoup.HttpStatusException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -27,9 +26,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Controller
 @RequestMapping(value = "/admin/stack")
@@ -60,17 +57,26 @@ public class AdminStackController {
 
     @RequestMapping(value = "/insert", method = RequestMethod.POST, produces = "application/json")
     @ResponseBody
-    public AjaxResult saveNews(@RequestBody Stack stack, AjaxResult ajaxResult) throws Exception {
+    public AjaxResult insertStack(@RequestBody Stack stack, AjaxResult ajaxResult) throws Exception {
         LOG.info("return : getNewsThread : {}", stack.toString());
-        try {
-            getStackUsingThread(stack.getName().toLowerCase(), commonService.getAccessUserToModel()).start();
-        } catch (InterruptedException e){
-            e.printStackTrace();
-            getStackUsingThread(stack.getName().toLowerCase(), commonService.getAccessUserToModel()).start();
-        } catch (Exception e){
-            e.printStackTrace();
-            getStackUsingThread(stack.getName().toLowerCase(), commonService.getAccessUserToModel()).start();
+        stack.setName(validationStackName(stack.getName()));
+        getStackUsingThread(stack.getName(), commonService.getAccessUserToModel()).start();
+
+        ajaxResult.setResult("success");
+        return ajaxResult;
+    }
+
+    @RequestMapping(value = "/insert/list", method = RequestMethod.POST, produces = "application/json")
+    @ResponseBody
+    public AjaxResult insertStackList(@RequestBody Stack stack, AjaxResult ajaxResult) throws Exception {
+        List<Stack> stackList = stackService.selectList(stack);
+        if(stackList.size()>0) {
+            for (Stack tempStacks : stackList) {
+                LOG.info("return : getNewsThread : {}", tempStacks.getName());
+                getStackListUsingThread(tempStacks.getName(), commonService.getAccessUserToModel()).start();
+            }
         }
+
         ajaxResult.setResult("success");
         return ajaxResult;
     }
@@ -83,98 +89,32 @@ public class AdminStackController {
     }
 
     private Thread getStackUsingThread(String stackName, User user) {
-        Thread thread = new Thread() {
-            public void run() {
+        Thread thread = new Thread(() -> {
             try {
-                String tempStackName = stackName.substring(0, 1).toUpperCase() + stackName.substring(1, stackName.length());
                 Stack tempStack = new Stack();
-                tempStack.setName(tempStackName);
-                List<Stack> stackList = stackService.selectList(tempStack);
-                for (Stack tempStacks : stackList) {
-                    String address = "https://stackshare.io/" + tempStacks.getName().toLowerCase();
-                    //Jsoup Crawling connect
-                    Document doc = null;
-                    doc = Jsoup.connect(address).timeout(8000).userAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.95 Safari/537.36").ignoreHttpErrors(true).get();
-                    if (doc == null) {
-                        return;
-                    }
-
-                    //Crawl root Stack img to DB
-                    String rootImgSrc = doc.getElementsByClass("sp-service-logo").select("div > a > img").attr("src");
-                    String rootFilePath = "";
-                    try {
-                        rootFilePath = commonService.getImgUsingJsoup(rootImgSrc, tempStacks.getName().toLowerCase());
-                    } catch (StringIndexOutOfBoundsException e){
-                        e.printStackTrace();
-                    }
-
-                    String rootStackName = doc.select("meta[name=keywords]").attr("content");
-
-                    List<Stack> similarStacks = new ArrayList<>();
-                    //Crawl similar Stack
-                    Elements similars = doc.getElementsByClass("similar-services-items").select("div > div > a > img");
-                    int counts = 0;
-                    for (Element el : similars) {
-                        String similarStackName = el.attr("alt");
-                        String similarImgSrc = el.attr("src");
-
-                        //insert root similarStack  to DB
-                        Stack similarStack = stackService.selectByName(similarStackName);
-                        if (similarStack == null) {
-                            similarStack = new Stack();
-                            similarStack.setName(similarStackName);
-                            similarStack.setCreatedBy(user.getNickname());
-                            stackService.insert(similarStack);
-                        }
-
-                        StackFile similarStackFile = stackFileService.selectByName(similarStackName);
-                        if (similarStackFile == null) {
-                            similarStackFile = new StackFile();
-                            //insert root similarStack img Info to DB
-                            similarStackFile.setOriginName(similarStackName);
-                            similarStackFile.setSavedName(similarStackName);
-                            similarStackFile.setCreatedBy(user.getNickname());
-                            similarStackFile.setStackInFile(similarStack);
-                            String path = commonService.getImgUsingJsoup(similarImgSrc, similarStackName);
-                            similarStackFile.setSavedPath(path);
-                            stackFileService.insert(similarStackFile);
-                        }
-
-                        similarStacks.add(similarStack);
-                        counts += 1;
-                    }
-
-                    //Insert root Stack img to DB
-                    Stack rootStack = stackService.selectByName(rootStackName);
-                    if (rootStack == null) {
-                        rootStack = new Stack();
-                        rootStack.setName(rootStackName);
-                        rootStack.setCreatedBy(user.getNickname());
-                        rootStack.setLangDepth(counts);
-                        rootStack.setSimilarStacks(similarStacks);
-                        stackService.insert(rootStack);
-                    } else if (rootStack.getSimilarStacks() == null) {
-                        rootStack.setSimilarStacks(similarStacks);
-                        stackService.update(rootStack);
-                    }
-
-                    StackFile rootStackFile = stackFileService.selectByName(rootStackName);
-                    if (rootStackFile == null) {
-                        rootStackFile = new StackFile();
-                        rootStackFile.setSavedPath(rootFilePath);
-                        rootStackFile.setOriginName(rootStackName);
-                        rootStackFile.setSavedName(rootStackName);
-                        rootStackFile.setCreatedBy(user.getNickname());
-                        stackFileService.insert(rootStackFile);
-                    }
-                }
+                tempStack.setName(stackName);
+                LOG.info("test similarStackName {}", stackName);
+                getStackAndSaveStack(commonService, stackService, stackFileService, user, stackName);
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        });
+        return thread;
+    }
+
+    private Thread getStackListUsingThread(String stackName, User user) {
+        Thread thread = new Thread(() -> {
+            try {
+                LOG.info("test similarStackName {}", stackName);
+                getStackAndSaveStack(commonService, stackService, stackFileService, user, stackName);
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        };
+        });
         return thread;
     }
 
@@ -184,5 +124,129 @@ public class AdminStackController {
         String name = thread.getName();
         System.out.println("현재 쓰레드 이름 : " + name);
         thread.run();
+    }
+
+    private void getStackAndSaveStack(CommonService commonService, StackService stackService, StackFileService stackFileService, User user, String validStackName) throws Exception {
+        String address = "https://stackshare.io/" + validStackName;
+        //Jsoup Crawling connect
+        Document doc = null;
+        doc = Jsoup.connect(address).timeout(8000).userAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.95 Safari/537.36").ignoreHttpErrors(true).get();
+        if (doc == null) {
+            return;
+        }
+
+        //Crawl Root Stack
+//                    String rootStackName = doc.select("meta[name=keywords]").attr("content");
+//                    String rootImgSrc = doc.getElementsByClass("sp-service-logo").select("div > a > img").attr("src");
+        String rootUrl = doc.getElementById("service-name").select("div > a").attr("href");
+        String rootStackName = doc.getElementById("service-name").select("div > a").select("a[itemprop=name]").html();
+        rootStackName = validationStackName(rootStackName);
+        String rootImgSrc = doc.getElementsByClass("sp-service-logo").select("div > a > img").attr("src");
+        String rootFilePath = commonService.getImgUsingJsoup(rootImgSrc, rootStackName);
+
+        //Crawl Similar Stack
+        List<Stack> similarStacks = new ArrayList<>();
+        Elements similars = doc.getElementsByClass("similar-services-items").select("div > div > a > img");
+        int counts = 0;
+        for (Element el : similars) {
+            String similarStackName = el.attr("alt");
+            similarStackName = validationStackName(similarStackName);
+            LOG.info("test similarStackName {}", similarStackName);
+            String similarImgSrc = el.attr("src");
+            String similarFilePath = commonService.getImgUsingJsoup(similarImgSrc, similarStackName);
+
+            //insert Similar Stack  to DB
+            Stack similarStack = stackService.selectByName(similarStackName);
+            if (similarStack == null) {
+                similarStack = new Stack();
+                similarStack.setName(similarStackName);
+                similarStack.setCreatedBy(user.getNickname());
+                stackService.insert(similarStack);
+            }
+
+            similarStacks.add(similarStack);
+            counts += 1;
+
+            //insert Similar Stack File to DB
+            StackFile similarStackFile = stackFileService.selectByName(similarStackName);
+            insertStackFile(similarStackFile, similarStack, similarFilePath, user);
+        }
+
+        //Insert root Stack img to DB
+        Stack rootStack = stackService.selectByName(rootStackName);
+        if (rootStack == null) {
+            LOG.info("test insert(rootStack)1");
+            rootStack = new Stack();
+            rootStack.setName(rootStackName);
+            rootStack.setCreatedBy(user.getNickname());
+            rootStack.setLangDepth(counts);
+            rootStack.setUrl(rootUrl);
+
+            rootStack.setSimilarStacks(similarStacks);
+            stackService.insert(rootStack);
+        } else if (rootStack != null && rootStack.getSimilarStacks() == null) {
+            LOG.info("test insert(rootStack)2");
+            rootStack.setName(rootStackName);
+            rootStack.setCreatedBy(user.getNickname());
+            rootStack.setLangDepth(counts);
+            rootStack.setUrl(rootUrl);
+
+            rootStack.setSimilarStacks(similarStacks);
+            stackService.update(rootStack);
+        } else if (rootStack != null && rootStack.getSimilarStacks() != null){
+            LOG.info("test insert(rootStack)3");
+            rootStack.setName(rootStackName);
+            rootStack.setCreatedBy(user.getNickname());
+            rootStack.setLangDepth(counts);
+            rootStack.setUrl(rootUrl);
+
+            stackService.update(rootStack);
+        }
+
+        StackFile rootStackFile = stackFileService.selectByName(rootStackName);
+        insertStackFile(rootStackFile, rootStack, rootFilePath, user);
+    }
+
+    private String validationStackName(String stackName) {
+        LOG.info("param : stackName1 {}", stackName);
+        if (stackName.contains(" ")) {
+            stackName = stackName.replaceAll(" ", "-");
+            LOG.info("param : contains(\" \") {}", stackName);
+        }
+
+        if (stackName.contains(" ")) {
+            stackName = stackName.replaceAll(".", "");
+            LOG.info("param : contains(\".\") {}", stackName);
+        }
+
+        if (stackName.contains(",")) {
+            stackName = stackName.split(",")[0];
+            LOG.info("param : contains(\",\") {}", stackName);
+        }
+        if (stackName.contains("+")) {
+            stackName = stackName.replaceAll("\\+", "plus");
+            LOG.info("param : contains(\"+\") {}", stackName);
+        }
+
+        if (stackName.contains("#")) {
+            stackName = stackName.replaceAll("#", "-sharp");
+            LOG.info("param : contains(\"#\") {}", stackName);
+        }
+
+        LOG.info("return : stackName {}", stackName);
+        return stackName;
+    }
+
+    private void insertStackFile(StackFile stackFile, Stack stack, String filePath, User user) {
+        if (stackFile == null) {
+            stackFile = new StackFile();
+            stackFile.setOriginName(stack.getName());
+            stackFile.setSavedName(stack.getName());
+            stackFile.setCreatedBy(user.getNickname());
+            stackFile.setSavedPath(filePath);
+
+            stackFile.setStackInFile(stack);
+            stackFileService.insert(stackFile);
+        }
     }
 }

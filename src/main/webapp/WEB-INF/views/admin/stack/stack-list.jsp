@@ -22,6 +22,7 @@
                         <div class="col-sm-4 text-right">
                             <input type="text" name="stackName" class="input" placeholder="Insert Stack Name" value="ruby"/>
                             <button class="btn-u btn-u-green rounded" onclick="StackService.stackInsert()">저장</button>
+                            <button class="btn-u btn-u-green rounded" onclick="StackService.stackListInsert()">리스트 저장</button>
                         </div>
                     </sec:authorize>
                 </div>
@@ -44,5 +45,5 @@
 		</div>
 	</div>
 </div>
-<script type="text/javascript" src="${resources}/js/stack/stack-module.js"></script>
 </tag:layout>
+<script type="text/javascript" src="${resources}/js/stack/stack-module.js"></script>
