@@ -138,7 +138,7 @@ public class AdminStackController {
         //Crawl Root Stack
 //                    String rootStackName = doc.select("meta[name=keywords]").attr("content");
 //                    String rootImgSrc = doc.getElementsByClass("sp-service-logo").select("div > a > img").attr("src");
-        String rootUrl = doc.getElementById("service-name").select("div > a").attr("href");
+        String rootUrl = doc.getElementById("service-name").select("div > a").select("a[itemprop=name]").attr("href");
         String rootStackName = doc.getElementById("service-name").select("div > a").select("a[itemprop=name]").html();
         rootStackName = validationStackName(rootStackName);
         String rootImgSrc = doc.getElementsByClass("sp-service-logo").select("div > a > img").attr("src");
@@ -200,6 +200,7 @@ public class AdminStackController {
             rootStack.setLangDepth(counts);
             rootStack.setUrl(rootUrl);
 
+            rootStack.setSimilarStacks(similarStacks);
             stackService.update(rootStack);
         }
 
