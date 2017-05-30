@@ -71,14 +71,21 @@ public class StackServiceImpl implements StackService {
     @Override
     public void update(Stack stack) throws Exception {
         Stack dbStack = stackRepository.selectByName(stack.getName());
-
         if (dbStack != null) {
             dbStack.setName(stack.getName());
-            dbStack.setCreatedBy(stack.getCreatedBy());
             dbStack.setModifiedBy(stack.getModifiedBy());
             dbStack.setUrl(stack.getUrl());
             dbStack.setLangDepth(stack.getLangDepth());
+            dbStack.setToolDepth(stack.getToolDepth());
+            dbStack.setCompanyDepth(stack.getCompanyDepth());
         }
+
+        if(stack.getErrorFlag().equals("Y")){
+            dbStack.setErrorFlag(stack.getErrorFlag());
+        }
+//        else if(stack.getErrorFlag().equals("N")){
+//            dbStack.setErrorFlag(stack.getErrorFlag());
+//        }
 
         if(stack.getSimilarStacks() != null){
             dbStack.setSimilarStacks(stack.getSimilarStacks());

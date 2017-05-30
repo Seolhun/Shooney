@@ -45,15 +45,15 @@ public class Stack implements Serializable {
     @BatchSize(size = 5)
     @Fetch(FetchMode.SELECT)
     @OneToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "TB_STACK_SIMILAR", joinColumns = {@JoinColumn(name = "STACK_ID")}, inverseJoinColumns = {
-            @JoinColumn(name = "STACK_SIMILAR_ID")})
+    @JoinTable(name = "TB_STACK_SIMILAR", joinColumns = {@JoinColumn(name = "STACK_ID")},
+            inverseJoinColumns = {@JoinColumn(name="STACK_SIMILAR_ID")})
     private List<Stack> similarStacks = new ArrayList<>();
 
     @BatchSize(size = 5)
     @Fetch(FetchMode.SELECT)
     @OneToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "TB_STACK_COMPANY", joinColumns = {@JoinColumn(name = "STACK_ID")}, inverseJoinColumns = {
-            @JoinColumn(name = "STACK_COMPANY_ID")})
+    @JoinTable(name = "TB_STACK_COMPANY", joinColumns = {@JoinColumn(name = "STACK_ID")},
+            inverseJoinColumns = {@JoinColumn(name = "STACK_COMPANY_ID")})
     private List<Company> companies = new ArrayList<>();;
 
     @BatchSize(size = 5)
@@ -81,6 +81,9 @@ public class Stack implements Serializable {
 
     @Column(name = "STACK_DEL_FLAG", length = 1)
     private String delFlag="N";
+
+    @Column(name = "STACK_ERROR_FLAG", length = 1)
+    private String errorFlag="N";
 
     @Transient
     private int type;

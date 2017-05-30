@@ -112,6 +112,12 @@ public class AdminStackController {
                         getStackAndSaveStack(commonService, stackService, stackFileService, user, tempStacks.getName());
                     } catch (Exception e) {
                         e.printStackTrace();
+                        try {
+                            tempStacks.setErrorFlag("Y");
+                            stackService.update(tempStacks);
+                        } catch (Exception e1) {
+                            e1.printStackTrace();
+                        }
                         continue;
                     }
                 }
