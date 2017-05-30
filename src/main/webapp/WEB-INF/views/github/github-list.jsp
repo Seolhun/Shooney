@@ -1,13 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="tag" tagdir="/WEB-INF/tags"%>
 <spring:url value="/resources" var="resources" />
 <spring:url value="/resources/template" var="template"/>
-<spring:url value="/myinfo" var="myinfo"/>
-<spring:url value="/po" var="po"/>
 <tag:layout tab="${target}">
 <!--=== Call To Action ===-->
 <div class="call-action-v1 bg-color-light">
@@ -18,7 +16,7 @@
 			</div>
 			<sec:authorize access="hasRole('SUPERADMIN')">
 				<div class="call-action-v1-in inner-btn page-scroll">
-					<a href="insert" class="btn-u btn-u-dark-blue rounded margin-bottom-5 ">Write</a>
+
 				</div>
 			</sec:authorize>
 		</div>
@@ -29,13 +27,25 @@
 	<div class="row">
 		<div class="col-sm-12">
 			<div class="row service-box-v1">
-				<div class="col-sm-12 no-margin-bottom">
+				<div class="col-sm-12">
 					<div class="service-block service-block-default">
+                        <select name="searchType">
+                            <c:forEach items="${searchTypes}" var="st">
+                                <option value="${st.type}">${st.name}</option>
+                            </c:forEach>
+                        </select>
+                        <input type="text" name="topic" class="form-control2" id="searchParam" value="python">
+                        <input type="button" class="btn-u btn-u-aqua2 rounded" onclick="GithubService.test()" value="TEST">
+                        <input type="button" class="btn-u btn-u-aqua2 rounded" onclick="GithubService.githubSearch()" value="검색하기">
 
 					</div>
+                    <div id="searchResult">
+
+                    </div>
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
 </tag:layout>
+<script type="text/javascript" src="${resources}/js/github/github-module.js"></script>
