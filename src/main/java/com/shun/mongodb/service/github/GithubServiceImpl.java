@@ -2,7 +2,7 @@ package com.shun.mongodb.service.github;
 
 import com.google.gson.JsonObject;
 import com.shun.blog.service.common.CommonService;
-import com.shun.mongodb.model.github.GithubData;
+import com.shun.mongodb.model.github.GithubRepository;
 import com.shun.mongodb.repository.github.GithubDataRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,26 +32,26 @@ public class GithubServiceImpl implements GithubService {
 	}
 
     @Override
-    public void save(GithubData githubData) {
-        LOG.info("param : save : {}", githubData.toString());
-        githubDataRepository.save(githubData);
+    public void save(GithubRepository githubRepository) {
+        LOG.info("param : save : {}", githubRepository.toString());
+        githubDataRepository.save(githubRepository);
     }
 
     @Override
-    public GithubData findById(String id) {
+    public GithubRepository findById(String id) {
         LOG.info("param : findOne : {}", id);
         return githubDataRepository.findOne(id);
     }
 
     @Override
-    public GithubData findByIdx(Long idx) {
+    public GithubRepository findByIdx(Long idx) {
         LOG.info("param : findByIdx : {}", idx);
         return githubDataRepository.findByIdx(idx);
     }
 
     @Override
     @Caching(cacheable = {@Cacheable(key = "#pageable+'findGithubList'", value = "findGithubList")})
-    public Page<GithubData> findAll(Pageable pageable) {
+    public Page<GithubRepository> findAll(Pageable pageable) {
         LOG.info("param : findAll : {}", pageable.toString());
         return githubDataRepository.findAll(pageable);
     }
@@ -62,7 +62,7 @@ public class GithubServiceImpl implements GithubService {
     }
 
     @Override
-    public void update(GithubData githubData) {
+    public void update(GithubRepository githubRepository) {
         // TODO Auto-generated method stub
 
     }
@@ -74,12 +74,12 @@ public class GithubServiceImpl implements GithubService {
     }
 
     @Override
-    public List<GithubData> selectList() {
+    public List<GithubRepository> selectList() {
         return githubDataRepository.findAll();
     }
 
     @Override
-	public JsonObject getGitAPI(GithubData githubData) throws Exception {
+	public JsonObject getGitAPI(GithubRepository githubRepository) throws Exception {
         JsonObject jsonObject = new JsonObject();
         jsonObject = commonService.getResponseAPI(GITHUB_API_URL+"search/repositories?q=blog&topic:python+topic:java&language:java&sort=stars&order=desc");
 

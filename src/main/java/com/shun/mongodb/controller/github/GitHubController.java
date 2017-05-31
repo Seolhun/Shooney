@@ -3,7 +3,8 @@ package com.shun.mongodb.controller.github;
 import com.shun.blog.model.menu.Menu;
 import com.shun.blog.service.common.CommonService;
 import com.shun.blog.service.menu.MenuService;
-import com.shun.mongodb.model.github.GithubSearchType;
+import com.shun.mongodb.model.github.search.GithubSearchType;
+import com.shun.mongodb.model.github.search.SearchOption;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,7 @@ public class GitHubController {
 		List<Menu> menuList=menuService.findAllMenu(menu, menu.getMenuType());
 		model.addAttribute("menuList", menuList);
 
+		model.addAttribute("searchOptions", SearchOption.values());
 		model.addAttribute("searchTypes", GithubSearchType.values());
 		return "github/github-list";
 	}

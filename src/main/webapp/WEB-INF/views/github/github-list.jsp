@@ -30,14 +30,17 @@
 				<div class="col-sm-12">
 					<div class="service-block service-block-default">
                         <select name="searchType">
-                            <c:forEach items="${searchTypes}" var="st">
-                                <option value="${st.type}">${st.name}</option>
+                            <c:forEach items="${searchTypes}" var="searchType">
+                                <option value="${searchType.type}">${searchType.name}</option>
                             </c:forEach>
                         </select>
+						<select name="searchOrder">
+							<c:forEach items="${searchOptions}" var="option">
+								<option value="${option.type}">${option.name}</option>
+							</c:forEach>
+						</select>
                         <input type="text" name="topic" class="form-control2" id="searchParam" value="python">
-                        <input type="button" class="btn-u btn-u-aqua2 rounded" onclick="GithubService.test()" value="TEST">
                         <input type="button" class="btn-u btn-u-aqua2 rounded" onclick="GithubService.githubSearch()" value="검색하기">
-
 					</div>
                     <div id="searchResult">
 

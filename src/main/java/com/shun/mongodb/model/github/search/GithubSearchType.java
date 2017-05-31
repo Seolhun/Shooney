@@ -1,4 +1,4 @@
-package com.shun.mongodb.model.github;
+package com.shun.mongodb.model.github.search;
 
 import java.io.Serializable;
 
