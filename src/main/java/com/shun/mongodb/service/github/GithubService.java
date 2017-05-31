@@ -1,7 +1,7 @@
 package com.shun.mongodb.service.github;
 
 import com.google.gson.JsonObject;
-import com.shun.mongodb.model.github.GithubRepository;
+import com.shun.mongodb.model.github.GithubData;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -9,21 +9,21 @@ import java.util.List;
 
 public interface GithubService {
 
-    void save(GithubRepository github);
+    void save(GithubData github);
 
-    GithubRepository findById(String id);
+    GithubData findById(String id);
 
-    GithubRepository findByIdx(Long idx);
+    GithubData findByIdx(Long idx);
 
-    Page<GithubRepository> findAll(Pageable pageable);
+    Page<GithubData> findAll(Pageable pageable);
 
     long count();
 
-    void update(GithubRepository githubRepository);
+    void update(GithubData githubRepository);
 
     void delete(String id);
 
-    List<GithubRepository> selectList();
+    List<GithubData> selectList();
 
-    JsonObject getGitAPI(GithubRepository githubRepository) throws Exception;
+    JsonObject getGitAPI(GithubData githubRepository) throws Exception;
 }

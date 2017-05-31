@@ -1,8 +1,10 @@
 package com.shun.mongodb.controller.github;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.JsonObject;
 import com.shun.blog.model.common.AjaxResult;
 import com.shun.blog.service.common.CommonService;
+import com.shun.mongodb.model.github.GithubData;
 import com.shun.mongodb.model.github.search.GitSearch;
 import com.shun.mongodb.service.github.GithubService;
 import org.slf4j.Logger;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 
@@ -33,10 +36,17 @@ public class GitHubRestController {
     }
 
     @RequestMapping(value = "/search", method = RequestMethod.POST, produces = "application/json")
-    public AjaxResult githubSearch(@RequestBody GitSearch gitSearch, AjaxResult ajaxResult) throws Exception {
+    public AjaxResult githubSearch(@RequestBody GitSearch gitSearch, AjaxResult ajaxResult, HttpServletRequest request) throws Exception {
         LOG.info("param : githubSearch {}", gitSearch.toString());
         JsonObject json = commonService.getResponseAPI(searchGithub(gitSearch));
+        ObjectMapper mapper = commonService.setJSONMapper();
+        GithubData githubData = mapper.readValue(json.toString(), GithubData.class);
 
+        String clientIp = commonService.getUserIP(request);
+        gitSearch.getSearchUser().setIp(clientIp);
+
+        githubData.setGitSearch(gitSearch);
+        githubService.save(githubData);
         ajaxResult.setResult(json.toString());
         return ajaxResult;
     }
@@ -45,96 +55,124 @@ public class GitHubRestController {
 //		https://api.github.com/search/repositories?q=blog&topic:python+topic:java&language:java&sort=stars&order=desc
         String searchUrl = "Not Found Search Value";
         if (gitSearch != null) {
-            searchUrl = GITHUB_API + "/search" + gitSearch.getSearchType() + "?q=";
-            searchUrl += buildSearchUrl(searchUrl, gitSearch);
+            searchUrl = GITHUB_API + "/search" + gitSearch.getSearchType();
+
+            String paramStr = "?q=";
+            searchUrl+=buildSearchUrl(paramStr, gitSearch);
         }
 
-        LOG.info("return : buildUrl {}", searchUrl);
+        LOG.info("return : searchUrl {}", searchUrl);
         return searchUrl;
     }
 
-    private String buildSearchUrl(String searchUrl, GitSearch gitSearch) {
-        List<String> list;
+    private String buildSearchUrl(String paramStr, GitSearch gitSearch) {
         int searchUrlIndex = 0;
 
         // Name Part
-        if (gitSearch.getNames() != null) {
-            list = gitSearch.getNames();
-            if (list != null && list.size() > 0) {
-                for (int i = 0; i < list.size(); i++) {
-                    checkSearchIndex(searchUrl, searchUrlIndex);
-                    searchUrl += list.get(i);
-                }
-            }
-        }
-
-        // language Part
-        if (gitSearch.getLanguages() != null) {
-            list = gitSearch.getLanguages();
-            if (list != null && list.size() > 0) {
-                for (int i = 0; i < list.size(); i++) {
-                    checkSearchIndex(searchUrl, searchUrlIndex);
-                    searchUrl += "language:" + list.get(i);
-                }
-
+        if (gitSearch.getNames().size() > 0) {
+            List<String> list = gitSearch.getNames();
+            for (int i = 0; i < list.size(); i++) {
+                paramStr = checkSearchIndex(paramStr, searchUrlIndex);
+                searchUrlIndex++;
+                paramStr+= list.get(i);
             }
         }
 
         // Topic Part
-        if (gitSearch.getTopics() != null) {
-            list = gitSearch.getTopics();
-            if (list != null && list.size() > 0) {
-                for (int i = 0; i < list.size(); i++) {
-                    checkSearchIndex(searchUrl, searchUrlIndex);
-                    searchUrl += "topic:" + list.get(i);
-
-                }
+        if (gitSearch.getTopics().size() > 0) {
+            List<String> list = gitSearch.getTopics();
+            for (int i = 0; i < list.size(); i++) {
+                paramStr = checkSearchIndex(paramStr, searchUrlIndex);
+                searchUrlIndex++;
+                paramStr += "topic:" + list.get(i);
             }
         }
 
-        if (gitSearch.getMinSize() != null && gitSearch.getMaxSize() != null) {
-            checkSearchIndex(searchUrl, searchUrlIndex);
-            searchUrl += "size:"+gitSearch.getMinSize()+".."+gitSearch.getMaxSize();
-        } else {
-            checkSearchIndex(searchUrl, searchUrlIndex);
-            if (gitSearch.getMinSize() != null || gitSearch.getMaxSize() == null) {
-                searchUrl += "size:>="+gitSearch.getMinSize();
-            } else if (gitSearch.getMaxSize() != null || gitSearch.getMinSize() == null) {
-                searchUrl += "&size:<="+gitSearch.getMinSize()+".."+gitSearch.getMaxSize();
+        // language Part
+        if (gitSearch.getLanguages().size() > 0) {
+            List<String> list = gitSearch.getLanguages();
+            for (int i = 0; i < list.size(); i++) {
+                paramStr = checkSearchIndex(paramStr, searchUrlIndex);
+                searchUrlIndex++;
+                paramStr += "language:" + list.get(i);
             }
         }
 
-        if (gitSearch.getMinForks() != null && gitSearch.getMaxForks() != null) {
-            checkSearchIndex(searchUrl, searchUrlIndex);
-            searchUrl += "+forks:"+gitSearch.getMinForks()+".."+gitSearch.getMaxForks();
-        } else {
-            checkSearchIndex(searchUrl, searchUrlIndex);
-            if (gitSearch.getMinForks() != null || gitSearch.getMaxForks() == null) {
-                searchUrl += "+forks:>="+gitSearch.getMinForks();
-            } else if (gitSearch.getMaxForks() != null || gitSearch.getMinForks() == null) {
-                searchUrl += "+forks:<="+gitSearch.getMinForks()+".."+gitSearch.getMinForks();
+        Integer minSize = gitSearch.getMinSize();
+        Integer maxSize = gitSearch.getMaxSize();
+        Integer minForks = gitSearch.getMinForks();
+        Integer maxForks = gitSearch.getMaxForks();
+        Integer minStars = gitSearch.getMinStars();
+        Integer maxStars = gitSearch.getMaxStars();
+
+
+        if (minSize != null && maxSize != null) {
+            paramStr = checkSearchIndex(paramStr, searchUrlIndex);
+            searchUrlIndex++;
+            if(minSize >= 0 && maxSize >= 0){
+                paramStr += "size:"+minSize+".."+maxSize;
+            }
+        } else if(maxSize == null && minSize != null){
+            paramStr = checkSearchIndex(paramStr, searchUrlIndex);
+            searchUrlIndex++;
+            if(minSize >= 0) {
+                paramStr += "size:>="+minSize;
+            }
+        } else if(maxSize != null){
+            paramStr = checkSearchIndex(paramStr, searchUrlIndex);
+            searchUrlIndex++;
+            if(maxSize >= 0) {
+                paramStr += "size:<="+maxSize;
             }
         }
 
-        if (gitSearch.getMinStars() != null && gitSearch.getMaxStars() != null) {
-            checkSearchIndex(searchUrl, searchUrlIndex);
-            searchUrl += "+starts:"+gitSearch.getMinStars()+".."+gitSearch.getMaxStars();
-        } else {
-            checkSearchIndex(searchUrl, searchUrlIndex);
-            if (gitSearch.getMinStars() != null || gitSearch.getMaxStars() == null) {
-                searchUrl += "+starts:>="+gitSearch.getMinStars();
-            } else if (gitSearch.getMaxStars() != null || gitSearch.getMinStars() == null) {
-                searchUrl += "+starts:<="+gitSearch.getMaxStars()+".."+gitSearch.getMinStars();
+        if (minForks != null && maxForks != null) {
+            paramStr = checkSearchIndex(paramStr, searchUrlIndex);
+            searchUrlIndex++;
+            if(minForks >= 0 && maxForks >= 0){
+                paramStr += "forks:"+minForks+".."+maxForks;
+            }
+        } else if(maxForks == null && minForks != null){
+            paramStr = checkSearchIndex(paramStr, searchUrlIndex);
+            searchUrlIndex++;
+            if(minForks >= 0) {
+                paramStr += "forks:>="+minForks;
+            }
+        } else if(maxForks != null){
+            paramStr = checkSearchIndex(paramStr, searchUrlIndex);
+            searchUrlIndex++;
+            if(maxForks >= 0) {
+                paramStr += "forks:<="+maxForks;
             }
         }
-        return searchUrl;
+
+        if (minStars != null && maxStars != null) {
+            paramStr = checkSearchIndex(paramStr, searchUrlIndex);
+            searchUrlIndex++;
+            if(minStars >= 0 && maxStars >= 0){
+                paramStr += "+starts:"+minStars+".."+maxStars;
+            }
+        } else if(maxStars == null && minStars != null){
+            paramStr = checkSearchIndex(paramStr, searchUrlIndex);
+            searchUrlIndex++;
+             if(minStars >= 0) {
+                paramStr += "starts:>="+minStars;
+            }
+        } else if(maxStars != null){
+            paramStr = checkSearchIndex(paramStr, searchUrlIndex);
+            searchUrlIndex++;
+            if(maxStars >= 0) {
+                paramStr += "starts:<="+maxStars;
+            }
+        }
+
+        return paramStr;
     }
 
-    private String checkSearchIndex(String searchUrl, int searchUrlIndex) {
+    private String checkSearchIndex(String paramStr, int searchUrlIndex) {
         if (searchUrlIndex != 0) {
-            searchUrl+="+";
+            paramStr+="+";
         }
-        searchUrlIndex++;
-        return searchUrl;
+        return paramStr;
     }
 }

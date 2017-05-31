@@ -1,18 +1,18 @@
 package com.shun.mongodb.model.github;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import java.io.Serializable;
 
 /**
  * Created by HunSeol on 2017. 5. 27..
  */
-@Getter
-@Setter
+@Data
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class GithubOwner implements Serializable{
-    @JsonProperty(value="owner_id")
+    @JsonProperty(value="id")
     private Long ownerId;
 
     @JsonProperty(value="login")

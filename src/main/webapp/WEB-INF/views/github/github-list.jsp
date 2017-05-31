@@ -28,22 +28,85 @@
 		<div class="col-sm-12">
 			<div class="row service-box-v1">
 				<div class="col-sm-12">
-					<div class="service-block service-block-default">
+                    <div class="margin-bottom-10">
+                        <div class="col-sm-4" id="sizeDiv" hidden="hidden">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div> Min Size </div>
+                                    <input type="text" name="minSize" class="form-control2 width-80 margin-bottom-10" placeholder="Insert Min Size you want to search">
+                                </div>
+                                <div class="col-sm-6">
+                                    <div> Max Size </div>
+                                    <input type="text" name="maxSize" class="form-control2 width-80 margin-bottom-10" placeholder="Insert Max Size you want to search">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4" id="startsDiv" hidden="hidden">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div> Min Stars </div>
+                                    <input type="text" name="minStar" class="form-control2 width-80 margin-bottom-10" placeholder="Insert Min Stars you want to search">
+                                </div>
+                                <div class="col-sm-6">
+                                    <div> Max Stars </div>
+                                    <input type="text" name="maxStart" class="form-control2 width-80 margin-bottom-10" placeholder="Insert Max Stars you want to search">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4" id="forksDiv" hidden="hidden">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div> Min Forks </div>
+                                    <input type="text" name="minForks" class="form-control2 width-80 margin-bottom-10" placeholder="Insert Min Forks you want to search">
+                                </div>
+                                <div class="col-sm-6">
+                                    <div> Max Forks </div>
+                                    <input type="text" name="maxForks" class="form-control2 width-80 margin-bottom-10" placeholder="Insert Max Forks you want to search">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4">
+                        <div> Name </div>
+                        <input type="text" name="repoName" class="form-control2 width-80 margin-bottom-10" placeholder="Insert Name you want to search">
+
+                        <div> Language </div>
+                            <input type="text" name="language" class="form-control2 width-80 margin-bottom-10" placeholder="Insert Language you want to search">
+
+                        <div> Topic </div>
+                        <input type="text" name="topic" class="form-control2 width-80 margin-bottom-10" placeholder="Insert Topic you want to search">
+
+                    </div>
+                    <div class="service-block service-block-default col-sm-12 margin-bottom-10 text-center">
+                        <span> Size
+                            <input type="checkbox" name="needOptions" id="needSize">
+                        </span>
+                        <span> Stars
+                            <input type="checkbox" name="needOptions" id="needStars">
+                        </span>
+                        <span> Forks
+                            <input type="checkbox" name="needOptions" id="needForks">
+                        </span>
+
                         <select name="searchType">
                             <c:forEach items="${searchTypes}" var="searchType">
                                 <option value="${searchType.type}">${searchType.name}</option>
                             </c:forEach>
                         </select>
-						<select name="searchOrder">
-							<c:forEach items="${searchOptions}" var="option">
-								<option value="${option.type}">${option.name}</option>
-							</c:forEach>
-						</select>
-                        <input type="text" name="topic" class="form-control2" id="searchParam" value="python">
+                        <select name="searchOrder">
+                            <c:forEach items="${searchOptions}" var="option">
+                                <option value="${option.type}">${option.name}</option>
+                            </c:forEach>
+                        </select>
                         <input type="button" class="btn-u btn-u-aqua2 rounded" onclick="GithubService.githubSearch()" value="검색하기">
-					</div>
-                    <div id="searchResult">
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <div class="service-block service-block-default">
+                        <div id="searchResult">
 
+                        </div>
                     </div>
 				</div>
 			</div>
@@ -52,3 +115,4 @@
 </div>
 </tag:layout>
 <script type="text/javascript" src="${resources}/js/github/github-module.js"></script>
+<script type="text/javascript" src="${resources}/js/github/github-list.js"></script>
