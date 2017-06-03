@@ -33,7 +33,7 @@ import com.shun.mongodb.model.news.NewsWebSite;
 import com.shun.mongodb.service.news.NewsDataService;
 
 @RestController
-@RequestMapping(value = "/stack")
+@RequestMapping(value = "/news")
 public class NewsDataRestController {
 	private static final Logger LOG = LoggerFactory.getLogger(NewsDataRestController.class);
 	

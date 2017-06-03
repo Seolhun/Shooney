@@ -1,6 +1,7 @@
 package com.shun.blog.service.stack;
 
 import com.shun.blog.model.stack.Stack;
+import com.shun.blog.model.stack.StackFile;
 import com.shun.blog.repository.stack.StackFileRepository;
 import com.shun.blog.repository.stack.StackRepository;
 import org.hibernate.Hibernate;
@@ -59,8 +60,26 @@ public class StackServiceImpl implements StackService {
     }
 
     @Override
+    public List<Stack> selectListForAdmin(Stack stack) throws Exception {
+        return stackRepository.selectListForAdmin(stack);
+    }
+
+    @Override
+    public List<Stack> selectListForAdminWithError(Stack stack) throws Exception {
+        return stackRepository.selectListForAdminWithError(stack);
+    }
+
+    @Override
     public List<Stack> selectList(Stack stack) throws Exception {
-        return stackRepository.selectList(stack);
+        List<Stack> stackList = stackRepository.selectList(stack);
+        for (Stack dbStack : stackList) {
+            List<StackFile> stackFileList = stackFileRepository.selectList(dbStack);
+            LOG.info("return : getName {}", dbStack.getId());
+            if(stackFileList != null){
+                dbStack.setStackImgFiles(stackFileList);
+            }
+        }
+        return stackList;
     }
 
     @Override

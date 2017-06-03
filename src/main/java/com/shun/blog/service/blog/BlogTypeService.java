@@ -9,7 +9,7 @@ public interface BlogTypeService {
 
     BlogType selectByName(String name) throws Exception;
 
-    void insert(BlogType blogType);
+    void insert(BlogType blogType) throws Exception;
 
     void update(BlogType blogType, int variableCount) throws Exception;
 

@@ -97,4 +97,4 @@
 	</div>
 </tag:admin-layout>
 <!-- Custom & Functional JS -->
-<script type="text/javascript" src="${resources}/js/user.js"></script>
+<script type="text/javascript" src="${resources}/js/user/user.js"></script>

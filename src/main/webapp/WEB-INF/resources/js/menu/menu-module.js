@@ -5,7 +5,6 @@
 var csrfHeader=$("#csrfHeader").attr("content"), csrfToken=$("#csrfToken").attr("content"), root="/shooney";
 var protocol = window.location.protocol, host = window.location.host, pathname = window.location.pathname;
 var thisPage = protocol+host+pathname;
-console.log(thisPage);
 
 var MenuService = (function () {
     var menuUpdateForm = function (menuId) {

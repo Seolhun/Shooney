@@ -52,7 +52,7 @@ public class AdminStackController {
         List<Menu> menuList = menuService.findAllMenu(menu, menu.getMenuType());
         model.addAttribute("menuList", menuList);
 
-        return "admin/stack/stack-list";
+        return "admin/stack/admin-stack-list";
     }
 
     @RequestMapping(value = "/insert", method = RequestMethod.POST, produces = "application/json")
@@ -101,7 +101,7 @@ public class AdminStackController {
         Thread thread = new Thread(() -> {
             List<Stack> stackList = null;
             try {
-                stackList = stackService.selectList(stack);
+                stackList = stackService.selectListForAdmin(stack);
             } catch (Exception e) {
                 e.printStackTrace();
             }

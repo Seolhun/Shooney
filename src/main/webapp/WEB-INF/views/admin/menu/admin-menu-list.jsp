@@ -9,13 +9,13 @@
 	<div class="call-action-v1 bg-color-light">
 		<div class="container">
 			<div class="call-action-v1-box">
-				<div class="call-action-v1-in">
+				<div class="col-sm-12">
 					<p>Admin Menu Control</p>
 				</div>
 				<sec:authorize access="hasRole('SUPERADMIN')">
-					<div class="call-action-v1-in inner-btn page-scroll">
+					<div class="col-sm-12 text-right">
 				 		<button class="btn-u btn-u-dark-blue" onclick="MenuService.menuInsertForm()">Add New Menu</button>
-			 		</div>
+					</div>
 			 	</sec:authorize>
 			</div>
 		</div>

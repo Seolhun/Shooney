@@ -43,7 +43,6 @@ public class StackFileRepositoryImpl extends AbstractRepository<Long, StackFile>
         criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 
         List<StackFile> stackFiles = (List<StackFile>) criteria.list();
-        LOG.info("return : StackFile.selectList {}", stackFiles.toString());
         return stackFiles;
     }
 

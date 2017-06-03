@@ -1,27 +1,30 @@
 package com.shun.blog.model.stack;
 
-import lombok.Getter;
-import lombok.Setter;
-import org.hibernate.annotations.BatchSize;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import lombok.*;
+import org.hibernate.annotations.*;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.ForeignKey;
+import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.Date;
 
 
-@Getter
-@Setter
+@Data
+@EqualsAndHashCode(exclude = "stackInFile")
+@ToString(exclude = "stackInFile")
+
 @Entity
 @Table(name = "TB_STACK_IMG")
-@BatchSize(size = 5)
 public class StackFile implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "IMG_ID")
 	private Long id;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(foreignKey = @ForeignKey(name = "STACK_IMG_FK"), name = "STACK_IMG_ID", referencedColumnName = "STACK_ID")
 	private Stack stackInFile;

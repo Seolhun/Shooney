@@ -20,6 +20,10 @@ public interface StackService {
 
     void deleteById(Long id);
 
+    List<Stack> selectListForAdminWithError(Stack stack) throws Exception;
+
+    List<Stack> selectListForAdmin(Stack stack) throws Exception;
+
     List<Stack> selectList(Stack stack) throws Exception;
 
     int getCount() throws Exception;

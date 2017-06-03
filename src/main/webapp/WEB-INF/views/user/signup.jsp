@@ -195,6 +195,6 @@
 	<script src="${template}/js/app.js"></script>
 	
 	<!-- JS Customization -->
-	<script src="${resources}/js/user.js"></script>
+	<script src="${resources}/js/user/user.js"></script>
 </body>
 </html>

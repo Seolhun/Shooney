@@ -13,7 +13,11 @@ public interface StackRepository {
 
 	Stack selectByName(String name) throws Exception;
 
-	List<Stack> selectList(Stack stack) throws Exception;
+	List<Stack> selectListForAdmin(Stack stack) throws Exception;
+
+	List<Stack> selectListForAdminWithError(Stack stack) throws Exception;
+
+    List<Stack> selectList(Stack stack) throws Exception;
 
 	int getCount() throws Exception;
 

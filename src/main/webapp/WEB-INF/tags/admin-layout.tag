@@ -320,8 +320,7 @@
 
 		<!-- Custom & Functional JS -->
 		<script type="text/javascript" src="${resources }/vendor/summer/summernote.js"></script>
-		<script type="text/javascript" src="${resources}/js/summernote.js"></script>
-		
+
 		<!-- Common Function JS -->
 		<!-- Language JS -->
 		<script type="text/javascript" src="${resources}/vendor/i18next/i18next.min.js" ></script>

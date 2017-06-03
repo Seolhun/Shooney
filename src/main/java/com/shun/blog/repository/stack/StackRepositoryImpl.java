@@ -36,13 +36,36 @@ public class StackRepositoryImpl extends AbstractRepository<Long, Stack> impleme
 
     @Override
     @SuppressWarnings("unchecked")
-    public List<Stack> selectList(Stack stack) throws Exception {
+    public List<Stack> selectListForAdmin(Stack stack) throws Exception {
         LOG.info("param : StackRepository.selectList {}", stack.toString());
         // 검색 로직
         Criteria criteria = createEntityCriteria();
         criteria.add(Restrictions.eq("delFlag", "N"));
         criteria.add(Restrictions.eq("errorFlag", "N"));
         criteria.add(Restrictions.eq("langDepth", 0));
+        criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+        return (List<Stack>)criteria.list();
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<Stack> selectListForAdminWithError(Stack stack) throws Exception {
+        LOG.info("param : StackRepository.selectList {}", stack.toString());
+        // 검색 로직
+        Criteria criteria = createEntityCriteria();
+        criteria.add(Restrictions.eq("delFlag", "N"));
+        criteria.add(Restrictions.eq("langDepth", 0));
+        criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+        return (List<Stack>)criteria.list();
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<Stack> selectList(Stack stack) throws Exception {
+        LOG.info("param : StackRepository.selectList {}", stack.toString());
+        // 검색 로직
+        Criteria criteria = createEntityCriteria();
+        criteria.add(Restrictions.eq("delFlag", "N"));
         criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
         return (List<Stack>)criteria.list();
     }

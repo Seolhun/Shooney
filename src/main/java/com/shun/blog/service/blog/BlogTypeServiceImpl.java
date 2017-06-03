@@ -42,7 +42,7 @@ public class BlogTypeServiceImpl implements BlogTypeService {
 
     @Override
     @Caching(put = {@CachePut(key = "'selectListBoardType'", value = "selectListBoardType")})
-    public void insert(BlogType blogType) {
+    public void insert(BlogType blogType) throws Exception {
         LOG.info("param : insert {}", blogType.toString());
         blogTypeRepository.insert(blogType);
     }
@@ -57,7 +57,6 @@ public class BlogTypeServiceImpl implements BlogTypeService {
     public int getCount() throws Exception {
         return blogTypeRepository.getCount();
     }
-
 
     @Override
     @Caching(put = {@CachePut(key = "'selectListBoardType'", value = "selectListBoardType")})

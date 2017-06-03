@@ -41,6 +41,6 @@ public class AdminNewsDataController {
 		model.addAttribute("menuList", menuList);
 		
 		LOG.info("where : moveNewsList");
-		return "admin/news/news-add";
+		return "admin/news/admin-news-add";
 	}
 }

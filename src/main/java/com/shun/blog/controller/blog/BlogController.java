@@ -154,9 +154,6 @@ public class BlogController {
 
             blogService.insert(blog);
             fileService.insert(fileData);
-
-            BlogType blogType=new BlogType(blog.getBlogType());
-            blogTypeService.update(blogType,+1);
         } catch (FileUploadOverException | FileUploadException | FileNameInvalidException | IOException e) {
             e.printStackTrace();
             return mapping;

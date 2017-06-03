@@ -18,7 +18,12 @@
 							<input type="text" class="form-control" id="menuNameInput">
 						</div>
 						<div>Type.
-							<input type="text" class="form-control" id="menuTypeInput">
+                            <select class="form-control" id="menuTypeInput">
+                                <optgroup label="Type을 고르세요">
+                                    <option value="normal">Normal</option>
+                                    <option value="admin">Admin</option>
+                                </optgroup>
+                            </select>
 						</div>
 						<div>URL.
 							<input type="text" class="form-control" id="menuUrlInput">
@@ -59,7 +64,12 @@
                             <input type="text" class="form-control" id="menuNameInsert">
                         </div>
                         <div>Type.
-                            <input type="text" class="form-control" id="menuTypeInsert">
+							<select class="form-control" id="menuTypeInsert">
+								<optgroup label="Type을 고르세요">
+									<option value="normal">Normal</option>
+									<option value="admin">Admin</option>
+								</optgroup>
+							</select>
                         </div>
                         <div>URL.
                             <input type="text" class="form-control" id="menuUrlInsert">
