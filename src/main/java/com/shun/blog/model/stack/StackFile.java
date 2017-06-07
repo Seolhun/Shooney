@@ -1,11 +1,10 @@
 package com.shun.blog.model.stack;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.*;
 import org.hibernate.annotations.*;
 
 import javax.persistence.*;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ForeignKey;
 import javax.persistence.Table;
@@ -14,9 +13,6 @@ import java.util.Date;
 
 
 @Data
-@EqualsAndHashCode(exclude = "stackInFile")
-@ToString(exclude = "stackInFile")
-
 @Entity
 @Table(name = "TB_STACK_IMG")
 public class StackFile implements Serializable {

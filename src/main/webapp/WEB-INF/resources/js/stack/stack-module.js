@@ -10,7 +10,7 @@ var StackService = (function() {
             url : root +"/api/stack",
             type : 'GET',
             timeout : 60000,
-            dataType : "json",
+            dataType : "application/json",
             beforeSend: function(xhr) {
                 xhr.setRequestHeader("Accept", "application/json");
                 xhr.setRequestHeader("Content-Type", "application/json");
@@ -21,7 +21,7 @@ var StackService = (function() {
                 console.log('Error', error);
             }
         });
-    }
+    };
 	
 	return {
         getStackList : getStackList

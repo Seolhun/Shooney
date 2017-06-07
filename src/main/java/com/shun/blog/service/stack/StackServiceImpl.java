@@ -34,11 +34,10 @@ public class StackServiceImpl implements StackService {
     public Stack selectById(Long id) throws Exception {
         LOG.info("param : selectById {}", id);
         Stack stack = stackRepository.selectById(id);
-//        List<StackFile> stackFileList = stackFileRepository.selectList(stack);
-//        if(stackFileList != null){
-//            stack.setStackImgFiles(stackFileList);
-//        }
-//        createEntityHiber(stack);
+        List<StackFile> stackFileList = stackFileRepository.selectList(stack);
+        if(stackFileList != null){
+            stack.setStackImgFiles(stackFileList);
+        }
         return stack;
     }
 
@@ -46,11 +45,10 @@ public class StackServiceImpl implements StackService {
     public Stack selectByName(String name) throws Exception {
         LOG.info("param : selectByName {}", name);
         Stack stack = stackRepository.selectByName(name);
-//        List<StackFile> stackFileList = stackFileRepository.selectList(stack);
-//        if(stackFileList != null){
-//            stack.setStackImgFiles(stackFileList);
-//        }
-//        createEntityHiber(stack);
+        List<StackFile> stackFileList = stackFileRepository.selectList(stack);
+        if(stackFileList != null){
+            stack.setStackImgFiles(stackFileList);
+        }
         return stack;
     }
 
@@ -74,7 +72,6 @@ public class StackServiceImpl implements StackService {
         List<Stack> stackList = stackRepository.selectList(stack);
         for (Stack dbStack : stackList) {
             List<StackFile> stackFileList = stackFileRepository.selectList(dbStack);
-            LOG.info("return : getName {}", dbStack.getId());
             if(stackFileList != null){
                 dbStack.setStackImgFiles(stackFileList);
             }
@@ -115,14 +112,5 @@ public class StackServiceImpl implements StackService {
     public void deleteById(Long id) {
         LOG.info("param : deleteById {}", id);
         stackRepository.deleteById(id);
-    }
-
-    private void createEntityHiber(Stack stack){
-        if (stack != null) {
-            Hibernate.initialize(stack.getStackImgFiles());
-            Hibernate.initialize(stack.getSimilarStacks());
-            Hibernate.initialize(stack.getCompanies());
-            Hibernate.initialize(stack.getItems());
-        }
     }
 }

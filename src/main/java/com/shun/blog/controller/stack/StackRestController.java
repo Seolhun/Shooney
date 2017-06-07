@@ -1,6 +1,7 @@
 package com.shun.blog.controller.stack;
 
 import com.shun.blog.model.stack.Stack;
+import com.shun.blog.model.stack.StackFile;
 import com.shun.blog.service.common.CommonService;
 import com.shun.blog.service.stack.StackFileService;
 import com.shun.blog.service.stack.StackService;
@@ -31,11 +32,19 @@ public class StackRestController {
         this.commonService = commonService;
     }
 
-    @RequestMapping(value = "", method = RequestMethod.GET)
-    public List<Stack> getStackList(Stack stack, HttpServletRequest request) throws Exception {
+    @RequestMapping(value = {""}, method = RequestMethod.GET)
+    public List<Stack> getStackList(Stack stack) throws Exception {
         //build commonService code check Validation about user REST Token
-
         List<Stack> stackList = stackService.selectList(stack);
+        int count = 0;
+        for (Stack dbStack : stackList) {
+            LOG.info("param : {}", dbStack.getName());
+            for (StackFile stackFile : dbStack.getStackImgFiles()) {
+                LOG.info("test : {}", stackFile.getSavedName());
+            }
+            count++;
+        }
+        LOG.info("param : count {}", count);
         return stackList;
     }
 

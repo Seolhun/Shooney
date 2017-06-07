@@ -1,10 +1,6 @@
 package com.shun.blog.model.stack;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
 import org.hibernate.annotations.*;
 
 import javax.persistence.*;
@@ -16,9 +12,6 @@ import java.util.Date;
 import java.util.List;
 
 @Data
-@EqualsAndHashCode(exclude = "stackImgFiles")
-@ToString(exclude = "stackImgFiles")
-
 @Entity
 @Table(name = "TB_STACK", uniqueConstraints = {@UniqueConstraint(columnNames = "STACK_NAME")})
 public class Stack implements Serializable {
