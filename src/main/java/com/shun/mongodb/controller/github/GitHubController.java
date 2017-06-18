@@ -31,7 +31,7 @@ public class GitHubController {
 		this.commonService=commonService;
 	}
 	
-	@RequestMapping(value = "/list", method = RequestMethod.GET)
+	@RequestMapping(value = "/search", method = RequestMethod.GET)
 	public String githubList(HttpServletRequest request, Model model) throws Exception {
 		Menu menu=commonService.setMenuConfig(request);
 		List<Menu> menuList=menuService.findAllMenu(menu, menu.getMenuType());
@@ -39,6 +39,6 @@ public class GitHubController {
 
 		model.addAttribute("searchOptions", SearchOption.values());
 		model.addAttribute("searchTypes", GithubSearchType.values());
-		return "github/github-list";
+		return "github/github-search";
 	}
 }

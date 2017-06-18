@@ -47,12 +47,14 @@ public class GitHubRestController {
 
         githubData.setGitSearch(gitSearch);
         githubService.save(githubData);
+
         ajaxResult.setResult(json.toString());
         return ajaxResult;
     }
 
     private String searchGithub(GitSearch gitSearch) {
-//		https://api.github.com/search/repositories?q=blog&topic:python+topic:java&language:java&sort=stars&order=desc
+        //https://api.github.com/search/repositories?q=blog&topic:python+topic:java&language:java&sort=stars&order=desc
+        //https://api.github.com/search/repositories?q=blog+home+topic:django+topic:flask+language:python
         String searchUrl = "Not Found Search Value";
         if (gitSearch != null) {
             searchUrl = GITHUB_API + "/search" + gitSearch.getSearchType();

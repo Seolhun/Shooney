@@ -59,7 +59,7 @@
 	<link rel="stylesheet" href="${template}/plugins/owl-carousel/owl-carousel/owl.carousel.css">
 	<link rel="stylesheet" href="${template}/plugins/master-slider/masterslider/style/masterslider.css">
 	<link rel='stylesheet' href="${template}/plugins/master-slider/masterslider/skins/black-2/style.css">
-	
+
 	<!-- CSS Pages Style -->
 	<link rel="stylesheet" href="${template}/css/pages/page_one.css">
 	

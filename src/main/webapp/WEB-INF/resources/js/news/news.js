@@ -51,12 +51,12 @@ var root="/shooney";
 				}
 			}).then(function(response) {
 				if (response['status'] == '200') {
-					console.log("Success", response['status']);	
+					console.log("Success", response['status']);
 					var responseData = response.data;
-					
+
 					var paging = response.data.paging;
 					var newsList = responseData.newsDatas.content;
-					
+
 					newsCtrl.newsList=newsList;
 					newsCtrl.pager = PagerService.GetPager(paging.totalCount, currentPage);
 				} else {

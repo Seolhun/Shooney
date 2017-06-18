@@ -16,7 +16,9 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Created by HunSeol on 2017. 5. 27..
+ * Github Model
+ * @Created by  HunSeol
+ * @on 2017. 5. 27..
  */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)

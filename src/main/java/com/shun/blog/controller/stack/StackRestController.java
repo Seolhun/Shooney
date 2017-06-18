@@ -35,16 +35,8 @@ public class StackRestController {
     @RequestMapping(value = {""}, method = RequestMethod.GET)
     public List<Stack> getStackList(Stack stack) throws Exception {
         //build commonService code check Validation about user REST Token
+
         List<Stack> stackList = stackService.selectList(stack);
-        int count = 0;
-        for (Stack dbStack : stackList) {
-            LOG.info("param : {}", dbStack.getName());
-            for (StackFile stackFile : dbStack.getStackImgFiles()) {
-                LOG.info("test : {}", stackFile.getSavedName());
-            }
-            count++;
-        }
-        LOG.info("param : count {}", count);
         return stackList;
     }
 

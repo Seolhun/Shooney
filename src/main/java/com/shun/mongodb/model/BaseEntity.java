@@ -10,8 +10,8 @@ import java.io.Serializable;
 
 /**
  * Super class for all entity classes.
- * 
- * @author Zouhir OUFTOU
+ * @Created by  HunSeol
+ * @on 2017. 5. 27..
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 @SuppressWarnings("serial")

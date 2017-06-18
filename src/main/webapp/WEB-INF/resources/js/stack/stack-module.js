@@ -9,14 +9,17 @@ var StackService = (function() {
         $.ajax({
             url : root +"/api/stack",
             type : 'GET',
-            timeout : 60000,
+            timeout : 100000,
             dataType : "application/json",
             beforeSend: function(xhr) {
                 xhr.setRequestHeader("Accept", "application/json");
                 xhr.setRequestHeader("Content-Type", "application/json");
                 xhr.setRequestHeader(csrfHeader, csrfToken);
             }, success: function(data) {
-                console.log(data);
+                if(data.stackList !== null) {
+                    var stackList = data.stackList;
+                    console.log(stackList);
+                }
             }, error : function(error){
                 console.log('Error', error);
             }

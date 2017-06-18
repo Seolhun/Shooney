@@ -73,7 +73,7 @@ public class CommentRestController {
 	 * return List<Comment>
 	 * throws Exception
 	 */
-	@RequestMapping(value = "/{entity}/list/more", method = RequestMethod.POST, produces = "application/json")
+	@RequestMapping(value = "/{entity}/more", method = RequestMethod.POST, produces = "application/json")
 	public Map<String, Object> getCommentsList(@RequestBody Comment comment, @PathVariable String entity, HttpServletRequest request, ModelMap model) throws Exception {
 		Map<String, Object> returnMap=new HashMap<>();
 		String nickName="";

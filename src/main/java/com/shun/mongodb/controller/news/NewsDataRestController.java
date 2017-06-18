@@ -47,7 +47,7 @@ public class NewsDataRestController {
 	}
 
 	@RequestMapping(value = "/save/{idx}", method = RequestMethod.GET)
-	public AjaxResult saveNews(ModelMap model, @PathVariable Long idx) {
+	public AjaxResult saveNews(@PathVariable Long idx) {
 		LOG.info("where : saveNews");
 		AjaxResult result=new AjaxResult();
 		
@@ -66,7 +66,7 @@ public class NewsDataRestController {
 	}
 	
 	@RequestMapping(value = "/list-json", method = RequestMethod.GET)
-	public Map<String, Object> getNewsListData(ModelMap model, HttpServletRequest request) {
+	public Map<String, Object> getNewsListData(HttpServletRequest request) {
 		//Paging
 		Paging paging=new Paging();
 		int limit=commonService.checkVDInt(request.getParameter("limit"), 15);
@@ -85,7 +85,10 @@ public class NewsDataRestController {
 		
 		PageRequest pageRequest=new PageRequest(paging.getCurrentPage(), paging.getLimit(), Direction.DESC, "NEWS_IDX");
 		Page<NewsData> newsDatas=newsDataService.findAll(pageRequest);
-		
+		for (NewsData news:newsDatas) {
+			LOG.info("return : news {}", news.toString());
+		}
+
 		Map<String, Object> resultMap=new HashMap<>();
 		resultMap.put("newsDatas", newsDatas);
 		resultMap.put("paging", paging);
@@ -94,7 +97,7 @@ public class NewsDataRestController {
 
 	@RequestMapping(value = "/detail-json/{id}", method = RequestMethod.GET)
 	public NewsData getNewsDetail(ModelMap model, @PathVariable String id) {
-		LOG.info("where : moveNewsList");
+
 		NewsData newsData=new NewsData();
 		newsData=newsDataService.findById(id);
 		

@@ -118,7 +118,7 @@ var CommentService = (function() {
 		comment["blogInComment"] = blog;
 		comment["paging"] = paging;
 		$.ajax({
-			url : root +"/reply/blog/list/more",
+			url : root +"/reply/blog/more",
 			type : 'POST',
 			timeout : 60000,
 			data: JSON.stringify(comment),
