@@ -11,6 +11,16 @@ import java.util.List;
 /**
  * Created by HunSeol on 2017. 5. 27..
  */
+
+//object["appCodeName"] = window.navigator.appCodeName;
+//object["appName"] = window.navigator.appName;
+//object["appVersion"] = window.navigator.appVersion;
+//object["cookieEnabled"] = window.navigator.cookieEnabled;
+//object["platform"] = window.navigator.platform;
+//object["productSub"] = window.navigator.productSub;
+//object["vendor"] = window.navigator.vendor;
+//object["language"] = window.navigator.language;
+//object["languages"] = window.navigator.languages;
 @Getter
 @Setter
 @JsonIgnoreProperties(ignoreUnknown = true)

@@ -28,6 +28,7 @@ import org.springframework.validation.FieldError;
 
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.constraints.Null;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -55,7 +56,7 @@ public class CommonServiceImpl implements CommonService {
         this.mailSender = mailSender;
     }
 
-    private static final String FILE_PATH="/Users/hunseol/Desktop/project/shooney/stack/";
+    private static final String FILE_PATH = "/Users/hunseol/Desktop/project/shooney/stack/";
 //    private static final String FILE_PATH="/opt/tomcat/files/";
 
     final private String emailPattern = "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,3})$";
@@ -274,13 +275,13 @@ public class CommonServiceImpl implements CommonService {
         Date date = new Date();
         String currentTime = formatter.format(date);
         String from = "imedisyndev@gmail.com";
-        String mailSubject = "안녕하세요. (주)Hi-Cord입니다. "+userName+"의 계정이 5회 로그인 실패로 잠금설정 되었습니다.";
+        String mailSubject = "안녕하세요. (주)Hi-Cord입니다. " + userName + "의 계정이 5회 로그인 실패로 잠금설정 되었습니다.";
         String mailContent =
-                userName+"님 안녕하세요."+" (주)Hi-Cord입니다."
-                        + "<br>회원님의 아이디에 누군가가 "+currentTime+"에 로그인 시도를 하여, 5회 이상 실패로 계정이 잠금처리 되었습니다."
+                userName + "님 안녕하세요." + " (주)Hi-Cord입니다."
+                        + "<br>회원님의 아이디에 누군가가 " + currentTime + "에 로그인 시도를 하여, 5회 이상 실패로 계정이 잠금처리 되었습니다."
                         + "<br>먼저, 비밀번호를 바꾸시길 요청드립니다. 밑의 비밀번호 변경 버튼을 눌러 1회용 Password를 입력하여 비밀번호 변경해주시기 바랍니다."
-                        + "<h4>Password : "+password+"</h4>"
-                        + "<br><a href="+httpPath+"?key="+authentication+"><button>비밀번호 변경</button></a>"
+                        + "<h4>Password : " + password + "</h4>"
+                        + "<br><a href=" + httpPath + "?key=" + authentication + "><button>비밀번호 변경</button></a>"
                         + "<br>추가로 로그인 시도된 정보를 제공해드리오니, 확인하시고 궁금하신 것이 있으시면 문의부탁드립니다.";
         mainSendMail(toEmail, from, mailSubject, mailContent);
     }
@@ -463,10 +464,6 @@ public class CommonServiceImpl implements CommonService {
         int blockEndNum = currentBlock * blockLimit;
         int blockStartNum = blockEndNum - (blockLimit - 1);
 
-        if (blockEndNum > totalBlock) {
-            blockEndNum = totalBlock;
-        }
-
         int previousPage = blockStartNum - blockLimit; // << *[이전]*
         int nextPage = blockStartNum + blockLimit; // *[다음]* >>
 
@@ -487,8 +484,6 @@ public class CommonServiceImpl implements CommonService {
         paging.setBlockLimit(blockLimit);
         paging.setCurrentBlock(currentBlock);
         paging.setTotalBlock(totalBlock);
-        paging.setBlockEndNum(blockEndNum);
-        paging.setBlockStartNum(blockStartNum);
         paging.setNextPage(nextPage);
         paging.setPreviousPage(previousPage);
     }
@@ -554,7 +549,7 @@ public class CommonServiceImpl implements CommonService {
     @Override
     public String getImgUsingJsoup(String imgSrc, String savedDirectoryName) throws IOException, StringIndexOutOfBoundsException {
         int indexName = imgSrc.lastIndexOf("/");
-        if(indexName == imgSrc.length())
+        if (indexName == imgSrc.length())
             imgSrc = imgSrc.substring(1, indexName);
         indexName = imgSrc.lastIndexOf("/");
         String savedName = imgSrc.substring(indexName, imgSrc.length());
@@ -562,21 +557,21 @@ public class CommonServiceImpl implements CommonService {
         savedDirectoryName = savedDirectoryName.toLowerCase();
         savedName = savedName.toLowerCase();
 
-        File directory = new File(FILE_PATH+savedDirectoryName);
-        if (!directory.exists()){
+        File directory = new File(FILE_PATH + savedDirectoryName);
+        if (!directory.exists()) {
             directory.mkdirs();
         }
 
         URL url = new URL(imgSrc);
         InputStream in = url.openStream();
-        OutputStream out = new BufferedOutputStream(new FileOutputStream(FILE_PATH+savedDirectoryName+savedName));
+        OutputStream out = new BufferedOutputStream(new FileOutputStream(FILE_PATH + savedDirectoryName + savedName));
 
-        for (int b; (b = in.read()) != -1;){
+        for (int b; (b = in.read()) != -1; ) {
             out.write(b);
         }
         out.close();
         in.close();
-        return FILE_PATH+savedDirectoryName+savedName;
+        return FILE_PATH + savedDirectoryName + savedName;
     }
 
     @Override
@@ -608,5 +603,54 @@ public class CommonServiceImpl implements CommonService {
             conn.disconnect();
         }
         return jsonObject;
+    }
+
+    @Override
+    public Paging lastestSetPaging(Integer totalCount, Integer currentPage, Integer limit, Integer blockLimit) throws NullPointerException {
+        Paging paging = new Paging();
+        //Default limit = 30
+        if (limit == null) {
+            limit = 30;
+        }
+
+        //1. setting Total Page
+        int totalPage = (int) Math.ceil(totalCount / limit);
+        if (totalCount <= limit) {
+            totalPage = 1;
+        }
+
+        //2. setting CurerntPage
+        if(currentPage > totalPage){
+            currentPage = totalPage;
+        } else if(currentPage < 1){
+            currentPage = 1;
+        }
+
+        if (blockLimit == null) {
+            blockLimit = 10;
+        }
+
+        //3. setting Total Block
+        Integer totalBlock = 1;
+        if (totalPage > blockLimit) {
+            totalBlock = (int) Math.ceil(totalPage / blockLimit);
+        }
+
+        //4. setting Paging Num
+        //1, 11, 21, 31 ...
+        int startNumInCurrent = 0;
+        startNumInCurrent = (totalBlock <= 1 ? 1 : ((int)Math.floor(currentPage/blockLimit)) * blockLimit) +1;
+        //10, 20, 30, 40 ...
+        int lastNumInCurrent = 0;
+
+        lastNumInCurrent = totalBlock <= 1 ? totalPage : ((int)(Math.ceil(currentPage/blockLimit))) * blockLimit > totalPage ? totalPage : ((int)(Math.ceil(currentPage/blockLimit))) * blockLimit;
+
+
+        paging.setCurrentPage(currentPage);
+        paging.setTotalPage(totalPage);
+        paging.setTotalBlock(totalBlock);
+        paging.setStartNumInCurrent(startNumInCurrent);
+        paging.setLastNumInCurrent(lastNumInCurrent);
+        return paging;
     }
 }

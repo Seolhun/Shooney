@@ -27,17 +27,18 @@ var GithubService = (function() {
             var temp_list = param.split(',');
             $.each(temp_list, function (index, value) {
                 if($.inArray(value.trim(), return_list) === -1) {
-                    if(!(value.trim().length < 1)){
+                    if(value.trim().length > 0){
                         return_list.push(value.trim());
                     }
                 }else{
                     console.log(value+" is a duplicate value");
                 }
             });
-            console.log(return_list);
             return return_list;
         } else {
-            return_list.push(param.trim());
+            if(param.trim().length > 0) {
+                return_list.push(param.trim());
+            }
             return return_list;
         }
     };
@@ -81,10 +82,16 @@ var GithubService = (function() {
         return gitSearch;
     };
 
-    var githubSearch = function(){
+    var githubSearch = function(currentPage){
         var gitSearch = {}, clientInfo={};
         gitSearch = _divideSearchStr(gitSearch);
         _setNavigator(clientInfo);
+        gitSearch["searchUser"] = clientInfo;
+
+        if(currentPage === null || currentPage === undefined){
+            currentPage = 1;
+        }
+        gitSearch["currentPage"] = currentPage;
 
         $.ajax({
             url : root +"/github/search",
@@ -97,8 +104,13 @@ var GithubService = (function() {
                 xhr.setRequestHeader("Content-Type", "application/json");
                 xhr.setRequestHeader(csrfHeader, csrfToken);
             }, success: function(data) {
-                $("#searchResult").empty();
-                $("#searchResult").append(data.result);
+                if(data === null){
+                    alert("Insert search paramerter exactly")
+                } else {
+                    console.log(data);
+                    $("#searchResult").empty();
+                    $("#searchResult").append(data);
+                }
             }, error : function(error){
                 console.log('Error', error);
             }

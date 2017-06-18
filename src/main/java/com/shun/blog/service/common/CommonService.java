@@ -81,4 +81,6 @@ public interface CommonService {
     String getImgUsingJsoup(String imgSrc, String savedDirectoryName) throws IOException, StringIndexOutOfBoundsException;
 
     JsonObject getResponseAPI(String apiUrl) throws IOException;
+
+    Paging lastestSetPaging(Integer totalCount, Integer currentPage, Integer limit, Integer blockLimit) throws NullPointerException;
 }

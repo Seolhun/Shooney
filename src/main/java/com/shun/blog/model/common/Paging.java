@@ -11,31 +11,30 @@ public class Paging implements Serializable {
 	private Integer currentPage;
 	// 페이지 제한 수
 	private Integer limit;
-	//currentPage*limit
-	private Integer maxCount;
-	// 총 게시물 갯수
+	// 총 Item Count
 	private int totalCount;
 	// 총 페이지 갯수
 	private int totalPage;
-	
-	// 총 페이지 블록 수
-	private int totalBlock;
+
+	// 현재 블록에서 시작 번호
+	private int startNumInCurrent;
+	// 현재 블록에서 끝 번호
+	private int lastNumInCurrent;
+
 	// 페이지 블록 제한 수
 	private int blockLimit;
+	// 총 페이지 블록 수
+	private int totalBlock;
 	// 현재 블록 위치
 	private int currentBlock;
-	// 게시물 시작 블록번호
-	private int blockStartNum;
-	// 게시물 끝 블록번호
-	private int blockEndNum;
-	
-	// 페이징 시작 번호 
-	private int startNum;
-	// 페이징 끝나는 번호
-	private int lastNum;
+
+	// 현재 블록 위치
+	private int maxCount;
+
+
 	private int previousPage;
 	private int nextPage;
-	
+
 	/** For searching Field */
 	// 참조할 때의 엔티티 키 값
 	private Long id;

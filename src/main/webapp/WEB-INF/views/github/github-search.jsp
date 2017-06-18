@@ -65,28 +65,18 @@
                 </div>
             </div>
 
-            <div class="col-sm-4">
-                <div> Name </div>
-                <input type="text" name="repoName" class="form-control2 width-80 margin-bottom-10" placeholder="Insert Name you want to search">
+            <div class="col-sm-12">
+                <div> Repository Name </div>
+                <input type="text" name="repoName" class="form-control2 width-80 margin-bottom-10" placeholder="Insert Repository Name you want to search (example : blog, hompage, ...)">
 
                 <div> Language </div>
-                    <input type="text" name="language" class="form-control2 width-80 margin-bottom-10" placeholder="Insert Language you want to search">
+                    <input type="text" name="language" class="form-control2 width-80 margin-bottom-10" placeholder="Insert Language you want to search (example : python, java, ...)">
 
                 <div> Topic </div>
-                <input type="text" name="topic" class="form-control2 width-80 margin-bottom-10" placeholder="Insert Topic you want to search">
+                <input type="text" name="topic" class="form-control2 width-80 margin-bottom-10" placeholder="Insert Topic you want to search (example : java, spring, ...)">
 
             </div>
             <div class="service-block service-block-default col-sm-12 margin-bottom-10 text-center">
-                <span> Size
-                    <input type="checkbox" name="needOptions" id="needSize">
-                </span>
-                <span> Stars
-                    <input type="checkbox" name="needOptions" id="needStars">
-                </span>
-                <span> Forks
-                    <input type="checkbox" name="needOptions" id="needForks">
-                </span>
-
                 <select name="searchType">
                     <c:forEach items="${searchTypes}" var="searchType">
                         <option value="${searchType.type}">${searchType.name}</option>
@@ -102,7 +92,7 @@
         </div>
         <div class="col-sm-12">
             <div class="service-block service-block-default">
-                <div id="searchResult">
+                <div class="text-left" id="searchResult">
 
                 </div>
             </div>

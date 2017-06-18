@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.shun.mongodb.model.github.SearchUser;
 import lombok.Data;
+import org.springframework.data.annotation.Transient;
 
 import java.io.Serializable;
 import java.util.List;
@@ -73,6 +74,10 @@ public class GitSearch implements Serializable {
     //true & only
     @JsonProperty(value = "fork")
     private String fork;
+
+    @Transient
+    @JsonProperty(value = "currentPage")
+    private Integer currentPage;
 
     //?q=repo
     //?q=user

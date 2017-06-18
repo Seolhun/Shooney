@@ -2,10 +2,14 @@ package com.shun.mongodb.model.github;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.shun.blog.model.common.Paging;
 import com.shun.mongodb.model.BaseEntity;
 import com.shun.mongodb.model.github.search.GitSearch;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.index.IndexDirection;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -54,4 +58,8 @@ public class GithubData extends BaseEntity implements Serializable{
     @Field(value="GITHUB_CREATED_BY")
     private String createdBy;
 
+    @Transient
+    @JsonSerialize
+    @JsonDeserialize
+    private Paging paging;
 }

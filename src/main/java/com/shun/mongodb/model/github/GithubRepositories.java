@@ -28,9 +28,6 @@ public class GithubRepositories implements Serializable {
     @JsonProperty(value = "clone_url")
     private String clone_url;
 
-    @JsonProperty(value = "svn_url")
-    private String svn_url;
-
     @JsonProperty(value = "forks")
     private Integer forks;
 
