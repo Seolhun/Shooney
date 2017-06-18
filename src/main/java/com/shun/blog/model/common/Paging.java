@@ -35,6 +35,11 @@ public class Paging implements Serializable {
 	private int previousPage;
 	private int nextPage;
 
+	// 게시물 시작 블록번호
+	private int blockStartNum;
+	// 게시물 끝 블록번호
+	private int blockEndNum;
+
 	/** For searching Field */
 	// 참조할 때의 엔티티 키 값
 	private Long id;

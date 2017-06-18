@@ -464,6 +464,10 @@ public class CommonServiceImpl implements CommonService {
         int blockEndNum = currentBlock * blockLimit;
         int blockStartNum = blockEndNum - (blockLimit - 1);
 
+        if (blockEndNum > totalBlock) {
+            blockEndNum = totalBlock;
+        }
+
         int previousPage = blockStartNum - blockLimit; // << *[이전]*
         int nextPage = blockStartNum + blockLimit; // *[다음]* >>
 
@@ -484,6 +488,8 @@ public class CommonServiceImpl implements CommonService {
         paging.setBlockLimit(blockLimit);
         paging.setCurrentBlock(currentBlock);
         paging.setTotalBlock(totalBlock);
+        paging.setBlockEndNum(blockEndNum);
+        paging.setBlockStartNum(blockStartNum);
         paging.setNextPage(nextPage);
         paging.setPreviousPage(previousPage);
     }
