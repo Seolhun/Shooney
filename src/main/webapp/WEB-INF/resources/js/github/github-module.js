@@ -4,11 +4,6 @@ var	csrfToken=$("#csrfToken").attr("content");
 var root="/shooney";
 /* AJAX 통신 처리 */
 var GithubService = (function() {
-    var addSearchDiv = function(){
-        var html = "";
-        return html;
-    };
-
     var _setNavigator= function(object){
         object["appCodeName"] = window.navigator.appCodeName;
         object["appName"] = window.navigator.appName;
@@ -82,6 +77,56 @@ var GithubService = (function() {
         return gitSearch;
     };
 
+    var _printResultSearchDiv = function(data){
+        var html = "";
+        console.log(data);
+        $("#searchResult").empty();
+        //CommonService.customDateformat(new Date(data.createdDate), "yyyy-MM-dd mm:hh");
+        var total_count = data.total_count, result_items = data.items, owner;
+
+        html +="<div class='row'>";
+            html +="<div class='col-sm-12 margin-bottom-10'>total_count : "+total_count+"</div>";
+            result_items.forEach(function (item, index, status) {
+                owner = item.owner;
+                html +="<div class='col-sm-6'>";
+                    html +="<div class='col-sm-12'><b>Item</b>";
+                        html +="<div class='col-sm-12'>item id : "+item.id+"</div>";
+                        html +="<div class='col-sm-12'>description : "+item.description+"</div>";
+                        html +="<details class='margin-bottom-10'>";
+                            html +="<summary>Owner of Item</summary>";
+                            html +="<div class='col-sm-12'><b>Owner</b>";
+                                html +="<div class='col-sm-12'>owner id : "+owner.id+"</div>";
+                                html +="<div class='col-sm-12'>owner type : "+owner.type+"</div>";
+                                html +="<div class='col-sm-12'>owner html_url : "+owner.html_url+"</div>";
+                                html +="<div class='col-sm-12'>owner site_admin : "+owner.site_admin+"</div>";
+                                html +="<div class='col-sm-12'>owner login : "+owner.login+"</div>";
+                            html +="</div>";
+                        html +="</details>";
+                        html +="<div class='col-sm-12'>score : "+item.score+"</div>";
+                        html +="<div class='col-sm-12'>size : "+item.size+"</div>";
+                        html +="<div class='col-sm-12'>forks : "+item.forks+"</div>";
+                        html +="<div class='col-sm-12'>open_issues : "+item.open_issues+"</div>";
+                        html +="<div class='col-sm-12'>watchers : "+item.watchers+"</div>";
+                        html +="<div class='col-sm-12'>clone_url : "+item.clone_url+"<button class='margin-left-10 btn-u btn-u-dark-blue rounded'>Copy</button></div>";
+                        html +="<div class='col-sm-12'>html_url : "+item.html_url+"</div>";
+
+                        html +="<div class='col-sm-12'>pushed_at : "+CommonService.customDateformat(new Date(item.pushed_at), "yyyy-MM-dd mm:hh")+"</div>";
+                        html +="<div class='col-sm-12'>created_at : "+CommonService.customDateformat(new Date(item.created_at), "yyyy-MM-dd mm:hh")+"</div>";
+                        html +="<div class='col-sm-12 margin-bottom-30'>updated_at : "+CommonService.customDateformat(new Date(item.updated_at), "yyyy-MM-dd mm:hh")+"</div>";
+                    html +="</div>";
+                html +="</div>";
+            });
+        html +="</div>";
+
+        html +="<div></div>";
+        html +="<div></div>";
+        html +="<div></div>";
+        html +="<div></div>";
+        html +="<div></div>";
+        html +="<div></div>";
+        $("#searchResult").append(html);
+    };
+
     var githubSearch = function(currentPage){
         var gitSearch = {}, clientInfo={};
         gitSearch = _divideSearchStr(gitSearch);
@@ -107,9 +152,7 @@ var GithubService = (function() {
                 if(data === null){
                     alert("Insert search paramerter exactly")
                 } else {
-                    console.log(data);
-                    $("#searchResult").empty();
-                    $("#searchResult").append(data);
+                    _printResultSearchDiv(data);
                 }
             }, error : function(error){
                 console.log('Error', error);
@@ -119,7 +162,6 @@ var GithubService = (function() {
 
 
     return {
-        addSearchDiv : addSearchDiv,
         githubSearch : githubSearch
     };
 })();

@@ -614,7 +614,7 @@ public class CommonServiceImpl implements CommonService {
         }
 
         //1. setting Total Page
-        int totalPage = (int) Math.ceil(totalCount / limit);
+        int totalPage = (int)(Math.ceil(totalCount / limit));
         if (totalCount <= limit) {
             totalPage = 1;
         }
@@ -633,19 +633,18 @@ public class CommonServiceImpl implements CommonService {
         //3. setting Total Block
         Integer totalBlock = 1;
         if (totalPage > blockLimit) {
-            totalBlock = (int) Math.ceil(totalPage / blockLimit);
+            totalBlock = (int)(Math.ceil(totalPage / blockLimit));
         }
 
         //4. setting Paging Num
         //1, 11, 21, 31 ...
         int startNumInCurrent = 0;
-        startNumInCurrent = (totalBlock <= 1 ? 1 : ((int)Math.floor(currentPage/blockLimit)) * blockLimit) +1;
+        startNumInCurrent = totalBlock <= 1 ? 1 : (int)(Math.floor(currentPage * blockLimit)) * blockLimit +1;
         //10, 20, 30, 40 ...
         int lastNumInCurrent = 0;
+        lastNumInCurrent = totalBlock <= 1 ? totalPage : ((int)(Math.ceil(currentPage*blockLimit)/blockLimit) * blockLimit >= totalPage ? totalPage : (int)(Math.ceil(currentPage*blockLimit)/blockLimit) * blockLimit);
 
-        lastNumInCurrent = totalBlock <= 1 ? totalPage : ((int)(Math.ceil(currentPage/blockLimit))) * blockLimit > totalPage ? totalPage : ((int)(Math.ceil(currentPage/blockLimit))) * blockLimit;
-
-
+        paging.setTotalCount(totalCount);
         paging.setCurrentPage(currentPage);
         paging.setTotalPage(totalPage);
         paging.setTotalBlock(totalBlock);
