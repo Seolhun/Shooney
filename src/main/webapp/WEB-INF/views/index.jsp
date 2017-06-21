@@ -44,7 +44,7 @@
 						data-ease="easeOutExpo"
 					>LEARN MORE</a>
 
-					<a class="ms-layer btn-u btn-u-dark" style="left:150px; top:390px" href="${myinfo }/pro"
+					<a class="ms-layer btn-u btn-u-dark" style="left:150px; top:390px" href="${myinfo }/profile"
 						data-effect="bottom(40)"
 						data-duration="2000"
 						data-delay="1300"

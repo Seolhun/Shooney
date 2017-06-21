@@ -82,5 +82,5 @@ public interface CommonService {
 
     JsonObject getResponseAPI(String apiUrl) throws IOException;
 
-    Paging lastestSetPaging(Integer totalCount, Integer currentPage, Integer limit, Integer blockLimit) throws NullPointerException;
+    Paging lastestSetPaging(int totalCount, int currentPage, int blockLimit) throws NullPointerException;
 }

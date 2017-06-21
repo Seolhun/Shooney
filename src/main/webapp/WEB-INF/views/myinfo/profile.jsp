@@ -52,9 +52,8 @@
 								<li>용인대학교 졸업(체육, 경영)</li>
 								<li>ROTC(학군단) 51기</li>
 								<li>설빙 1기 마케팅 공모전 장려상 수상</li>
-								<li>경산 국제 콘텐츠 쇼 본선 진출 (아이디어 부문)</li>
 								<li>마이다스 아이티 사관학교 1기</li>
-								<li><a href="http://imedisyn.com">(주)아이메디신</a> 연구원 </li>
+								<li>(주)아이메디신 연구원</li>
 								<li>고려사이버대학교 소프트웨어 공학과 편입</li>
 							</ul>
 						</div>
@@ -69,20 +68,19 @@
 								<p>
 									<a class="skill">#Java</a><a class="skill">#Spring</a><a class="skill">#Hibernate</a>
 									<br>
-									<a class="skill">#CentOS</a><a class="skill">#nginX</a><a class="skill">#apache</a><a class="skill">#Tomcat</a>
+									<a class="skill">#Python</a><a class="skill">#Django</a><a class="skill">#Flask</a><a class="skill">#SQLAlchemy</a>
 									<br>
-									<a class="skill">#Oracle</a><a class="skill">#MariaDB</a><a class="skill">#MongoDB</a>
+									<a class="skill">#CentOS</a><a class="skill">#NginX</a><a class="skill">#Tomcat</a>
 									<br>
-									<a class="skill">#Java Script</a><a class="skill">#Ajax</a><a class="skill">#JQuery</a>
-									<a class="skill">#Boot Strap</a><a class="skill">#Foundation</a>
+									<a class="skill">#MariaDB</a><a class="skill">#MongoDB</a><a class="skill">#Redis</a><a class="skill">#Oracle</a>
+									<br>
+									<a class="skill">#Java Script</a><a class="skill">#Ajax</a><a class="skill">#JQuery</a><a class="skill">#AngularJS</a>
+									<br>
+									<a class="skill">#BootStrap</a><a class="skill">#Foundation</a>
 								</p>
 							<ul class="list-unstyled">
 								<li>Git Hub | <a href="https://github.com/Seolhun">https://github.com/Seolhun</a></li>
-								<li>&nbsp;&nbsp;&nbsp;Web&nbsp;&nbsp;&nbsp;| <a href="http://imedisyn.com">http://imedisyn.com</a></li>
-								<li>&nbsp;&nbsp;&nbsp;Web&nbsp;&nbsp;&nbsp;| <a href="http://imedisyn.com/isyncbrain">http://imedisyn.com/isyncbrain</a></li>
-								<li>&nbsp;&nbsp;&nbsp;Web&nbsp;&nbsp;&nbsp;| <a href="${po}/project/3">SIST Third Project</a></li>
-								<li>&nbsp;&nbsp;&nbsp;Web&nbsp;&nbsp;&nbsp;| <a href="${po}/project/2">SIST Two Project</a></li>
-								<li>&nbsp;&nbsp;&nbsp;Java&nbsp;&nbsp;| <a href="${po}/project/1">SIST First Project</a></li>
+								<li>T-Story | <a href="https://github.com/Seolhun">http://postitforhooney.tistory.com/</a></li>
 							</ul>
 						</div>
 					</div>

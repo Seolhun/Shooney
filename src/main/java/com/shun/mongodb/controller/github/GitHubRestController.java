@@ -54,7 +54,7 @@ public class GitHubRestController {
             githubService.save(githubData);
 
             //(int totalCount, int currentPage, Integer limit, Integer blockLimit) throws NullPointerException {
-            Paging paging = commonService.lastestSetPaging(githubData.getTotalCount(), gitSearch.getCurrentPage(), 30, 10);
+            Paging paging = commonService.lastestSetPaging(githubData.getTotalCount(), gitSearch.getCurrentPage(), 10);
             githubData.setPaging(paging);
         }
         return githubData;

@@ -30,7 +30,7 @@ var CommonService = (function() {
 		return format.replace(/(y+)/g, function(v) {
 			return date.getFullYear().toString().slice(-v.length)
 		});
-	}
+	};
 	
 	//select by IP access Client and if null insert, not return;
 	var accessClientInsert=function(){
@@ -61,7 +61,7 @@ var CommonService = (function() {
 				}
 			});	
 		});
-	}
+	};
 	
 	
 	var getAccessClientInfo=function(){
@@ -95,7 +95,7 @@ var CommonService = (function() {
 				}
 			});	
 		});
-	}
+	};
 	
 	//File Info & Validation Check 
 	var checkFileBeforeUpload=function(htmlTagId){
@@ -129,14 +129,14 @@ var CommonService = (function() {
 				}
 			});	
 		}
-	}
+	};
 	
 	/**
 	 * ex) if(CommonService.alertConfirm(msg)){}
 	*/
 	var alertConfirm=function(message){
 	    return (!confirm(message));
-	}
+	};
 	
 	var validAllCheckedParam=function(){
 		var params=[];
@@ -148,7 +148,7 @@ var CommonService = (function() {
 			swal("","아무것도 체크가 되어있지 않습니다.");
 		}			
 		return params;
-	}
+	};
 	
 	var allCheck=function(){
 		// 최상단 체크박스 클릭
@@ -159,7 +159,7 @@ var CommonService = (function() {
 			// input태그의 name이 chk인 태그들을 찾아서 checked옵션을 false로 정의
 			$("input[name=oneCheck]").prop("checked", false);
 		}
-	}
+	};
 
 	
 	//Auto Copy when click btn
@@ -176,7 +176,7 @@ var CommonService = (function() {
 				// console.log('Oops, unable to copy');
 			}
 		});	
-	}
+	};
 	
 	var _getTimeBetweenObjectAndDb = function (dbDateValue){
 		//DB시간과 현재 시간 가져오기.
@@ -203,7 +203,7 @@ var CommonService = (function() {
 			return years+timeType[4];
 		}  
 		return "방금 전";
-	}
+	};
 	
 	return {
 		customDateformat : customDateformat,

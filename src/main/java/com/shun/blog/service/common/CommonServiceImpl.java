@@ -612,48 +612,43 @@ public class CommonServiceImpl implements CommonService {
     }
 
     @Override
-    public Paging lastestSetPaging(Integer totalCount, Integer currentPage, Integer limit, Integer blockLimit) throws NullPointerException {
+    public Paging lastestSetPaging(int totalCount, int currentPage, int blockLimit) throws NullPointerException {
         Paging paging = new Paging();
-        //Default limit = 30
-        if (limit == null) {
-            limit = 30;
-        }
+        //Default Value = 30
+        int limit = 30;
 
         //1. setting Total Page
-        int totalPage = (int)(Math.ceil(totalCount / limit));
+        int totalPage = (int)(Math.ceil((double)totalCount / limit));
         if (totalCount <= limit) {
             totalPage = 1;
         }
 
         //2. setting CurerntPage
-        if(currentPage > totalPage){
+        if(currentPage >= totalPage){
             currentPage = totalPage;
         } else if(currentPage < 1){
             currentPage = 1;
         }
 
-        if (blockLimit == null) {
-            blockLimit = 10;
-        }
-
         //3. setting Total Block
         Integer totalBlock = 1;
         if (totalPage > blockLimit) {
-            totalBlock = (int)(Math.ceil(totalPage / blockLimit));
+            totalBlock = (int)(Math.ceil((double)totalPage / blockLimit));
         }
 
         //4. setting Paging Num
+        int startNumInCurrent;
         //1, 11, 21, 31 ...
-        int startNumInCurrent = 0;
-        startNumInCurrent = totalBlock <= 1 ? 1 : (int)(Math.floor(currentPage * blockLimit)) * blockLimit +1;
+        startNumInCurrent = currentPage <= blockLimit ? (currentPage <= totalPage ? 1 : totalPage) : (int)(Math.floor((double)currentPage-1/blockLimit))*blockLimit+1;
+        int lastNumInCurrent;
         //10, 20, 30, 40 ...
-        int lastNumInCurrent = 0;
-        lastNumInCurrent = totalBlock <= 1 ? totalPage : ((int)(Math.ceil(currentPage*blockLimit)/blockLimit) * blockLimit >= totalPage ? totalPage : (int)(Math.ceil(currentPage*blockLimit)/blockLimit) * blockLimit);
+        lastNumInCurrent = totalPage <= blockLimit ? totalPage : (int)(Math.ceil((double)currentPage/blockLimit))*blockLimit >= totalPage? totalPage : (int)(Math.ceil((double)currentPage/blockLimit))*blockLimit;
 
         paging.setTotalCount(totalCount);
         paging.setCurrentPage(currentPage);
         paging.setTotalPage(totalPage);
         paging.setTotalBlock(totalBlock);
+        paging.setBlockLimit(blockLimit);
         paging.setStartNumInCurrent(startNumInCurrent);
         paging.setLastNumInCurrent(lastNumInCurrent);
         return paging;
