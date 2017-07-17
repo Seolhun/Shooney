@@ -174,13 +174,13 @@
 	<!--=== Carallax Counter v1 ===-->
 	<div class="parallax-counter-v1 parallaxBg" style="background-position: 50% 20px;">
 		<div class="container">
-			<p class="font-26b text-center color-light" data-lang="commons:index.count.title"></p>
-			<p class="space-xlg-hor text-center color-light" data-lang="commons:index.count.c1">
-				
-			</p>
+			<div class="row margin-bottom-30">
+				<div class="col-sm-12">
+					<p class="font-26b text-center color-light" data-lang="commons:index.count.title"></p>
+					<p class="text-center color-light" data-lang="commons:index.count.c1"></p>
+				</div>
+			</div>
 
-			<div class="margin-bottom-40"></div>
-			
 			<div class="row margin-bottom-10">
 				<div class="col-sm-4 col-xs-4">
 					<div class="counters">

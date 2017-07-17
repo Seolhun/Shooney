@@ -78,7 +78,7 @@
             <input type="text" name="topic" class="form-control2 width-100 margin-bottom-10" placeholder="Insert Topic you want to search (example : java, spring, ...)">
         </div>
 
-        <div class="service-block service-block-default col-sm-12 col-xs-12 margin-bottom-10 text-center">
+        <div class="col-sm-12 col-xs-12 margin-bottom-10 text-center">
             <select name="searchType">
                 <option value="/repositories">Repositories</option>
                 <%--
@@ -92,7 +92,7 @@
                     <option value="${option.type}">${option.name}</option>
                 </c:forEach>
             </select>
-            <input type="button" class="btn-u btn-u-aqua2" onclick="GithubService.githubSearch()" value="검색하기">
+            <input type="button" class="btn-u btn-u-dark-blue" onclick="GithubService.githubSearch()" value="검색하기">
         </div>
         <div class="text-center" id="searchResultPaging">
 

@@ -44,15 +44,19 @@ public class HomeController {
 		accessLog.setType(1);
 		accessLog.setCalculator(-1);
 		Integer yesterday=accessLogService.getCountByDate(accessLog);
-		
 		accessLog.setType(2);
 		accessLog.setCalculator(1);
 		Integer today=accessLogService.getCountByDate(accessLog);
-		
+
+		//홈페이지 접속자 추적
 		Map<String, Integer> historys=new HashMap<>();
 		historys.put("yesterday", yesterday);
 		historys.put("today", today);
 		historys.put("total", total);
+
+
+		//Home Notice Select.
+
 
 		model.addAttribute("historys", historys);
 		model.addAttribute("menuList", menuList);

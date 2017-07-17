@@ -37,19 +37,33 @@ public class GitHubRestController {
         this.githubService = githubService;
     }
 
+    /**
+     * Admin Blog List
+     *
+     * @param gitSearch
+     * @return GithubData
+     * @throws Exception
+     */
     @RequestMapping(value = "/search", method = RequestMethod.POST, produces = "application/json")
     public GithubData githubSearch(@RequestBody GitSearch gitSearch, HttpServletRequest request) throws Exception {
         LOG.info("param : githubSearch {}", gitSearch.toString());
-        String searchUrl = searchGithub(gitSearch);
+
+        //build Github Search URI Using method
+        String searchUrl = buildSearchGithub(gitSearch);
+
+        //Make Return instance
         GithubData githubData = null;
         if(!(searchUrl.equals("error"))) {
+            //Call API and Get Response
             JsonObject json = commonService.getResponseAPI(searchUrl);
             ObjectMapper mapper = commonService.setJSONMapper();
             githubData = mapper.readValue(json.toString(), GithubData.class);
 
+            //Get Client IP
             String clientIp = commonService.getUserIP(request);
             gitSearch.getSearchUser().setIp(clientIp);
 
+            //Save GithubData Into MongoDB
             githubData.setGitSearch(gitSearch);
             githubService.save(githubData);
 
@@ -60,7 +74,7 @@ public class GitHubRestController {
         return githubData;
     }
 
-    private String searchGithub(GitSearch gitSearch) {
+    private String buildSearchGithub(GitSearch gitSearch) {
         //repositories?q=topic:python+topic:flask&sort=score&order=desc
         //repositories?q=blog+home+topic:django+topic:flask+language:python
         //repositories?q=rest+flask+topic:flask+python+mongodb
@@ -80,6 +94,7 @@ public class GitHubRestController {
         LOG.info("return : searchUrl {}", searchUrl);
         return searchUrl;
     }
+
 
     private String buildSearchUrl(String paramStr, GitSearch gitSearch) {
         List<String> list;

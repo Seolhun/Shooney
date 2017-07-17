@@ -124,20 +124,23 @@ var GithubService = (function() {
         $("#searchResult").append(html);
     };
 
-    var _printPaging = function(data){
-        console.log(data.paging);
+    var _printPaging = function(data, currentPage){
         var paging = data.paging, html = "";
         $("#searchResultPaging").empty();
 
         html +="<div class='row margin-bottom-10'>";
             html +="<div class='col-sm-12'>";
-                html +="<button class='btn-u btn-u-dark-blue margin-right-5'>Fist</button>";
-                html +="<button class='btn-u btn-u-dark-blue margin-right-5'>Previous</button>";
+                html +="<button class='btn-u btn-u-gray margin-right-5'>Fist</button>";
+                html +="<button class='btn-u btn-u-gray margin-right-5'>Previous</button>";
                 for (var i=1; i<=paging.lastNumInCurrent;i++){
-                    html +="<span class='btn-u btn-u-dark-blue margin-right-5'>"+i+"</span>";
+                    if(currentPage == i){
+                        html +="<span class='btn-u btn-u-red margin-right-5 pagingBtn' onclick='GithubService.githubSearch("+i+")'>"+i+"</span>";
+                    } else {
+                        html +="<span class='btn-u btn-u-gray margin-right-5 pagingBtn' onclick='GithubService.githubSearch("+i+")'>"+i+"</span>";
+                    }
                 }
-                html +="<button class='btn-u btn-u-dark-blue margin-right-5'>Next</button>";
-                html +="<button class='btn-u btn-u-dark-blue'>Last</button>";
+                html +="<button class='btn-u btn-u-gray margin-right-5'>Next</button>";
+                html +="<button class='btn-u btn-u-gray'>Last</button>";
                 html +="</div>";
             html +="</div>";
         html +="</div>";
@@ -176,7 +179,7 @@ var GithubService = (function() {
                     alert("Insert search paramerter exactly")
                 } else {
                     _printResultSearchDiv(data);
-                    _printPaging(data);
+                    _printPaging(data, currentPage);
                 }
             }, error : function(error){
                 console.log('Error', error);

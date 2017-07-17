@@ -10,11 +10,11 @@
 		<div class="container">
 			<div class="call-action-v1-box">
 				<div class="col-sm-12">
-					<p>Admin Menu Control</p>
+					<p>Admin Notice Control</p>
 				</div>
 				<sec:authorize access="hasRole('SUPERADMIN')">
 					<div class="col-sm-12 text-right">
-				 		<button class="btn-u btn-u-dark-blue" onclick="MenuService.menuInsertForm()">Add New Menu</button>
+				 		<button class="btn-u btn-u-dark-blue" onclick="MenuService.menuInsertForm()">Add New Notice</button>
 					</div>
 			 	</sec:authorize>
 			</div>
@@ -27,50 +27,48 @@
 		    		<thead>
 			      		<tr>
                             <th class="text-center">No.</th>
-					        <th class="text-center">Name.</th>
-					        <th class="text-center">Type.</th>
-							<th class="text-center">URL.</th>
-					        <th class="text-center">Order.</th>
-					        <th class="text-center">Depth</th>
-							<th class="text-center">Parent Id</th>
+							<th class="text-center">URI.</th>
+							<th class="text-center">Content</th>
 							<th class="text-center">State</th>
 					        <sec:authorize access="hasRole('SUPERADMIN')">
 					        	<th class="text-center">Edit.</th>
-					        </sec:authorize>
-					        <sec:authorize access="hasRole('SUPERADMIN')">
 					        	<th class="text-center">Delete.</th>
 					        </sec:authorize>
-					        
 						</tr>
 			    	</thead>
 		    		<tbody>
-					<c:forEach items="${menus }" var="menu">
+					<c:forEach items="${notices }" var="notice">
 						<tr class="text-center">
-                            <td id="menuId${menu.menuId}">${menu.menuId}</td>
-							<td id="menuName${menu.menuId}">${menu.menuName}</td>
-							<td id="menuType${menu.menuId}">${menu.menuType}</td>
-							<td id="menuUrl${menu.menuId}">${menu.menuUrl}</td>
-							<td id="menuOrder${menu.menuId}">${menu.menuOrder}</td>
-							<td id="menuDepth${menu.menuId}">${menu.menuDepth}</td>
-							<td id="menuParentId${menu.menuId}">${menu.menuParentId}</td>
-							<td>${menu.delFlag}</td>
-							<td><button class="btn btn-default custom-width rounded" onclick="MenuService.menuUpdateForm(${menu.menuId})">Edit</button></td>
-							<c:choose>
-								<c:when test="${menu.delFlag.equals('N')}">
-                                    <td><button class="btn-u btn-u-red rounded" onclick="MenuService.menuDelete(${menu.menuId})">Delete</button></td>
-								</c:when>
-								<c:otherwise>
-									<td><button class="btn-u btn-u-dark-blue rounded" onclick="MenuService.menuDelete(${menu.menuId})">Active</button></td>
-								</c:otherwise>
-							</c:choose>
-						</tr>
+                            <td id="noticeId">${notice.id}</td>
+							<td id="noticeUri">${notice.uri}</td>
+							<td id="noticeContent">${notice.content}</td>
+                            <td id="noticeState">${notice.delFlag}</td>
+                            <td>
+                                <button class="btn btn-default custom-width rounded" onclick="MenuService.menuUpdateForm(${notice.id})">Edit
+                                </button>
+                            </td>
+                            <c:choose>
+                                <c:when test="${notice.delFlag.equals('N')}">
+                                    <td>
+                                        <button class="btn-u btn-u-red rounded" onclick="MenuService.menuDelete(${notice.id})">Delete
+                                        </button>
+                                    </td>
+                                </c:when>
+                                <c:otherwise>
+                                    <td>
+                                        <button class="btn-u btn-u-dark-blue rounded" onclick="MenuService.menuDelete(${notice.id})">Active
+                                        </button>
+                                    </td>
+                                </c:otherwise>
+                            </c:choose>
+                        </tr>
 					</c:forEach>
 		    		</tbody>
 		    	</table>
 			</div>
 	   	</div>
 	</div>
-    <%@ include file="/WEB-INF/views/admin/menu/modal/admin-menu-modal.jsp"%>
+    <%@ include file="/WEB-INF/views/admin/notice/modal/admin-notice-modal.jsp"%>
 </tag:admin-layout>
 <!-- Custom & Functional JS -->
 <script type="text/javascript" src="${resources}/js/menu/menu-module.js"></script>

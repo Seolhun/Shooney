@@ -59,12 +59,6 @@ public class CommonServiceImpl implements CommonService {
     private static final String FILE_PATH = "/Users/hunseol/Desktop/project/shooney/stack/";
 //    private static final String FILE_PATH="/opt/tomcat/files/";
 
-    final private String emailPattern = "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,3})$";
-    final private String idPattern = "^[A-Za-z0-9].{1,20}";
-    final private String namePattern = ".[가-힣]{1,14}";
-    final private String phonePattern = "\\d{10,11}";
-    final private String telPattern = "\\d{9,10}";
-    final private String passwordPattern = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+=-~`]).{8,20}";
     /*
         (?=.*[0-9]) a digit must occur at least once
 		(?=.*[a-z]) a lower case letter must occur at least once
@@ -81,16 +75,22 @@ public class CommonServiceImpl implements CommonService {
         boolean validation = false;
         switch (patternName) {
             case "password":
+                String passwordPattern = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+=-~`]).{8,20}";
                 validation = parameter.matches(passwordPattern);
             case "email":
+                String emailPattern = "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,3})$";
                 validation = parameter.matches(emailPattern);
             case "id":
+                String idPattern = "^[A-Za-z0-9].{1,20}";
                 validation = parameter.matches(idPattern);
             case "name":
+                String namePattern = ".[가-힣]{1,14}";
                 validation = parameter.matches(namePattern);
             case "phone":
+                String phonePattern = "\\d{10,11}";
                 validation = parameter.matches(phonePattern);
             case "tel":
+                String telPattern = "\\d{9,10}";
                 validation = parameter.matches(telPattern);
         }
         LOG.info("return : {}", validation);
@@ -241,8 +241,8 @@ public class CommonServiceImpl implements CommonService {
             sh.update(str.getBytes());
             byte byteData[] = sh.digest();
             StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < byteData.length; i++) {
-                sb.append(Integer.toString((byteData[i] & 0xff) + 0x100, 16).substring(1));
+            for (byte aByteData : byteData) {
+                sb.append(Integer.toString((aByteData & 0xff) + 0x100, 16).substring(1));
             }
             str = sb.toString();
         } catch (NoSuchAlgorithmException e) {
