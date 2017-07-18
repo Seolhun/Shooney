@@ -1,8 +1,8 @@
 package com.shun.blog.service.notice;
 
-import com.shun.blog.model.common.Paging;
 import com.shun.blog.model.notice.Notice;
 import com.shun.blog.repository.notice.NoticeRepository;
+import com.shun.blog.service.common.CommonService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,57 +17,54 @@ public class NoticeServiceImpl implements NoticeService {
     static final Logger LOG = LoggerFactory.getLogger(NoticeService.class);
 
     private NoticeRepository noticeRepository;
+    private CommonService commonService;
 
     @Autowired
-    public NoticeServiceImpl(NoticeRepository noticeRepository) {
-        this.noticeRepository = noticeRepository;
+    NoticeServiceImpl(NoticeRepository noticeRepository, CommonService commonService){
+        this.noticeRepository=noticeRepository;
+        this.commonService=commonService;
     }
 
     @Override
-    public void insert(Notice notice) throws Exception {
-        LOG.info("param : insert {}", notice.toString());
-        noticeRepository.insert(notice);
+    public void insertNotice(Notice notice) throws Exception {
+        notice.setDelFlag("Y");
+        notice.setCreatedBy(commonService.getAccessUserToModel().getNickname());
+        noticeRepository.insertNotice(notice);
     }
 
     @Override
-    public Notice selectById(Long id) throws Exception {
-        LOG.info("param : selectById {}", id);
-        Notice notice = noticeRepository.selectById(id);
+    public Notice selectNoticeById(Long noticeId) throws Exception {
+        Notice notice = noticeRepository.selectNoticeById(noticeId);
         return notice;
     }
 
     @Override
-    public int getCount(Paging paging) throws Exception {
-        LOG.info("param : selectList {}", paging.toString());
-        return noticeRepository.getCount(paging);
-    }
-
-    @Override
-    public List<Notice> selectList(Paging paging) throws Exception {
-        LOG.info("param : selectList {}", paging.toString());
-        return noticeRepository.selectList(paging);
-    }
-
-    @Override
-    public void update(Notice notice) throws Exception {
-        LOG.info("param : update {}", notice.toString());
-        Notice dbNotice = noticeRepository.selectById(notice.getId());
-        //읽을시 쿠키 읽기
-        if (dbNotice != null) {
+    public void updateNotice(Notice notice) throws Exception {
+        Notice dbNotice = noticeRepository.selectNoticeById(notice.getId());
+        try {
+            dbNotice.setId(notice.getId());
+            dbNotice.setUri(notice.getUri());
             dbNotice.setContent(notice.getContent());
-            dbNotice.setCreatedBy(notice.getCreatedBy());
-            dbNotice.setModifiedBy(notice.getModifiedBy());
+            dbNotice.setDelFlag(notice.getDelFlag());
+        } catch (NullPointerException e){
+            LOG.info("ERROR : NullPointException");
+            e.printStackTrace();
         }
+    }
 
-        if (notice.getDelFlag() != null && notice.getDelFlag().equals("Y")) {
+    @Override
+    public void deleteNotice(Notice notice) throws Exception {
+        Notice dbNotice = noticeRepository.selectNoticeById(notice.getId());
+        if (dbNotice.getDelFlag().equals("Y")) {
+            dbNotice.setDelFlag("N");
+        } else {
             dbNotice.setDelFlag("Y");
         }
     }
 
     @Override
-    public void deleteById(Long id) throws Exception {
-        LOG.info("param : deleteById {}", id);
-        Notice notice = noticeRepository.selectById(id);
-        noticeRepository.deleteById(id);
+    public List<Notice> findAllByAdmin(Notice notice) throws Exception {
+        List<Notice> noticeList = noticeRepository.findAllByAdmin(notice);
+        return noticeList;
     }
 }

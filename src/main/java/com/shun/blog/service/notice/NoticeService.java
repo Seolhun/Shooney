@@ -1,21 +1,18 @@
 package com.shun.blog.service.notice;
 
-import com.shun.blog.model.common.Paging;
 import com.shun.blog.model.notice.Notice;
 
 import java.util.List;
 
 public interface NoticeService {
 
-	Notice selectById(Long id) throws Exception;
+	void insertNotice(Notice notice) throws Exception;
 
-	void insert(Notice notice) throws Exception;
+	Notice selectNoticeById(Long noticeId) throws Exception;
 
-	void update(Notice notice) throws Exception;
+	void updateNotice(Notice notice) throws Exception;
 
-	void deleteById(Long id) throws Exception;
+	void deleteNotice(Notice notice) throws Exception;
 
-	List<Notice> selectList(Paging paging) throws Exception;
-	
-	int getCount(Paging paging) throws Exception;
+	List<Notice> findAllByAdmin(Notice notice) throws Exception;
 }

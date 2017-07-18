@@ -32,21 +32,21 @@ public class MenuRepositoryImpl extends AbstractRepository<Long, Menu> implement
 	@Override
 	public List<Menu> findAllMenu(Menu menu) throws Exception {
 		LOG.info("param : findAllMenu {}", menu.toString());
-		int menuDepth=menu.getMenuDepth(); 
+		int menuDepth=menu.getMenuDepth();
 		String menuType=menu.getMenuType();
-		
+
 		Criteria criteria = createEntityCriteria();
 		criteria.add(Restrictions.eq("menuType", menuType));
 		criteria.add(Restrictions.eq("menuDepth", menuDepth));
 		criteria.add(Restrictions.eq("delFlag", "N"));
 		criteria.addOrder(Order.asc("menuOrder"));
 		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
-		
+
 		if(menuDepth==2){
 			criteria
 				.add(Restrictions.eq("menuParentId", menu.getMenuParentId()));
 		}
-		
+
 		List<Menu> menuList =criteria.list();
 		return menuList;
 	}

@@ -6,14 +6,9 @@ import com.shun.blog.model.notice.Notice;
 import java.util.List;
 
 public interface NoticeRepository {
-	void insert(Notice notice);
+	void insertNotice(Notice notice) throws Exception;
 
-	Notice selectById(Long id) throws Exception;
-	
-	List<Notice> selectList(Paging paging) throws Exception;
+	Notice selectNoticeById(Long noticeId) throws Exception;
 
-	int getCount(Paging paging) throws Exception;
-
-	void deleteById(Long id);
-
+	List<Notice> findAllByAdmin(Notice notice) throws Exception;
 }

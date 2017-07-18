@@ -14,7 +14,7 @@
 				</div>
 				<sec:authorize access="hasRole('SUPERADMIN')">
 					<div class="col-sm-12 text-right">
-				 		<button class="btn-u btn-u-dark-blue" onclick="MenuService.menuInsertForm()">Add New Notice</button>
+				 		<button class="btn-u btn-u-dark-blue" onclick="NoticeService.noticeInsertForm()">Add New Notice</button>
 					</div>
 			 	</sec:authorize>
 			</div>
@@ -39,24 +39,23 @@
 		    		<tbody>
 					<c:forEach items="${notices }" var="notice">
 						<tr class="text-center">
-                            <td id="noticeId">${notice.id}</td>
-							<td id="noticeUri">${notice.uri}</td>
-							<td id="noticeContent">${notice.content}</td>
-                            <td id="noticeState">${notice.delFlag}</td>
+                            <td id="noticeId${notice.id}">${notice.id}</td>
+							<td id="noticeUri${notice.id}">${notice.uri}</td>
+							<td id="noticeContent${notice.id}">${notice.content}</td>
+                            <td id="noticeState${notice.id}">${notice.delFlag}</td>
                             <td>
-                                <button class="btn btn-default custom-width rounded" onclick="MenuService.menuUpdateForm(${notice.id})">Edit
-                                </button>
+                                <button class="btn btn-default custom-width rounded" onclick="NoticeService.noticeUpdateForm(${notice.id})">Edit</button>
                             </td>
                             <c:choose>
                                 <c:when test="${notice.delFlag.equals('N')}">
                                     <td>
-                                        <button class="btn-u btn-u-red rounded" onclick="MenuService.menuDelete(${notice.id})">Delete
+                                        <button class="btn-u btn-u-red rounded" onclick="NoticeService.menuDelete(${notice.id})">Delete
                                         </button>
                                     </td>
                                 </c:when>
                                 <c:otherwise>
                                     <td>
-                                        <button class="btn-u btn-u-dark-blue rounded" onclick="MenuService.menuDelete(${notice.id})">Active
+                                        <button class="btn-u btn-u-dark-blue rounded" onclick="NoticeService.menuDelete(${notice.id})">Active
                                         </button>
                                     </td>
                                 </c:otherwise>
@@ -71,4 +70,4 @@
     <%@ include file="/WEB-INF/views/admin/notice/modal/admin-notice-modal.jsp"%>
 </tag:admin-layout>
 <!-- Custom & Functional JS -->
-<script type="text/javascript" src="${resources}/js/menu/menu-module.js"></script>
+<script type="text/javascript" src="${resources}/js/notice/notice-module.js"></script>
