@@ -1,4 +1,4 @@
-//package com.imedisyn.brain.test;
+//package com.shooney.test;
 //
 //import static org.hamcrest.CoreMatchers.instanceOf;
 //import static org.hamcrest.CoreMatchers.is;
