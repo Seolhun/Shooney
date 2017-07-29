@@ -19,6 +19,8 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
 		<mysql.version>5.1.31</mysql.version>
+
+		<start-class>com.shun.blog.config.AppConfig</start-class>
 	</properties>
 
 	<dependencies>
