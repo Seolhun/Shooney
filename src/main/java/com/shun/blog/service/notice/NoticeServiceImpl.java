@@ -27,15 +27,21 @@ public class NoticeServiceImpl implements NoticeService {
 
     @Override
     public void insertNotice(Notice notice) throws Exception {
+        LOG.info("param : insertNotice : {}", notice.toString());
         notice.setDelFlag("Y");
         notice.setCreatedBy(commonService.getAccessUserToModel().getNickname());
         noticeRepository.insertNotice(notice);
     }
 
     @Override
-    public Notice selectNoticeById(Long noticeId) throws Exception {
-        Notice notice = noticeRepository.selectNoticeById(noticeId);
-        return notice;
+    public Notice selectNoticeById(Long noticeId) {
+        return noticeRepository.selectNoticeById(noticeId);
+    }
+
+    @Override
+    public List<Notice> selectNoticeByURI(String uri) {
+        LOG.info("param : current uri {}", uri);
+        return noticeRepository.selectNoticeByURI(uri);
     }
 
     @Override
@@ -63,8 +69,8 @@ public class NoticeServiceImpl implements NoticeService {
     }
 
     @Override
-    public List<Notice> findAllByAdmin(Notice notice) throws Exception {
-        List<Notice> noticeList = noticeRepository.findAllByAdmin(notice);
-        return noticeList;
+    public List<Notice> findAllByAdmin(Notice notice) {
+        LOG.info("param : findAllByAdmin {}", notice.toString());
+        return noticeRepository.findAllByAdmin(notice);
     }
 }

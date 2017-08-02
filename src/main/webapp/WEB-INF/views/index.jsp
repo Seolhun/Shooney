@@ -166,9 +166,13 @@
 	<!--=== End Call To Action ===-->
 
 	<div class="container">
-		<div class="content-lg">
-			공지사항 나열하기
-		</div>
+        <div class="row">
+		    <c:forEach items="${notices}" var="notice">
+                <div class="col-sm-12 margin-top-10 margin-bottom-10">
+                    ${notice.content}
+                </div>
+    		</c:forEach>
+        </div>
 	</div>
 
 	<!--=== Carallax Counter v1 ===-->

@@ -4,6 +4,7 @@ import com.shun.blog.model.notice.Notice;
 import com.shun.blog.repository.AbstractRepository;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -12,11 +13,10 @@ import java.util.List;
 
 @Repository
 public class NoticeRepositoryImpl extends AbstractRepository<Long, Notice> implements NoticeRepository {
-	static final Logger LOG = LoggerFactory.getLogger(NoticeRepositoryImpl.class);
+	private static final Logger LOG = LoggerFactory.getLogger(NoticeRepositoryImpl.class);
 
 	@Override
 	public void insertNotice(Notice notice) throws Exception {
-		LOG.info("param : insertNotice {}", notice.toString());
 		persist(notice);
 	}
 
@@ -27,14 +27,22 @@ public class NoticeRepositoryImpl extends AbstractRepository<Long, Notice> imple
 		return notice;
 	}
 
-	@SuppressWarnings("unchecked")
+    @SuppressWarnings("unchecked")
 	@Override
-	public List<Notice> findAllByAdmin(Notice notice) throws Exception {
-		LOG.info("param : findAllByAdmin {}", notice.toString());
+	public List<Notice> selectNoticeByURI(String uri) {
+        Criteria criteria = createEntityCriteria();
+        criteria.add(Restrictions.eq("uri", uri));
+        criteria.add(Restrictions.eq("delFlag", "N"));
+        criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+		return criteria.list();
+	}
+
+    @SuppressWarnings("unchecked")
+	@Override
+	public List<Notice> findAllByAdmin(Notice notice) {
 		Criteria criteria = createEntityCriteria();
 		criteria.addOrder(Order.asc("id"));
 		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
-		List<Notice> noticeList =criteria.list();
-		return noticeList;
+		return criteria.list();
 	}
 }

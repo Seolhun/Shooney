@@ -2,9 +2,11 @@ package com.shun.blog.controller.home;
 
 import com.shun.blog.model.log.AccessLog;
 import com.shun.blog.model.menu.Menu;
+import com.shun.blog.model.notice.Notice;
 import com.shun.blog.service.common.CommonService;
 import com.shun.blog.service.log.AccessLogService;
 import com.shun.blog.service.menu.MenuService;
+import com.shun.blog.service.notice.NoticeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,15 +27,17 @@ public class HomeController {
 	private MenuService menuService;
 	private CommonService commonService;
 	private AccessLogService accessLogService;
-	
-	@Autowired	
-	public HomeController(MenuService menuService, CommonService commonService, AccessLogService accessLogService){
-		this.menuService=menuService;
-		this.commonService=commonService;
-		this.accessLogService=accessLogService;
-	}
-	
-	@RequestMapping(value = {"", "/"}, method = RequestMethod.GET)
+	private NoticeService noticeService;
+
+    @Autowired
+    public HomeController(MenuService menuService, CommonService commonService, AccessLogService accessLogService, NoticeService noticeService) {
+        this.menuService = menuService;
+        this.commonService = commonService;
+        this.accessLogService = accessLogService;
+        this.noticeService = noticeService;
+    }
+
+    @RequestMapping(value = {"", "/"}, method = RequestMethod.GET)
 	public String main(HttpServletRequest request, Model model) throws Exception {
 		Menu menu=commonService.setMenuConfig(request);
 		List<Menu> menuList=menuService.findAllMenu(menu, menu.getMenuType());
@@ -54,10 +58,11 @@ public class HomeController {
 		historys.put("today", today);
 		historys.put("total", total);
 
-
 		//Home Notice Select.
+		String currentUri = request.getRequestURI();
+		List<Notice> notices = noticeService.selectNoticeByURI(currentUri);
 
-
+		model.addAttribute("notices", notices);
 		model.addAttribute("historys", historys);
 		model.addAttribute("menuList", menuList);
 		return "index";

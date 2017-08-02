@@ -11,20 +11,20 @@
 				<div class="row margin-bottom-10">
 					<div class="col-sm-12">
 						<div class="margin-bottom-10">URI.
-							<input type="text" class="form-control" id="noticeUri">
+							<input class="form-control" id="noticeUri">
 						</div>
 						<div class="margin-bottom-10">Content.
-							<textarea type="text" class="form-control noticeContent" id="noticeContent"></textarea>
+							<textarea class="form-control noticeContent" id="noticeContent"></textarea>
 						</div>
 						<div class="margin-bottom-10">State.
-							<input type="text" class="form-control" id="noticeState">
+							<input class="form-control" id="noticeState">
 						</div>
 					</div>
 				</div>
 			</div>
 			
 			<div class="modal-footer text-center">
-				<button type="button" class="btn-u btn-u-dark-blue width-30" onclick="NoticeService.noticeUpdate()">Update</button>
+				<button type="button" class="btn-u btn-u-dark-blue width-30" onclick="NoticeService.noticeInsert()">Insert</button>
 				<button type="button" class="btn-u btn-u-default width-30" data-dismiss="modal">Close</button>
 			</div>
 		</div>
@@ -43,23 +43,23 @@
                 <div class="row margin-bottom-10">
                     <div class="col-sm-12">
 						<div class="margin-bottom-10">No.
-							<input type="text" class="form-control" id="noticeIdUpdate" readonly="readonly">
+							<input class="form-control" id="noticeIdUpdate" readonly>
 						</div>
 						<div class="margin-bottom-10">URI.
-							<input type="text" class="form-control" id="noticeUriUpdate">
+							<input class="form-control" id="noticeUriUpdate">
 						</div>
 						<div class="margin-bottom-10">Content.
-							<textarea type="text" class="form-control noticeContent" id="noticeContentUpdate"></textarea>
+							<textarea class="form-control noticeContent" id="noticeContentUpdate"></textarea>
 						</div>
 						<div class="margin-bottom-10">State.
-							<input type="text" class="form-control" id="noticeStateUpdate">
+							<input class="form-control" id="noticeStateUpdate">
 						</div>
                     </div>
                 </div>
             </div>
 
             <div class="modal-footer text-center">
-                <button type="button" class="btn-u btn-u-dark-blue width-30" onclick="NoticeService.noticeInsert()">Save</button>
+                <button type="button" class="btn-u btn-u-dark-blue width-30" onclick="NoticeService.noticeUpdate()">Update</button>
                 <button type="button" class="btn-u btn-u-default width-30" data-dismiss="modal">Close</button>
             </div>
         </div>

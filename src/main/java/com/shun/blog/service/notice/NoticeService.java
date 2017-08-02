@@ -8,11 +8,13 @@ public interface NoticeService {
 
 	void insertNotice(Notice notice) throws Exception;
 
-	Notice selectNoticeById(Long noticeId) throws Exception;
+	Notice selectNoticeById(Long noticeId);
+
+	List<Notice> selectNoticeByURI(String uri);
 
 	void updateNotice(Notice notice) throws Exception;
 
 	void deleteNotice(Notice notice) throws Exception;
 
-	List<Notice> findAllByAdmin(Notice notice) throws Exception;
+	List<Notice> findAllByAdmin(Notice notice);
 }

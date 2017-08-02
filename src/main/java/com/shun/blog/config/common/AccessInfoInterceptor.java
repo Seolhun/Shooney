@@ -1,11 +1,11 @@
 package com.shun.blog.config.common;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 public class AccessInfoInterceptor extends HandlerInterceptorAdapter {
 	private static final Logger LOG = LoggerFactory.getLogger(AccessInfoInterceptor.class);

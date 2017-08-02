@@ -8,7 +8,9 @@ import java.util.List;
 public interface NoticeRepository {
 	void insertNotice(Notice notice) throws Exception;
 
-	Notice selectNoticeById(Long noticeId) throws Exception;
+	Notice selectNoticeById(Long noticeId);
 
-	List<Notice> findAllByAdmin(Notice notice) throws Exception;
+	List<Notice> selectNoticeByURI(String uri);
+
+	List<Notice> findAllByAdmin(Notice notice);
 }
