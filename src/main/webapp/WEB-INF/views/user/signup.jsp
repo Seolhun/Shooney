@@ -10,36 +10,36 @@
 	<title>SomeThing New | Shooney Blog</title>
 	<!-- Meta -->
 	<meta charset="utf-8">
+	<meta http-equiv="Cache-Control" content="no-cache"/>
+	<meta http-equiv="Expires" content="0"/>
+	<meta http-equiv="Pragma" content="no-cache"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="description" content="Shooney Blog Login">
-	<meta id="csrfToken" name="csrfToken" content="${_csrf.token}" />
-	<meta id="csrfHeader" name="csrfHeader" content="${_csrf.headerName}" />
-	
-	<!-- Favicon -->
+	<meta name="keywords" content="Shooney, Blog, News, Music">
+	<meta name="description" content="Shooney's Blog">
+	<meta name="author" content="Shooney">
+	<meta id="csrfToken" name="csrfToken" content="${_csrf.token}"/>
+	<meta id="csrfHeader" name="csrfHeader" content="${_csrf.headerName}"/>
+
+	<title>SomeThing New | Shooney Blog</title>
+
 	<link rel="shortcut icon" href="${resources}/img/logo.jpeg" />
-	
+
 	<!-- Web Fonts -->
-	<link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans:400,300,700&amp;subset=cyrillic,latin">
-	
+	<link rel='stylesheet' type='text/css' href='//fonts.googleapis.com/css?family=Open+Sans:400,300,600&amp;subset=cyrillic,latin'>
+
 	<!-- CSS Global Compulsory -->
-	<link rel="stylesheet" href="${template}/plugins/bootstrap/css/bootstrap.min.css">
-	<link rel="stylesheet" href="${template}/css/style.css">
-	
-	<!-- CSS Implementing Plugins -->
-	<link rel="stylesheet" href="${template}/plugins/animate.css">
-	<link rel="stylesheet" href="${template}/plugins/line-icons/line-icons.css">
-	<link rel="stylesheet" href="${template}/plugins/font-awesome/css/font-awesome.min.css">
-	<link rel="stylesheet" href="${template}/plugins/brand-buttons/brand-buttons.css">
-	
-	<!-- CSS Page Style -->
-	<link rel="stylesheet" href="${template}/css/pages/page_log_reg_v4.css">
-	
+	<script type="text/javascript" src="${resources }/vendor/vuejs/vuejs.js"></script>
+	<script type="text/javascript" src="${webjars}/jquery/2.2.4/jquery.min.js" ></script>
+	<link rel="stylesheet" href="${webjars }/bootstrap/3.3.6/css/bootstrap.min.css">
+
 	<!-- CSS Default -->
 	<link rel="stylesheet" href="${resources}/css/app.css">
 	<link rel="stylesheet" href="${resources}/css/header.css">
-	
-	<!-- CSS Theme -->
-	<link rel="stylesheet" href="${template}/css/theme-colors/dark-blue.css" id="style_color">
+
+	<!-- Summernote CSS -->
+	<link href="${resources }/vendor/summer/summernote.css" rel="stylesheet">
 </head>
 <body>
 	<!--=== Content Part ===-->
@@ -177,24 +177,25 @@
 			<li><a href="#"><i class="icon-custom icon rounded-x icon-bg-dark-blue fa fa-google-plus"></i></a></li>
 		</ul>
 		<p class="copyright-space">
-			2016 &copy; All Rights Reserved. <a href="https://github.com/Seolhun/">https://github.com/Seolhun/</a>
+			2017 &copy; Shooney opened. <a href="https://github.com/Seolhun/">https://github.com/Seolhun/</a>
 		</p>
 	</div>
 	<!--=== End Sticky Footer ===-->
 
 	<!-- JS Global Compulsory -->
-	<script src="${template}/plugins/jquery/jquery.min.js"></script>
-	<script src="${template}/plugins/jquery/jquery-migrate.min.js"></script>
-	<script src="${template}/plugins/bootstrap/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="${webjars}/angular/1.6.3/angular.min.js"></script>
+	<script type="text/javascript" src="${webjars}/angular-sanitize/1.6.3/angular-sanitize.min.js"></script>
 
-	<!-- JS Implementing Plugins -->
-	<script src="${template}/plugins/back-to-top.js"></script>
-	<script src="${template}/plugins/backstretch/jquery.backstretch.min.js"></script>
-	
-	<!-- JS Page Level -->
-	<script src="${template}/js/app.js"></script>
-	
-	<!-- JS Customization -->
-	<script src="${resources}/js/user/user.js"></script>
+	<!-- Boostrap Library JS  -->
+	<script type="text/javascript" src="${webjars}/bootstrap/3.3.6/js/bootstrap.min.js" ></script>
+	<script type="text/javascript" src="${webjars}/bootstrap/3.3.6/js/tooltip.js"></script>
+
+	<!-- Smart Editor JS -->
+	<script type="text/javascript" src="${resources }/vendor/summer/summernote.js"></script>
+
+	<!-- Language JS -->
+	<script type="text/javascript" src="${resources}/vendor/i18next/i18next.min.js" ></script>
+	<script type="text/javascript" src="${resources }/js/common/common-lang.js"></script>
+	<script type="text/javascript" src="${resources }/js/common/common-function.js"></script>
 </body>
 </html>

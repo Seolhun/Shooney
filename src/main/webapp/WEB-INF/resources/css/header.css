@@ -1,126 +1,76 @@
-.alertPopOver {
-    width:100%;
-    height: auto;
-    min-width : 450px;
-    max-width : 450px;
-    
-    min-height: 100px;
-    max-height: 550px;
+* {
+    margin: 0;
+    padding: 0;
 }
 
-.message-div{
-	height: 34px; 
-	padding-top: 10px;	
+body {
+    font: 15px/1.3 'Open Sans', sans-serif;
+    color: #5e5b64;
+    text-align: center;
 }
 
-.popover-icon{
-	cursor: pointer;
-	
+a, a:visited {
+    outline: none;
+    color: #389dc1;
 }
 
-.moveMessageHref {
-	color : #a9a9a9;
+a:hover {
+    text-decoration: none;
 }
 
-.moveMessageHref:hover {
-	color : #337ab7;
+section, footer, header, aside, nav {
+    display: block;
 }
 
-.untilNotRead {
-	color : #337ab7;
+/*-------------------------
+    The menu
+--------------------------*/
+
+nav {
+    display: inline-block;
+    margin: 0px auto 15px;
+    background-color: #5597b4;
+    box-shadow: 0 1px 1px #ccc;
+    border-radius: 2px;
 }
 
-.untilNotRead:hover {
-	color : #5bc0de;
+nav a {
+    display: inline-block;
+    padding: 18px 30px;
+    color: #fff !important;
+    font-weight: bold;
+    font-size: 12px;
+    text-decoration: none !important;
+    line-height: 1;
+    text-transform: uppercase;
+    background-color: transparent;
+
+    -webkit-transition: background-color 0.25s;
+    -moz-transition: background-color 0.25s;
+    transition: background-color 0.25s;
 }
 
-.select {
-	height: 34px;
-	padding: 6px 12px;
-	font-size: 14px;
-	line-height: 1.42857143;
-	color: #555;
-	background-color: #fff;
-	background-image: none;
-	border: 1px solid #ccc;
+nav a:first-child {
+    border-radius: 2px 0 0 2px;
 }
 
-.input {
-	height: 34px;
-	padding: 6px 12px;
-	font-size: 14px;
-	line-height: 1.42857143;
-	color: #555;
-	background-color: #fff;
-	background-image: none;
-	border: 1px solid #ccc;
+nav a:last-child {
+    border-radius: 0 2px 2px 0;
 }
 
-.btn-u-dark-orange {
-	background-color: orange;
-	opacity: 0.6;
+nav.home .home,
+nav.projects .projects,
+nav.services .services,
+nav.contact .contact {
+    background-color: #000000;
 }
 
-.skill {
-	cursor: pointer;
-	margin-right: 5px;
-	margin-left: 5px;
-}
-
-.main-head {
-	text-align: center;
-	vertical-align: middle;
-}
-
-.main-head h1 {
-	margin-top: 20px;
-}
-
-.myprofile {
-	height: auto;
-	min-height: 500px;
-}
-
-.myprofile-ul {
-	text-align: left;
-}
-
-.myprofile-img {
-	height: 188px;
-	max-width: 100%;
-	position: relative;
-	transform: translateY(0%);
-}
-
-.attitude-img {
-	height: 456px;
-	max-width: 100%;
-	position: relative;
-	transform: translateY(0%);
-}
-
-#aboverow {
-	margin-top: 3px;
-}
-
-#abovenav {
-	font-size: 14px;
-	color: white;
-	background-color: #3c3c3c;
-	height: 30px;
-	width: 100%;
-}
-
-.head-a:link {
-	color: white;
-}
-
-/* visited link */
-.head-a:visited {
-	color: white;
-}
-
-/* mouse over link */
-.head-a:hover {
-	color: #71bf2c;
+p b {
+    color: #ffffff;
+    display: inline-block;
+    padding: 5px 10px;
+    background-color: #c4d7e0;
+    border-radius: 2px;
+    text-transform: uppercase;
+    font-size: 12px;
 }
