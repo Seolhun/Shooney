@@ -15,6 +15,9 @@
         </sourceRoots>
       </configuration>
     </facet>
+    <facet type="Python" name="Python">
+      <configuration sdkName="Python 3.6.1 virtualenv at ~/virtualenv/classico" />
+    </facet>
   </component>
   <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8">
     <output url="file://$MODULE_DIR$/target/classes" />
@@ -126,5 +129,6 @@
     <orderEntry type="library" name="Maven: org.webjars.bower:angular-animate:1.6.3" level="project" />
     <orderEntry type="library" name="Maven: org.webjars:bootstrap:3.3.6" level="project" />
     <orderEntry type="library" name="Maven: org.webjars:jquery:2.2.4" level="project" />
+    <orderEntry type="library" name="Python 3.6.1 virtualenv at ~/virtualenv/classico interpreter library" level="application" />
   </component>
 </module>

@@ -37,7 +37,16 @@ public class HomeController {
         this.noticeService = noticeService;
     }
 
-    @RequestMapping(value = {"", "/"}, method = RequestMethod.GET)
+	/**
+	 * Main string.
+	 *
+	 * @param request the request
+	 * @param model   the model
+	 * @return the string
+	 *
+	 * @throws Exception the exception
+	 */
+	@RequestMapping(value = {"", "/"}, method = RequestMethod.GET)
 	public String main(HttpServletRequest request, Model model) throws Exception {
 		Menu menu=commonService.setMenuConfig(request);
 		List<Menu> menuList=menuService.findAllMenu(menu, menu.getMenuType());
@@ -67,7 +76,16 @@ public class HomeController {
 		model.addAttribute("menuList", menuList);
 		return "index";
 	}
-	
+
+	/**
+	 * Success string.
+	 *
+	 * @param request the request
+	 * @param model   the model
+	 * @return the string
+	 *
+	 * @throws Exception the exception
+	 */
 	@RequestMapping(value = "/success", method = RequestMethod.GET)
 	public String success(HttpServletRequest request, Model model) throws Exception {
 		Menu menu=commonService.setMenuConfig(request);
@@ -77,7 +95,16 @@ public class HomeController {
 		LOG.info("where success");
 		return "result/success";
 	}
-	
+
+	/**
+	 * Deny string.
+	 *
+	 * @param request the request
+	 * @param model   the model
+	 * @return the string
+	 *
+	 * @throws Exception the exception
+	 */
 	@RequestMapping(value = "/deny", method = RequestMethod.GET)
 	public String deny(HttpServletRequest request, Model model) throws Exception {
 		Menu menu=commonService.setMenuConfig(request);
@@ -87,7 +114,16 @@ public class HomeController {
 		LOG.info("where deny");
 		return "result/deny";
 	}
-	
+
+	/**
+	 * My info profile string.
+	 *
+	 * @param request the request
+	 * @param model   the model
+	 * @return the string
+	 *
+	 * @throws Exception the exception
+	 */
 	@RequestMapping(value = "/myinfo/profile", method = RequestMethod.GET)
 	public String myInfoProfile(HttpServletRequest request, Model model) throws Exception {
 		Menu menu=commonService.setMenuConfig(request);
@@ -97,7 +133,16 @@ public class HomeController {
 		LOG.info("where myInfoProfile");
 		return "myinfo/profile";
 	}
-	
+
+	/**
+	 * My info attitude string.
+	 *
+	 * @param request the request
+	 * @param model   the model
+	 * @return the string
+	 *
+	 * @throws Exception the exception
+	 */
 	@RequestMapping(value = "/myinfo/attitude", method = RequestMethod.GET)
 	public String myInfoAttitude(HttpServletRequest request, Model model) throws Exception {
 		Menu menu=commonService.setMenuConfig(request);
@@ -107,7 +152,16 @@ public class HomeController {
 		LOG.info("where myInfoMission");
 		return "myinfo/attitude";
 	}
-	
+
+	/**
+	 * My info goal string.
+	 *
+	 * @param request the request
+	 * @param model   the model
+	 * @return the string
+	 *
+	 * @throws Exception the exception
+	 */
 	@RequestMapping(value = "/myinfo/goal", method = RequestMethod.GET)
 	public String myInfoGoal(HttpServletRequest request, Model model) throws Exception {
 		Menu menu=commonService.setMenuConfig(request);

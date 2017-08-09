@@ -27,47 +27,29 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="keywords" content="Shooney, Blog, News, Music">
+	<meta name="description" content="Shooney's Blog">
 	<meta name="author" content="Shooney">
-    <meta id="csrfToken" name="csrfToken" content="${_csrf.token}"/>
-    <meta id="csrfHeader" name="csrfHeader" content="${_csrf.headerName}"/>
+	<meta id="csrfToken" name="csrfToken" content="${_csrf.token}"/>
+	<meta id="csrfHeader" name="csrfHeader" content="${_csrf.headerName}"/>
 
 	<title>SomeThing New | Shooney Blog</title>
 
 	<link rel="shortcut icon" href="${resources}/img/logo.jpeg" />
-	
+
 	<!-- Web Fonts -->
 	<link rel='stylesheet' type='text/css' href='//fonts.googleapis.com/css?family=Open+Sans:400,300,600&amp;subset=cyrillic,latin'>
-	
-	<!-- CSS Global Compulsory -->
-	<script type="text/javascript" src="${webjars}/jquery/2.2.4/jquery.min.js"></script>
-	<link rel="stylesheet" href="${webjars }/bootstrap/3.3.6/css/bootstrap.min.css">
-	<link rel="stylesheet" href="${template}/css/style.css">
 
-	<!-- CSS Header and Footer -->
-	<link rel="stylesheet" href="${template}/css/headers/header-v6.css">
-	<link rel="stylesheet" href="${template}/css/footers/footer-v6.css">
-	
-	<!-- CSS Implementing Plugins -->
-	<link rel="stylesheet" href="${template}/plugins/animate.css">
-	<link rel="stylesheet" href="${template}/plugins/line-icons/line-icons.css">
-	<link rel="stylesheet" href="${template}/plugins/font-awesome/css/font-awesome.min.css">
-	<link rel="stylesheet" href="${template}/plugins/fancybox/source/jquery.fancybox.css">
-	<link rel="stylesheet" href="${template}/plugins/owl-carousel/owl-carousel/owl.carousel.css">
-	<link rel="stylesheet" href="${template}/plugins/master-slider/masterslider/style/masterslider.css">
-	<link rel='stylesheet' href="${template}/plugins/master-slider/masterslider/skins/black-2/style.css">
-	
-	<!-- CSS Pages Style -->
-	<link rel="stylesheet" href="${template}/css/pages/page_one.css">
-	
+	<!-- CSS Global Compulsory -->
+	<script type="text/javascript" src="${resources }/vendor/vuejs/vuejs.js"></script>
+	<script type="text/javascript" src="${webjars}/jquery/2.2.4/jquery.min.js" ></script>
+	<link rel="stylesheet" href="${webjars }/bootstrap/3.3.6/css/bootstrap.min.css">
+
 	<!-- CSS Default -->
 	<link rel="stylesheet" href="${resources}/css/app.css">
 	<link rel="stylesheet" href="${resources}/css/header.css">
-	<link rel="stylesheet" href="${resources}/css/hooney.css">
-	
-	<!-- CSS Theme -->
-	<link rel="stylesheet" href="${template}/css/theme-colors/dark-blue.css" id="style_color">
-	
-	<!-- CSS Customization -->
+
+	<!-- Summernote CSS -->
 	<link href="${resources }/vendor/summer/summernote.css" rel="stylesheet">
 </head>
 <body class="header-fixed header-fixed-space translation">
@@ -110,8 +92,9 @@
 					</div>
 				</div>
 			</div>
+
 			<!-- Navbar -->
-			<div class="navbar mega-menu" role="navigation">
+			<div class="navbar navbar-color" role="navigation">
 				<div class="container">
 					<!-- Brand and toggle get grouped for better mobile display -->
 					<div class="menu-container">
@@ -124,35 +107,9 @@
 
 						<!-- Navbar Brand -->
 						<div class="navbar-brand">
-							<a class="font-16" href="${shooney}">
-								<%-- <img class="shrink-logo" src="${resources}/img/logo.jpeg" alt="Logo"> --%>
-							</a>
+							<a class="font-16" href="${shooney}">Home</a>
 						</div>
 						<!-- ENd Navbar Brand -->
-						<!-- Header Inner Right -->
-						<div class="header-inner-right">
-							<ul class="menu-icons-list">
-								<li class="menu-icons">
-									<i class="menu-icons-style search search-close search-btn fa fa-search"></i>
-									<div class="search-open">
-										<input type="text" class="animated fadeIn form-control" placeholder="Start searching ...">
-									</div>
-								</li>
-								<!-- 
-								<li class="menu-icons shopping-cart">
-									<i class="menu-icons-style radius-x fa fa-shopping-cart"></i>
-									<span class="badge">0</span>
-									<div class="shopping-cart-open">
-										<span class="shc-title">No products in the Cart</span>
-										<button type="button" class="btn-u"><i class="fa fa-shopping-cart"></i> Cart</button>
-										<span class="shc-total">Total: <strong>$0.00</strong></span>
-									</div>
-								</li>
-								 -->
-							</ul>
-							
-						</div>
-						<!-- End Header Inner Right -->
 					</div>
 
 					<!-- Collect the nav links, forms, and other content for toggling -->
@@ -308,45 +265,22 @@
 		</div>
 			<!--=== End Footer v6 ===-->
 	</div><!--/wrapper-->
-		<!-- JS Global Compulsory -->
-		<script type="text/javascript" src="${template}/plugins/jquery/jquery-migrate.min.js"></script>
-		<script type="text/javascript" src="${webjars}/angular/1.6.3/angular.min.js"></script>
-		<script type="text/javascript" src="${webjars}/angular-sanitize/1.6.3/angular-sanitize.min.js"></script>
-		
-		<!-- Boostrap Library JS  -->
-		<script type="text/javascript" src="${webjars}/bootstrap/3.3.6/js/bootstrap.min.js" ></script>
-		<script type="text/javascript" src="${webjars}/bootstrap/3.3.6/js/tooltip.js"></script>
-		<script type="text/javascript" src="${resources}/vendor/bootstrap/bootstrap-confirmation.min.js"></script>
 
-		<!-- Custom & Functional JS -->
-		<script type="text/javascript" src="${resources }/vendor/summer/summernote.js"></script>
+	<!-- JS Global Compulsory -->
+	<script type="text/javascript" src="${webjars}/angular/1.6.3/angular.min.js"></script>
+	<script type="text/javascript" src="${webjars}/angular-sanitize/1.6.3/angular-sanitize.min.js"></script>
 
-		<!-- Common Function JS -->
-		<!-- Language JS -->
-		<script type="text/javascript" src="${resources}/vendor/i18next/i18next.min.js" ></script>
-		<script type="text/javascript" src="${resources }/js/common/common-lang.js"></script>		
-		<script type="text/javascript" src="${resources }/js/common/common-function.js"></script>
-		
-		<!-- For Slide Js -->
-		<script type="text/javascript" src="${template}/plugins/master-slider/masterslider/jquery.easing.min.js"></script>
-		<script type="text/javascript" src="${template}/plugins/master-slider/masterslider/masterslider.min.js"></script>
-		<script type="text/javascript" src="${template}/js/plugins/master-slider-fw.js"></script>
-		<script type="text/javascript" src="${template}/plugins/counter/waypoints.min.js"></script>
-		<script type="text/javascript" src="${template}/js/plugins/fancy-box.js"></script>
-		<script type="text/javascript" src="${template}/plugins/fancybox/source/jquery.fancybox.pack.js"></script>
-		
-		<!-- JS Implementing Plugins -->
-		<script type="text/javascript" src="${template}/plugins/counter/jquery.counterup.min.js"></script>
-		
-		<!-- JS Page Level -->
-		<script type="text/javascript" src="${template}/js/app.js"></script>
-		<script type="text/javascript">
-			jQuery(document).ready(function() {
-				App.init();
-				App.initCounter();
-				FancyBox.initFancybox();
-				MSfullWidth.initMSfullWidth();
-			});
-		</script>
+	<!-- Boostrap Library JS  -->
+	<script type="text/javascript" src="${webjars}/bootstrap/3.3.6/js/bootstrap.min.js" ></script>
+	<script type="text/javascript" src="${webjars}/bootstrap/3.3.6/js/tooltip.js"></script>
+
+	<!-- Smart Editor JS -->
+	<script type="text/javascript" src="${resources }/vendor/summer/summernote.js"></script>
+
+	<!-- Common Function JS -->
+	<!-- Language JS -->
+	<script type="text/javascript" src="${resources}/vendor/i18next/i18next.min.js" ></script>
+	<script type="text/javascript" src="${resources }/js/common/common-lang.js"></script>
+	<script type="text/javascript" src="${resources }/js/common/common-function.js"></script>
 </body>
 </html>
