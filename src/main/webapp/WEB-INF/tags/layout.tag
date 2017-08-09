@@ -41,15 +41,20 @@
 	
 	<!-- Web Fonts -->
 	<link rel='stylesheet' type='text/css' href='//fonts.googleapis.com/css?family=Open+Sans:400,300,600&amp;subset=cyrillic,latin'>
-	
-	<!-- CSS Global Compulsory -->
+
+	<%-- Vue JS--%>
 	<script type="text/javascript" src="${resources }/vendor/vuejs/vuejs.js"></script>
+	<script type="text/javascript" src="${resources }/vendor/vuejs/vue-resource.js"></script>
+	<%-- jQuery --%>
 	<script type="text/javascript" src="${webjars}/jquery/2.2.4/jquery.min.js" ></script>
+	<%-- BootStrap --%>
 	<link rel="stylesheet" href="${webjars }/bootstrap/3.3.6/css/bootstrap.min.css">
 
 	<!-- CSS Default -->
 	<link rel="stylesheet" href="${resources}/css/app.css">
 	<link rel="stylesheet" href="${resources}/css/header.css">
+	<link rel="stylesheet" href="${resources}/css/footer.css">
+	<link rel="stylesheet" href="${resources}/css/search.css">
 
 	<!-- Summernote CSS -->
 	<link href="${resources }/vendor/summer/summernote.css" rel="stylesheet">
@@ -96,137 +101,96 @@
 				</div>
 			</div>
 
-			<div id="main" class="text-left">
-				<nav v-bind:class="active" v-on:click.prevent class="width-100">
-
-					<!-- When a link in the menu is clicked, we call the makeActive method,
-                    defined in the JavaScript Vue instance. It will change the value of "active". -->
-
-					<a href="#" class="home" v-on:click="makeActive('home')">Home</a>
-					<a href="#" class="projects" v-on:click="makeActive('projects')">Projects</a>
-					<a href="#" class="services" v-on:click="makeActive('services')">Services</a>
-					<a href="#" class="contact" v-on:click="makeActive('contact')">Contact</a>
-				</nav>
-
-				<!-- The mustache expression will be replaced with the value of "active".
-                     It will automatically update to reflect any changes. -->
-
-				<p><b>{{active}}</b></p>
-			</div>
-
 			<!-- Navbar -->
 			<div class="navbar navbar-color" role="navigation">
 				<div class="container">
-					<!-- Brand and toggle get grouped for better mobile display -->
 					<div class="menu-container">
-						<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
-							<span class="sr-only">Toggle navigation</span>
-							<span class="icon-bar"></span>
-							<span class="icon-bar"></span>
-							<span class="icon-bar"></span>
-						</button>
-
-						<!-- Navbar Brand -->
-						<div class="navbar-brand">
-							<a class="font-16" href="${shooney}">
-								<%-- <img class="shrink-logo" src="${resources}/img/logo.jpeg" alt="Logo"> --%>
-							</a>
-						</div>
-						<!-- ENd Navbar Brand -->
+						<ul class="nav navbar-nav">
+							<c:forEach items="${menuList }" var="menu">
+								<c:choose>
+									<c:when test="${menu.menuUrl==null}">
+										<li class="dropdown">
+											<a href="javascript:void(0);" class="dropdown-toggle"  data-toggle="dropdown">
+												${menu.menuName}
+											</a>
+											<ul class="dropdown-menu">
+												<c:forEach items="${menu.submenuList}" var="submenu" varStatus="status">
+													<li <c:if test="${status.first }">class="active" </c:if>>
+														<a href="${shooney}${submenu.menuUrl}" class="dropdown-toggle">${submenu.menuName}</a>
+													</li>
+												</c:forEach>
+											</ul>
+										</li>
+									</c:when>
+									<c:otherwise>
+										<li><a href="${shooney}${menu.menuUrl}" class="dropdown-toggle">${menu.menuName}</a></li>
+									</c:otherwise>
+								</c:choose>
+							</c:forEach>
+						</ul>
 					</div>
-
-					<!-- Collect the nav links, forms, and other content for toggling -->
-					<div class="collapse navbar-collapse navbar-responsive-collapse">
-						<div class="menu-container">
-							<ul class="nav navbar-nav">
-								<c:forEach items="${menuList }" var="menu">
-									<c:choose>
-										<c:when test="${menu.menuUrl==null}">
-											<li class="dropdown">
-												<a href="javascript:void(0);" class="dropdown-toggle"  data-toggle="dropdown">
-													${menu.menuName}
-												</a>
-												<ul class="dropdown-menu">
-											 		<c:forEach items="${menu.submenuList}" var="submenu" varStatus="status">
-										 				<li <c:if test="${status.first }">class="active" </c:if>>
-										 					<a href="${shooney}${submenu.menuUrl}" class="dropdown-toggle">${submenu.menuName}</a>
-										 				</li>
-										 			</c:forEach>
-					 							</ul>
-					 						</li>
-										</c:when>
-										<c:otherwise>
-											<li><a href="${shooney}${menu.menuUrl}" class="dropdown-toggle">${menu.menuName}</a></li>
-										</c:otherwise>
-									</c:choose>
-						 		</c:forEach>
-							</ul>
-						</div>
-					</div><!--/navbar-collapse-->
 				</div>
 			</div>
 			<!-- End Navbar -->
 		</div>
 		<!--=== End Header v6 ===-->
 
+		<%--------------JSP INNER BODY START--------------%>
 		<jsp:doBody/>
-			
+		<%--------------JSP INNER BODY END--------------%>
+
 		<!--=== Footer v6 ===-->
-		<div id="footer-v6" class="footer-v6">
-			<div class="footer">
-				<div class="container">
-					<div class="row">
-						<!-- About Us -->
-						<div class="col-md-4">
-							<div class="heading-footer">
-								<h2>About Hi-Cord</h2>
-							</div>
-							<p data-lang="commons:footer.s1">
-								
-							</p>
+		<div id="footer" class="footer-v1">
+			<div class="container">
+				<div class="row">
+					<!-- About Us -->
+					<div class="col-md-4">
+						<div class="heading-footer">
+							<h2>About Hi-Cord</h2>
 						</div>
-						<!-- End About Us -->
+						<p data-lang="commons:footer.s1">
 
-						<!-- Contacts -->
-						<div class="col-md-8">
-							<div class="heading-footer"><h2>Contacts</h2></div>
-							<div class="col-sm-4">
-								<ul class="list-unstyled contacts">
-									<li>
-										<i class="radius-3x fa fa-map-marker"></i>
-										Korea<br>
-										Yeonsugoo, Incheon 
-									</li>
-								</ul>
-							</div>
-							<div class="col-sm-4">
-								<ul class="list-unstyled contacts">
-									<li>
-										<i class="radius-3x fa fa-phone"></i>
-										(+82)11 2902 4829<br>
-										(+82)11 2902 4829
-									</li>
-								</ul>
-							</div>
-							<div class="col-sm-4">
-								<ul class="list-unstyled contacts">
-									<li>
-										<i class="radius-3x fa fa-globe"></i>
-										<a href="mailto:shun10114@gmail.com">shun10114@gmail.com</a><br>
-										<a href="https://www.hi-cord.com">www.hi-cord.com</a>
-									</li>
-								</ul>
-							</div>
-						</div>
-						<!-- End Contacts -->
+						</p>
 					</div>
-				</div><!--/container -->
-			</div>
+					<!-- End About Us -->
 
-			<div class="copyright">
-				<div class="container">
+					<!-- Contacts -->
+					<div class="col-md-8">
+						<div class="heading-footer"><h2>Contacts</h2></div>
+						<div class="col-sm-4">
+							<ul class="list-unstyled contacts">
+								<li>
+									<i class="radius-3x fa fa-map-marker"></i>
+									Korea<br>
+									Yeonsugoo, Incheon
+								</li>
+							</ul>
+						</div>
+						<div class="col-sm-4">
+							<ul class="list-unstyled contacts">
+								<li>
+									<i class="radius-3x fa fa-phone"></i>
+									(+82)11 2902 4829<br>
+									(+82)11 2902 4829
+								</li>
+							</ul>
+						</div>
+						<div class="col-sm-4">
+							<ul class="list-unstyled contacts">
+								<li>
+									<i class="radius-3x fa fa-globe"></i>
+									<a href="mailto:shun10114@gmail.com">shun10114@gmail.com</a><br>
+									<a href="https://www.hi-cord.com">www.hi-cord.com</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+					<!-- End Contacts -->
+				</div>
+
+				<div class="copyright">
 					<div class="row">
-						<div class="col-md-8 sm-margon-bottom-10">
+						<div class="col-sm-12 sm-margon-bottom-10">
 							<ul class="list-inline terms-menu">
 								<li class="silver">Copyright © 2016 - All Rights Reserved</li>
 								<li><a href="#">Terms of Use</a></li>
@@ -235,55 +199,10 @@
 								<li><a href="#">Support</a></li>
 							</ul>
 						</div>
-						<div class="col-md-4 ">
-							<ul class="list-inline dark-social pull-right space-bottom-0">
-								<li>
-									<a data-placement="top" data-toggle="tooltip" class="tooltips" data-original-title="Facebook" href="https://facebook.com" target="_blank">
-										<i class="fa fa-facebook"></i>
-									</a>
-								</li>
-								<li>
-									<a data-placement="top" data-toggle="tooltip" class="tooltips" data-original-title="Twitter" href="https://twitter.com" target="_blank">
-										<i class="fa fa-twitter"></i>
-									</a>
-								</li>
-								<li>
-									<a data-placement="top" data-toggle="tooltip" class="tooltips" data-original-title="Vine" href="https://vine.co/" target="_blank">
-										<i class="fa fa-vine"></i>
-									</a>
-								</li>
-								<li>
-									<a data-placement="top" data-toggle="tooltip" class="tooltips" data-original-title="Google plus" href="https://plus.google.com/" target="_blank">
-										<i class="fa fa-google-plus"></i>
-									</a>
-								</li>
-								<li>
-									<a data-placement="top" data-toggle="tooltip" class="tooltips" data-original-title="Pinterest" href="https://www.pinterest.com/" target="_blank">
-										<i class="fa fa-pinterest"></i>
-									</a>
-								</li>
-								<li>
-									<a data-placement="top" data-toggle="tooltip" class="tooltips" data-original-title="Instagram" href="https://www.instagram.com/" target="_blank">
-										<i class="fa fa-instagram"></i>
-									</a>
-								</li>
-								<li>
-									<a data-placement="top" data-toggle="tooltip" class="tooltips" data-original-title="Tumblr" href="https://www.tumblr.com/" target="_blank">
-										<i class="fa fa-tumblr"></i>
-									</a>
-								</li>
-								<li>
-									<a data-placement="top" data-toggle="tooltip" class="tooltips" data-original-title="Youtube" href="https://www.youtube.com/" target="_blank">
-										<i class="fa fa-youtube"></i>
-									</a>
-								</li>
-							</ul>
-						</div>
 					</div>
 				</div>
-			</div>
+			</div><!--/container -->
 		</div>
-			<!--=== End Footer v6 ===-->
 	</div><!--/wrapper-->
 
 	<!-- JS Global Compulsory -->

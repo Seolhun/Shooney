@@ -40,9 +40,12 @@
 	<!-- Web Fonts -->
 	<link rel='stylesheet' type='text/css' href='//fonts.googleapis.com/css?family=Open+Sans:400,300,600&amp;subset=cyrillic,latin'>
 
-	<!-- CSS Global Compulsory -->
+	<%-- Vue JS--%>
+	<script src="https://cdn.jsdelivr.net/vue.resource/0.9.3/vue-resource.min.js"></script>
 	<script type="text/javascript" src="${resources }/vendor/vuejs/vuejs.js"></script>
+	<%-- jQuery --%>
 	<script type="text/javascript" src="${webjars}/jquery/2.2.4/jquery.min.js" ></script>
+	<%-- BootStrap --%>
 	<link rel="stylesheet" href="${webjars }/bootstrap/3.3.6/css/bootstrap.min.css">
 
 	<!-- CSS Default -->
