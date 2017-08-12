@@ -477,9 +477,19 @@ h3.heading-xs {
 .form-control {
     box-shadow: none;
     border-radius: 0;
+    height: 34px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    display: inline-block;
 }
 
 .form-control2 {
+    display: inline-block;
     box-shadow: none;
     border-radius: 0;
     height: 34px;
@@ -613,6 +623,20 @@ h3.heading-xs {
 .btn-u.btn-u-red:hover, .btn-u.btn-u-red:focus, .btn-u.btn-u-red:active,
 .btn-u.btn-u-red.active, .open .dropdown-toggle.btn-u.btn-u-red {
     background: #a72e06;
+}
+
+.btn-u.btn-u-ocean {
+    background: #0080ff;
+}
+
+.btn-u.btn-u-ocean:disabled {
+    cursor: not-allowed;
+    background: #dddddd;
+}
+
+.btn-u.btn-u-ocean:hover, .btn-u.btn-u-ocean:focus, .btn-u.btn-u-ocean:active,
+.btn-u.btn-u-ocean.active, .open .dropdown-toggle.btn-u.btn-u-ocean {
+    background: #003aff;
 }
 
 .btn-u.btn-u-pink {
@@ -1024,6 +1048,20 @@ h3.heading-xs {
 
 .btn-u.btn-brd.btn-u-blue.btn-brd-hover:hover {
     background: #2980b9;
+}
+
+.btn-u.btn-brd.btn-u-ocean {
+    border-color: #0080ff;
+}
+
+.btn-u.btn-brd.btn-u-ocean:hover {
+    color: #0073ff;
+    border-color: #0073ff;
+    color: #ffffff;
+}
+
+.btn-u.btn-brd.btn-u-ocean.btn-brd-hover:hover {
+    background: #003aff;
 }
 
 .btn-u.btn-brd.btn-u-red {
@@ -2799,6 +2837,14 @@ img.image-md {
     margin-right: 100px;
 }
 
+.margin-xs {
+    margin: 20px 20px;
+}
+
+.margin-sm {
+    margin: 40px 40px;
+}
+
 .padding-xs {
     padding: 20px 20px;
 }
@@ -2891,16 +2937,12 @@ img.image-md {
     color: #18ba9b;
 }
 
-.bg-color-dark, .bg-color-darker, .bg-color-sea, .bg-color-red,
+.bg-color-ocean, .bg-color-dark, .bg-color-darker, .bg-color-sea, .bg-color-red,
 .bg-color-aqua, .bg-color-blue, .bg-color-grey, .bg-color-light,
 .bg-color-green, .bg-color-brown, .bg-color-orange, .bg-color-green1,
 .bg-color-purple, .bg-color-dark-blue, .bg-color-light-grey,
 .bg-color-light-green, .bg-color-primary {
     color: #337ab7;
-}
-
-.bg-color-white {
-    color: #555;
 }
 
 .bg-color-primary {
@@ -3408,4 +3450,51 @@ img.img-center, .img-center img {
 
 .box {
     padding: 10px;
+}
+
+/*-------------------------
+    Ocean CSS
+--------------------------*/
+
+.bg-color-ocean {
+    background-color: #0080ff !important;
+}
+
+.bg-color-ocean-g {
+    display: flex;
+    align-items: center;
+    padding-top: 64px;
+    padding-bottom: 64px;
+    background: linear-gradient(180deg, #66a5ff, #0069ff);
+}
+
+.ocean-title {
+    font-size: 20px;
+    font-weight: 600;
+    text-shadow: none;
+    font-weight: normal;
+    font-family: "Open Sans", Arial, sans-serif;
+    color: #ffffff;
+}
+
+.ocean-content {
+    font-size: 16px;
+    text-shadow: none;
+    font-weight: normal;
+    font-family: "Open Sans", Arial, sans-serif;
+    color: #ffffff;
+}
+
+.ocean-grid {
+    position: relative;
+    display: block;
+    padding: 15px 15px;
+    border: 1px solid #e0e0e0;
+    border-radius: 3px;
+    color: #333;
+}
+
+.ocean-grid:hover {
+    border-color: #0069ff;
+    color: #333;
 }

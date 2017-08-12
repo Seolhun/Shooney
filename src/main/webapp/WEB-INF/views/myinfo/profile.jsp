@@ -1,91 +1,88 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib prefix="tag" tagdir="/WEB-INF/tags"%>
-<spring:url value="/resources" var="resources" />
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="tag" tagdir="/WEB-INF/tags" %>
+<spring:url value="/resources" var="resources"/>
 <spring:url value="/resources/template" var="template"/>
 <spring:url value="/myinfo" var="myinfo"/>
 <spring:url value="/po" var="po"/>
 <tag:layout tab="${target}">
-<!--=== Call To Action ===-->
-<div class="call-action-v1 bg-color-light">
-	<div class="container">
-		<div class="call-action-v1-box">
-			<div class="call-action-v1-in main-head">
-				<h1>약력</h1>
-				<p>
-					안녕하세요. 설훈입니다.<br>
-					제 지난 날의 경험들과 기록을 여러분들에게 공유하고<br>
-					앞으로의 가능성 있는 기회를 여러분들과 함께 나누고자 합니다.
-				</p>
-			</div>
-		</div>
-	</div>
-</div>
-<!--=== End Call To Action ===-->
-<div class="container content-xs">
-		<div class="row">
-			<div class="col-sm-12">
-				<div class="row service-box-v1">
-					<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 no-margin-bottom">
-						<div class="service-block service-block-default">
-							<div class="">
-								<img alt="" src="${resources}/img/me.jpg" class="myprofile-img">
-							</div>
-						</div>
-						<div class="service-block service-block-default">
-							<div class="">
-								<img alt="" src="${resources}/img/me.jpg" class="myprofile-img">
-							</div>
-						</div>
-					</div>
-					
-					<div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-						<div class="service-block service-block-default myprofile">
-							<i class="icon-lg rounded-x icon icon-badge"></i>
-							<h2 class="heading-sm"><strong>History &amp; Profile</strong></h2>
-							<br>
-							<ul class="list-unstyled myprofile-ul">
-								<li>한국 지도자 육성 장학재단 41기</li>
-								<li>용인대학교 졸업(체육, 경영)</li>
-								<li>ROTC(학군단) 51기</li>
-								<li>설빙 1기 마케팅 공모전 장려상 수상</li>
-								<li>마이다스 아이티 사관학교 1기</li>
-								<li>(주)아이메디신 연구원</li>
-								<li>고려사이버대학교 소프트웨어 공학과 편입</li>
-							</ul>
-						</div>
-					</div>
-					<div class="col-sm-12">
-						<hr>
-					</div>
-					<div class="col-md-12 col-sm-12 col-xs-12">
-						<div class="service-block service-block-default no-margin-bottom">
-							<i class="icon-lg rounded-x icon-line icon-layers"></i>
-							<h2 class="heading-sm">Project &amp; Skill</h2>
-								<p>
-									<a class="skill">#Java</a><a class="skill">#Spring</a><a class="skill">#Hibernate</a>
-									<br>
-									<a class="skill">#Python</a><a class="skill">#Django</a><a class="skill">#Flask</a><a class="skill">#SQLAlchemy</a>
-									<br>
-									<a class="skill">#CentOS</a><a class="skill">#NginX</a><a class="skill">#Tomcat</a>
-									<br>
-									<a class="skill">#MariaDB</a><a class="skill">#MongoDB</a><a class="skill">#Redis</a><a class="skill">#Oracle</a>
-									<br>
-									<a class="skill">#Java Script</a><a class="skill">#Ajax</a><a class="skill">#JQuery</a><a class="skill">#AngularJS</a>
-									<br>
-									<a class="skill">#BootStrap</a><a class="skill">#Foundation</a>
-								</p>
-							<ul class="list-unstyled">
-								<li>Git Hub | <a href="https://github.com/Seolhun">https://github.com/Seolhun</a></li>
-								<li>T-Story | <a href="https://github.com/Seolhun">http://postitforhooney.tistory.com/</a></li>
-							</ul>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-   	</div>
+    <div class="bg-color-ocean-g">
+        <div class="container">
+            <div class="row">
+                <div class="ocean-title col-sm-12">
+                    <p>약력</p>
+                </div>
+                <div class="ocean-content col-sm-8">
+                    <p>
+                        안녕하세요. 설훈입니다.<br>
+                        제 지난 날의 경험들과 기록을 여러분들에게 공유하고<br>
+                        앞으로의 가능성 있는 기회를 여러분들과 함께 나누고자 합니다.
+                    </p>
+                </div>
+                <sec:authorize access="hasRole('SUPERADMIN')">
+                    <div class="col-sm-4">
+
+                    </div>
+                </sec:authorize>
+            </div>
+        </div>
+    </div>
+
+    <!--=== End Call To Action ===-->
+    <div class="container content-xs">
+        <div class="row">
+            <div class="col-sm-4">
+                <img src="${resources}/img/me/me.jpg" class="myprofile-img">
+            </div>
+
+            <div class="col-sm-8">
+                <div class="ocean-grid">
+                    <h2 class="heading-sm">History &amp; Profile</h2>
+                    <br>
+                    <ul class="list-unstyled myprofile-ul">
+                        <li>한국 지도자 육성 장학재단 41기</li>
+                        <li>용인대학교 졸업(체육, 경영)</li>
+                        <li>ROTC(학군단) 51기</li>
+                        <li>설빙 1기 마케팅 공모전 장려상 수상</li>
+                        <li>마이다스 아이티 사관학교 1기</li>
+                        <li>(주)아이메디신 연구원</li>
+                        <li>고려사이버대학교 소프트웨어 공학과 편입</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container content-xs">
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12 no-margin-bottom">
+                <div class="ocean-grid">
+                    <h2 class="heading-sm">Project &amp; Skill</h2>
+                    <p>
+                        <a class="skill">#Java</a><a class="skill">#Spring</a><a class="skill">#Hibernate</a>
+                        <br>
+                        <a class="skill">#Python</a><a class="skill">#Django</a><a class="skill">#Flask</a><a
+                            class="skill">#SQLAlchemy</a>
+                        <br>
+                        <a class="skill">#CentOS</a><a class="skill">#NginX</a><a class="skill">#Tomcat</a>
+                        <br>
+                        <a class="skill">#MariaDB</a><a class="skill">#MongoDB</a><a class="skill">#Redis</a><a
+                            class="skill">#Oracle</a>
+                        <br>
+                        <a class="skill">#Java Script</a><a class="skill">#Ajax</a><a
+                            class="skill">#JQuery</a><a class="skill">#AngularJS</a>
+                        <br>
+                        <a class="skill">#BootStrap</a><a class="skill">#Foundation</a>
+                    </p>
+                    <ul class="list-unstyled">
+                        <li>Git Hub | <a href="https://github.com/Seolhun">https://github.com/Seolhun</a></li>
+                        <li>T-Story | <a href="https://github.com/Seolhun">http://postitforhooney.tistory.com/</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
 </tag:layout>
