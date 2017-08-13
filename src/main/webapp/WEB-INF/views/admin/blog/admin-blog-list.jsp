@@ -8,27 +8,23 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <spring:url value="/blog" var="blo"/><spring:url value="/file" var="file"/><spring:url value="/resources" var="resources" /><spring:url value="/resources/template" var="template"/>
 <tag:admin-layout tab="${target}">
-	<div class="call-action-v1 bg-color-light">
-		<div class="container">
-			<div class="call-action-v1-box">
-				<div class="call-action-v1-in">
-                    <div class="row">
-                        <div class="col-sm-8">
-					        <p>Board Manager</p>
-                        </div>
-                        <sec:authorize access="hasRole('SUPERADMIN')">
-                            <div class="col-sm-4 text-right">
-                                <input type="text" name="name" class="input" placeholder="Insert Blog-Type Title"/>
-                                <button class="btn-u btn-u-green rounded" onclick="BlogTypeService.blogAdd()">저장</button>
-                            </div>
-                        </sec:authorize>
+    <div class="bg-color-ocean-g">
+        <div class="container">
+            <div class="row">
+                <div class="ocean-title col-sm-8">
+                    <p>Admin Board Manager</p>
+                </div>
+                <sec:authorize access="hasRole('SUPERADMIN')">
+                    <div class="col-sm-4 text-right">
+                        <input type="text" name="name" class="input" placeholder="Insert Blog-Type Title"/>
+                        <button class="btn-u btn-u-white rounded" onclick="BlogTypeService.blogAdd()">저장</button>
                     </div>
-				</div>
+                </sec:authorize>
+            </div>
+        </div>
+    </div>
 
-			</div>
-		</div>
-	</div>
-	<div class="container content-sm">
+	<div class="container content-xs">
         <div class="row">
             <div class="col-sm-12">
                 <a href="list" class="btn-u btn-brd btn-brd-hover btn-u-dark-blue rounded">All</a>

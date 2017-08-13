@@ -10,9 +10,6 @@
 	<div class="container content-xs">
 		<div class="row equal-height-columns">
 			<div class="col-md-12 col-sm-12 form-block equal-height-column">
-				<a href="${shooney}">
-					<img src="${template}/img/themes/logo1-dark-blue.png">
-				</a>
 				<c:choose>
 					<c:when test="${edit}">
 						<h2 class="margin-bottom-30">Modify account</h2>
@@ -24,13 +21,15 @@
 				
 				<form:form method="POST" modelAttribute="user" class="form-horizontal" >
 					<div class="reg-block">
-						<div>Email<br>
+						<div><b>Email</b><br>
 							<div class="error-blue">
 								<form:errors path="email" class="help-inline"/>
 							</div>
 						</div>
 						<div class="input-group margin-bottom-20">
-							<span class="input-group-addon rounded-left"><i class="icon-envelope color-green"></i></span>
+							<span class="input-group-addon rounded-left">
+                                <i class="glyphicon glyphicon-envelope color-ocean"></i>
+                            </span>
 							<c:choose>
 								<c:when test="${edit}">
 									<form:input path="id" value="${user.id }" type="hidden"/>
@@ -42,14 +41,16 @@
 							</c:choose>
 						</div>
 						
-						<div>Nickname<br>
+						<div><b>Nickname</b><br>
 							<div class="error-blue">
 								<form:errors path="nickname" class="help-inline"/>
 							</div>
 						</div>
 						
 						<div class="input-group margin-bottom-20">
-							<span class="input-group-addon rounded-left"><i class="icon-user color-green"></i></span>
+							<span class="input-group-addon rounded-left">
+                                <i class="glyphicon glyphicon-user color-ocean"></i>
+                            </span>
 							<c:choose>
 								<c:when test="${edit}">
 									<form:input class="form-control rounded-right" path="nickname" value="${user.nickname }"  name="nickname" type="text" placeholder="NickName" readonly="true"/>
@@ -66,27 +67,26 @@
 									<form:errors path="userProfiles" class="help-inline"/>
 								</div>
 							</div>
-							<div class="input-group margin-bottom-30">
+							<div class="input-group margin-bottom-10">
 								<span class="input-group-addon rounded-left"><i class="icon-lock color-green"></i></span>
 								<form:select path="userProfiles" items="${roles}" multiple="true" itemValue="id" itemLabel="type" class="form-control input-sm" />
 							</div>
+
+                            <h2>Option</h2>
 						</c:if>
-						<c:if test="${edit }">
-							<hr>
-							<h2>Option</h2>
-						</c:if>
-						<div>Password<br>
+
+						<div><b>Password</b><br>
 							<div class="error-blue">
 								<form:errors path="password" class="help-inline"/>
 							</div>
 						</div>
 						
-						<div class="input-group margin-bottom-30">
-							<span class="input-group-addon rounded-left"><i class="icon-lock color-green"></i></span>
+						<div class="input-group margin-bottom-10">
+							<span class="input-group-addon rounded-left">
+                                <i class="glyphicon glyphicon-lock color-ocean"></i>
+                            </span>
 							<input type="password" name="password" class="form-control rounded-right" placeholder="Password"/>	
 						</div>
-						
-						<hr>
 						
 						<div class="checkbox">
 							<ul class="list-inline">

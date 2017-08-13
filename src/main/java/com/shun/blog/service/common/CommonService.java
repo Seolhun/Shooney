@@ -72,11 +72,11 @@ public interface CommonService {
 	Paging beforePostPaging(Paging paging);
 	
 	//현재 접속한 유저로 유저정보 가져오기.
-	User getAccessUserToModel() throws Exception;
-	String getPrincipal() throws Exception;
+	User getAccessUserToModel();
+	String getPrincipal();
 	
 	//Menu 역할 확인하여 설정잡기.	
-	Menu setMenuConfig(HttpServletRequest request) throws Exception;
+	Menu setMenuConfig(HttpServletRequest request);
 
     String getImgUsingJsoup(String imgSrc, String savedDirectoryName) throws IOException, StringIndexOutOfBoundsException;
 

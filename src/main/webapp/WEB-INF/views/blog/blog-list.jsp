@@ -18,7 +18,7 @@
                 </div>
                 <sec:authorize access="hasRole('SUPERADMIN')">
                     <div class="col-sm-4">
-                        <a href="insert" class="btn-u btn-u-dark-blue rounded margin-bottom-5 ">Write</a>
+                        <a href="insert" class="btn-u btn-u-white rounded margin-bottom-5 ">Write</a>
                     </div>
                 </sec:authorize>
             </div>

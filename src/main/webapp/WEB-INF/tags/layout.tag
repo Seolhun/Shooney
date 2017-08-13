@@ -37,7 +37,7 @@
 
     <title>SomeThing New | Shooney Blog</title>
 
-    <link rel="shortcut icon" href="${resources}/img/logo/logo.png"/>
+    <link rel="shortcut icon" href="${resources}/img/ocean/logo/logo.png"/>
 
     <!-- Web Fonts -->
     <link rel='stylesheet' type='text/css'
@@ -57,73 +57,66 @@
     <link href="${resources }/vendor/summer/summernote.css" rel="stylesheet">
 </head>
 <body class="tutorial-single translation">
+
 <div class="wrapper">
     <header>
         <div class="main-menu-container container">
-            <div class="wrapper col-sm-12">
+            <div class="row text-right">
+                <sec:authorize access="isAuthenticated()">
+                    <a class="a-black button" href="#me"><sec:authentication property="principal.username"/></a>
+                    <sec:authorize access="hasRole('SUPERADMIN')">
+                        <a class="a-black button" href="${admin}/user/list">Admin</a>
+                    </sec:authorize>
+                    <a class="a-black button" href="${logout }">Logout</a></b>
+                </sec:authorize>
+                <sec:authorize access="isAnonymous()">
+                    <a class="a-black button" href="${login }">Sign in</a>
+                    <a class="a-ocean button" href="${signup }">Sign up</a>
+                </sec:authorize>
+            </div>
+
+            <div class="row">
                 <div class="logo">
                     <a class="logo-icon" href="${shooney}">
-                        <img src="${resources}/img/logo/logo3.png" width="200" height="50">
+                        <img src="${resources}/img/ocean/logo/logo3.png" width="200" height="50">
                     </a>
                 </div>
 
                 <a class="mobile-nav-toggle icon-menu-thin" data-role="left">
                     <span>Menu</span>
                 </a>
-                <nav>
+                <nav class="ocean-menu">
                     <ul>
                         <c:forEach items="${menuList }" var="menu">
                             <c:choose>
                                 <c:when test="${menu.menuUrl==null}">
                                     <li class="dropdown">
-                                        <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">
+                                        <a href="javascript:void(0);" class="dropdown-toggle ocean-menu-a" data-toggle="dropdown">
                                                 ${menu.menuName}
                                         </a>
                                         <ul class="dropdown-menu">
                                             <c:forEach items="${menu.submenuList}" var="submenu" varStatus="status">
                                                 <li <c:if test="${status.first }">class="active" </c:if>>
                                                     <a href="${shooney}${submenu.menuUrl}"
-                                                       class="dropdown-toggle">${submenu.menuName}</a>
+                                                       class="dropdown-toggle ocean-menu-a">${submenu.menuName}</a>
                                                 </li>
                                             </c:forEach>
                                         </ul>
                                     </li>
                                 </c:when>
                                 <c:otherwise>
-                                    <li><a href="${shooney}${menu.menuUrl}" class="dropdown-toggle">${menu.menuName}</a>
+                                    <li><a href="${shooney}${menu.menuUrl}" class="dropdown-toggle ocean-menu-a">${menu.menuName}</a>
                                     </li>
                                 </c:otherwise>
                             </c:choose>
                         </c:forEach>
                     </ul>
                 </nav>
-
-
-                <div class="account-buttons">
-                    <sec:authorize access="isAuthenticated()">
-                            <span class="margin-right-10"><b>ID : </b><sec:authentication
-                                    property="principal.username"/></span>
-                        <span class="margin-right-20"><b>Role : </b><sec:authentication
-                                property="principal.authorities"/></span>
-                        <span class="margin-right-20"><b><a class="head-a" href="${logout }">LOGOUT</a></b></span>
-                        <sec:authorize access="hasRole('SUPERADMIN')">
-                            <span><b><a class="head-a" href="${admin}/user/list">ADMIN</a></b></span>
-                        </sec:authorize>
-                    </sec:authorize>
-
-
-                    <div id="entrance">
-                        <sec:authorize access="isAnonymous()">
-                            <a id="sign-up" class="button" href="${login }">LOGIN</a>
-                            <a id="log-in" class="button" href="${signup }">SIGN UP</a>
-                        </sec:authorize>
-                    </div>
-                </div>
             </div>
         </div>
         <!-- End Navbar -->
     </header>
-    <!--=== End Header v6 ===-->
+    <!--=== End Header ===-->
 
     <%--------------JSP INNER BODY START--------------%>
     <jsp:doBody/>
@@ -135,27 +128,21 @@
         <div>Copyright © 2017 Hi-Cord™ Inc.</div>
 
         <ul class="Footer-nav">
-            <li><a href="/community">Community</a></li>
-            <li><a href="/community/tutorials">Tutorials</a></li>
+            <li><a href="${shooney}blog">Blog</a></li>
             <li><a href="/community/questions">Questions</a></li>
             <li><a href="/community/projects">Projects</a></li>
             <li><a href="/community/tags">Tags</a></li>
             <li><a href="/community/newsletter">Newsletter</a></li>
             <li>
-                <a href="/community/tutorials/feed">
-                    RSS <span class="icon-rss"></span>
-                </a></li>
+                <a href="/community/tutorials/feed">RSS <span class="icon-rss"></span></a>
+            </li>
         </ul>
 
         <br>
 
         <ul class="Footer-nav Footer-nav--secondary">
-            <li><a href="https://www.digitalocean.com/features/one-click-apps/">Distros &amp; One-Click Apps</a></li>
-            <li><a href="https://www.digitalocean.com/legal/terms/">Terms, Privacy, &amp; Copyright</a></li>
-            <li><a href="https://www.digitalocean.com/security/">Security</a></li>
-            <li><a data-toggle="modal" data-target="#sign-in-modal" href="#">Report a Bug</a></li>
-            <li><a href="/community/write-for-digitalocean">Write for DigitalOcean</a></li>
-            <li><a href="http://store.digitalocean.com/">Shop</a></li>
+            <li><a href="https://github.com/Seolhun">Git Hub</a></li>
+            <li><a href="http://postitforhooney.tistory.com/">Blog</a></li>
         </ul>
     </footer>
 </div><!--/wrapper-->

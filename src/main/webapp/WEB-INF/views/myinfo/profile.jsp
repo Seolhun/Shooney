@@ -62,20 +62,20 @@
                 <div class="ocean-grid">
                     <h2 class="heading-sm">Project &amp; Skill</h2>
                     <p>
-                        <a class="skill">#Java</a><a class="skill">#Spring</a><a class="skill">#Hibernate</a>
+                        <a class="skill a-ocean">#Java</a><a class="skill a-ocean">#Spring</a><a class="skill a-ocean">#Hibernate</a>
                         <br>
-                        <a class="skill">#Python</a><a class="skill">#Django</a><a class="skill">#Flask</a><a
-                            class="skill">#SQLAlchemy</a>
+                        <a class="skill a-ocean">#Python</a><a class="skill a-ocean">#Django</a><a class="skill a-ocean">#Flask</a><a
+                            class="skill a-ocean">#SQLAlchemy</a>
                         <br>
-                        <a class="skill">#CentOS</a><a class="skill">#NginX</a><a class="skill">#Tomcat</a>
+                        <a class="skill a-ocean">#CentOS</a><a class="skill a-ocean">#NginX</a><a class="skill a-ocean">#Tomcat</a>
                         <br>
-                        <a class="skill">#MariaDB</a><a class="skill">#MongoDB</a><a class="skill">#Redis</a><a
-                            class="skill">#Oracle</a>
+                        <a class="skill a-ocean">#MariaDB</a><a class="skill a-ocean">#MongoDB</a><a class="skill a-ocean">#Redis</a><a
+                            class="skill a-ocean">#Oracle</a>
                         <br>
-                        <a class="skill">#Java Script</a><a class="skill">#Ajax</a><a
-                            class="skill">#JQuery</a><a class="skill">#AngularJS</a>
+                        <a class="skill a-ocean">#Java Script</a><a class="skill a-ocean">#Ajax</a><a
+                            class="skill a-ocean">#JQuery</a><a class="skill a-ocean">#AngularJS</a>
                         <br>
-                        <a class="skill">#BootStrap</a><a class="skill">#Foundation</a>
+                        <a class="skill a-ocean">#BootStrap</a><a class="skill a-ocean">#Foundation</a>
                     </p>
                     <ul class="list-unstyled">
                         <li>Git Hub | <a href="https://github.com/Seolhun">https://github.com/Seolhun</a></li>

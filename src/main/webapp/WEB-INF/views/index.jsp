@@ -10,7 +10,8 @@
         <div class="container">
             <div class="row">
                 <div class="ocean-title col-sm-8 col-xs-12">
-                    설훈의 블로그에 오신 것을 환영합니다
+                    Welcome to HunSeol Home.
+
                 </div>
             </div>
         </div>

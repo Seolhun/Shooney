@@ -11,7 +11,6 @@
 	<div class="container content-xs">
 		<div class="row equal-height-columns">
 			<div class="col-md-12 col-sm-12 form-block equal-height-column">
-				<a href="${shooney}">Home</a>
 				<h2 class="margin-bottom-30">Login To Your Account</h2>
 				<form:form action="${login }">
 					<c:if test="${param.error != null}">
@@ -27,11 +26,15 @@
 					</c:if>
 					<div class="reg-block">
 						<div class="input-group margin-bottom-20">
-							<span class="input-group-addon rounded-left"><i class="icon-user color-dark-blue"></i></span>
-							<input type="text" class="form-control rounded-right" name="email" placeholder="Username">
+							<span class="input-group-addon rounded-left">
+								<i class="glyphicon glyphicon-user color-ocean"></i>
+							</span>
+							<input class="form-control rounded-right" name="email" placeholder="Username">
 						</div>
 						<div class="input-group margin-bottom-20">
-							<span class="input-group-addon rounded-left"><i class="icon-lock color-dark-blue"></i></span>
+							<span class="input-group-addon rounded-left">
+								<i class="glyphicon glyphicon-lock color-ocean"></i>
+							</span>
 							<input type="password" class="form-control rounded-right" name="password" placeholder="Password">
 						</div>
 
@@ -49,7 +52,7 @@
 							</ul>
 						</div>
 
-						<div class="row margin-bottom-70">
+						<div class="row margin-bottom-10">
 							<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 								<button class="btn-u btn-u-ocean btn-block rounded">Login In</button>
 							</div>
