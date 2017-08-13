@@ -120,7 +120,7 @@ public class BlogController {
      * throws Exception
      */
     @RequestMapping(value = "/insert", method = RequestMethod.POST)
-    public String insertBlogDo(Blog blog, @RequestParam(name = "files") MultipartFile[] files, BindingResult bindingResult, ModelMap model, HttpServletRequest request, RedirectAttributes redirect) throws Exception {
+    public String insertBlogDo(Blog blog, @RequestParam(name = "files") MultipartFile[] files, BindingResult bindingResult, ModelMap model, HttpServletRequest request, RedirectAttributes redirect, Authentication auth) throws Exception {
         //Blog 부분
         model.addAttribute("blog", blog);
         model.addAttribute("edit", false);
@@ -140,7 +140,7 @@ public class BlogController {
 
         //유저 확인.
         try {
-            blog.setCreatedBy(commonService.getAccessUserToModel().getNickname());
+            blog.setCreatedBy(auth.getName());
         } catch (NullPointerException e) {
             redirect.addAttribute("error", "anonymousUser");
             return "redirect:/login";
@@ -170,7 +170,7 @@ public class BlogController {
      * throws Exception
      */
     @RequestMapping(value = {"/detail/{id}"}, method = RequestMethod.GET)
-    public String detailBlog(@PathVariable Long id, ModelMap model, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public String detailBlog(@PathVariable Long id, ModelMap model, HttpServletRequest request, HttpServletResponse response, Authentication auth) throws Exception {
         Menu menu = commonService.setMenuConfig(request);
         List<Menu> menuList = menuService.findAllMenu(menu, menu.getMenuType());
         model.addAttribute("menuList", menuList);
@@ -187,7 +187,7 @@ public class BlogController {
         blog = blogService.selectById(id);
         model.addAttribute("blog", blog);
         model.addAttribute("edit", false);
-        model.addAttribute("accessUser", commonService.getAccessUserToModel());
+        model.addAttribute("accessUser", auth.getName());
         model.addAttribute("blogTypes", blogTypeService.selectList());
         return "blog/blog-detail";
     }
@@ -200,13 +200,13 @@ public class BlogController {
      * throws Exception
      */
     @RequestMapping(value = {"/modify/{id}"}, method = RequestMethod.GET)
-    public String editBlog(@PathVariable Long id, ModelMap model, HttpServletRequest request) throws Exception {
+    public String editBlog(@PathVariable Long id, ModelMap model, HttpServletRequest request, Authentication auth) throws Exception {
         Menu menu = commonService.setMenuConfig(request);
         List<Menu> menuList = menuService.findAllMenu(menu, menu.getMenuType());
         model.addAttribute("menuList", menuList);
 
         Blog blog = blogService.selectById(id);
-        if (!(blog.getCreatedBy().equals(commonService.getAccessUserToModel().getNickname()))) {
+        if (!(blog.getCreatedBy().equals(auth.getName()))) {
             return "redirect:/deny";
         }
 
@@ -217,9 +217,9 @@ public class BlogController {
     }
 
     @RequestMapping(value = {"/modify/{id}"}, method = RequestMethod.POST)
-    public String editBlogDo(@Valid Blog blog, BindingResult result, @PathVariable Long id, ModelMap model) throws Exception {
+    public String editBlogDo(@Valid Blog blog, BindingResult result, @PathVariable Long id, ModelMap model, Authentication auth) throws Exception {
         Blog dbBlog = blogService.selectById(id);
-        if (!(dbBlog.getCreatedBy().equals(commonService.getAccessUserToModel().getNickname()))) {
+        if (!(dbBlog.getCreatedBy().equals(auth.getName()))) {
             return "redirect:/deny";
         } else if (result.hasErrors()) {
             return "blog/blog-modify";
@@ -233,7 +233,7 @@ public class BlogController {
     @RequestMapping(value = {"/delete/{id}"}, method = RequestMethod.GET)
     public String deleteBlog(@PathVariable Long id, Authentication auth) throws Exception {
         Blog dbBlog = blogService.selectById(id);
-        if (!(dbBlog.getCreatedBy().equals(commonService.getAccessUserToModel().getNickname())) || !(commonService.getLoginAuthValidation(auth, "ROLE_SUPERADMIN"))) {
+        if (!(dbBlog.getCreatedBy().equals(auth.getName())) || !(commonService.getLoginAuthValidation(auth, "ROLE_SUPERADMIN"))) {
             return "redirect:/deny";
         }
 

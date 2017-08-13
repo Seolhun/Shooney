@@ -7,6 +7,7 @@ import com.shun.blog.service.menu.MenuService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -45,9 +46,10 @@ public class AdminMenuController {
 
     @RequestMapping(path = "/insert", method = RequestMethod.POST, produces = "application/json")
     @ResponseBody
-    public AjaxResult insertMenu(@RequestBody Menu menu, HttpServletRequest request, AjaxResult ajaxResult) throws Exception {
+    public AjaxResult insertMenu(@RequestBody Menu menu, HttpServletRequest request, AjaxResult ajaxResult, Authentication auth) throws Exception {
         LOG.info("param insertMenu : {}", menu.toString());
         Menu menuType = commonService.setMenuConfig(request);
+        menu.setCreatedBy(auth.getName());
         menuService.insertMenu(menu, menuType.getMenuType());
 
         return ajaxResult;

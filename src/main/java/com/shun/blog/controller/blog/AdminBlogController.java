@@ -13,13 +13,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
-import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -46,15 +43,22 @@ public class AdminBlogController {
 
     /**
      * Admin Blog List
-     *
+     * <p>
      * param -
      * return String - view
      * throws Exception
+     *
+     * @param model     the model
+     * @param request   the request
+     * @param boardType the board type
+     * @return the string
+     *
+     * @throws Exception the exception
      */
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public String adminBlogList(ModelMap model, HttpServletRequest request, @RequestParam(required = false, name = "bt") String boardType) throws Exception {
-        Menu menu=commonService.setMenuConfig(request);
-        List<Menu> menuList=menuService.findAllMenu(menu, menu.getMenuType());
+        Menu menu = commonService.setMenuConfig(request);
+        List<Menu> menuList = menuService.findAllMenu(menu, menu.getMenuType());
         model.addAttribute("menuList", menuList);
 
         //페이징 세팅 및 파라미터 가져오기.
@@ -80,18 +84,25 @@ public class AdminBlogController {
 
     /**
      * Insert Blog Type
-     *
+     * <p>
      * param
      * return String  -view
      * throws Exception
+     *
+     * @param blogType   the blog type
+     * @param auth       the auth
+     * @param ajaxResult the ajax result
+     * @return the ajax result
+     *
+     * @throws Exception the exception
      */
     @RequestMapping(value = "/type/insert", method = RequestMethod.POST, produces = "application/json")
-    public AjaxResult insertBoardType(@RequestBody BlogType blogType, AjaxResult ajaxResult) throws Exception {
+    public @ResponseBody AjaxResult insertBoardType(@RequestBody BlogType blogType, Authentication auth, AjaxResult ajaxResult) throws Exception {
         LOG.info("param : /type/insert {}", blogType.toString());
         try {
-            blogType.setCreatedBy(commonService.getAccessUserToModel().getNickname());
+            blogType.setCreatedBy(auth.getName());
             blogTypeService.insert(blogType);
-        }catch (Exception e) {
+        } catch (Exception e) {
             LOG.info("ERROR : /tpye/insert NullPoint");
             ajaxResult.setResult("error");
             return ajaxResult;

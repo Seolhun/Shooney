@@ -27,7 +27,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-import java.security.Principal;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -65,10 +64,10 @@ public class UserController {
      * throws Exception
      */
     @RequestMapping(value = "/signup", method = RequestMethod.GET)
-    public String signup(ModelMap model, HttpServletResponse res, Principal principal) throws Exception {
+    public String signup(ModelMap model, Authentication auth) throws Exception {
         model.addAttribute("user", new User());
         model.addAttribute("edit", false);
-        model.addAttribute("loggedinuser", commonService.getPrincipal());
+        model.addAttribute("loggedinuser", auth.getName());
         model.addAttribute("role", UserProfileType.values());
         return "user/signup";
     }
@@ -81,7 +80,7 @@ public class UserController {
      * throws Exception
      */
     @RequestMapping(value = {"/signup"}, method = RequestMethod.POST)
-    public String signupDo(@Valid User user, BindingResult result, ModelMap model, HttpServletRequest request) throws Exception {
+    public String signupDo(@Valid User user, BindingResult result, ModelMap model, Authentication auth, HttpServletRequest request) throws Exception {
         LOG.info("param {}", user.toString());
         String mapping = "user/signup";
 
@@ -115,7 +114,7 @@ public class UserController {
 
         userService.insert(user);
         model.addAttribute("success", "User " + user.getEmail() + " registered successfully");
-        model.addAttribute("loggedinuser", commonService.getPrincipal());
+        model.addAttribute("loggedinuser", auth.getName());
         return "result/success";
     }
 

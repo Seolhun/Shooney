@@ -9,7 +9,6 @@ import com.google.gson.JsonParser;
 import com.shun.blog.model.common.Paging;
 import com.shun.blog.model.menu.Menu;
 import com.shun.blog.model.menu.MenuType;
-import com.shun.blog.model.user.User;
 import com.shun.blog.service.user.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,8 +18,6 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
@@ -491,35 +488,6 @@ public class CommonServiceImpl implements CommonService {
         paging.setBlockStartNum(blockStartNum);
         paging.setNextPage(nextPage);
         paging.setPreviousPage(previousPage);
-    }
-
-    /**
-     * 로그인 된 인원 DB정보 가쟈오기.
-     * <p>
-     * param String userEmail
-     * return User user
-     * throws Exception
-     */
-    @Override
-    public User getAccessUserToModel() {
-        String userEmail = getPrincipal();
-        LOG.info("return : getAccessUserToModel : {}", userEmail);
-        return userService.selectByEmail(userEmail);
-    }
-
-    @Override
-    public String getPrincipal() {
-        String userName = null;
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        try {
-            if (principal instanceof UserDetails) {
-                userName = ((UserDetails) principal).getUsername();
-            }
-            userName = principal.toString();
-        } catch (NullPointerException e ){
-            e.printStackTrace();
-        }
-        return userName;
     }
 
     /**
