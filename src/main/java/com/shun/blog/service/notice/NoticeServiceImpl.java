@@ -29,7 +29,6 @@ public class NoticeServiceImpl implements NoticeService {
     public void insertNotice(Notice notice) throws Exception {
         LOG.info("param : insertNotice : {}", notice.toString());
         notice.setDelFlag("Y");
-        notice.setCreatedBy(commonService.getAccessUserToModel().getNickname());
         noticeRepository.insertNotice(notice);
     }
 

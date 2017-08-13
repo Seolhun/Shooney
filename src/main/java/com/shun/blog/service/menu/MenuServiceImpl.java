@@ -29,10 +29,9 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    @Caching(put = {@CachePut(key = "#userRole+'|findAllByType'", value = "menuList")})
-    public void insertMenu(Menu menu, String userRole) {
+    @Caching(put = {@CachePut(key = "#menuType+'|findAllByType'", value = "menuList")})
+    public void insertMenu(Menu menu, String menuType) {
         menu.setDelFlag("Y");
-        menu.setCreatedBy(commonService.getAccessUserToModel().getNickname());
         menuRepository.insertMenu(menu);
     }
 
@@ -43,8 +42,8 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    @Caching(cacheable = {@Cacheable(key = "#userRole+'|findAllMenu'", value = "menuList")})
-    public List<Menu> findAllMenu(Menu menu, String userRole) {
+    @Caching(cacheable = {@Cacheable(key = "#menuType+'|findAllMenu'", value = "menuList")})
+    public List<Menu> findAllMenu(Menu menu, String menuType) {
         List<Menu> menuList = menuRepository.findAllMenu(menu);
         for (int i = 0; i < menuList.size(); i++) {
             menu.setMenuParentId(menuList.get(i).getMenuId());
@@ -58,8 +57,8 @@ public class MenuServiceImpl implements MenuService {
 
 
     @Override
-    @Caching(put = {@CachePut(key = "#userRole+'|findAllMenu'", value = "menuList")})
-    public void updateMenu(Menu menu, String userRole) {
+    @Caching(put = {@CachePut(key = "#menuType+'|findAllMenu'", value = "menuList")})
+    public void updateMenu(Menu menu, String menuType) {
         Menu dbMenu = menuRepository.selectMenuById(menu.getMenuId());
         try {
             dbMenu.setMenuName(menu.getMenuName());
@@ -78,8 +77,8 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    @Caching(put = {@CachePut(key = "#userRole+'|findAllMenu'", value = "menuList")})
-    public void deleteMenu(Menu menu, String userRole) {
+    @Caching(put = {@CachePut(key = "#menuType+'|findAllMenu'", value = "menuList")})
+    public void deleteMenu(Menu menu, String menuType) {
         Menu dbMenu = menuRepository.selectMenuById(menu.getMenuId());
         if (dbMenu.getDelFlag().equals("Y")) {
             dbMenu.setDelFlag("N");
