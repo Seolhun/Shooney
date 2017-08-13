@@ -7,20 +7,21 @@
 <%@ taglib prefix="tag" tagdir="/WEB-INF/tags"%>
 <spring:url value="/resources" var="resources" /><spring:url value="/resources/template" var="template"/><spring:url value="/" var="shooney"/><spring:url value="/board" var="board"/><spring:url value="/project" var="project"/><spring:url value="/portfolio" var="portfolio"/><spring:url value="/myinfo" var="myinfo"/><spring:url value="/admin" var="admin"/><spring:url value="/signup" var="signup"/><spring:url value="/login" var="login"/><spring:url value="/logout" var="logout"/>
 <tag:admin-layout tab="${target}">
-	<div class="call-action-v1 bg-color-light">
+	<div class="bg-color-ocean-g">
 		<div class="container">
-			<div class="call-action-v1-box">
-				<div class="col-sm-12">
-					<p>Admin Notice Control</p>
+			<div class="row">
+				<div class="ocean-title col-sm-8">
+					<p>Admin Notice Manager</p>
 				</div>
 				<sec:authorize access="hasRole('SUPERADMIN')">
 					<div class="col-sm-12 text-right">
-				 		<button class="btn-u btn-u-dark-blue" onclick="NoticeService.noticeInsertForm()">Add New Notice</button>
+						<button class="btn-u btn-u-dark-blue" onclick="NoticeService.noticeInsertForm()">Add New Notice</button>
 					</div>
-			 	</sec:authorize>
+				</sec:authorize>
 			</div>
 		</div>
 	</div>
+
 	<div class="container content-xs">
 		<div class="row">
 			<div class="col-sm-12">

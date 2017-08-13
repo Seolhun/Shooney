@@ -135,25 +135,6 @@ public class HomeController {
 	}
 
 	/**
-	 * My info attitude string.
-	 *
-	 * @param request the request
-	 * @param model   the model
-	 * @return the string
-	 *
-	 * @throws Exception the exception
-	 */
-	@RequestMapping(value = "/myinfo/attitude", method = RequestMethod.GET)
-	public String myInfoAttitude(HttpServletRequest request, Model model) throws Exception {
-		Menu menu=commonService.setMenuConfig(request);
-		List<Menu> menuList=menuService.findAllMenu(menu, menu.getMenuType());
-		model.addAttribute("menuList", menuList);
-		
-		LOG.info("where myInfoMission");
-		return "myinfo/attitude";
-	}
-
-	/**
 	 * My info goal string.
 	 *
 	 * @param request the request

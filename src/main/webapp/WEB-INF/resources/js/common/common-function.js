@@ -5,6 +5,13 @@ var	csrfToken=$("#csrfToken").attr("content");
 
 $(document).ready(function(){
 	CommonService.accessClientInsert();
+
+	//Common Menu Changed Function
+    $(".ocean-menu-a").click(function(){
+        $(".ocean-menu-a").removeClass(".a-clicked");
+        this.add(".a-clicked");
+        console.log("this", this);
+	});
 });
 
 var CommonService = (function() {
@@ -204,7 +211,7 @@ var CommonService = (function() {
 		}  
 		return "방금 전";
 	};
-	
+
 	return {
 		customDateformat : customDateformat,
 		accessClientInsert : accessClientInsert,

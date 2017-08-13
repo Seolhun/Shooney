@@ -28,7 +28,6 @@ import org.springframework.validation.FieldError;
 
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.constraints.Null;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -502,20 +501,23 @@ public class CommonServiceImpl implements CommonService {
      * throws Exception
      */
     @Override
-    public User getAccessUserToModel() throws Exception {
+    public User getAccessUserToModel() {
         String userEmail = getPrincipal();
         LOG.info("return : getAccessUserToModel : {}", userEmail);
         return userService.selectByEmail(userEmail);
     }
 
     @Override
-    public String getPrincipal() throws Exception {
-        String userName;
+    public String getPrincipal() {
+        String userName = null;
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (principal instanceof UserDetails) {
-            userName = ((UserDetails) principal).getUsername();
-        } else {
+        try {
+            if (principal instanceof UserDetails) {
+                userName = ((UserDetails) principal).getUsername();
+            }
             userName = principal.toString();
+        } catch (NullPointerException e ){
+            e.printStackTrace();
         }
         return userName;
     }
@@ -528,7 +530,7 @@ public class CommonServiceImpl implements CommonService {
      * throws Exception
      */
     @Override
-    public Menu setMenuConfig(HttpServletRequest request) throws Exception {
+    public Menu setMenuConfig(HttpServletRequest request) {
         Menu menu = new Menu(1);
         String uri = request.getRequestURI();
         //0="" || 1="shooney" || 2="admin or blog"

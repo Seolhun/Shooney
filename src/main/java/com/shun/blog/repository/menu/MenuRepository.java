@@ -5,13 +5,13 @@ import com.shun.blog.model.menu.Menu;
 import java.util.List;
 
 public interface MenuRepository {
-	void insertMenu(Menu menu) throws Exception;
+	void insertMenu(Menu menu);
 
 	Menu selectMenuById(Long menuId);
 	
-	List<Menu> findAllMenu(Menu menu) throws Exception;
+	List<Menu> findAllMenu(Menu menu);
 
-	List<Menu> findAllByAdmin(Menu menu) throws Exception;
+	List<Menu> findAllByAdmin(Menu menu);
 
 
 }

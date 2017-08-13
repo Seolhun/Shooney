@@ -16,7 +16,7 @@ public class MenuRepositoryImpl extends AbstractRepository<Long, Menu> implement
 	static final Logger LOG = LoggerFactory.getLogger(MenuRepositoryImpl.class);
 	
 	@Override
-	public void insertMenu(Menu menu) throws Exception {
+	public void insertMenu(Menu menu) {
 		LOG.info("param : insertMenu {}", menu.toString());
 		persist(menu);
 	}
@@ -30,7 +30,7 @@ public class MenuRepositoryImpl extends AbstractRepository<Long, Menu> implement
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Menu> findAllMenu(Menu menu) throws Exception {
+	public List<Menu> findAllMenu(Menu menu) {
 		LOG.info("param : findAllMenu {}", menu.toString());
 		int menuDepth=menu.getMenuDepth();
 		String menuType=menu.getMenuType();
@@ -53,7 +53,7 @@ public class MenuRepositoryImpl extends AbstractRepository<Long, Menu> implement
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Menu> findAllByAdmin(Menu menu) throws Exception {
+	public List<Menu> findAllByAdmin(Menu menu) {
 		LOG.info("param : findAllByAdmin {}", menu.toString());
 		Criteria criteria = createEntityCriteria();
 		criteria.addOrder(Order.asc("menuType"));

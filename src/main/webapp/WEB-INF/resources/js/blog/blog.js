@@ -8,9 +8,6 @@ $(document).ready(function () {
     //HTML에 FileUpload시 정보띄우
     CommonService.checkFileBeforeUpload("files");
 
-
-
-
     $('#summernoteReply').summernote({
         lang : 'ko-KR', // default: 'en-US'
         height : 100, // set editor height
