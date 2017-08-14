@@ -38,7 +38,7 @@ public class MenuRepositoryImpl extends AbstractRepository<Long, Menu> implement
 		Criteria criteria = createEntityCriteria();
 		criteria.add(Restrictions.eq("menuType", menuType));
 		criteria.add(Restrictions.eq("menuDepth", menuDepth));
-		criteria.add(Restrictions.eq("delFlag", "N"));
+		criteria.add(Restrictions.eq("deletedFlag", false));
 		criteria.addOrder(Order.asc("menuOrder"));
 		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 

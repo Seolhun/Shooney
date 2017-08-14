@@ -1,24 +1,19 @@
 package com.shun.blog.model.content;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
+import org.hibernate.annotations.CreationTimestamp;
+
+import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.persistence.Transient;
-
-import org.hibernate.annotations.CreationTimestamp;
-
-import lombok.Data;
-
+@EqualsAndHashCode(callSuper = false)
+@ToString(callSuper = true)
 @Data
 @Entity(name="TB_CONTENT")
-public class Content {
+public class Content  {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "CONTENT_ID")

@@ -57,7 +57,7 @@
 							<td>${menu.delFlag}</td>
 							<td><button class="btn btn-default custom-width rounded" onclick="MenuService.menuUpdateForm(${menu.menuId})">Edit</button></td>
 							<c:choose>
-								<c:when test="${menu.delFlag.equals('N')}">
+								<c:when test="${!menu.delFlag}">
                                     <td><button class="btn-u btn-u-red rounded" onclick="MenuService.menuDelete(${menu.menuId})">Delete</button></td>
 								</c:when>
 								<c:otherwise>

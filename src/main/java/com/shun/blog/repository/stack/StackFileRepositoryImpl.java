@@ -39,7 +39,7 @@ public class StackFileRepositoryImpl extends AbstractRepository<Long, StackFile>
         // 검색 로직
         Criteria criteria = createEntityCriteria();
         criteria.add(Restrictions.eq("stackInFile", stack));
-        criteria.add(Restrictions.eq("delFlag", "N"));
+        criteria.add(Restrictions.eq("deletedFlag", false));
         criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 
         List<StackFile> stackFiles = (List<StackFile>) criteria.list();
@@ -50,7 +50,7 @@ public class StackFileRepositoryImpl extends AbstractRepository<Long, StackFile>
     public int getCount() throws Exception {
         // 검색 로직
         Criteria criteria = createEntityCriteria();
-        criteria.add(Restrictions.eq("delFlag", "N"));
+        criteria.add(Restrictions.eq("deletedFlag", false));
         return ((Number) criteria.setProjection(Projections.rowCount()).uniqueResult()).intValue();
     }
 

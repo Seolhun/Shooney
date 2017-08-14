@@ -131,7 +131,7 @@ public class CommentRestController {
 			ajaxResult.setResult("invalid");
 		}
 		
-		comment.setDelFlag("Y");
+		comment.setDeletedFlag(true);
 		comment.setCommentId(commentId);
 		comment.setModifiedBy(nickName);
 		commentService.updateComment(comment);

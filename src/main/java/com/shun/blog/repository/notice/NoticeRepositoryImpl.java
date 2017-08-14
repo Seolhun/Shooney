@@ -32,7 +32,7 @@ public class NoticeRepositoryImpl extends AbstractRepository<Long, Notice> imple
 	public List<Notice> selectNoticeByURI(String uri) {
         Criteria criteria = createEntityCriteria();
         criteria.add(Restrictions.eq("uri", uri));
-        criteria.add(Restrictions.eq("delFlag", "N"));
+        criteria.add(Restrictions.eq("deletedFlag", false));
         criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 		return criteria.list();
 	}

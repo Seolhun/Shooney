@@ -40,7 +40,7 @@ public class StackRepositoryImpl extends AbstractRepository<Long, Stack> impleme
         LOG.info("param : StackRepository.selectList {}", stack.toString());
         // 검색 로직
         Criteria criteria = createEntityCriteria();
-        criteria.add(Restrictions.eq("delFlag", "N"));
+        criteria.add(Restrictions.eq("deletedFlag", false));
         criteria.add(Restrictions.eq("errorFlag", "N"));
         criteria.add(Restrictions.eq("langDepth", 0));
         criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
@@ -53,7 +53,7 @@ public class StackRepositoryImpl extends AbstractRepository<Long, Stack> impleme
         LOG.info("param : StackRepository.selectList {}", stack.toString());
         // 검색 로직
         Criteria criteria = createEntityCriteria();
-        criteria.add(Restrictions.eq("delFlag", "N"));
+        criteria.add(Restrictions.eq("deletedFlag", false));
         criteria.add(Restrictions.eq("langDepth", 0));
         criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
         return (List<Stack>)criteria.list();
@@ -65,7 +65,7 @@ public class StackRepositoryImpl extends AbstractRepository<Long, Stack> impleme
         LOG.info("param : StackRepository.selectList {}", stack.toString());
         // 검색 로직
         Criteria criteria = createEntityCriteria();
-        criteria.add(Restrictions.eq("delFlag", "N"));
+        criteria.add(Restrictions.eq("deletedFlag", false));
         criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
         return (List<Stack>)criteria.list();
     }
@@ -74,7 +74,7 @@ public class StackRepositoryImpl extends AbstractRepository<Long, Stack> impleme
     public int getCount() throws Exception {
         // 검색 로직
         Criteria criteria = createEntityCriteria();
-        criteria.add(Restrictions.eq("delFlag", "N"));
+        criteria.add(Restrictions.eq("deletedFlag", false));
         return ((Number) criteria.setProjection(Projections.rowCount()).uniqueResult()).intValue();
     }
 

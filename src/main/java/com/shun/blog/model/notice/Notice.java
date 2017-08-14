@@ -1,17 +1,19 @@
 package com.shun.blog.model.notice;
 
+import com.shun.blog.model.common.AbstractCommon;
 import lombok.Data;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
+@EqualsAndHashCode(callSuper = false)
+@ToString(callSuper = true)
 @Data
-@Entity
-@Table(name = "TB_NOTICE")
-public class Notice implements Serializable {
+@Entity(name = "TB_NOTICE")
+public class Notice extends AbstractCommon implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "NOTICE_ID")
@@ -30,25 +32,6 @@ public class Notice implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "NOTICE_END_DATE")
 	private Date endDate;
-
-	@Column(name = "NOTICE_CREATED_BY", length = 60, nullable = false)
-	private String createdBy;
-
-	@Column(name = "NOTICE_MODIFIED_BY", length = 60)
-	private String modifiedBy;
-
-	@CreationTimestamp
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "NOTICE_CREATED_DATE")
-	private Date createdDate;
-
-	@UpdateTimestamp
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "NOTICE_MODIFIED_DATE")
-	private Date modifiedDate;
-
-	@Column(name = "NOTICE_DEL_FLAG", length = 1)
-	private String delFlag="N";
 
 	public Notice(){
 

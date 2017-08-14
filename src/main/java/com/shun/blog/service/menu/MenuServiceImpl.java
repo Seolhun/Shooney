@@ -31,7 +31,7 @@ public class MenuServiceImpl implements MenuService {
     @Override
     @Caching(put = {@CachePut(key = "#menuType+'|findAllByType'", value = "menuList")})
     public void insertMenu(Menu menu, String menuType) {
-        menu.setDelFlag("Y");
+        menu.setDeletedFlag(false);
         menuRepository.insertMenu(menu);
     }
 
@@ -80,10 +80,10 @@ public class MenuServiceImpl implements MenuService {
     @Caching(put = {@CachePut(key = "#menuType+'|findAllMenu'", value = "menuList")})
     public void deleteMenu(Menu menu, String menuType) {
         Menu dbMenu = menuRepository.selectMenuById(menu.getMenuId());
-        if (dbMenu.getDelFlag().equals("Y")) {
-            dbMenu.setDelFlag("N");
+        if (dbMenu.isDeletedFlag()) {
+            dbMenu.setDeletedFlag(false);
         } else {
-            dbMenu.setDelFlag("Y");
+            dbMenu.setDeletedFlag(false);
         }
     }
 

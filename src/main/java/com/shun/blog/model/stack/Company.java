@@ -1,6 +1,9 @@
 package com.shun.blog.model.stack;
 
+import com.shun.blog.model.common.AbstractCommon;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import org.hibernate.annotations.*;
 
 import javax.persistence.*;
@@ -8,9 +11,11 @@ import javax.persistence.Entity;
 import java.io.Serializable;
 import java.util.*;
 
+@EqualsAndHashCode(callSuper = false)
+@ToString(callSuper = true)
 @Data
 @Entity(name = "TB_COMPANY")
-public class Company implements Serializable {
+public class Company extends AbstractCommon implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "COMPANY_ID")
@@ -37,25 +42,6 @@ public class Company implements Serializable {
     @JoinTable(name = "TB_COMPANY_STACK", joinColumns = {@JoinColumn(name = "COMPANY_ID")}, inverseJoinColumns = {
             @JoinColumn(name = "STACK_ID")})
     private Set<Stack> stacks = new HashSet<>();
-
-    @CreationTimestamp
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "COMPANY_CREATED_DATE")
-    private Date createdDate;
-
-    @Column(name = "COMPANY_CREATED_BY", nullable = false, length = 60)
-    private String createdBy;
-
-    @Column(name = "COMPANY_MODIFIED_BY", length = 60)
-    private String modifiedBy;
-
-    @UpdateTimestamp
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "COMPANY_MODIFIED_DATE")
-    private Date modifiedDate;
-
-    @Column(name = "COMPANY_DEL_FLAG", length = 1)
-    private String delFlag="N";
 
     @Transient
     private int type;

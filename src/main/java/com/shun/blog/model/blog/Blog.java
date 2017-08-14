@@ -1,21 +1,24 @@
 package com.shun.blog.model.blog;
 
 import com.shun.blog.model.comment.Comment;
+import com.shun.blog.model.common.AbstractCommon;
 import com.shun.blog.model.file.FileData;
 import lombok.Data;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
+
+@EqualsAndHashCode(callSuper = false)
+@ToString(callSuper = true)
 @Data
 @Entity
 @Table(name = "TB_BLOG")
-public class Blog implements Serializable {
+public class Blog extends AbstractCommon implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "BLOG_ID")
@@ -47,25 +50,6 @@ public class Blog implements Serializable {
 
 	@Column(name = "BLOG_TYPE", length=30)
 	private String blogType;
-	
-	@Column(name = "BLOG_CREATED_BY", length = 60, nullable = false)
-	private String createdBy;
-
-	@Column(name = "BLOG_MODIFIED_BY", length = 60)
-	private String modifiedBy;
-
-	@CreationTimestamp
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "BLOG_CREATED_DATE")
-	private Date createdDate;
-
-	@UpdateTimestamp
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "BLOG_MODIFIED_DATE")
-	private Date modifiedDate;
-	
-	@Column(name = "BLOG_DEL_FLAG", length = 1)
-	private String delFlag="N";
 	
 	@Transient
 	private List<MultipartFile> files;

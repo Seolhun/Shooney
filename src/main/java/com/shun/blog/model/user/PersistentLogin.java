@@ -1,23 +1,23 @@
 package com.shun.blog.model.user;
 
-import java.io.Serializable;
-import java.util.Date;
+import com.shun.blog.model.common.AbstractCommon;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import java.io.Serializable;
 
-import org.hibernate.annotations.UpdateTimestamp;
-
-import lombok.Data;
-
+/**
+ * The type Persistent login.
+ */
 @Entity
 @Table(name="TB_PERSISTENT_LOGINS")
 @Data
-public class PersistentLogin implements Serializable{
+@EqualsAndHashCode(callSuper = false)
+public class PersistentLogin extends AbstractCommon implements Serializable{
 
 	@Id
 	@Column(name="PERSISTENT_SERIES", length=100)
@@ -28,10 +28,4 @@ public class PersistentLogin implements Serializable{
 	
 	@Column(name="PERSISTENT_TOKEN", unique=true, nullable=false, length=100)
 	private String token;
-	
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="PERSISTENT_CREATED_DATE", nullable=false)
-	@UpdateTimestamp
-	private Date createdDate;
-
 }

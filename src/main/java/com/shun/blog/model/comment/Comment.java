@@ -3,19 +3,20 @@ package com.shun.blog.model.comment;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.shun.blog.model.blog.Blog;
+import com.shun.blog.model.common.AbstractCommon;
 import com.shun.blog.model.common.Paging;
 import lombok.Data;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Date;
 
+@EqualsAndHashCode(callSuper = false)
+@ToString(callSuper = true)
 @Data
-@Entity
-@Table(name = "TB_COMMENT")
-public class Comment implements Serializable {
+@Entity(name = "TB_COMMENT")
+public class Comment extends AbstractCommon implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "COMMENT_ID")
@@ -40,19 +41,6 @@ public class Comment implements Serializable {
 	@Column(name = "COMMENT_MODIFIED_BY", length = 60)
 	private String modifiedBy;
 
-	@CreationTimestamp
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "COMMENT_CREATED_DATE")
-	private Date createdDate;
-	
-	@UpdateTimestamp
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "COMMENT_MODIFIED_DATE")
-	private Date modifiedDate;
-	
-	@Column(name = "COMMENT_DEL_FLAG", length = 1)
-	private String delFlag="N";
-	
 	@Transient
 	private int currentPage;
 	

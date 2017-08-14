@@ -1,25 +1,20 @@
 package com.shun.blog.model.user;
 
+import com.shun.blog.model.common.AbstractCommon;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
+import org.hibernate.annotations.CreationTimestamp;
+
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-
-import org.hibernate.annotations.CreationTimestamp;
-
-import lombok.Data;
-
-@Entity
-@Table(name = "TB_USER_ATTEMPTS")
+@EqualsAndHashCode(callSuper = false)
+@ToString(callSuper = true)
 @Data
-public class UserAttempts implements Serializable {
+@Entity(name = "TB_USER_ATTEMPTS")
+public class UserAttempts extends AbstractCommon implements Serializable {
 	private static final long serialVersionUID = -6645634619910097302L;
 
 	@Id

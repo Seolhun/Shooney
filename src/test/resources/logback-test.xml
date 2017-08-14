@@ -3,12 +3,12 @@
 	<property name="DEV_HOME" value="/Users/HunSeol/Desktop/project/shooney/log/"/>
 	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
 		<file>${DEV_HOME}/debug.log</file>
-	    <layout class="ch.qos.logback.classic.PatternLayout">
+		<layout class="ch.qos.logback.classic.PatternLayout">
 			<Pattern>
 				%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n
 			</Pattern>
-	    </layout>
-   		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">rollover daily
+		</layout>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">rollover daily
 			<fileNamePattern>
 				${DEV_HOME}/logs/debug.%d{yyyy-MM-dd}.%i.log
 			</fileNamePattern>
@@ -17,33 +17,33 @@
 			</timeBasedFileNamingAndTriggeringPolicy>
 		</rollingPolicy>
 	</appender>
-	
+
 	<!-- Blog -->
 	<logger name="com.shun.blog" level="DEBUG" additivity="false">
 		<appender-ref ref="STDOUT" />
 	</logger>
-	
+
 	<root name="com.shun.blog" level="TRACE">
 		<appender-ref ref="STDOUT" />
 	</root>
-	 
+
 	<root name="com.shun.blog" level="INFO">
 		<appender-ref ref="STDOUT" />
 	</root>
-	
+
 	<root name="com.shun.blog" level="WARN">
 		<appender-ref ref="STDOUT" />
 	</root>
-	
+
 	<root name="com.shun.blog" level="ERROR">
 		<appender-ref ref="STDOUT" />
 	</root>
-	
+
 	<!-- MongoDB -->
 	<logger name="com.shun.mongodb" level="DEBUG" additivity="false">
 		<appender-ref ref="STDOUT" />
 	</logger>
-	
+
 	<root name="com.shun.mongodb" level="TRACE">
 		<appender-ref ref="STDOUT" />
 	</root>
@@ -51,11 +51,11 @@
 	<root name="com.shun.mongodb" level="INFO">
 		<appender-ref ref="STDOUT" />
 	</root>
-	
+
 	<root name="com.shun.mongodb" level="WARN">
 		<appender-ref ref="STDOUT" />
 	</root>
-	
+
 	<root name="com.shun.mongodb" level="ERROR">
 		<appender-ref ref="STDOUT" />
 	</root>

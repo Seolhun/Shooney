@@ -49,7 +49,7 @@
                                 <button class="btn btn-default custom-width rounded" onclick="NoticeService.noticeUpdateForm(${notice.id})">Edit</button>
                             </td>
                             <c:choose>
-                                <c:when test="${notice.delFlag.equals('N')}">
+                                <c:when test="${!notice.delFlag}">
                                     <td>
                                         <button class="btn-u btn-u-red rounded" onclick="NoticeService.noticeDelete(${notice.id})">Delete
                                         </button>
