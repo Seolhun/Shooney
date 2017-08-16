@@ -4,7 +4,6 @@ import com.shun.blog.model.common.AjaxResult;
 import com.shun.blog.model.menu.Menu;
 import com.shun.blog.model.stack.Stack;
 import com.shun.blog.model.stack.StackFile;
-import com.shun.blog.model.user.User;
 import com.shun.blog.service.common.CommonService;
 import com.shun.blog.service.menu.MenuService;
 import com.shun.blog.service.stack.StackFileService;
@@ -16,6 +15,7 @@ import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -57,10 +57,10 @@ public class AdminStackController {
 
     @RequestMapping(value = "/insert", method = RequestMethod.POST, produces = "application/json")
     @ResponseBody
-    public AjaxResult insertStack(@RequestBody Stack stack, AjaxResult ajaxResult) throws Exception {
+    public AjaxResult insertStack(@RequestBody Stack stack, Authentication auth, AjaxResult ajaxResult) throws Exception {
         LOG.info("return : getNewsThread : {}", stack.toString());
         stack.setName(validationStackName(stack.getName()));
-        getStackUsingThread(stack.getName(), commonService.getAccessUserToModel()).start();
+        getStackUsingThread(stack.getName(), auth).start();
 
         ajaxResult.setResult("success");
         return ajaxResult;
@@ -68,8 +68,8 @@ public class AdminStackController {
 
     @RequestMapping(value = "/insert/list", method = RequestMethod.POST, produces = "application/json")
     @ResponseBody
-    public AjaxResult insertStackList(@RequestBody Stack stack, AjaxResult ajaxResult) throws Exception {
-        getStackListUsingThread(stack, commonService.getAccessUserToModel()).start();
+    public AjaxResult insertStackList(@RequestBody Stack stack, Authentication auth, AjaxResult ajaxResult) throws Exception {
+        getStackListUsingThread(stack, auth).start();
         ajaxResult.setResult("success");
         return ajaxResult;
     }
@@ -81,13 +81,13 @@ public class AdminStackController {
         return ajaxResult;
     }
 
-    private Thread getStackUsingThread(String stackName, User user) {
+    private Thread getStackUsingThread(String stackName, Authentication auth) {
         Thread thread = new Thread(() -> {
             try {
                 Stack tempStack = new Stack();
                 tempStack.setName(stackName);
                 LOG.info("test similarStackName {}", stackName);
-                getStackAndSaveStack(commonService, stackService, stackFileService, user, stackName);
+                getStackAndSaveStack(commonService, stackService, stackFileService, auth, stackName);
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (Exception e) {
@@ -97,7 +97,7 @@ public class AdminStackController {
         return thread;
     }
 
-    private Thread getStackListUsingThread(Stack stack, User user) {
+    private Thread getStackListUsingThread(Stack stack, Authentication auth) {
         Thread thread = new Thread(() -> {
             List<Stack> stackList = null;
             try {
@@ -109,7 +109,7 @@ public class AdminStackController {
                 for (Stack tempStacks : stackList) {
                     try {
                         LOG.info("return : getNewsThread : {}", tempStacks.getName());
-                        getStackAndSaveStack(commonService, stackService, stackFileService, user, tempStacks.getName());
+                        getStackAndSaveStack(commonService, stackService, stackFileService, auth, tempStacks.getName());
                     } catch (Exception e) {
                         e.printStackTrace();
                         try {
@@ -134,7 +134,7 @@ public class AdminStackController {
         thread.run();
     }
 
-    private void getStackAndSaveStack(CommonService commonService, StackService stackService, StackFileService stackFileService, User user, String validStackName) throws Exception {
+    private void getStackAndSaveStack(CommonService commonService, StackService stackService, StackFileService stackFileService, Authentication auth, String validStackName) throws Exception {
         String address = "https://stackshare.io/" + validStackName;
         //Jsoup Crawling connect
         Document doc = null;
@@ -168,7 +168,7 @@ public class AdminStackController {
             if (similarStack == null) {
                 similarStack = new Stack();
                 similarStack.setName(similarStackName);
-                similarStack.setCreatedBy(user.getNickname());
+                similarStack.setCreatedBy(auth.getName());
                 stackService.insert(similarStack);
             }
 
@@ -177,7 +177,7 @@ public class AdminStackController {
 
             //insert Similar Stack File to DB
             StackFile similarStackFile = stackFileService.selectByName(similarStackName);
-            insertStackFile(similarStackFile, similarStack, similarFilePath, user);
+            insertStackFile(similarStackFile, similarStack, similarFilePath, auth);
         }
 
         //Insert root Stack img to DB
@@ -186,7 +186,7 @@ public class AdminStackController {
             LOG.info("test insert(rootStack)1");
             rootStack = new Stack();
             rootStack.setName(rootStackName);
-            rootStack.setCreatedBy(user.getNickname());
+            rootStack.setCreatedBy(auth.getName());
             rootStack.setLangDepth(counts);
             rootStack.setUrl(rootUrl);
 
@@ -195,7 +195,7 @@ public class AdminStackController {
         } else if (rootStack != null && rootStack.getSimilarStacks() == null) {
             LOG.info("test insert(rootStack)2");
             rootStack.setName(rootStackName);
-            rootStack.setCreatedBy(user.getNickname());
+            rootStack.setCreatedBy(auth.getName());
             rootStack.setLangDepth(counts);
             rootStack.setUrl(rootUrl);
 
@@ -211,7 +211,7 @@ public class AdminStackController {
         }
 
         StackFile rootStackFile = stackFileService.selectByName(rootStackName);
-        insertStackFile(rootStackFile, rootStack, rootFilePath, user);
+        insertStackFile(rootStackFile, rootStack, rootFilePath, auth);
     }
 
     private String validationStackName(String stackName) {
@@ -250,12 +250,12 @@ public class AdminStackController {
         return stackName;
     }
 
-    private void insertStackFile(StackFile stackFile, Stack stack, String filePath, User user) {
+    private void insertStackFile(StackFile stackFile, Stack stack, String filePath, Authentication auth) {
         if (stackFile == null) {
             stackFile = new StackFile();
             stackFile.setOriginName(stack.getName());
             stackFile.setSavedName(stack.getName());
-            stackFile.setCreatedBy(user.getNickname());
+            stackFile.setCreatedBy(auth.getName());
             stackFile.setSavedPath(filePath);
 
             stackFile.setStackInFile(stack);

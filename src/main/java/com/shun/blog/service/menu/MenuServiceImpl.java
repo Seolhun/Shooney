@@ -29,22 +29,21 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    @Caching(put = {@CachePut(key = "#userRole+'|findAllByType'", value = "menuList")})
-    public void insertMenu(Menu menu, String userRole) throws Exception {
+    @Caching(put = {@CachePut(key = "#menuType+'|findAllByType'", value = "menuList")})
+    public void insertMenu(Menu menu, String menuType) {
         menu.setDelFlag("Y");
-        menu.setCreatedBy(commonService.getAccessUserToModel().getNickname());
         menuRepository.insertMenu(menu);
     }
 
     @Override
-    public Menu selectMenuById(Long menuId) throws Exception {
+    public Menu selectMenuById(Long menuId) {
         Menu menu = menuRepository.selectMenuById(menuId);
         return menu;
     }
 
     @Override
-    @Caching(cacheable = {@Cacheable(key = "#userRole+'|findAllMenu'", value = "menuList")})
-    public List<Menu> findAllMenu(Menu menu, String userRole) throws Exception {
+    @Caching(cacheable = {@Cacheable(key = "#menuType+'|findAllMenu'", value = "menuList")})
+    public List<Menu> findAllMenu(Menu menu, String menuType) {
         List<Menu> menuList = menuRepository.findAllMenu(menu);
         for (int i = 0; i < menuList.size(); i++) {
             menu.setMenuParentId(menuList.get(i).getMenuId());
@@ -58,8 +57,8 @@ public class MenuServiceImpl implements MenuService {
 
 
     @Override
-    @Caching(put = {@CachePut(key = "#userRole+'|findAllMenu'", value = "menuList")})
-    public void updateMenu(Menu menu, String userRole) throws Exception {
+    @Caching(put = {@CachePut(key = "#menuType+'|findAllMenu'", value = "menuList")})
+    public void updateMenu(Menu menu, String menuType) {
         Menu dbMenu = menuRepository.selectMenuById(menu.getMenuId());
         try {
             dbMenu.setMenuName(menu.getMenuName());
@@ -78,8 +77,8 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    @Caching(put = {@CachePut(key = "#userRole+'|findAllMenu'", value = "menuList")})
-    public void deleteMenu(Menu menu, String userRole) throws Exception {
+    @Caching(put = {@CachePut(key = "#menuType+'|findAllMenu'", value = "menuList")})
+    public void deleteMenu(Menu menu, String menuType) {
         Menu dbMenu = menuRepository.selectMenuById(menu.getMenuId());
         if (dbMenu.getDelFlag().equals("Y")) {
             dbMenu.setDelFlag("N");
@@ -89,7 +88,7 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public List<Menu> findAllByAdmin(Menu menu) throws Exception {
+    public List<Menu> findAllByAdmin(Menu menu) {
         List<Menu> menuList = menuRepository.findAllByAdmin(menu);
         return menuList;
     }

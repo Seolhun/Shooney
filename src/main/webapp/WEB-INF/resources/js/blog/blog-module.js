@@ -22,6 +22,7 @@ var BlogTypeService = (function () {
                 xhr.setRequestHeader("Content-Type", "application/json");
                 xhr.setRequestHeader(csrfHeader, csrfToken);
             }, success: function(data) {
+                console.log("data", data);
                 if(data.result=="success"){
                     alert("Success : Insert Blog Type")
                 } else {

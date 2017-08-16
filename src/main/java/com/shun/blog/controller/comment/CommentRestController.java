@@ -7,12 +7,9 @@ import com.shun.blog.service.common.CommonService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.ModelMap;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import java.security.Principal;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,11 +36,11 @@ public class CommentRestController {
 	 * throws Exception
 	 */
 	@RequestMapping(value = "/{entity}/insert", method = RequestMethod.POST, produces = "application/json")
-	public Comment addBoardComment(@RequestBody Comment comment, @PathVariable String entity) throws Exception {
+	public Comment addBoardComment(@RequestBody Comment comment, @PathVariable String entity, Authentication auth) throws Exception {
 		String nickName="";
 		try {
 			//유저가 로그인하지 않았을 경우. 페이지 이동시켜야함.
-			nickName=commonService.getAccessUserToModel().getNickname();
+			nickName=auth.getName();
 		} catch (NullPointerException e) {
 			LOG.error("error : Fail to get login user information ");
 			return comment;
@@ -74,12 +71,12 @@ public class CommentRestController {
 	 * throws Exception
 	 */
 	@RequestMapping(value = "/{entity}/more", method = RequestMethod.POST, produces = "application/json")
-	public Map<String, Object> getCommentsList(@RequestBody Comment comment, @PathVariable String entity, HttpServletRequest request, ModelMap model) throws Exception {
+	public Map<String, Object> getCommentsList(@RequestBody Comment comment, Authentication auth) throws Exception {
 		Map<String, Object> returnMap=new HashMap<>();
 		String nickName="";
 		try {
 			//유저가 로그인하지 않았을 경우. 페이지 이동시켜야함.
-			nickName=commonService.getAccessUserToModel().getNickname();
+			nickName=auth.getName();
 			returnMap.put("nickName", nickName);
 		} catch (NullPointerException e) {
 			LOG.error("error : Fail to get login user information ");
@@ -94,7 +91,7 @@ public class CommentRestController {
 		commonService.setAndValidationPaging(comment.getPaging());
 		int maxCount=comment.getPaging().getMaxCount();
 		
-		List<Comment> comments=new ArrayList<>();
+		List<Comment> comments;
 		if(totalCount>maxCount){
 			comments=commentService.findAllComments(comment);	
 			returnMap.put("comments", comments);
@@ -103,11 +100,11 @@ public class CommentRestController {
 	}
 	
 	@RequestMapping(value = "/{entity}/modify/{commentId}", method = RequestMethod.POST, produces = "application/json")
-	public Comment modifyBoardComment(@RequestBody Comment comment, AjaxResult ajaxResult, @PathVariable String entity, @PathVariable Long commentId, HttpServletRequest reqeust, Principal principal) throws Exception{
+	public Comment modifyBoardComment(@RequestBody Comment comment, AjaxResult ajaxResult, @PathVariable String entity, @PathVariable Long commentId, Authentication auth) throws Exception{
 		String nickName="";
 		try {
 			//유저가 로그인하지 않았을 경우. 페이지 이동시켜야함.
-			nickName=commonService.getAccessUserToModel().getNickname();
+			nickName=auth.getName();
 		} catch (NullPointerException e) {
 			LOG.error("error : Fail to get login user information ");
 			ajaxResult.setResult("invalid");
@@ -123,11 +120,11 @@ public class CommentRestController {
 	}
 	
 	@RequestMapping(value = "/{entity}/delete/{commentId}", method = RequestMethod.POST, produces = "application/json")
-	public AjaxResult deleteBoardComment(@RequestBody Comment comment, AjaxResult ajaxResult, @PathVariable String entity, @PathVariable Long commentId, HttpServletRequest reqeust, Principal principal) throws Exception{
+	public AjaxResult deleteBoardComment(@RequestBody Comment comment, AjaxResult ajaxResult, @PathVariable Long commentId, Authentication auth) throws Exception{
 		String nickName="";
 		try {
 			//유저가 로그인하지 않았을 경우. 페이지 이동시켜야함.
-			nickName=commonService.getAccessUserToModel().getNickname();
+			nickName=auth.getName();
 			comment.setCreatedBy(nickName);
 		} catch (NullPointerException e) {
 			LOG.error("error : Fail to get login user information ");
