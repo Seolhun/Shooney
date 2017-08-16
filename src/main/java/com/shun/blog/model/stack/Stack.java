@@ -1,20 +1,24 @@
 package com.shun.blog.model.stack;
 
+import com.shun.blog.model.common.AbstractCommon;
 import lombok.Data;
-import org.hibernate.annotations.*;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
+import org.hibernate.annotations.BatchSize;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
-import javax.persistence.Entity;
-import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
+@EqualsAndHashCode(callSuper = false)
+@ToString(callSuper = true)
 @Data
-@Entity
-@Table(name = "TB_STACK", uniqueConstraints = {@UniqueConstraint(columnNames = "STACK_NAME")})
-public class Stack implements Serializable {
+@Entity(name = "TB_STACK")
+@Table(uniqueConstraints = {@UniqueConstraint(columnNames = "STACK_NAME")})
+public class Stack extends AbstractCommon implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "STACK_ID")
@@ -62,24 +66,6 @@ public class Stack implements Serializable {
             @JoinColumn(name = "STACK_ITEM_ID")})
     private List<ItemTool> items = new ArrayList<>();;
 
-    @CreationTimestamp
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "STACK_CREATED_DATE")
-    private Date createdDate;
-
-    @Column(name = "STACK_CREATED_BY",  length = 60)
-    private String createdBy;
-
-    @Column(name = "STACK_MODIFIED_BY", length = 60)
-    private String modifiedBy;
-
-    @UpdateTimestamp
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "STACK_MODIFIED_DATE")
-    private Date modifiedDate;
-
-    @Column(name = "STACK_DEL_FLAG", length = 1)
-    private String delFlag="N";
 
     @Column(name = "STACK_ERROR_FLAG", length = 1)
     private String errorFlag="N";

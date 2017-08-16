@@ -66,8 +66,8 @@ public class CommentServiceImpl implements CommentService {
 		String createdBy=dbComment.getCreatedBy();
 		String modifyBy=comment.getModifiedBy();
 		if(createdBy.equals(modifyBy)){
-			if(comment.getDelFlag().equals("Y")){
-				dbComment.setDelFlag(comment.getDelFlag());
+			if(comment.isDeletedFlag()){
+				dbComment.setDeletedFlag(comment.isDeletedFlag());
 				Blog dbBlog= blogRepository.selectById(dbComment.getBlogInComment().getId());
 				//읽을시 쿠키 읽기
 				if(dbBlog != null){

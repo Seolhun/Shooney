@@ -1,22 +1,25 @@
 package com.shun.blog.model.user;
 
+import com.shun.blog.model.common.AbstractCommon;
 import lombok.Data;
-import org.hibernate.annotations.*;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
+import org.hibernate.annotations.BatchSize;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
-import javax.persistence.Entity;
-import javax.persistence.Table;
 import java.io.Serializable;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-@Entity
-@Table(name = "TB_USER")
+@EqualsAndHashCode(callSuper = false)
+@ToString(callSuper = true)
 @Data
-public class User implements Serializable {
+@Entity(name = "TB_USER")
+public class User extends AbstractCommon implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "USER_ID", nullable = false)
@@ -35,22 +38,6 @@ public class User implements Serializable {
 	
 	@Column(name = "USER_LOCKED_AUTH", length=100)
 	private String lockedAuth;
-	
-	@Column(name = "USER_MODIFIED_BY", length = 60)
-	private String modifiedBy;
-
-	@CreationTimestamp
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "USER_CREATED_DATE")
-	private Date createdDate;
-
-	@UpdateTimestamp
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "USER_MODIFIED_DATE")
-	private Date modifiedDate;
-	
-	@Column(name = "USER_DEL_FLAG")
-	private String delFlag="N";
 
 	@Column(name = "USER_STATE", length=20, nullable=false)
 	private String state;

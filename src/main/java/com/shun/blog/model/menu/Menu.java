@@ -1,16 +1,19 @@
 package com.shun.blog.model.menu;
 
+import com.shun.blog.model.common.AbstractCommon;
 import lombok.Data;
-import org.hibernate.annotations.CreationTimestamp;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
 
+@EqualsAndHashCode(callSuper = false)
+@ToString(callSuper = true)
 @Data
 @Entity(name="TB_MENU")
-public class Menu implements Serializable {
+public class Menu extends AbstractCommon implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "MENU_ID")
@@ -34,18 +37,7 @@ public class Menu implements Serializable {
 	
 	@Column(name = "MENU_PARENT_ID", length=10, nullable = true)
 	private Long menuParentId;
-	
-	@Column(name = "MENU_CREATED_BY", length = 60)
-	private String createdBy;
-	
-	@Column(name = "MENU_DEL_FLAG", length = 1)
-	private String delFlag;
 
-	@CreationTimestamp
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "MENU_CREATED_DATE")
-	private Date createdDate;
-	
 	@Transient
 	private int type;
 	

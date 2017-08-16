@@ -54,10 +54,10 @@ public class HomeController {
 		//YesterDay Today Total value
 		AccessLog accessLog=new AccessLog();
 		Integer total=accessLogService.getCountByDate(accessLog);
-		accessLog.setType(1);
+		accessLog.setQueryType(1);
 		accessLog.setCalculator(-1);
 		Integer yesterday=accessLogService.getCountByDate(accessLog);
-		accessLog.setType(2);
+		accessLog.setQueryType(2);
 		accessLog.setCalculator(1);
 		Integer today=accessLogService.getCountByDate(accessLog);
 

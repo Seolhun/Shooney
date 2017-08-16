@@ -40,7 +40,7 @@ public class BlogRepositoryImpl extends AbstractRepository<Long, Blog> implement
 		// 검색 로직
 		Criteria criteria = createEntityCriteria()
 				.addOrder(Order.desc("id"))
-				.add(Restrictions.eq("delFlag", "N"))
+				.add(Restrictions.eq("deletedFlag", false))
 				.setFirstResult((cPage - 1) * limit)
 				.setMaxResults(limit).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 
@@ -58,7 +58,7 @@ public class BlogRepositoryImpl extends AbstractRepository<Long, Blog> implement
 
 		// 검색 로직
 		Criteria criteria = createEntityCriteria()
-				.add(Restrictions.eq("delFlag", "N"));
+				.add(Restrictions.eq("deletedFlag", false));
 
 		searchBlog(sText, sType, blogType, sDate, paging, criteria);
 		return ((Number)criteria.setProjection(Projections.rowCount()).uniqueResult()).intValue();

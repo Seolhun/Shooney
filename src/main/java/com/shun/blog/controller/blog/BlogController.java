@@ -237,7 +237,7 @@ public class BlogController {
             return "redirect:/deny";
         }
 
-        dbBlog.setDelFlag("Y");
+        dbBlog.setDeletedFlag(true);
         blogService.update(dbBlog);
 
         BlogType blogType=new BlogType(dbBlog.getBlogType());

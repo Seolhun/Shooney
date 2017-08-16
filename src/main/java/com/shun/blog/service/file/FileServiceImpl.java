@@ -75,7 +75,7 @@ public class FileServiceImpl implements FileService {
                 setfileInfo.setFileDataSavedPath(FILE_PATH);
                 setfileInfo.setFileDataType(fileDataType);
                 setfileInfo.setFileDataSize(fileSize);
-                setfileInfo.setFileDataCreatedBy(fileData.getBlogInFile().getCreatedBy());
+                setfileInfo.setCreatedBy(fileData.getBlogInFile().getCreatedBy());
                 //파일정보에 게시판 정보를 담는다.
                 setfileInfo.setBlogInFile(fileData.getBlogInFile());
 

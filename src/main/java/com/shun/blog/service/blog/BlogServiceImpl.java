@@ -86,8 +86,8 @@ public class BlogServiceImpl implements BlogService {
 			dbBlog.setBlogType(blog.getBlogType());
 		}
 
-		if(blog.getDelFlag() != null && blog.getDelFlag().equals("Y")){
-			dbBlog.setDelFlag("Y");
+		if(blog.isDeletedFlag()){
+			dbBlog.setDeletedFlag(blog.isDeletedFlag());
 		}
 	}
 

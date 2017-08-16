@@ -1,6 +1,8 @@
 package com.shun.blog.model.blog;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -8,6 +10,8 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
+@EqualsAndHashCode(callSuper = false)
+@ToString(callSuper = true)
 @Data
 @Entity
 @Table(name = "TB_BLOG_TYPE", uniqueConstraints = {@UniqueConstraint(columnNames = "BLOG_TYPE_NAME")})

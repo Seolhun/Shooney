@@ -20,15 +20,15 @@ public class NoticeServiceImpl implements NoticeService {
     private CommonService commonService;
 
     @Autowired
-    NoticeServiceImpl(NoticeRepository noticeRepository, CommonService commonService){
-        this.noticeRepository=noticeRepository;
-        this.commonService=commonService;
+    NoticeServiceImpl(NoticeRepository noticeRepository, CommonService commonService) {
+        this.noticeRepository = noticeRepository;
+        this.commonService = commonService;
     }
 
     @Override
     public void insertNotice(Notice notice) throws Exception {
         LOG.info("param : insertNotice : {}", notice.toString());
-        notice.setDelFlag("Y");
+        notice.setDeletedFlag(false);
         noticeRepository.insertNotice(notice);
     }
 
@@ -50,8 +50,8 @@ public class NoticeServiceImpl implements NoticeService {
             dbNotice.setId(notice.getId());
             dbNotice.setUri(notice.getUri());
             dbNotice.setContent(notice.getContent());
-            dbNotice.setDelFlag(notice.getDelFlag());
-        } catch (NullPointerException e){
+            dbNotice.setDeletedFlag(notice.isDeletedFlag());
+        } catch (NullPointerException e) {
             LOG.info("ERROR : NullPointException");
             e.printStackTrace();
         }
@@ -60,10 +60,10 @@ public class NoticeServiceImpl implements NoticeService {
     @Override
     public void deleteNotice(Notice notice) throws Exception {
         Notice dbNotice = noticeRepository.selectNoticeById(notice.getId());
-        if (dbNotice.getDelFlag().equals("Y")) {
-            dbNotice.setDelFlag("N");
+        if (dbNotice.isDeletedFlag()) {
+            dbNotice.setDeletedFlag(false);
         } else {
-            dbNotice.setDelFlag("Y");
+            dbNotice.setDeletedFlag(false);
         }
     }
 

@@ -39,7 +39,7 @@ public class CompanyRepositoryImpl extends AbstractRepository<Long, Company> imp
         // 검색 로직
         Criteria criteria = createEntityCriteria()
                 .addOrder(Order.desc("counts"))
-                .add(Restrictions.eq("delFlag", "N"))
+                .add(Restrictions.eq("deletedFlag", false))
                 .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 
         List<Company> companys = (List<Company>) criteria.list();
@@ -51,7 +51,7 @@ public class CompanyRepositoryImpl extends AbstractRepository<Long, Company> imp
     public int getCount() throws Exception {
         // 검색 로직
         Criteria criteria = createEntityCriteria()
-                .add(Restrictions.eq("delFlag", "N"));
+                .add(Restrictions.eq("deletedFlag", false));
         return ((Number) criteria.setProjection(Projections.rowCount()).uniqueResult()).intValue();
     }
 

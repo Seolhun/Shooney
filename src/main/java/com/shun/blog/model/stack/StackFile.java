@@ -1,21 +1,19 @@
 package com.shun.blog.model.stack;
 
-import lombok.*;
-import org.hibernate.annotations.*;
+import com.shun.blog.model.common.AbstractCommon;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import javax.persistence.*;
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.ForeignKey;
-import javax.persistence.Table;
 import java.io.Serializable;
-import java.util.Date;
 
 
+@EqualsAndHashCode(callSuper = false)
+@ToString(callSuper = true)
 @Data
-@Entity
-@Table(name = "TB_STACK_IMG")
-public class StackFile implements Serializable {
+@Entity(name = "TB_STACK_IMG")
+public class StackFile extends AbstractCommon implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "IMG_ID")
@@ -42,20 +40,4 @@ public class StackFile implements Serializable {
 	
 	@Column(name = "STACK_IMG_CREATED_BY", length = 60)
 	private String createdBy;
-
-	@CreationTimestamp
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "STACK_IMG_CREATED_DATE")
-	private Date createdDate;
-
-	@Column(name = "STACK_IMG_MODIFIED_BY", length = 60)
-	private String modifiedBy;
-
-	@UpdateTimestamp
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "STACK_IMG_MODIFIED_DATE")
-	private Date modifiedDate;
-
-	@Column(name = "STACK_IMG_DEL_FLAG", length=1)
-	private String delFlag="N";
 }

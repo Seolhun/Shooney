@@ -1,70 +1,48 @@
 package com.shun.blog.model.stack;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.Getter;
-import lombok.Setter;
+import com.shun.blog.model.common.AbstractCommon;
+import lombok.*;
 import org.hibernate.annotations.BatchSize;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Date;
 
-@Getter
-@Setter
-@Entity
-@Table(name = "TB_COMPANY_FILE")
-@JsonIgnoreProperties(ignoreUnknown=true)
+@JsonIgnoreProperties(ignoreUnknown = true)
+@EqualsAndHashCode(callSuper = false)
+@ToString(callSuper = true)
+@Data
+@Entity(name = "TB_COMPANY_FILE")
 @BatchSize(size = 5)
-public class CompanyFile implements Serializable {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "FILE_ID")
-	private Long Id;
-	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(foreignKey = @ForeignKey(name = "COMPANY_FILE_FK"), name = "COMPANY_FILE_ID", referencedColumnName = "COMPANY_ID")
-	private Company companyInFile;
+public class CompanyFile extends AbstractCommon implements Serializable {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "FILE_ID")
+    private Long Id;
 
-	@Column(name = "COMPANY_ORIGIN_NAME", length = 100)
-	private String originName;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(foreignKey = @ForeignKey(name = "COMPANY_FILE_FK"), name = "COMPANY_FILE_ID", referencedColumnName = "COMPANY_ID")
+    private Company companyInFile;
 
-	@Column(name = "COMPANY_SAVED_NAME", length = 200)
-	private String savedName;
+    @Column(name = "COMPANY_ORIGIN_NAME", length = 100)
+    private String originName;
 
-	@Column(name = "COMPANY_SAVED_PATH", length = 200)
-	private String savedPath;
+    @Column(name = "COMPANY_SAVED_NAME", length = 200)
+    private String savedName;
 
-	@Column(name = " COMPANY_TYPE", length = 20)
-	private String type;
-	
-	@Column(name = " COMPANY_SIZE", length = 20)
-	private Long size;
-	
-	@Column(name = "COMPANY_CREATED_BY", length = 60)
-	private String createdBy;
+    @Column(name = "COMPANY_SAVED_PATH", length = 200)
+    private String savedPath;
 
-	@Column(name = "COMPANY_MODIFIED_BY", length = 60)
-	private String modifiedBy;
+    @Column(name = " COMPANY_TYPE", length = 20)
+    private String type;
 
-	@CreationTimestamp
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "COMPANY_CREATED_DATE")
-	private Date createdDate;
+    @Column(name = " COMPANY_SIZE", length = 20)
+    private Long size;
 
-	@UpdateTimestamp
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "COMPANY_MODIFIED_DATE")
-	private Date modifiedDate;
+    @Transient
+    private byte[] fileByte;
 
-	@Column(name = "COMPANY_DEL_FLAG", length=1)
-	private String delFlag="N";
-	
-	@Transient
-	private byte[] fileByte;
-	
-	@Transient
-	private MultipartFile[] files;
+    @Transient
+    private MultipartFile[] files;
 }
